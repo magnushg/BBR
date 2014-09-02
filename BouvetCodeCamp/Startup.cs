@@ -18,7 +18,7 @@ namespace ApiHost
             HttpConfiguration config = new HttpConfiguration();
             
             Configure(config.Formatters, config);
-
+            config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
