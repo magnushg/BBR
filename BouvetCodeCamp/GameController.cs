@@ -1,11 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http;
-using System.Runtime.Remoting.Messaging;
 using System.Web.Http;
-using System.Web.Http.Routing.Constraints;
-using System.Web.Routing;
 
-namespace ApiHost
+namespace BouvetCodeCamp
 {
    public class GameController : ApiController
     {
@@ -26,7 +23,7 @@ namespace ApiHost
         [Route("api/game/sendCommand")]
         public HttpResponseMessage SendCommand(int groupId, Direction direction, double distance, string message)
         {
-           return Request.CreateResponse(HttpStatusCode.OK, new
+            return Request.CreateResponse(HttpStatusCode.OK, new
            {
                 message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
            });

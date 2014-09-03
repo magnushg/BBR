@@ -2,7 +2,7 @@
 using System.Net.Http;
 using Microsoft.Owin.Hosting;
 
-namespace ApiHost
+namespace BouvetCodeCamp
 {
     class Program
     {

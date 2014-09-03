@@ -50,7 +50,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BouvetCodeCamp\BouvetCodeCamp.csproj">
-      <Project>{09D243A3-9D16-4A1F-8C1D-EC270D184795}</Project>
+      <Project>{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}</Project>
       <Name>BouvetCodeCamp</Name>
     </ProjectReference>
   </ItemGroup>

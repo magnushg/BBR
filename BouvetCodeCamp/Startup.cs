@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Formatting;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Newtonsoft.Json.Serialization;
 using Owin;
 
-namespace ApiHost
+namespace BouvetCodeCamp
 {
     public class Startup
     {
