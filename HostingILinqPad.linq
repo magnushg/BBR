@@ -1,16 +1,16 @@
 <Query Kind="Program">
-  <Reference Relative="bin\Debug\BouvetCodeCamp.exe"></Reference>
-  <Reference Relative="bin\Debug\Microsoft.Owin.dll"></Reference>
-  <Reference Relative="bin\Debug\Microsoft.Owin.Host.HttpListener.dll"></Reference>
-  <Reference Relative="bin\Debug\Microsoft.Owin.Hosting.dll"></Reference>
-  <Reference Relative="bin\Debug\Newtonsoft.Json.dll"></Reference>
-  <Reference Relative="bin\Debug\Owin.dll"></Reference>
-  <Reference Relative="bin\Debug\System.Net.Http.Formatting.dll"></Reference>
-  <Reference Relative="bin\Debug\System.Web.Cors.dll"></Reference>
-  <Reference Relative="bin\Debug\System.Web.Http.Cors.dll"></Reference>
-  <Reference Relative="bin\Debug\System.Web.Http.dll"></Reference>
-  <Reference Relative="bin\Debug\System.Web.Http.Owin.dll"></Reference>
-  <Reference Relative="bin\Debug\System.Web.Http.Tracing.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\BouvetCodeCamp.exe"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\Microsoft.Owin.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\Microsoft.Owin.Host.HttpListener.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\Microsoft.Owin.Hosting.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\Newtonsoft.Json.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\Owin.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\System.Net.Http.Formatting.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\System.Web.Cors.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\System.Web.Http.Cors.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\System.Web.Http.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\System.Web.Http.Owin.dll"></Reference>
+  <Reference Relative="BouvetCodeCamp\bin\Debug\System.Web.Http.Tracing.dll"></Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Net.Http.dll</Reference>
   <Namespace>Microsoft.Owin.Hosting</Namespace>
   <Namespace>BouvetCodeCamp</Namespace>
