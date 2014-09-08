@@ -36,8 +36,11 @@
   <ItemGroup>
     <Compile Include="GameController.cs" />
     <Compile Include="IGameAPI.cs" />
-    <Compile Include="Models\GeoPosisjonModel.cs" />
-    <Compile Include="Models\KodeModel.cs" />
+    <Compile Include="InputModels\GeoPosisjonModel.cs" />
+    <Compile Include="InputModels\KodeModel.cs" />
+    <Compile Include="InputModels\MeldingModel.cs" />
+    <Compile Include="InputModels\MeldingType.cs" />
+    <Compile Include="OutputModels\PifPosisjon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

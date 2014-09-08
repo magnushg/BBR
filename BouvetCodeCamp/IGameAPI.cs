@@ -1,5 +1,5 @@
 ﻿using System.Net.Http;
-using BouvetCodeCamp.Models;
+using BouvetCodeCamp.InputModels;
 
 namespace BouvetCodeCamp
 {
@@ -8,5 +8,9 @@ namespace BouvetCodeCamp
         HttpResponseMessage RegistrerGeoPosition(GeoPosisjonModel model);
         
         HttpResponseMessage RegistrerKode(KodeModel model);
+
+        HttpResponseMessage SendMelding(MeldingModel model);
+
+        HttpResponseMessage HentPifPosisjon(string lagId);
     }
 }

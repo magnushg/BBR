@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Models
+﻿namespace BouvetCodeCamp.InputModels
 {
     public class KodeModel
     {

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using BouvetCodeCamp.Models;
+using BouvetCodeCamp.InputModels;
 
 namespace BouvetCodeCamp
 {
@@ -30,13 +30,22 @@ namespace BouvetCodeCamp
            });
         }
 
-
        public HttpResponseMessage RegistrerGeoPosition(GeoPosisjonModel model)
        {
            throw new System.NotImplementedException();
        }
 
        public HttpResponseMessage RegistrerKode(KodeModel model)
+       {
+           throw new System.NotImplementedException();
+       }
+
+       public HttpResponseMessage SendMelding(MeldingModel model)
+       {
+           throw new System.NotImplementedException();
+       }
+
+       public HttpResponseMessage HentPifPosisjon(string lagId)
        {
            throw new System.NotImplementedException();
        }
