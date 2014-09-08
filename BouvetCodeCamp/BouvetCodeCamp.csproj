@@ -35,6 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GameController.cs" />
+    <Compile Include="IGameAPI.cs" />
+    <Compile Include="Models\GeoPosisjonModel.cs" />
+    <Compile Include="Models\KodeModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

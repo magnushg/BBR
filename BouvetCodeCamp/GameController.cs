@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using BouvetCodeCamp.Models;
 
 namespace BouvetCodeCamp
 {
-   public class GameController : ApiController
+   public class GameController : ApiController, IGameApi
     {
         public HttpResponseMessage Get()
         {
@@ -30,6 +31,15 @@ namespace BouvetCodeCamp
         }
 
 
+       public HttpResponseMessage RegistrerGeoPosition(GeoPosisjonModel model)
+       {
+           throw new System.NotImplementedException();
+       }
+
+       public HttpResponseMessage RegistrerKode(KodeModel model)
+       {
+           throw new System.NotImplementedException();
+       }
     }
 
     public enum Direction
