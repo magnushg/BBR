@@ -2,8 +2,8 @@ namespace BouvetCodeCamp.Dataaksess.Interfaces
 {
     using BouvetCodeCamp.Felles.Entiteter;
 
-    public interface IPifPosisjonRepository : IRepository<PifPosisjon>
+    public interface IAktivitetsloggRepository : IRepository<AktivitetsloggEntry>
     {
-
+        
     }
 }

@@ -50,6 +50,7 @@
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -64,7 +65,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PifRepositoryIntegrasjonstester.cs" />
+    <Compile Include="Testkategorier.cs" />
+    <Compile Include="DataAksess\AktivitetsloggRepositoryIntegrasjonstester.cs" />
+    <Compile Include="DataAksess\BaseRepositoryIntegrasjonstest.cs" />
+    <Compile Include="DataAksess\MeldingRepositoryIntegrasjonstester.cs" />
+    <Compile Include="DataAksess\PifRepositoryIntegrasjonstester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +83,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

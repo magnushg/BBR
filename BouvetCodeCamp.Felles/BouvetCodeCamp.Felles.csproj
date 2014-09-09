@@ -39,8 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Konstanter.cs" />
-    <Compile Include="PifPosisjon.cs" />
+    <Compile Include="Entiteter\AktivitetsloggEntry.cs" />
+    <Compile Include="Entiteter\Melding.cs" />
+    <Compile Include="Entiteter\PifPosisjon.cs" />
+    <Compile Include="HendelsesType.cs" />
+    <Compile Include="DocumentDbKonstanter.cs" />
+    <Compile Include="MeldingsType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
