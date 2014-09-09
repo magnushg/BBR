@@ -5,9 +5,11 @@ using BouvetCodeCamp.InputModels;
 
 namespace BouvetCodeCamp
 {
-   public class GameController : ApiController, IGameApi
+   public class GameController : ApiController
     {
-        public HttpResponseMessage Get()
+       private readonly IGameApi _gameApi;
+
+       public HttpResponseMessage Get()
         {
             return Request.CreateResponse(HttpStatusCode.OK, new
             {
@@ -30,24 +32,38 @@ namespace BouvetCodeCamp
            });
         }
 
-       public HttpResponseMessage RegistrerGeoPosition(GeoPosisjonModel model)
+       public HttpResponseMessage RegistrerGeoPosition(string lagId, string lat, string lon)
        {
-           throw new System.NotImplementedException();
+           return _gameApi.RegistrerGeoPosition(new GeoPosisjonModel
+           {
+               LagId = lagId,
+               Latitude = lat,
+               Longditude = lon
+           });
        }
 
-       public HttpResponseMessage RegistrerKode(KodeModel model)
+       public HttpResponseMessage RegistrerKode(string lagId, string kode)
        {
-           throw new System.NotImplementedException();
+           return _gameApi.RegistrerKode(new KodeModel
+           {
+               LagId = lagId,
+               Kode = kode
+           });
        }
 
-       public HttpResponseMessage SendMelding(MeldingModel model)
+       public HttpResponseMessage SendMelding(string lagId, string tekst, MeldingType type)
        {
-           throw new System.NotImplementedException();
+           return _gameApi.SendMelding(new MeldingModel
+           {
+               LagId = lagId,
+               Tekst = tekst,
+               Type = type
+           });
        }
 
        public HttpResponseMessage HentPifPosisjon(string lagId)
        {
-           throw new System.NotImplementedException();
+           return _gameApi.HentPifPosisjon(lagId);
        }
     }
 
