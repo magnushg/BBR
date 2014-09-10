@@ -5,11 +5,13 @@ using BouvetCodeCamp.InputModels;
 
 namespace BouvetCodeCamp
 {
-   public class GameController : ApiController
+    [RoutePrefix("api/game")]
+    public class GameController : ApiController
     {
        private readonly IGameApi _gameApi;
 
-       public HttpResponseMessage Get()
+        [Route("")]
+        public HttpResponseMessage Get()
         {
             return Request.CreateResponse(HttpStatusCode.OK, new
             {
@@ -23,7 +25,7 @@ namespace BouvetCodeCamp
        }
 
         [HttpGet]
-        [Route("api/game/sendCommand")]
+        [Route("sendCommand")]
         public HttpResponseMessage SendCommand(int groupId, Direction direction, double distance, string message)
         {
             return Request.CreateResponse(HttpStatusCode.OK, new
