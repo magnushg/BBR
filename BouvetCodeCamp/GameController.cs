@@ -10,6 +10,10 @@ namespace BouvetCodeCamp
     {
        private readonly IGameApi _gameApi;
 
+       public GameController(IGameApi gameApi)
+       {
+           _gameApi = gameApi;
+       }
         [Route("")]
         public HttpResponseMessage Get()
         {
