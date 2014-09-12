@@ -6,9 +6,9 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Dataaksess.Interfaces;
-    using BouvetCodeCamp.Felles;
-    using BouvetCodeCamp.Felles.Entiteter;
+    using Interfaces;
+    using Felles;
+    using Felles.Entiteter;
 
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Azure.Documents.Linq;
@@ -19,32 +19,61 @@
     {
         public PifPosisjonRepository()
         {
-            this.CollectionId = ConfigurationManager.AppSettings[DocumentDbKonstanter.PifPosisjonerCollectionId]; 
+            CollectionId = ConfigurationManager.AppSettings[DocumentDbKonstanter.PifPosisjonerCollectionId]; 
         }
 
         public async Task Opprett(PifPosisjon pifPosisjon)
         {
-            using (this.Client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
+            using (Client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
             {
-                var database = await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(this.Client, this.DatabaseId);
+                var database = await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(Client, DatabaseId);
 
-                var collection = await DocumentDbHelpers.HentEllerOpprettCollectionAsync(this.Client, database.SelfLink, this.CollectionId);
+                var collection = await DocumentDbHelpers.HentEllerOpprettCollectionAsync(Client, database.SelfLink, CollectionId);
 
-                await this.Client.CreateDocumentAsync(collection.SelfLink, pifPosisjon);
+                await Client.CreateDocumentAsync(collection.SelfLink, pifPosisjon);
             }
         }
 
         public async Task<IEnumerable<PifPosisjon>> HentAlle()
         {
+            if (string.IsNullOrEmpty(DatabaseId))
+                throw new ConfigurationErrorsException("db config missing");
+
             var allePifPosisjoner = new List<PifPosisjon>();
 
-            using (this.Client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
+            using (Client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
             {
-                var database = await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(this.Client, this.DatabaseId);
+                var database = await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(Client, DatabaseId);
 
-                var collection = await DocumentDbHelpers.HentEllerOpprettCollectionAsync(this.Client, database.SelfLink, this.CollectionId);
+                var collection = await DocumentDbHelpers.HentEllerOpprettCollectionAsync(Client, database.SelfLink, CollectionId);
 
-                var allePifPosisjonerQuery = this.Client.CreateDocumentQuery(collection.DocumentsLink, "SELECT p.LagId, p.Latitude, p.Longitude FROM " + this.CollectionId + " p").ToList();
+                var allePifPosisjonerQuery = Client.CreateDocumentQuery(collection.DocumentsLink, "SELECT p.LagId, p.Latitude, p.Longitude FROM " + CollectionId + " p").ToList();
+
+                foreach (var pifPosisjon in allePifPosisjonerQuery)
+                {
+                    var konvertertFraJson = await JsonConvert.DeserializeObjectAsync<PifPosisjon>(pifPosisjon.ToString());
+
+                    allePifPosisjoner.Add(konvertertFraJson);
+                }
+            }
+
+            return allePifPosisjoner;
+        }
+
+        public async Task<IEnumerable<PifPosisjon>> HentPifPosisjon(string lagId)
+        {
+            if (string.IsNullOrEmpty(DatabaseId))
+                throw new ConfigurationErrorsException("db config missing");
+
+            var allePifPosisjoner = new List<PifPosisjon>();
+
+            using (Client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
+            {
+                var database = await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(Client, DatabaseId);
+
+                var collection = await DocumentDbHelpers.HentEllerOpprettCollectionAsync(Client, database.SelfLink, CollectionId);
+
+                var allePifPosisjonerQuery = Client.CreateDocumentQuery(collection.DocumentsLink, "SELECT p.LagId, p.Latitude, p.Longitude FROM " + CollectionId + " p WHERE p.LagId LIKE '" + lagId + "'").ToList();
 
                 foreach (var pifPosisjon in allePifPosisjonerQuery)
                 {

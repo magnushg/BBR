@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.InputModels;
 
 namespace BouvetCodeCamp
@@ -38,17 +40,23 @@ namespace BouvetCodeCamp
            });
         }
 
-       public HttpResponseMessage RegistrerGeoPosition(string lagId, string lat, string lon)
-       {
-           return _gameApi.RegistrerGeoPosition(new GeoPosisjonModel
-           {
-               LagId = lagId,
-               Latitude = lat,
-               Longditude = lon
-           });
-       }
+        [HttpGet]
+        [Route("pif/put")]
+        public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
+        {
+            return _gameApi.RegistrerPifPosition(model);
+        }
 
-       public HttpResponseMessage RegistrerKode(string lagId, string kode)
+        [HttpGet]
+        [Route("pif/get")]
+        public async Task<HttpResponseMessage> GetPifPosition(string lagId)
+        {
+//            var pifPosisjonModel = await _gameApi.GetPifPosition(lagId);
+            var pifPosisjonModel = await _gameApi.GetAllPifPositions();
+            return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
+        }
+
+        public HttpResponseMessage RegistrerKode(string lagId, string kode)
        {
            return _gameApi.RegistrerKode(new KodeModel
            {

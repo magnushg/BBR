@@ -1,11 +1,18 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using BouvetCodeCamp.InputModels;
+using BouvetCodeCamp.OutputModels;
 
 namespace BouvetCodeCamp
 {
     public interface IGameApi
     {
-        HttpResponseMessage RegistrerGeoPosition(GeoPosisjonModel model);
+        HttpResponseMessage RegistrerPifPosition(GeoPosisjonModel model);
+
+        Task<PifPosisjonModel>GetPifPosition(string lagId);
+
+        Task<IEnumerable<PifPosisjonModel>> GetAllPifPositions();
         
         HttpResponseMessage RegistrerKode(KodeModel model);
 

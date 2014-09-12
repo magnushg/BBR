@@ -1,6 +1,8 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using BouvetCodeCamp.Dataaksess.Interfaces;
+using BouvetCodeCamp.Dataaksess.Repositories;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Autofac;
@@ -22,7 +24,11 @@ namespace BouvetCodeCamp
 
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
             builder.RegisterType<GameApi>().As<IGameApi>().InstancePerRequest();
+
+            builder.Register(x => new PifPosisjonRepository()).As<IPifPosisjonRepository>().InstancePerDependency();
+
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

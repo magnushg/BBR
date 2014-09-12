@@ -13,6 +13,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.WebHost", "BouvetCodeCamp.WebHost\BouvetCodeCamp.WebHost.csproj", "{48B3CD05-B311-421A-B199-2FAB785487E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp", "BouvetCodeCamp\BouvetCodeCamp.csproj", "{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BEA4BB17-4E4B-4E53-9488-5397E50B76A7} = {BEA4BB17-4E4B-4E53-9488-5397E50B76A7}
+		{0A78BCCD-AF06-47AD-9658-845B82BAA9B5} = {0A78BCCD-AF06-47AD-9658-845B82BAA9B5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Dataaksess", "BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Dataaksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
 EndProject
