@@ -4,7 +4,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System.Configuration;
 
     using BouvetCodeCamp.Dataaksess;
-    using BouvetCodeCamp.Felles;
+    using Felles;
 
     using Microsoft.Azure.Documents.Client;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,10 +13,14 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     public abstract class BaseRepositoryIntegrasjonstest
     {
         private readonly string databaseId;
+        private string endpoint;
+        private string authKey;
 
         protected BaseRepositoryIntegrasjonstest()
         {
             this.databaseId = ConfigurationManager.AppSettings[DocumentDbKonstanter.DatabaseId];
+            endpoint = ConfigurationManager.AppSettings[DocumentDbKonstanter.Endpoint];
+            authKey = ConfigurationManager.AppSettings[DocumentDbKonstanter.AuthKey];
         }
         
         [TestInitialize]
@@ -24,9 +28,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         {
             DocumentClient client;
 
-            using (client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
+            using (client = new DocumentClient(new Uri(endpoint), authKey))
             {
-                await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, this.databaseId);
+                await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId);
             }
         }
 
@@ -35,7 +39,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         {
             DocumentClient client;
 
-            using (client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
+            using (client = new DocumentClient(new Uri(endpoint), authKey))
             {
                 await DocumentDbHelpers.SlettDatabaseAsync(client, this.databaseId);
             }

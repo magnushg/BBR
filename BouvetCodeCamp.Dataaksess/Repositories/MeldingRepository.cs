@@ -1,4 +1,7 @@
-﻿namespace BouvetCodeCamp.Dataaksess.Repositories
+﻿using BouvetCodeCamp.Felles.Konfigurasjon;
+using Microsoft.Azure.Documents;
+
+namespace BouvetCodeCamp.Dataaksess.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -6,55 +9,75 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Dataaksess.Interfaces;
-    using BouvetCodeCamp.Felles;
-    using BouvetCodeCamp.Felles.Entiteter;
-
-    using Microsoft.Azure.Documents.Client;
+    using Interfaces;
+    using Felles;
+    using Felles.Entiteter;
     using Microsoft.Azure.Documents.Linq;
 
     using Newtonsoft.Json;
 
     public class MeldingRepository : BaseRepository, IMeldingRepository
     {
-        public MeldingRepository()
+        private string _collectionId;
+        public String CollectionId
         {
-            this.CollectionId = ConfigurationManager.AppSettings[DocumentDbKonstanter.MeldingerCollectionId]; 
+            get
+            {
+                if (string.IsNullOrEmpty(_collectionId))
+                {
+                    _collectionId = ConfigurationManager.AppSettings[DocumentDbKonstanter.MeldingerCollectionId];
+                }
+
+                return _collectionId;
+            }
         }
 
-        public async Task Opprett(Melding entitet)
+        private DocumentCollection _collection;
+        public DocumentCollection Collection
         {
-            using (this.Client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
+            get
             {
-                var database = await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(this.Client, this.DatabaseId);
+                if (_collection == null)
+                {
+                    ReadOrCreateCollection(Database.SelfLink).Wait();
+                }
 
-                var collection = await DocumentDbHelpers.HentEllerOpprettCollectionAsync(this.Client, database.SelfLink, this.CollectionId);
-
-                await this.Client.CreateDocumentAsync(collection.SelfLink, entitet);
+                return _collection;
             }
+        }
+
+        protected override async Task ReadOrCreateCollection(string databaseLink)
+        {
+            var collections = Client.CreateDocumentCollectionQuery(databaseLink)
+                              .Where(col => col.Id == CollectionId).ToArray();
+
+            if (collections.Any())
+            {
+                _collection = collections.First();
+            }
+            else
+            {
+                _collection = await Client.CreateDocumentCollectionAsync(databaseLink,
+                    new DocumentCollection { Id = CollectionId });
+            }
+        }
+
+        public MeldingRepository(IKonfigurasjon konfigurasjon)
+            : base(konfigurasjon)
+        {
+        }
+
+        public async Task Opprett(Melding document)
+        {
+            await Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
 
         public async Task<IEnumerable<Melding>> HentAlle()
         {
-            var alleMeldinger = new List<Melding>();
-
-            using (this.Client = new DocumentClient(new Uri(DocumentDbKonstanter.Endpoint), DocumentDbKonstanter.AuthKey))
-            {
-                var database = await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(this.Client, this.DatabaseId);
-
-                var collection = await DocumentDbHelpers.HentEllerOpprettCollectionAsync(this.Client, database.SelfLink, this.CollectionId);
-
-                var alleMeldingerQuery = this.Client.CreateDocumentQuery(collection.DocumentsLink, "SELECT m.LagId, m.Tid, m.Type, m.Tekst FROM " + this.CollectionId + " m").ToList();
-
-                foreach (var melding in alleMeldingerQuery)
-                {
-                    var konvertertFraJson = await JsonConvert.DeserializeObjectAsync<Melding>(melding.ToString());
-
-                    alleMeldinger.Add(konvertertFraJson);
-                }
-            }
-
-            return alleMeldinger;
+            return await Task.Run(() =>
+                Client.CreateDocumentQuery<Melding>(Collection.DocumentsLink)
+                    .AsEnumerable()
+                    .ToList());
         }
     }
 }

@@ -3,9 +3,9 @@
     public class DocumentDbKonstanter
     {
         // Data Aksess
-        public const string Endpoint = "https://hwmbcc.documents.azure.com:443/";
+        public const string Endpoint = "DocumentDbEndpoint";
 
-        public const string AuthKey = "z02tIGUCYNlNMs947mTspzkSNyrmA50ykXdlTzN+XFDaoLvPasWU4a5BQdxMqEFlg/y1VYtIJXjX9ZzzRYsPUQ==";
+        public const string AuthKey = "DocumentDbAuthKey";
 
         public const string DatabaseId = "DocumentDbDatabaseNavn";
 

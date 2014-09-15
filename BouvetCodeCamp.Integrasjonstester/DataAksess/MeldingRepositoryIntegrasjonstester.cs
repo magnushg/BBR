@@ -1,3 +1,5 @@
+using BouvetCodeCamp.Felles.Konfigurasjon;
+
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
     using System;
@@ -22,11 +24,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Opprett_EnMelding_MeldingErLagretIDatabasen()
         {
             // Arrange
-            var repository = new MeldingRepository();
+            var repository = new MeldingRepository(new Konfigurasjon());
 
             var melding = Builder<Melding>.CreateNew()
                 .With(o => o.LagId = 1)
-                .With(o => o.Type = MeldingsType.Lengde)
+                .With(o => o.Type = MeldingType.Lengde)
                 .With(o => o.Tekst = "20m")
                 .With(o => o.Tid = DateTime.Now)
                 .Build();

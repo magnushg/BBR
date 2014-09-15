@@ -26,7 +26,7 @@ namespace BouvetCodeCamp
             {
                 Latitude = model.Latitude,
                 Longitude = model.Longitude,
-                LagId = int.Parse(model.LagId),
+                LagId = model.LagId,
                 Tid = DateTime.Now
             };
             _pifPosisjonRepository.Opprett(pifPosisjon);
@@ -36,7 +36,7 @@ namespace BouvetCodeCamp
 
         public async Task<PifPosisjonModel> GetPifPosition(string lagId)
         {
-            var pifPosisjonAll = await _pifPosisjonRepository.HentPifPosisjon(lagId);
+            var pifPosisjonAll = await _pifPosisjonRepository.HentPifPosisjonerForLag(lagId);
             var pifPosisjon = pifPosisjonAll.FirstOrDefault();
 
             return pifPosisjon == null 

@@ -1,3 +1,5 @@
+using BouvetCodeCamp.Felles.Konfigurasjon;
+
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
     using System;
@@ -22,11 +24,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Opprett_EnAktivitetsloggEntry_AktivitetsloggEntryErLagretIDatabasen()
         {
             // Arrange
-            var repository = new AktivitetsloggRepository();
+            var repository = new AktivitetsloggRepository(new Konfigurasjon());
 
             var aktivitetsloggEntry = Builder<AktivitetsloggEntry>.CreateNew()
                 .With(o => o.LagId = 1)
-                .With(o => o.HendelsesType = HendelsesType.RegistrertKode)
+                .With(o => o.HendelseType = HendelseType.RegistrertKode)
                 .With(o => o.Tid = DateTime.Now)
                 .Build();
 

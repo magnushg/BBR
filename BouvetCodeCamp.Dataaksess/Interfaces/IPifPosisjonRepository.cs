@@ -7,6 +7,6 @@ namespace BouvetCodeCamp.Dataaksess.Interfaces
 
     public interface IPifPosisjonRepository : IRepository<PifPosisjon>
     {
-        Task<IEnumerable<PifPosisjon>> HentPifPosisjon(string lagId);
+        Task<IEnumerable<PifPosisjon>> HentPifPosisjonerForLag(string lagId);
     }
 }
