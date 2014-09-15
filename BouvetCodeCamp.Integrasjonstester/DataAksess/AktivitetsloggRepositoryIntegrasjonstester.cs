@@ -24,7 +24,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Opprett_EnAktivitetsloggEntry_AktivitetsloggEntryErLagretIDatabasen()
         {
             // Arrange
-            var repository = new AktivitetsloggRepository(new Konfigurasjon());
+            var repository = new AktivitetsloggRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
 
             var aktivitetsloggEntry = Builder<AktivitetsloggEntry>.CreateNew()
                 .With(o => o.LagId = 1)

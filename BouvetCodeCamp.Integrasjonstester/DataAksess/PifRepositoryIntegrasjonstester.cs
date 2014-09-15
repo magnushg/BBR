@@ -23,7 +23,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Opprett_EnPifPosisjon_PifPosisjonErLagretIDatabasen()
         {
             // Arrange
-            var repository = new PifPosisjonRepository(new Konfigurasjon());
+            var repository = new PifPosisjonRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
 
             var pifPosisjon = Builder<PifPosisjon>.CreateNew()
                     .With(o => o.LagId = string.Empty)
@@ -46,8 +46,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task HentPifPosisjon_HarPifPosisjoner_GirEnListeMedNyligstePosisjonFørstIListen()
         {
             // Arrange
-            var repository = new PifPosisjonRepository(new Konfigurasjon());
-
+            var repository = new PifPosisjonRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            
             const string lagId = "abc";
 
             var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(5)

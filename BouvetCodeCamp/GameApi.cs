@@ -20,7 +20,7 @@ namespace BouvetCodeCamp
             _pifPosisjonRepository = pifPosisjonRepository;
         }
 
-        public HttpResponseMessage RegistrerPifPosition(GeoPosisjonModel model)
+        public async Task<HttpResponseMessage> RegistrerPifPosition(GeoPosisjonModel model)
         {
             var pifPosisjon = new PifPosisjon()
             {
@@ -29,12 +29,13 @@ namespace BouvetCodeCamp
                 LagId = model.LagId,
                 Tid = DateTime.Now
             };
-            _pifPosisjonRepository.Opprett(pifPosisjon);
+
+            await _pifPosisjonRepository.Opprett(pifPosisjon);
 
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
-        public async Task<PifPosisjonModel> GetPifPosition(string lagId)
+        public async Task<PifPosisjonModel> HentSistePifPositionForLag(string lagId)
         {
             var pifPosisjonAll = await _pifPosisjonRepository.HentPifPosisjonerForLag(lagId);
             var pifPosisjon = pifPosisjonAll.FirstOrDefault();
@@ -45,11 +46,11 @@ namespace BouvetCodeCamp
             {
                 Latitude = pifPosisjon.Latitude,
                 Longitude = pifPosisjon.Longitude,
-                LagId = ""+pifPosisjon.LagId
+                LagId = pifPosisjon.LagId
             };
         }
 
-        public async Task<IEnumerable<PifPosisjonModel>> GetAllPifPositions()
+        public async Task<IEnumerable<PifPosisjonModel>> HentAllePifPosisjoner()
         {
             var pifPosisjonAll = await _pifPosisjonRepository.HentAlle();
 
@@ -59,7 +60,7 @@ namespace BouvetCodeCamp
                 {
                     Latitude = x.Latitude,
                     Longitude = x.Longitude,
-                    LagId = ""+x.LagId
+                    LagId = x.LagId
                 });
         }
 

@@ -8,11 +8,11 @@ namespace BouvetCodeCamp
 {
     public interface IGameApi
     {
-        HttpResponseMessage RegistrerPifPosition(GeoPosisjonModel model);
+        Task<HttpResponseMessage> RegistrerPifPosition(GeoPosisjonModel model);
 
-        Task<PifPosisjonModel>GetPifPosition(string lagId);
+        Task<PifPosisjonModel>HentSistePifPositionForLag(string lagId);
 
-        Task<IEnumerable<PifPosisjonModel>> GetAllPifPositions();
+        Task<IEnumerable<PifPosisjonModel>> HentAllePifPosisjoner();
         
         HttpResponseMessage RegistrerKode(KodeModel model);
 

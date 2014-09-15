@@ -24,8 +24,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Opprett_EnMelding_MeldingErLagretIDatabasen()
         {
             // Arrange
-            var repository = new MeldingRepository(new Konfigurasjon());
-
+            var repository = new MeldingRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            
             var melding = Builder<Melding>.CreateNew()
                 .With(o => o.LagId = 1)
                 .With(o => o.Type = MeldingType.Lengde)

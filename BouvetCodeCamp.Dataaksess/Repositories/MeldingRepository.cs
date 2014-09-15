@@ -1,23 +1,23 @@
-﻿using BouvetCodeCamp.Felles.Konfigurasjon;
+﻿using System.Linq;
+using BouvetCodeCamp.Felles.Konfigurasjon;
 using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Linq;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Interfaces;
     using Felles;
     using Felles.Entiteter;
-    using Microsoft.Azure.Documents.Linq;
 
-    using Newtonsoft.Json;
-
-    public class MeldingRepository : BaseRepository, IMeldingRepository
+    public class MeldingRepository : IMeldingRepository
     {
+        private readonly IKonfigurasjon _konfigurasjon;
+        private readonly IDocumentDbContext Context;
+
         private string _collectionId;
         public String CollectionId
         {
@@ -25,7 +25,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             {
                 if (string.IsNullOrEmpty(_collectionId))
                 {
-                    _collectionId = ConfigurationManager.AppSettings[DocumentDbKonstanter.MeldingerCollectionId];
+                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.MeldingerCollectionId);
                 }
 
                 return _collectionId;
@@ -39,43 +39,28 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             {
                 if (_collection == null)
                 {
-                    ReadOrCreateCollection(Database.SelfLink).Wait();
+                    _collection = Context.ReadOrCreateCollection(Context.Database.SelfLink, CollectionId);
                 }
 
                 return _collection;
             }
         }
 
-        protected override async Task ReadOrCreateCollection(string databaseLink)
+        public MeldingRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
         {
-            var collections = Client.CreateDocumentCollectionQuery(databaseLink)
-                              .Where(col => col.Id == CollectionId).ToArray();
-
-            if (collections.Any())
-            {
-                _collection = collections.First();
-            }
-            else
-            {
-                _collection = await Client.CreateDocumentCollectionAsync(databaseLink,
-                    new DocumentCollection { Id = CollectionId });
-            }
-        }
-
-        public MeldingRepository(IKonfigurasjon konfigurasjon)
-            : base(konfigurasjon)
-        {
+            _konfigurasjon = konfigurasjon;
+            Context = context;
         }
 
         public async Task Opprett(Melding document)
         {
-            await Client.CreateDocumentAsync(Collection.SelfLink, document);
+            await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
 
         public async Task<IEnumerable<Melding>> HentAlle()
         {
             return await Task.Run(() =>
-                Client.CreateDocumentQuery<Melding>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<Melding>(Collection.DocumentsLink)
                     .AsEnumerable()
                     .ToList());
         }

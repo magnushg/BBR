@@ -1,24 +1,24 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Felles.Konfigurasjon;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Linq;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
-    using System.Configuration;
-
     using Felles;
 
     using Microsoft.Azure.Documents.Client;
 
-    public abstract class BaseRepository
+    public class DocumentDbContext : IDocumentDbContext
     {
         private readonly IKonfigurasjon _konfigurasjon;
 
         private Database _database;
-        protected Database Database
+
+        public Database Database
         {
             get
             {
@@ -32,7 +32,8 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         }
         
         private string _databaseId;
-        private String DatabaseId
+
+        public String DatabaseId
         {
             get
             {
@@ -46,15 +47,18 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         }
 
         private DocumentClient _client;
-        protected DocumentClient Client
+
+        public DocumentClient Client
         {
             get
             {
                 if (_client == null)
                 {
-                    String endpoint = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.Endpoint);
-                    string authKey = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.AuthKey);
-                    Uri endpointUri = new Uri(endpoint);
+                    var endpoint = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.Endpoint);
+                    var authKey = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.AuthKey);
+                    
+                    var endpointUri = new Uri(endpoint);
+
                     _client = new DocumentClient(endpointUri, authKey);
                 }
 
@@ -62,12 +66,12 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             }
         }
 
-        protected BaseRepository(IKonfigurasjon konfigurasjon)
+        public DocumentDbContext(IKonfigurasjon konfigurasjon)
         {
             _konfigurasjon = konfigurasjon;
         }
 
-        private async Task ReadOrCreateDatabase()
+        public async Task ReadOrCreateDatabase()
         {
             var databases = Client.CreateDatabaseQuery()
                             .Where(db => db.Id == DatabaseId).ToArray();
@@ -78,11 +82,22 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             }
             else
             {
-                Database database = new Database { Id = DatabaseId };
-                database = await Client.CreateDatabaseAsync(database);
+                var database = new Database { Id = DatabaseId };
+                _database = await Client.CreateDatabaseAsync(database);
             }
         }
 
-        protected abstract Task ReadOrCreateCollection(string databaseLink);
+        public DocumentCollection ReadOrCreateCollection(string databaseLink, string collectionId)
+        {
+            var collections = Client.CreateDocumentCollectionQuery(databaseLink)
+                              .Where(col => col.Id == collectionId).ToArray();
+
+            if (collections.Any())
+            {
+                return collections.First();
+            }
+
+            return Client.CreateDocumentCollectionAsync(databaseLink, new DocumentCollection { Id = collectionId }).Result;
+        }
     }
 }

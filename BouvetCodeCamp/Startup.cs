@@ -16,7 +16,7 @@ namespace BouvetCodeCamp
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            HttpConfiguration config = new HttpConfiguration();
+            var config = new HttpConfiguration();
             
             Configure(config.Formatters, config);
             config.MapHttpAttributeRoutes();
@@ -28,8 +28,11 @@ namespace BouvetCodeCamp
 
             builder.RegisterType<GameApi>().As<IGameApi>().InstancePerRequest();
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().InstancePerRequest();
+            builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().InstancePerRequest();
 
-            builder.Register(x => new PifPosisjonRepository(new Konfigurasjon())).As<IPifPosisjonRepository>().InstancePerDependency();
+            builder.Register(x => new PifPosisjonRepository(x.Resolve<IKonfigurasjon>(), x.Resolve<IDocumentDbContext>())).As<IPifPosisjonRepository>().InstancePerDependency();
+            builder.Register(x => new MeldingRepository(x.Resolve<IKonfigurasjon>(), x.Resolve<IDocumentDbContext>())).As<IMeldingRepository>().InstancePerDependency();
+            builder.Register(x => new AktivitetsloggRepository(x.Resolve<IKonfigurasjon>(), x.Resolve<IDocumentDbContext>())).As<IAktivitetsloggRepository>().InstancePerDependency();
 
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.

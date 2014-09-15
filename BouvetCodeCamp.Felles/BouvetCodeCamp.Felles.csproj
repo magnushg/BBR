@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entiteter\AktivitetsloggEntry.cs" />
+    <Compile Include="Entiteter\Direction.cs" />
     <Compile Include="Entiteter\Melding.cs" />
     <Compile Include="Entiteter\PifPosisjon.cs" />
     <Compile Include="HendelseType.cs" />

@@ -1,25 +1,23 @@
-﻿using BouvetCodeCamp.Felles.Konfigurasjon;
+﻿using System.Linq;
+using BouvetCodeCamp.Felles.Konfigurasjon;
 using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Linq;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Interfaces;
     using Felles;
     using Felles.Entiteter;
 
-    using Microsoft.Azure.Documents.Client;
-    using Microsoft.Azure.Documents.Linq;
-
-    using Newtonsoft.Json;
-
-    public class PifPosisjonRepository : BaseRepository, IPifPosisjonRepository
+    public class PifPosisjonRepository : IPifPosisjonRepository
     {
+        private readonly IKonfigurasjon _konfigurasjon;
+        private readonly IDocumentDbContext Context;
+
         private string _collectionId;
         public String CollectionId
         {
@@ -27,7 +25,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             {
                 if (string.IsNullOrEmpty(_collectionId))
                 {
-                    _collectionId = ConfigurationManager.AppSettings[DocumentDbKonstanter.PifPosisjonerCollectionId];
+                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.PifPosisjonerCollectionId);
                 }
 
                 return _collectionId;
@@ -41,43 +39,28 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             {
                 if (_collection == null)
                 {
-                    ReadOrCreateCollection(Database.SelfLink).Wait();
+                    _collection = Context.ReadOrCreateCollection(Context.Database.SelfLink, CollectionId);
                 }
 
                 return _collection;
             }
         }
-
-        protected override async Task ReadOrCreateCollection(string databaseLink)
-        {
-            var collections = Client.CreateDocumentCollectionQuery(databaseLink)
-                              .Where(col => col.Id == CollectionId).ToArray();
-
-            if (collections.Any())
-            {
-                _collection = collections.First();
-            }
-            else
-            {
-                _collection = await Client.CreateDocumentCollectionAsync(databaseLink,
-                    new DocumentCollection { Id = CollectionId });
-            }
-        }
         
-        public PifPosisjonRepository(IKonfigurasjon konfigurasjon)
-            : base(konfigurasjon)
+        public PifPosisjonRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
         {
+            _konfigurasjon = konfigurasjon;
+            Context = context;
         }
 
         public async Task Opprett(PifPosisjon document)
         {
-            await Client.CreateDocumentAsync(Collection.SelfLink, document);
+            await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
 
         public async Task<IEnumerable<PifPosisjon>> HentAlle()
         {
             return await Task.Run(() =>
-                Client.CreateDocumentQuery<PifPosisjon>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<PifPosisjon>(Collection.DocumentsLink)
                     .AsEnumerable()
                     .ToList());
         }
@@ -85,7 +68,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         public async Task<IEnumerable<PifPosisjon>> HentPifPosisjonerForLag(string lagId)
         {
             return await Task.Run(() =>
-                Client.CreateDocumentQuery<PifPosisjon>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<PifPosisjon>(Collection.DocumentsLink)
                     .Where(o => o.LagId == lagId)
                     .AsEnumerable()
                     .ToList()

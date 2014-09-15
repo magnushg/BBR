@@ -44,15 +44,15 @@ namespace BouvetCodeCamp
         [Route("pif/put")]
         public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
         {
-            return _gameApi.RegistrerPifPosition(model);
+            return await _gameApi.RegistrerPifPosition(model);
         }
 
         [HttpGet]
         [Route("pif/get")]
-        public async Task<HttpResponseMessage> GetPifPosition(string lagId)
+        public async Task<HttpResponseMessage> HentSistePifPositionForLag(string lagId)
         {
-//            var pifPosisjonModel = await _gameApi.GetPifPosition(lagId);
-            var pifPosisjonModel = await _gameApi.GetAllPifPositions();
+            var pifPosisjonModel = await _gameApi.HentSistePifPositionForLag(lagId);
+
             return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
         }
 
@@ -79,13 +79,5 @@ namespace BouvetCodeCamp
        {
            return _gameApi.HentPifPosisjon(lagId);
        }
-    }
-
-    public enum Direction
-    {
-        North,
-        East,
-        West,
-        South
     }
 }

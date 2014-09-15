@@ -5,19 +5,19 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Dataaksess.Interfaces;
+    using Interfaces;
     using Felles;
-    using BouvetCodeCamp.Felles.Entiteter;
+    using Felles.Entiteter;
     using Microsoft.Azure.Documents.Linq;
 
-    using Newtonsoft.Json;
-
-    public class AktivitetsloggRepository : BaseRepository, IAktivitetsloggRepository
+    public class AktivitetsloggRepository : IAktivitetsloggRepository
     {
+        private readonly IKonfigurasjon _konfigurasjon;
+        private readonly IDocumentDbContext Context;
+
         private string _collectionId;
         public String CollectionId
         {
@@ -25,7 +25,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             {
                 if (string.IsNullOrEmpty(_collectionId))
                 {
-                    _collectionId = ConfigurationManager.AppSettings[DocumentDbKonstanter.AktivitetsloggEntriesCollectionId];
+                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.AktivitetsloggEntriesCollectionId);
                 }
 
                 return _collectionId;
@@ -39,43 +39,28 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             {
                 if (_collection == null)
                 {
-                    ReadOrCreateCollection(Database.SelfLink).Wait();
+                    _collection = Context.ReadOrCreateCollection(Context.Database.SelfLink, CollectionId);
                 }
 
                 return _collection;
             }
         }
-
-        protected override async Task ReadOrCreateCollection(string databaseLink)
-        {
-            var collections = Client.CreateDocumentCollectionQuery(databaseLink)
-                              .Where(col => col.Id == CollectionId).ToArray();
-
-            if (collections.Any())
-            {
-                _collection = collections.First();
-            }
-            else
-            {
-                _collection = await Client.CreateDocumentCollectionAsync(databaseLink,
-                    new DocumentCollection { Id = CollectionId });
-            }
-        }
         
-        public AktivitetsloggRepository(IKonfigurasjon konfigurasjon)
-            : base(konfigurasjon)
+        public AktivitetsloggRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
         {
+            _konfigurasjon = konfigurasjon;
+            Context = context;
         }
 
         public async Task Opprett(AktivitetsloggEntry document)
         {
-            await Client.CreateDocumentAsync(Collection.SelfLink, document);
+            await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
 
         public async Task<IEnumerable<AktivitetsloggEntry>> HentAlle()
         {
             return await Task.Run(() =>
-                Client.CreateDocumentQuery<AktivitetsloggEntry>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<AktivitetsloggEntry>(Collection.DocumentsLink)
                     .AsEnumerable()
                     .ToList());
         }
