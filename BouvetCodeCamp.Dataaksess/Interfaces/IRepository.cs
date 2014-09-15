@@ -8,12 +8,16 @@ namespace BouvetCodeCamp.Dataaksess.Interfaces
 
     public interface IRepository<T>
     {
-        Task Opprett(T document);
+        String CollectionId { get; }
+        
+        DocumentCollection Collection { get; }
+        
+        Task<Document> Opprett(T document);
 
         Task<IEnumerable<T>> HentAlle();
 
-        String CollectionId { get; }
+        Task<T> Hent(string id);
 
-        DocumentCollection Collection { get; }
+        Task Oppdater(T document);
     }
 }

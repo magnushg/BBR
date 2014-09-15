@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Felles.Entiteter
+﻿namespace BouvetCodeCamp.Felles
 {
     public enum Direction
     {

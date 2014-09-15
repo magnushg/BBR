@@ -1,19 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BouvetCodeCamp.Dataaksess.Interfaces;
+using BouvetCodeCamp.Felles;
+using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.Felles.Konfigurasjon;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Linq;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    using Interfaces;
-    using Felles;
-    using Felles.Entiteter;
-
-    public class MeldingRepository : IMeldingRepository
+    public class LagRepository : ILagRepository
     {
         private readonly IKonfigurasjon _konfigurasjon;
         private readonly IDocumentDbContext Context;
@@ -46,44 +44,44 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             }
         }
 
-        public MeldingRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
+        public LagRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
         {
             _konfigurasjon = konfigurasjon;
             Context = context;
         }
 
-        public async Task<Document> Opprett(Melding document)
+        public async Task<Document> Opprett(Lag document)
         {
             return await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
-
-        public async Task<IEnumerable<Melding>> HentAlle()
+        
+        public async Task<IEnumerable<Lag>> HentAlle()
         {
             return await Task.Run(() =>
-                Context.Client.CreateDocumentQuery<Melding>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<Lag>(Collection.DocumentsLink)
                     .AsEnumerable()
                     .ToList());
         }
-        
-        public async Task<Melding> Hent(string id)
+
+        public async Task<Lag> Hent(string id)
         {
             return await Task.Run(() =>
-                Context.Client.CreateDocumentQuery<Melding>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<Lag>(Collection.DocumentsLink)
                 .Where(d => d.Id == id)
                 .AsEnumerable()
                 .FirstOrDefault());
         }
 
-        public async Task Oppdater(Melding document)
+        public async Task Oppdater(Lag document)
         {
-            var melding = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
+            var lag = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                         .Where(d => d.Id == document.Id)
                         .AsEnumerable().FirstOrDefault();
 
-            if (melding == null)
-                throw new Exception("Fant ikke meldingen som skulle oppdateres.");
+            if (lag == null)
+                throw new Exception("Fant ikke laget som skulle oppdateres.");
 
-            await Context.Client.ReplaceDocumentAsync(melding.SelfLink, document);
+            await Context.Client.ReplaceDocumentAsync(lag.SelfLink, document);
         }
     }
 }

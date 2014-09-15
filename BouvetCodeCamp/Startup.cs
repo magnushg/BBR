@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Dataaksess.Repositories;
 using BouvetCodeCamp.Felles.Konfigurasjon;

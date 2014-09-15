@@ -69,6 +69,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DataAksess\LagRepositoryIntegrasjonstester.cs" />
     <Compile Include="Testkategorier.cs" />
     <Compile Include="DataAksess\AktivitetsloggRepositoryIntegrasjonstester.cs" />
     <Compile Include="DataAksess\BaseRepositoryIntegrasjonstest.cs" />

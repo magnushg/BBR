@@ -4,7 +4,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
 {
     using System;
 
-    public class PifPosisjon
+    public class PifPosisjon : BaseDocument
     {
         [JsonProperty(PropertyName = "lagId")]
         public string LagId { get; set; }

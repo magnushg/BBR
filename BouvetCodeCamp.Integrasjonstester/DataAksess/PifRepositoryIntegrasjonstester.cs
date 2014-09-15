@@ -1,4 +1,5 @@
-﻿using BouvetCodeCamp.Felles.Konfigurasjon;
+﻿using BouvetCodeCamp.Dataaksess;
+using BouvetCodeCamp.Felles.Konfigurasjon;
 
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
@@ -43,7 +44,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
         [TestMethod]
         [TestCategory(Testkategorier.DataAksess)]
-        public async Task HentPifPosisjon_HarPifPosisjoner_GirEnListeMedNyligstePosisjonFørstIListen()
+        public async Task HentPifPosisjonerForLag_LagetHarPifPosisjoner_GirEnListeMedPosisjoner()
         {
             // Arrange
             var repository = new PifPosisjonRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
@@ -65,7 +66,62 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var pifPosisjonerForLag = await repository.HentPifPosisjonerForLag(lagId);
 
             // Assert
+            pifPosisjonerForLag.Count().ShouldEqual(5);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task HentPifPosisjonerForLag_LagetHarPifPosisjoner_NyligstePosisjonErFørstIListen()
+        {
+            // Arrange
+            var repository = new PifPosisjonRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+
+            const string lagId = "abc";
+
+            var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(5)
+                .All()
+                .With(o => o.LagId = lagId)
+                .Random(5)
+                .Build();
+
+            foreach (var pifPosisjon in pifPosisjoner)
+            {
+                await repository.Opprett(pifPosisjon);
+            }
+
+            // Act
+            var pifPosisjonerForLag = await repository.HentPifPosisjonerForLag(lagId);
+
+            // Assert
             pifPosisjonerForLag.FirstOrDefault().Tid.ShouldBeGreaterThan(pifPosisjonerForLag.LastOrDefault().Tid);
+        }
+        
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task Oppdater_EnMeldingMedNyTekst_MeldingErOppdatertMedNyTekst()
+        {
+            // Arrange
+            var repository = new PifPosisjonRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+
+            const string nyLagId = "cba";
+
+            var aktivitetsloggEntry = Builder<PifPosisjon>.CreateNew()
+                .With(o => o.LagId = "abc")
+                .With(o => o.LagId = "test")
+                .Build();
+
+            var opprettetDocument = await repository.Opprett(aktivitetsloggEntry);
+
+            var hentetDocument = await repository.Hent(opprettetDocument.Id);
+            hentetDocument.LagId = nyLagId;
+
+            // Act
+            await repository.Oppdater(hentetDocument);
+
+            var oppdatertDocument = await repository.Hent(hentetDocument.Id);
+
+            // Assert
+            oppdatertDocument.LagId.ShouldEqual(nyLagId);
         }
     }
 }

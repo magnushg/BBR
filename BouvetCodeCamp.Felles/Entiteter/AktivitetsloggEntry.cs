@@ -1,14 +1,13 @@
-﻿using System.ComponentModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Felles.Entiteter
 {
     using System;
 
-    public class AktivitetsloggEntry
+    public class AktivitetsloggEntry : BaseDocument
     {
         [JsonProperty(PropertyName = "lagId")]
-        public int LagId { get; set; }
+        public string LagId { get; set; }
 
         [JsonProperty(PropertyName = "hendelsesType")]
         public HendelseType HendelseType { get; set; }
@@ -18,7 +17,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
 
         public AktivitetsloggEntry()
         {
-            LagId = 0;
+            LagId = string.Empty;
             HendelseType = HendelseType.Ukjent;
             Tid = DateTime.MinValue;
         }

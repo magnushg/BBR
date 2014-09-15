@@ -2,8 +2,9 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BouvetCodeCamp.Felles.Entiteter;
+using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.InputModels;
+using MeldingType = BouvetCodeCamp.InputModels.MeldingType;
 
 namespace BouvetCodeCamp
 {
@@ -73,11 +74,6 @@ namespace BouvetCodeCamp
                Tekst = tekst,
                Type = type
            });
-       }
-
-       public HttpResponseMessage HentPifPosisjon(string lagId)
-       {
-           return _gameApi.HentPifPosisjon(lagId);
        }
     }
 }

@@ -2,16 +2,14 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess.Interfaces;
+using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.Felles.Konfigurasjon;
 using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 
-namespace BouvetCodeCamp.Dataaksess.Repositories
+namespace BouvetCodeCamp.Dataaksess
 {
-    using Felles;
-
-    using Microsoft.Azure.Documents.Client;
-
     public class DocumentDbContext : IDocumentDbContext
     {
         private readonly IKonfigurasjon _konfigurasjon;

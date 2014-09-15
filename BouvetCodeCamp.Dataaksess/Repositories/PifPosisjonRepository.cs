@@ -52,9 +52,9 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             Context = context;
         }
 
-        public async Task Opprett(PifPosisjon document)
+        public async Task<Document> Opprett(PifPosisjon document)
         {
-            await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
+            return await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
 
         public async Task<IEnumerable<PifPosisjon>> HentAlle()
@@ -73,6 +73,27 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
                     .AsEnumerable()
                     .ToList()
                     .OrderByDescending(o => o.Tid));
+        }
+        
+        public async Task<PifPosisjon> Hent(string id)
+        {
+            return await Task.Run(() =>
+                Context.Client.CreateDocumentQuery<PifPosisjon>(Collection.DocumentsLink)
+                .Where(d => d.Id == id)
+                .AsEnumerable()
+                .FirstOrDefault());
+        }
+
+        public async Task Oppdater(PifPosisjon document)
+        {
+            var pifPosisjon = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
+                        .Where(d => d.Id == document.Id)
+                        .AsEnumerable().FirstOrDefault();
+
+            if (pifPosisjon == null)
+                throw new Exception("Fant ikke pifposisjonen som skulle oppdateres.");
+
+            await Context.Client.ReplaceDocumentAsync(pifPosisjon.SelfLink, document);
         }
     }
 }

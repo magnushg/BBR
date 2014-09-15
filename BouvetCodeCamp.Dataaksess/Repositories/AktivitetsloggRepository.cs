@@ -52,9 +52,9 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             Context = context;
         }
 
-        public async Task Opprett(AktivitetsloggEntry document)
+        public async Task<Document> Opprett(AktivitetsloggEntry document)
         {
-            await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
+            return await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
 
         public async Task<IEnumerable<AktivitetsloggEntry>> HentAlle()
@@ -63,6 +63,27 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
                 Context.Client.CreateDocumentQuery<AktivitetsloggEntry>(Collection.DocumentsLink)
                     .AsEnumerable()
                     .ToList());
+        }
+
+        public async Task<AktivitetsloggEntry> Hent(string id)
+        {
+            return await Task.Run(() =>
+                Context.Client.CreateDocumentQuery<AktivitetsloggEntry>(Collection.DocumentsLink)
+                .Where(d => d.Id == id)
+                .AsEnumerable()
+                .FirstOrDefault());
+        }
+        
+        public async Task Oppdater(AktivitetsloggEntry document)
+        {
+            var aktivitetsloggEntry = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
+                .Where(d => d.Id == document.Id)
+                .AsEnumerable().FirstOrDefault();
+            
+            if (aktivitetsloggEntry == null)
+                throw new Exception("Fant ikke aktivitetsloggentryen som skulle oppdateres.");
+
+            await Context.Client.ReplaceDocumentAsync(aktivitetsloggEntry.SelfLink, document);
         }
     }
 }

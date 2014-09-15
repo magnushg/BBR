@@ -1,3 +1,4 @@
+using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Felles.Konfigurasjon;
 
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
@@ -21,13 +22,13 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     {
         [TestMethod]
         [TestCategory(Testkategorier.DataAksess)]
-        public async Task Opprett_EnAktivitetsloggEntry_AktivitetsloggEntryErLagretIDatabasen()
+        public async Task Opprett_EnAktivitetsloggEntry_AktivitetsloggEntryErLagret()
         {
             // Arrange
             var repository = new AktivitetsloggRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
 
             var aktivitetsloggEntry = Builder<AktivitetsloggEntry>.CreateNew()
-                .With(o => o.LagId = 1)
+                .With(o => o.LagId = "abc")
                 .With(o => o.HendelseType = HendelseType.RegistrertKode)
                 .With(o => o.Tid = DateTime.Now)
                 .Build();
@@ -39,6 +40,35 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             // Assert
             alleAktivitetsloggEntries.Count().ShouldEqual(1);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task Oppdater_EnAktivitetsloggEntryMedNyLagId_AktivitetsloggEntryErOppdatertMedNyLagId()
+        {
+            // Arrange
+            var repository = new AktivitetsloggRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+
+            const string nyLagId = "cba";
+
+            var aktivitetsloggEntry = Builder<AktivitetsloggEntry>.CreateNew()
+                .With(o => o.LagId = "abc")
+                .With(o => o.HendelseType = HendelseType.RegistrertKode)
+                .With(o => o.Tid = DateTime.Now)
+                .Build();
+
+            var opprettetDocument = await repository.Opprett(aktivitetsloggEntry);
+
+            var hentetDocument = await repository.Hent(opprettetDocument.Id);
+            hentetDocument.LagId = nyLagId;
+
+            // Act
+            await repository.Oppdater(hentetDocument);
+
+            var oppdatertDocument = await repository.Hent(hentetDocument.Id);
+
+            // Assert
+            oppdatertDocument.LagId.ShouldEqual(nyLagId);
         }
     }
 }

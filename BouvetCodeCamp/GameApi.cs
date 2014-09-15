@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess.Interfaces;
+using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.InputModels;
 using BouvetCodeCamp.OutputModels;
@@ -14,10 +15,12 @@ namespace BouvetCodeCamp
     public class GameApi:IGameApi
     {
         private readonly IPifPosisjonRepository _pifPosisjonRepository;
+        private readonly IAktivitetsloggRepository _aktivitetsloggRepository;
 
-        public GameApi(IPifPosisjonRepository pifPosisjonRepository)
+        public GameApi(IPifPosisjonRepository pifPosisjonRepository, IAktivitetsloggRepository aktivitetsloggRepository)
         {
             _pifPosisjonRepository = pifPosisjonRepository;
+            _aktivitetsloggRepository = aktivitetsloggRepository;
         }
 
         public async Task<HttpResponseMessage> RegistrerPifPosition(GeoPosisjonModel model)
@@ -32,6 +35,8 @@ namespace BouvetCodeCamp
 
             await _pifPosisjonRepository.Opprett(pifPosisjon);
 
+            LoggHendelse(string.Empty, HendelseType.RegistrertGeoPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
@@ -39,6 +44,8 @@ namespace BouvetCodeCamp
         {
             var pifPosisjonAll = await _pifPosisjonRepository.HentPifPosisjonerForLag(lagId);
             var pifPosisjon = pifPosisjonAll.FirstOrDefault();
+
+            LoggHendelse(string.Empty, HendelseType.HentetPifPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
 
             return pifPosisjon == null 
                 ? null 
@@ -54,6 +61,8 @@ namespace BouvetCodeCamp
         {
             var pifPosisjonAll = await _pifPosisjonRepository.HentAlle();
 
+            LoggHendelse(string.Empty, HendelseType.HentetPifPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+
             return pifPosisjonAll == null
                 ? null
                 : pifPosisjonAll.Select(x => new PifPosisjonModel
@@ -66,17 +75,26 @@ namespace BouvetCodeCamp
 
         public HttpResponseMessage RegistrerKode(KodeModel model)
         {
-            throw new NotImplementedException();
+            LoggHendelse(string.Empty, HendelseType.RegistrertKode); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         public HttpResponseMessage SendMelding(MeldingModel model)
         {
-            throw new NotImplementedException();
+            LoggHendelse(string.Empty, HendelseType.SendtMelding); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        public HttpResponseMessage HentPifPosisjon(string lagId)
+        private async void LoggHendelse(string lagId, HendelseType hendelseType)
         {
-            throw new NotImplementedException();
+            await _aktivitetsloggRepository.Opprett(new AktivitetsloggEntry
+            {
+                HendelseType = hendelseType,
+                LagId = lagId, 
+                Tid = DateTime.Now
+            });
         }
     }
 }
