@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -45,7 +46,7 @@ namespace BouvetCodeCamp
         [Route("pif/put")]
         public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
         {
-            return await _gameApi.RegistrerPifPosition(model);
+            return Request.CreateResponse(HttpStatusCode.OK, await _gameApi.RegistrerPifPosition(model));
         }
 
         [HttpGet]
@@ -59,21 +60,40 @@ namespace BouvetCodeCamp
 
         public HttpResponseMessage RegistrerKode(string lagId, string kode)
        {
-           return _gameApi.RegistrerKode(new KodeModel
-           {
-               LagId = lagId,
-               Kode = kode
-           });
+            try
+            {
+                _gameApi.RegistrerKode(new KodeModel
+                {
+                    LagId = lagId,
+                    Kode = kode
+                });
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return Request.CreateResponse(HttpStatusCode.Created);
+           
        }
 
        public HttpResponseMessage SendMelding(string lagId, string tekst, MeldingType type)
        {
-           return _gameApi.SendMelding(new MeldingModel
+           try
            {
-               LagId = lagId,
-               Tekst = tekst,
-               Type = type
-           });
-       }
+                _gameApi.SendMelding(new MeldingModel
+                {
+                    LagId = lagId,
+                    Tekst = tekst,
+                    Type = type
+                });
+            }
+           catch (Exception e)
+           {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+           }
+            return Request.CreateResponse(HttpStatusCode.Created);
+
+
+        }
     }
 }

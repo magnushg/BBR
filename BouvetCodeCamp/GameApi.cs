@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Felles;
@@ -23,7 +21,7 @@ namespace BouvetCodeCamp
             _aktivitetsloggRepository = aktivitetsloggRepository;
         }
 
-        public async Task<HttpResponseMessage> RegistrerPifPosition(GeoPosisjonModel model)
+        public async Task<PifPosisjon> RegistrerPifPosition(GeoPosisjonModel model)
         {
             var pifPosisjon = new PifPosisjon()
             {
@@ -37,7 +35,7 @@ namespace BouvetCodeCamp
 
             LoggHendelse(string.Empty, HendelseType.RegistrertGeoPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
 
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            return pifPosisjon;
         }
 
         public async Task<PifPosisjonModel> HentSistePifPositionForLag(string lagId)
@@ -73,18 +71,14 @@ namespace BouvetCodeCamp
                 });
         }
 
-        public HttpResponseMessage RegistrerKode(KodeModel model)
+        public void RegistrerKode(KodeModel model)
         {
             LoggHendelse(string.Empty, HendelseType.RegistrertKode); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
-
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        public HttpResponseMessage SendMelding(MeldingModel model)
+        public void SendMelding(MeldingModel model)
         {
             LoggHendelse(string.Empty, HendelseType.SendtMelding); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
-
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         private async void LoggHendelse(string lagId, HendelseType hendelseType)
