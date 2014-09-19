@@ -41,7 +41,8 @@ namespace BouvetCodeCamp
                 message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
            });
         }
-
+        //Øverst til venstre 59.680782, 10.602574
+        //Nederst til høyre 59.672267, 10.609526
         [HttpGet]
         [Route("pif/put")]
         public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
