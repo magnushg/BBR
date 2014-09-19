@@ -15,7 +15,7 @@ namespace BouvetCodeCamp
 
         Task<IEnumerable<PifPosisjonModel>> HentAllePifPosisjoner();
 
-        void RegistrerKode(KodeModel model);
+        Task<bool> RegistrerKode(KodeModel model);
 
         void SendMelding(MeldingModel model);
     }

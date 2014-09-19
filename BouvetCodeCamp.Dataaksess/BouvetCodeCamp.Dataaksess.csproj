@@ -58,6 +58,8 @@
     <Compile Include="Interfaces\IPifPosisjonRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IKodeRepository.cs" />
+    <Compile Include="Repositories\KodeRepository.cs" />
     <Compile Include="Repositories\LagRepository.cs" />
   </ItemGroup>
   <ItemGroup>

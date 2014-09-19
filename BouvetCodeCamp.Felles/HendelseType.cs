@@ -4,7 +4,8 @@
     {
         Ukjent,
         RegistrertGeoPosisjon,
-        RegistrertKode,
+        RegistrertKodeSuksess,
+        RegistrertKodeMislykket,
         HentetPifPosisjon,
         SendtMelding,
         TildeltPoeng

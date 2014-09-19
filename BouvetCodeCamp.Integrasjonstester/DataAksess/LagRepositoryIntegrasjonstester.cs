@@ -47,7 +47,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Arrange
             var repository = OpprettRepository();
 
-            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Gps = "10, 90" };
+            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Gps = new Coordinate("10", "90") };
             var koder = new List<Kode>
                             {
                                 kode

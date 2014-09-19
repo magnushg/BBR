@@ -4,7 +4,11 @@ using System.Web.Http.Cors;
 using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Dataaksess.Repositories;
+using BouvetCodeCamp.Felles;
+using BouvetCodeCamp.Felles.Interfaces;
 using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Service.Interfaces;
+using BouvetCodeCamp.Service.Services;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Autofac;
@@ -32,6 +36,11 @@ namespace BouvetCodeCamp
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().InstancePerRequest();
 
             builder.RegisterType<LagRepository>().As<ILagRepository>();
+
+            builder.RegisterType<LagService>().As<ILagService>();
+            builder.RegisterType<KodeService>().As<IKodeService>();
+
+            builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
 
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.

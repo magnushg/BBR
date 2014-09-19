@@ -68,22 +68,20 @@ namespace BouvetCodeCamp
             return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
         }
 
-        public HttpResponseMessage RegistrerKode(string lagId, string kode)
-       {
+        public async Task<HttpResponseMessage> RegistrerKode([FromUri] KodeModel model)
+        {
             try
             {
-                _gameApi.RegistrerKode(new KodeModel
-                {
-                    LagId = lagId,
-                    Kode = kode
-                });
+                var kodeRegistrert = await _gameApi.RegistrerKode(model);
+
+                return kodeRegistrert ?
+                    Request.CreateResponse(HttpStatusCode.OK) :
+                    Request.CreateResponse(HttpStatusCode.BadRequest);
             }
             catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            return Request.CreateResponse(HttpStatusCode.Created);
-           
        }
 
        public HttpResponseMessage SendMelding(string lagId, string tekst, MeldingType type)
