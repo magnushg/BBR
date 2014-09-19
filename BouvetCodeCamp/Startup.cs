@@ -34,7 +34,7 @@ namespace BouvetCodeCamp
             builder.RegisterType<PifPosisjonRepository>().As<IPifPosisjonRepository>();
             builder.RegisterType<MeldingRepository>().As<IMeldingRepository>();
             builder.RegisterType<LagRepository>().As<ILagRepository>();
-            builder.RegisterType<AktivitetsloggRepository>().As<IAktivitetsloggRepository>();
+            builder.RegisterType<AktivitetsloggRepository>().As<IAktivitetsloggRepository>();            
         
 
             var container = builder.Build();
