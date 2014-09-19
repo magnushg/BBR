@@ -27,7 +27,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Arrange
             var repository = new AktivitetsloggRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
 
-            var aktivitetsloggEntry = Builder<AktivitetsloggEntry>.CreateNew()
+            var aktivitetsloggEntry = Builder<AktivitetsloggHendelse>.CreateNew()
                 .With(o => o.LagId = "abc")
                 .With(o => o.HendelseType = HendelseType.RegistrertKode)
                 .With(o => o.Tid = DateTime.Now)
@@ -51,7 +51,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             const string nyLagId = "cba";
 
-            var aktivitetsloggEntry = Builder<AktivitetsloggEntry>.CreateNew()
+            var aktivitetsloggEntry = Builder<AktivitetsloggHendelse>.CreateNew()
                 .With(o => o.LagId = "abc")
                 .With(o => o.HendelseType = HendelseType.RegistrertKode)
                 .With(o => o.Tid = DateTime.Now)

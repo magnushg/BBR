@@ -52,29 +52,29 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             Context = context;
         }
 
-        public async Task<Document> Opprett(AktivitetsloggEntry document)
+        public async Task<Document> Opprett(AktivitetsloggHendelse document)
         {
             return await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
         }
 
-        public async Task<IEnumerable<AktivitetsloggEntry>> HentAlle()
+        public async Task<IEnumerable<AktivitetsloggHendelse>> HentAlle()
         {
             return await Task.Run(() =>
-                Context.Client.CreateDocumentQuery<AktivitetsloggEntry>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<AktivitetsloggHendelse>(Collection.DocumentsLink)
                     .AsEnumerable()
                     .ToList());
         }
 
-        public async Task<AktivitetsloggEntry> Hent(string id)
+        public async Task<AktivitetsloggHendelse> Hent(string id)
         {
             return await Task.Run(() =>
-                Context.Client.CreateDocumentQuery<AktivitetsloggEntry>(Collection.DocumentsLink)
+                Context.Client.CreateDocumentQuery<AktivitetsloggHendelse>(Collection.DocumentsLink)
                 .Where(d => d.Id == id)
                 .AsEnumerable()
                 .FirstOrDefault());
         }
         
-        public async Task Oppdater(AktivitetsloggEntry document)
+        public async Task Oppdater(AktivitetsloggHendelse document)
         {
             var aktivitetsloggEntry = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                 .Where(d => d.Id == document.Id)

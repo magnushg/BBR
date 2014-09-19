@@ -83,7 +83,7 @@ namespace BouvetCodeCamp
 
         private async void LoggHendelse(string lagId, HendelseType hendelseType)
         {
-            await _aktivitetsloggRepository.Opprett(new AktivitetsloggEntry
+            await _aktivitetsloggRepository.Opprett(new AktivitetsloggHendelse
             {
                 HendelseType = hendelseType,
                 LagId = lagId, 

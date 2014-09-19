@@ -4,7 +4,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
 {
     using System;
 
-    public class Melding : BaseDocument
+    public class Melding
     {
         [JsonProperty(PropertyName = "lagId")]
         public string LagId { get; set; }
