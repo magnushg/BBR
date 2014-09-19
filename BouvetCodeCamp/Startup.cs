@@ -31,10 +31,11 @@ namespace BouvetCodeCamp
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().InstancePerRequest();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().InstancePerRequest();
 
-            builder.Register(x => new PifPosisjonRepository(x.Resolve<IKonfigurasjon>(), x.Resolve<IDocumentDbContext>())).As<IPifPosisjonRepository>().InstancePerDependency();
-            builder.Register(x => new MeldingRepository(x.Resolve<IKonfigurasjon>(), x.Resolve<IDocumentDbContext>())).As<IMeldingRepository>().InstancePerDependency();
-            builder.Register(x => new AktivitetsloggRepository(x.Resolve<IKonfigurasjon>(), x.Resolve<IDocumentDbContext>())).As<IAktivitetsloggRepository>().InstancePerDependency();
-            builder.Register(x => new LagRepository(x.Resolve<IKonfigurasjon>(), x.Resolve<IDocumentDbContext>())).As<ILagRepository>().InstancePerDependency();
+            builder.RegisterType<PifPosisjonRepository>();
+            builder.RegisterType<MeldingRepository>();
+            builder.RegisterType<LagRepository>();
+            builder.RegisterType<AktivitetsloggRepository>();
+        
 
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.
