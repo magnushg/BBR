@@ -40,6 +40,9 @@ namespace BouvetCodeCamp
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<KodeService>().As<IKodeService>();
 
+            builder.RegisterType<PifRepoFake>().As<IPifPosisjonRepository>();
+            builder.RegisterType<FakeAktivitetsloggRepo>().As<IAktivitetsloggRepository>();
+
             builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
 
             var container = builder.Build();
