@@ -23,7 +23,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             {
                 if (string.IsNullOrEmpty(_collectionId))
                 {
-                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.MeldingerCollectionId);
+                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.LagCollectionId);
                 }
 
                 return _collectionId;

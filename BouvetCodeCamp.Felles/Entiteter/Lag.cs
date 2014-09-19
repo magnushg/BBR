@@ -19,7 +19,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
         public List<Kode> Koder { get; set; }
 
         [JsonProperty(PropertyName = "meldig")]
-        public List<Melding> Melding { get; set; }
+        public List<Melding> Meldinger { get; set; }
 
         [JsonProperty(PropertyName = "aktivitetsloggHendelser")]
         public List<AktivitetsloggHendelse> AktivitetsloggHendelser { get; set; }
@@ -30,7 +30,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
             Poeng = 0;
             PifPosisjoner = new List<PifPosisjon>();
             Koder = new List<Kode>();
-            Melding = new List<Melding>();
+            this.Meldinger = new List<Melding>();
             AktivitetsloggHendelser = new List<AktivitetsloggHendelse>();
         }
     }

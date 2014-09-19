@@ -9,10 +9,6 @@
 
         public const string DatabaseId = "DocumentDbDatabaseNavn";
 
-        public const string PifPosisjonerCollectionId = "DocumentDbPifPosisjonerCollectionId";
-
-        public const string MeldingerCollectionId = "DocumentDbMeldingerCollectionId";
-
-        public const string AktivitetsloggEntriesCollectionId = "DocumentDbAktivitetsloggEntriesCollectionId";
+        public const string LagCollectionId = "DocumentDbLagCollectionId";
     }
 }
