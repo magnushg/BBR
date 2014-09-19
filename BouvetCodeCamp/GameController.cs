@@ -58,6 +58,15 @@ namespace BouvetCodeCamp
             return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
         }
 
+        [HttpGet]
+        [Route("pif/getAll")]
+        public async Task<HttpResponseMessage> HentAlleSistePifPosisjoner()
+        {
+            var pifPosisjonModel = await _gameApi.HentAllePifPosisjoner();
+
+            return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
+        }
+
         public HttpResponseMessage RegistrerKode(string lagId, string kode)
        {
             try

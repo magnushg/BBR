@@ -106,6 +106,7 @@
     <Reference Include="System.Web.Http.Tracing">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Tracing.5.2.2\lib\net45\System.Web.Http.Tracing.dll</HintPath>
     </Reference>
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Dataaksess.csproj">
