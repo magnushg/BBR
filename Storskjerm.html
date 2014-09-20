@@ -20,6 +20,7 @@
             var mapOptions = {
                 center: new google.maps.LatLng(59.676403, 10.606424),
                 zoom: 16,
+                disableDefaultUI: true,
                 mapTypeId: google.maps.MapTypeId.SATELLITE
             }
             map = new google.maps.Map(mapCanvas, mapOptions);
@@ -44,6 +45,10 @@
 
             $("#makeRedZone").click(function () {
                 $.getJSON("http://localhost:2014/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
+            });
+
+            $("#removeRedZone").click(function () {
+                $.getJSON("http://localhost:2014/api/game/setRedZone?latitude=" + "0" + "&longitude=" + "0");
             });
         });
 
@@ -111,8 +116,9 @@
 </head>
 <body>
     <div class="row">
-        <div class="col-md-4"><div id="map_canvas"></div></div>
-        <div class="col-md-4"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2"><div id="map_canvas"></div></div>
+        <div class="col-md-4">Scoreboard her</div>
         <div class="col-md-4">
             <div>
                 <input type="number" id="lat" />
@@ -121,7 +127,10 @@
                 <button id="removeRedZone">Fjern infisert sone</button>
             </div>
         </div>
+        <div class="col-md-3"></div>
+       
     </div>
+    
 
 
 
