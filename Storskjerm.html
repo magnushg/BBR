@@ -31,15 +31,20 @@
         $(document).ready(function () {
             $.getJSON("http://localhost:2014/api/game/pif/getAll", function (data) {
                 $.each(data, function (key, val) {
-                    lag[val.lagId] = new google.maps.Marker({
-                        position: new google.maps.LatLng(val.latitude, val.longitude),
-                        map: map,
-                        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + val.lagId + '|FE6256|000000'
-                    });
+                    lag[val.lagId] = createMarker(val.latitude,val.longitude,val.lagId);
                 });
             });           
         });
 
+
+        function createMarker(latitude,longitude,lagid)
+        {
+            return new google.maps.Marker({
+                position: new google.maps.LatLng(latitude, longitude),
+                map: map,
+                icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + lagid + '|FE6256|000000'
+            });
+        }
         function redZone(lat, long, size) {
             var populationOptions = {
                 strokeColor: '#FF0000',
@@ -65,11 +70,14 @@
 
         // Create a function that the hub can call to broadcast messages.
         hub.client.nyPifPosisjon = function (msg) {
-           
-            lag[msg.LagId].setPosition(new google.maps.LatLng(+msg.Latitude, msg.Longitude));
-            
+            if (lag[msg.LagId] === undefined) {
+                alert("Adding " + msg.LagId);
+                lag[msg.LagId] = createMarker(msg.Latitude, msg.Longitude, msg.LagId);
+            } else
+            {
+                lag[msg.LagId].setPosition(new google.maps.LatLng(msg.Latitude, msg.Longitude));
+            }
         };
-       
         // Start the connection.
         $.connection.hub.start({ jsonp: true });//
     });
