@@ -11,8 +11,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
     <script src="http://localhost:2014/signalr/hubs"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
-    
     <script>
         var map;
         function initialize() {
@@ -22,8 +22,15 @@
                 zoom: 16,
                 mapTypeId: google.maps.MapTypeId.SATELLITE
             }
-             map = new google.maps.Map(mapCanvas, mapOptions)
-         
+            map = new google.maps.Map(mapCanvas, mapOptions);
+            google.maps.event.addListener(map, 'rightclick', function (event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                $("#lat").val(lat);
+                $("#long").val(lng);
+
+            });
+
         }
         google.maps.event.addDomListener(window, 'load', initialize);
         var lag = {};
@@ -31,14 +38,17 @@
         $(document).ready(function () {
             $.getJSON("http://localhost:2014/api/game/pif/getAll", function (data) {
                 $.each(data, function (key, val) {
-                    lag[val.lagId] = createMarker(val.latitude,val.longitude,val.lagId);
+                    lag[val.lagId] = createMarker(val.latitude, val.longitude, val.lagId);
                 });
-            });           
+            });
+
+            $("#makeRedZone").click(function () {
+                $.getJSON("http://localhost:2014/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
+            });
         });
 
 
-        function createMarker(latitude,longitude,lagid)
-        {
+        function createMarker(latitude, longitude, lagid) {
             return new google.maps.Marker({
                 position: new google.maps.LatLng(latitude, longitude),
                 map: map,
@@ -54,48 +64,45 @@
                 fillColor: '#FF0000',
                 fillOpacity: 0.35,
                 map: map,
-                center:  new google.maps.LatLng(lat,long),
+                center: new google.maps.LatLng(lat, long),
                 radius: Math.sqrt(size) * 100
             };
             // Add the circle for this city to the map.
             infectedZone = new google.maps.Circle(options);
         }
-        redZone(0,0,2);
+        redZone(0, 0, 2);
     </script>
     <script type="text/javascript">
-    $(function () {
-        //Set the hubs URL for the connection
-        $.connection.hub.url = "http://localhost:2014/signalr";
+        $(function () {
+            //Set the hubs URL for the connection
+            $.connection.hub.url = "http://localhost:2014/signalr";
 
-        // Declare a proxy to reference the hub.
-        var hub = $.connection.gameHub;
-        hub.client.setRedZone = function (zone) {
-            if (zone.latitude == 0 && zone.longitude == 0) {
-                infectedZone.setMap(null);
-            } else {
-                infectedZone.setMap(map);
-                var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);
-               infectedZone.setCenter(newPosition);
-            }
-            //redZone(zone.latitude, zone.longitude, 3);
-            //infectedZone.setMap(null);
-            //infectedZone.setMap(map);
-        };
-        // Create a function that the hub can call to broadcast messages.
-        hub.client.nyPifPosisjon = function (msg) {
-            if (lag[msg.LagId] === undefined) {
-                
-               
-                lag[msg.LagId] = createMarker(msg.Latitude, msg.Longitude, msg.LagId);
-            } else
-            {
-                
-                lag[msg.LagId].setPosition(new google.maps.LatLng(msg.Latitude, msg.Longitude));
-            }
-        };
-        // Start the connection.
-        $.connection.hub.start({ jsonp: true });//
-    });
+            // Declare a proxy to reference the hub.
+            var hub = $.connection.gameHub;
+            hub.client.setRedZone = function (zone) {
+                if (zone.latitude == 0 && zone.longitude == 0) {
+                    infectedZone.setMap(null);
+                } else {
+                    infectedZone.setMap(map);
+                    var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);
+                    infectedZone.setCenter(newPosition);
+                }
+
+            };
+            // Create a function that the hub can call to broadcast messages.
+            hub.client.nyPifPosisjon = function (msg) {
+                if (lag[msg.LagId] === undefined) {
+
+
+                    lag[msg.LagId] = createMarker(msg.Latitude, msg.Longitude, msg.LagId);
+                } else {
+
+                    lag[msg.LagId].setPosition(new google.maps.LatLng(msg.Latitude, msg.Longitude));
+                }
+            };
+            // Start the connection.
+            $.connection.hub.start({ jsonp: true });//
+        });
     </script>
 
 
@@ -103,7 +110,21 @@
 
 </head>
 <body>
-   
-    <div id="map_canvas"></div>
+    <div class="row">
+        <div class="col-md-4"><div id="map_canvas"></div></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div>
+                <input type="number" id="lat" />
+                <input type="number" id="long" />
+                <button id="makeRedZone">Lag infisert sone</button>
+                <button id="removeRedZone">Fjern infisert sone</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
 </body>
 </html>
