@@ -45,20 +45,20 @@
                 icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + lagid + '|FE6256|000000'
             });
         }
-        function redZone(lat, long, size) {
-            var populationOptions = {
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#FF0000',
-                fillOpacity: 0.35,
-                map: map,
-                center:  new google.maps.LatLng(lat,long),
-                radius: Math.sqrt(size) * 100
-            };
-            // Add the circle for this city to the map.
-            cityCircle = new google.maps.Circle(populationOptions);
-        }
+        //function redZone(lat, long, size) {
+        //    var populationOptions = {
+        //        strokeColor: '#FF0000',
+        //        strokeOpacity: 0.8,
+        //        strokeWeight: 2,
+        //        fillColor: '#FF0000',
+        //        fillOpacity: 0.35,
+        //        map: map,
+        //        center:  new google.maps.LatLng(lat,long),
+        //        radius: Math.sqrt(size) * 100
+        //    };
+        //    // Add the circle for this city to the map.
+        //    cityCircle = new google.maps.Circle(populationOptions);
+        //}
     </script>
     <script type="text/javascript">
     $(function () {
@@ -71,10 +71,12 @@
         // Create a function that the hub can call to broadcast messages.
         hub.client.nyPifPosisjon = function (msg) {
             if (lag[msg.LagId] === undefined) {
-                alert("Adding " + msg.LagId);
+                
+               
                 lag[msg.LagId] = createMarker(msg.Latitude, msg.Longitude, msg.LagId);
             } else
             {
+                //redZone(msg.Latitude, msg.Longitude, 3);
                 lag[msg.LagId].setPosition(new google.maps.LatLng(msg.Latitude, msg.Longitude));
             }
         };
