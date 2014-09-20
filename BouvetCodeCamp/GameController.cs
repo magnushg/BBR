@@ -53,8 +53,9 @@ namespace BouvetCodeCamp
         [Route("pif/put")]
         public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
         {
+            _gameHub.Value.Clients.All.NyPifPosisjon(new OutputModels.PifPosisjonModel { LagId = model.LagId, Latitude = model.Latitude, Longitude = model.Longitude, Tid = DateTime.Now });
             var nyPosisjon = await _gameApi.RegistrerPifPosition(model);
-            _gameHub.Value.Clients.All.NyPifPosisjon(new OutputModels.PifPosisjonModel { LagId = nyPosisjon.LagId, Latitude = nyPosisjon.Latitude, Longitude = nyPosisjon.Longitude, Tid = nyPosisjon.Tid });
+           
             return Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
         }
 
