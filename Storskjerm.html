@@ -47,6 +47,10 @@
                 $.getJSON("http://localhost:2014/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
             });
 
+            $("#moveTeam").click(function () {
+                $.getJSON("http://localhost:2014/api/game/pif/put?Latitude=" + $("#lat").val() + "&Longitude=" + $("#long").val() + "&LagId=" + $("#lag").val());
+            });
+
             $("#removeRedZone").click(function () {
                 $.getJSON("http://localhost:2014/api/game/setRedZone?latitude=" + "0" + "&longitude=" + "0");
             });
@@ -121,9 +125,11 @@
         <div class="col-md-4">Scoreboard her</div>
         <div class="col-md-4">
             <div>
-                <input type="number" id="lat" />
-                <input type="number" id="long" />
+                <label for="lat">Lat</label><input type="number" id="lat" />
+                <label for="long">Long</label><input type="number" id="long" />
+                <label for="lag">Lag</label><input type="number" id="lag" />
                 <button id="makeRedZone">Lag infisert sone</button>
+                <button id="moveTeam">Flytt lag hit</button>
                 <button id="removeRedZone">Fjern infisert sone</button>
             </div>
         </div>
