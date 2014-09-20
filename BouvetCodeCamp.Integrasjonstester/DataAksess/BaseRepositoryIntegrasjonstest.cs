@@ -13,8 +13,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     public abstract class BaseRepositoryIntegrasjonstest
     {
         private readonly string databaseId;
-        private string endpoint;
-        private string authKey;
+        private readonly string endpoint;
+        private readonly string authKey;
 
         protected BaseRepositoryIntegrasjonstest()
         {

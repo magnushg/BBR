@@ -131,6 +131,10 @@
       <Project>{0a78bccd-af06-47ad-9658-845b82baa9b5}</Project>
       <Name>BouvetCodeCamp.Felles</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BouvetCodeCamp.Service\BouvetCodeCamp.Service.csproj">
+      <Project>{BEE34957-2178-4CDA-BAAB-9B8E10D36642}</Project>
+      <Name>BouvetCodeCamp.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -1,9 +1,6 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Repositories;
-using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.Felles.Konfigurasjon;
 using FizzWare.NBuilder;
@@ -12,56 +9,155 @@ using Should;
 
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using BouvetCodeCamp.Felles;
+
     [TestClass]
     public class LagRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest
     {
         [TestMethod]
         [TestCategory(Testkategorier.DataAksess)]
-        public async Task Opprett_EtLag_EtLagErLagret()
+        public async Task Hent_LagMed10Poeng_LagHar10Poeng()
         {
             // Arrange
-            var repository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            var repository = OpprettRepository();
 
+            const int Poeng = 10;
+            
             var melding = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = "abc")
-                .With(o => o.Poeng = 2)
+                .With(o => o.Poeng = Poeng)
                 .Build();
 
+            var document = await repository.Opprett(melding);
+            
             // Act
-            await repository.Opprett(melding);
-
-            var alleLag = await repository.HentAlle();
+            var lagretLag = await repository.Hent(document.Id);
 
             // Assert
-            alleLag.Count().ShouldEqual(1);
+            lagretLag.Poeng.ShouldEqual(Poeng);
         }
 
         [TestMethod]
         [TestCategory(Testkategorier.DataAksess)]
-        public async Task Oppdater_EtLagMedNyLagId_LagetErOppdatertMedNyLagId()
+        public async Task Hent_LagMedKode_LagHarKode()
         {
             // Arrange
-            var repository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            var repository = OpprettRepository();
 
-            const string nyLagId = "cba";
+            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Gps = new Coordinate("10", "90") };
+            var koder = new List<Kode>
+                            {
+                                kode
+                            };
 
-            var aktivitetsloggEntry = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = "abc")
-                .With(o => o.Poeng = 0)
+            var melding = Builder<Lag>.CreateNew()
+                .With(o => o.Koder = koder)
                 .Build();
 
-            var opprettetDocument = await repository.Opprett(aktivitetsloggEntry);
-
-            var hentetDocument = await repository.Hent(opprettetDocument.Id);
-            hentetDocument.LagId = nyLagId;
+            var document = await repository.Opprett(melding);
 
             // Act
-            await repository.Oppdater(hentetDocument);
-
-            var oppdatertDocument = await repository.Hent(hentetDocument.Id);
+            var lagretLag = await repository.Hent(document.Id);
 
             // Assert
-            oppdatertDocument.LagId.ShouldEqual(nyLagId);
+            lagretLag.Koder.FirstOrDefault().PosisjonTilstand.ShouldEqual(kode.PosisjonTilstand);
+            lagretLag.Koder.FirstOrDefault().Bokstav.ShouldEqual(kode.Bokstav);
+            lagretLag.Koder.FirstOrDefault().Gps.Latitude.ShouldEqual(kode.Gps.Latitude);
+            lagretLag.Koder.FirstOrDefault().Gps.Longitude.ShouldEqual(kode.Gps.Longitude);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task Hent_LagMedLagId_LagHarLagId()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+
+            const string LagId = "abc";
+
+            var melding = Builder<Lag>.CreateNew()
+                .With(o => o.LagId = LagId)
+                .Build();
+
+            var document = await repository.Opprett(melding);
+
+            // Act
+            var lagretLag = await repository.Hent(document.Id);
+
+            // Assert
+            lagretLag.LagId.ShouldEqual(LagId);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task Hent_LagMedMelding_LagHarMelding()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+
+            var melding = new Melding {
+                                  LagId = "abc",
+                                  Tid = DateTime.Now,
+                                  Tekst = "heiheiæøå",
+                                  Type = MeldingType.Fritekst
+                              };
+
+            var meldinger = new List<Melding> { melding };
+            
+            var lag = Builder<Lag>.CreateNew()
+                .With(o => o.Meldinger = meldinger)
+                .Build();
+
+            var document = await repository.Opprett(lag);
+
+            // Act
+            var lagretLag = await repository.Hent(document.Id);
+
+            // Assert
+            lagretLag.Meldinger.FirstOrDefault().LagId.ShouldEqual(melding.LagId);
+            lagretLag.Meldinger.FirstOrDefault().Tekst.ShouldEqual(melding.Tekst);
+            lagretLag.Meldinger.FirstOrDefault().Tid.ShouldEqual(melding.Tid);
+            lagretLag.Meldinger.FirstOrDefault().Type.ShouldEqual(melding.Type);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task Hent_LagMedPifPosisjoner_LagHarPifPosisjon()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+            
+            var pifPosisjon = new PifPosisjon {
+                                      LagId = "abc",
+                                      Latitude = "12.12",
+                                      Longitude = "10.123121",
+                                      Tid = DateTime.Now
+                                  };
+
+            var pifPosisjoner = new List<PifPosisjon> { pifPosisjon };
+
+            var lag = Builder<Lag>.CreateNew()
+                .With(o => o.PifPosisjoner = pifPosisjoner)
+                .Build();
+
+            var document = await repository.Opprett(lag);
+
+            // Act
+            var lagretLag = await repository.Hent(document.Id);
+
+            // Assert
+            lagretLag.PifPosisjoner.FirstOrDefault().LagId.ShouldEqual(pifPosisjon.LagId);
+            lagretLag.PifPosisjoner.FirstOrDefault().Latitude.ShouldEqual(pifPosisjon.Latitude);
+            lagretLag.PifPosisjoner.FirstOrDefault().Longitude.ShouldEqual(pifPosisjon.Longitude);
+            lagretLag.PifPosisjoner.FirstOrDefault().Tid.ShouldEqual(pifPosisjon.Tid);
+        }
+
+        private LagRepository OpprettRepository()
+        {
+            return new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
         }
     }
 }

@@ -46,19 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoordinateVerifier.cs" />
     <Compile Include="Direction.cs" />
-    <Compile Include="Entiteter\AktivitetsloggEntry.cs" />
+    <Compile Include="Entiteter\AktivitetsloggHendelse.cs" />
     <Compile Include="Entiteter\BaseDocument.cs" />
+    <Compile Include="Entiteter\Coordinate.cs" />
+    <Compile Include="Entiteter\Kode.cs" />
     <Compile Include="Entiteter\Lag.cs" />
     <Compile Include="Entiteter\Melding.cs" />
     <Compile Include="Entiteter\PifPosisjon.cs" />
+    <Compile Include="Entiteter\Post.cs" />
     <Compile Include="HendelseType.cs" />
     <Compile Include="DocumentDbKonstanter.cs" />
+    <Compile Include="Interfaces\ICoordinateVerifier.cs" />
     <Compile Include="Konfigurasjon\Konfigurasjon.cs" />
     <Compile Include="MeldingType.cs" />
+    <Compile Include="PosisjonTilstand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\IPifService.cs" />
-    <Compile Include="Service\PifPosisjonService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

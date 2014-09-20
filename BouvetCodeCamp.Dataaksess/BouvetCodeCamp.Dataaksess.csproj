@@ -58,10 +58,10 @@
     <Compile Include="Interfaces\IPifPosisjonRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\AktivitetsloggRepository.cs" />
+    <Compile Include="Repositories\IKodeRepository.cs" />
+    <Compile Include="Repositories\KodeRepository.cs" />
     <Compile Include="Repositories\LagRepository.cs" />
-    <Compile Include="Repositories\MeldingRepository.cs" />
-    <Compile Include="Repositories\PifPosisjonRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

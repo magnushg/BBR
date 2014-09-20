@@ -4,7 +4,11 @@ using System.Web.Http.Cors;
 using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Dataaksess.Repositories;
+using BouvetCodeCamp.Felles;
+using BouvetCodeCamp.Felles.Interfaces;
 using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Service.Interfaces;
+using BouvetCodeCamp.Service.Services;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Autofac;
@@ -22,7 +26,7 @@ namespace BouvetCodeCamp
         public void Configuration(IAppBuilder appBuilder)
         {
             var config = new HttpConfiguration();
-
+            
             Configure(config.Formatters, config);
             config.MapHttpAttributeRoutes();
             config.EnableSystemDiagnosticsTracing();
@@ -35,14 +39,18 @@ namespace BouvetCodeCamp
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().InstancePerRequest();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().InstancePerRequest();
 
-            builder.RegisterType<PifPosisjonRepository>().As<IPifPosisjonRepository>();
-            builder.RegisterType<MeldingRepository>().As<IMeldingRepository>();
             builder.RegisterType<LagRepository>().As<ILagRepository>();
-            builder.RegisterType<AktivitetsloggRepository>().As<IAktivitetsloggRepository>();
 
+            builder.RegisterType<LagService>().As<ILagService>();
+            builder.RegisterType<KodeService>().As<IKodeService>();
+
+            builder.RegisterType<PifRepoFake>().As<IPifPosisjonRepository>();
+            builder.RegisterType<FakeAktivitetsloggRepo>().As<IAktivitetsloggRepository>();
+        
+            builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
 
             var container = builder.Build();
-            // Create an assign a dependency resolver for Web API to use.
+             // Create an assign a dependency resolver for Web API to use.
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             // This should be the first middleware added to the IAppBuilder.

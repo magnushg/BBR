@@ -7,6 +7,7 @@ using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.InputModels;
 using BouvetCodeCamp.OutputModels;
+using BouvetCodeCamp.Service.Interfaces;
 
 namespace BouvetCodeCamp
 {
@@ -14,11 +15,16 @@ namespace BouvetCodeCamp
     {
         private readonly IPifPosisjonRepository _pifPosisjonRepository;
         private readonly IAktivitetsloggRepository _aktivitetsloggRepository;
+        private readonly IKodeService _kodeService;
 
-        public GameApi(IPifPosisjonRepository pifPosisjonRepository, IAktivitetsloggRepository aktivitetsloggRepository)
+        public GameApi(
+            IPifPosisjonRepository pifPosisjonRepository,
+            IAktivitetsloggRepository aktivitetsloggRepository, 
+            IKodeService kodeService)
         {
             _pifPosisjonRepository = pifPosisjonRepository;
             _aktivitetsloggRepository = aktivitetsloggRepository;
+            _kodeService = kodeService;
         }
 
         public async Task<PifPosisjon> RegistrerPifPosition(GeoPosisjonModel model)
@@ -73,9 +79,13 @@ namespace BouvetCodeCamp
                 .Select(x => x.OrderByDescending(y => y.Tid).Take(1)).SelectMany(x => x);
         }
 
-        public void RegistrerKode(KodeModel model)
+        public async Task<bool> RegistrerKode(KodeModel model)
         {
-            LoggHendelse(string.Empty, HendelseType.RegistrertKode); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+            var resultat = await _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
+
+            LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
+
+            return resultat;
         }
 
         public void SendMelding(MeldingModel model)
@@ -85,7 +95,7 @@ namespace BouvetCodeCamp
 
         private async void LoggHendelse(string lagId, HendelseType hendelseType)
         {
-            await _aktivitetsloggRepository.Opprett(new AktivitetsloggEntry
+            await _aktivitetsloggRepository.Opprett(new AktivitetsloggHendelse
             {
                 HendelseType = hendelseType,
                 LagId = lagId,
