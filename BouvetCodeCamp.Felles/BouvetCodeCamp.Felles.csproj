@@ -55,6 +55,7 @@
     <Compile Include="Entiteter\Lag.cs" />
     <Compile Include="Entiteter\Melding.cs" />
     <Compile Include="Entiteter\PifPosisjon.cs" />
+    <Compile Include="Entiteter\Post.cs" />
     <Compile Include="HendelseType.cs" />
     <Compile Include="DocumentDbKonstanter.cs" />
     <Compile Include="Interfaces\ICoordinateVerifier.cs" />

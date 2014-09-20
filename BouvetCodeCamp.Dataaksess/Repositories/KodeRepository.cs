@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
-    public class KodeRepository :IKodeRepository
+    public class KodeRepository : IKodeRepository
     {
     }
 }

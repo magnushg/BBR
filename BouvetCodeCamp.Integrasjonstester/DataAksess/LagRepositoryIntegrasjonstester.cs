@@ -65,7 +65,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Assert
             lagretLag.Koder.FirstOrDefault().PosisjonTilstand.ShouldEqual(kode.PosisjonTilstand);
             lagretLag.Koder.FirstOrDefault().Bokstav.ShouldEqual(kode.Bokstav);
-            lagretLag.Koder.FirstOrDefault().Gps.ShouldEqual(kode.Gps);
+            lagretLag.Koder.FirstOrDefault().Gps.Latitude.ShouldEqual(kode.Gps.Latitude);
+            lagretLag.Koder.FirstOrDefault().Gps.Longitude.ShouldEqual(kode.Gps.Longitude);
         }
 
         [TestMethod]
