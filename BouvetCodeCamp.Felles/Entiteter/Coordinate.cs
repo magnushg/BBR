@@ -7,9 +7,12 @@ namespace BouvetCodeCamp.Felles.Entiteter
         [JsonProperty(PropertyName = "longitude")]
         public string Longitude { get; set; }
 
-        [JsonProperty(PropertyName = "langitude")]
+        [JsonProperty(PropertyName = "latitude")]
         public string Latitude { get; set; }
+        public Coordinate()
+        {
 
+        }
         public Coordinate(string longitude, string latitude)
         {
             Longitude = longitude;

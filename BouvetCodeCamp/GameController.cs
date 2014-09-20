@@ -8,6 +8,7 @@ using BouvetCodeCamp.InputModels;
 using MeldingType = BouvetCodeCamp.InputModels.MeldingType;
 using Microsoft.AspNet.SignalR;
 using BouvetCodeCamp.SignalR;
+using BouvetCodeCamp.Felles.Entiteter;
 
 namespace BouvetCodeCamp
 {
@@ -16,13 +17,14 @@ namespace BouvetCodeCamp
     {
         private readonly IGameApi _gameApi;
 
-        Lazy<IHubContext> _gameHub = new Lazy<IHubContext>(() => GlobalHost.ConnectionManager.GetHubContext<GameHub>());
-
-        public GameController(IGameApi gameApi)
+   //     Lazy<IHubContext<IGameHub>> _gameHub = new Lazy<IHubContext<IGameHub>>(() => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"));
+        //IHubContext<IGameHub> ?
+        Lazy<IHubContext<IGameHub>> _gameHub;
+        public GameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
         {
             _gameApi = gameApi;
-            ;
-
+            _gameHub = gameHub;
+           
         }
         [Route("")]
         public HttpResponseMessage Get()
@@ -53,10 +55,23 @@ namespace BouvetCodeCamp
         [Route("pif/put")]
         public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
         {
+
             _gameHub.Value.Clients.All.NyPifPosisjon(new OutputModels.PifPosisjonModel { LagId = model.LagId, Latitude = model.Latitude, Longitude = model.Longitude, Tid = DateTime.Now });
             var nyPosisjon = await _gameApi.RegistrerPifPosition(model);
            
             return Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
+        }
+
+        //Øverst til venstre 59.680782, 10.602574
+        //Nederst til høyre 59.672267, 10.609526
+        [HttpGet]
+        [Route("setRedZone")]
+        public async Task<HttpResponseMessage> SetRedZone([FromUri] Coordinate model)
+        {
+
+            _gameHub.Value.Clients.All.SetRedZone(new Coordinate(model.Longitude,model.Latitude ));
+            
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpGet]

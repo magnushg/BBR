@@ -24,6 +24,8 @@ void Main()
 	{
 	//http://localhost:2014/api/game/pif/getAll
 	///http://localhost:2014/api/game/pif/put?Latitude=59.674976&Longitude=10.606908&LagId=3
+	//http://localhost:2014/api/game/setRedZone?Latitude=59.674976&Longitude=10.606908
+	//http://localhost:2014/api/game/setRedZone?Latitude=0&Longitude=0
 		Console.WriteLine("Server running at {0}", baseAddress);
 		Console.WriteLine("\r\nPress any key to stop server...");
 		Console.ReadLine();

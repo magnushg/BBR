@@ -18,6 +18,7 @@ using Autofac.Integration.SignalR;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hosting;
 using BouvetCodeCamp.SignalR;
+using FakeItEasy;
 
 namespace BouvetCodeCamp
 {
@@ -35,20 +36,21 @@ namespace BouvetCodeCamp
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<GameApi>().As<IGameApi>().InstancePerRequest();
-            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().InstancePerRequest();
-            builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().InstancePerRequest();
+            builder.RegisterType<GameApi>().As<IGameApi>();
+            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
+            builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
 
             builder.RegisterType<LagRepository>().As<ILagRepository>();
 
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<KodeService>().As<IKodeService>();
 
-            builder.RegisterType<PifRepoFake>().As<IPifPosisjonRepository>();
-            builder.RegisterType<FakeAktivitetsloggRepo>().As<IAktivitetsloggRepository>();
-        
-            builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
+            builder.Register(x => A.Fake<IPifPosisjonRepository>(y => y.Strict())).As<IPifPosisjonRepository>();
+            builder.Register(x => A.Fake<IAktivitetsloggRepository>(y => y.Strict())).As<IAktivitetsloggRepository>();
 
+            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
+            builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
+            
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

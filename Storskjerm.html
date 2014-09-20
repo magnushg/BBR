@@ -45,20 +45,22 @@
                 icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + lagid + '|FE6256|000000'
             });
         }
-        //function redZone(lat, long, size) {
-        //    var populationOptions = {
-        //        strokeColor: '#FF0000',
-        //        strokeOpacity: 0.8,
-        //        strokeWeight: 2,
-        //        fillColor: '#FF0000',
-        //        fillOpacity: 0.35,
-        //        map: map,
-        //        center:  new google.maps.LatLng(lat,long),
-        //        radius: Math.sqrt(size) * 100
-        //    };
-        //    // Add the circle for this city to the map.
-        //    cityCircle = new google.maps.Circle(populationOptions);
-        //}
+        var infectedZone;
+        function redZone(lat, long, size) {
+            var options = {
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center:  new google.maps.LatLng(lat,long),
+                radius: Math.sqrt(size) * 100
+            };
+            // Add the circle for this city to the map.
+            infectedZone = new google.maps.Circle(options);
+        }
+        redZone(0,0,2);
     </script>
     <script type="text/javascript">
     $(function () {
@@ -67,7 +69,18 @@
 
         // Declare a proxy to reference the hub.
         var hub = $.connection.gameHub;
-
+        hub.client.setRedZone = function (zone) {
+            if (zone.latitude == 0 && zone.longitude == 0) {
+                infectedZone.setMap(null);
+            } else {
+                infectedZone.setMap(map);
+                var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);
+               infectedZone.setCenter(newPosition);
+            }
+            //redZone(zone.latitude, zone.longitude, 3);
+            //infectedZone.setMap(null);
+            //infectedZone.setMap(map);
+        };
         // Create a function that the hub can call to broadcast messages.
         hub.client.nyPifPosisjon = function (msg) {
             if (lag[msg.LagId] === undefined) {
@@ -76,7 +89,7 @@
                 lag[msg.LagId] = createMarker(msg.Latitude, msg.Longitude, msg.LagId);
             } else
             {
-                //redZone(msg.Latitude, msg.Longitude, 3);
+                
                 lag[msg.LagId].setPosition(new google.maps.LatLng(msg.Latitude, msg.Longitude));
             }
         };
