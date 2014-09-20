@@ -6,18 +6,24 @@ using System.Web.Http;
 using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.InputModels;
 using MeldingType = BouvetCodeCamp.InputModels.MeldingType;
+using Microsoft.AspNet.SignalR;
+using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
     [RoutePrefix("api/game")]
     public class GameController : ApiController
     {
-       private readonly IGameApi _gameApi;
+        private readonly IGameApi _gameApi;
 
-       public GameController(IGameApi gameApi)
-       {
-           _gameApi = gameApi;
-       }
+        Lazy<IHubContext> _gameHub = new Lazy<IHubContext>(() => GlobalHost.ConnectionManager.GetHubContext<GameHub>());
+
+        public GameController(IGameApi gameApi)
+        {
+            _gameApi = gameApi;
+            ;
+
+        }
         [Route("")]
         public HttpResponseMessage Get()
         {
@@ -27,10 +33,10 @@ namespace BouvetCodeCamp
             });
         }
 
-       public HttpResponseMessage ReportPosition(int groupId, double lat, double lon)
-       {
-            return new HttpResponseMessage();    
-       }
+        public HttpResponseMessage ReportPosition(int groupId, double lat, double lon)
+        {
+            return new HttpResponseMessage();
+        }
 
         [HttpGet]
         [Route("sendCommand")]
@@ -38,7 +44,7 @@ namespace BouvetCodeCamp
         {
             return Request.CreateResponse(HttpStatusCode.OK, new
            {
-                message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
+               message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
            });
         }
         //Øverst til venstre 59.680782, 10.602574
@@ -47,7 +53,9 @@ namespace BouvetCodeCamp
         [Route("pif/put")]
         public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, await _gameApi.RegistrerPifPosition(model));
+            var nyPosisjon = await _gameApi.RegistrerPifPosition(model);
+            _gameHub.Value.Clients.All.NyPifPosisjon(new OutputModels.PifPosisjonModel { LagId = nyPosisjon.LagId, Latitude = nyPosisjon.Latitude, Longitude = nyPosisjon.Longitude, Tid = nyPosisjon.Tid });
+            return Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
         }
 
         [HttpGet]
@@ -65,11 +73,11 @@ namespace BouvetCodeCamp
         {
             var pifPosisjonModel = await _gameApi.HentAllePifPosisjoner();
 
-            return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
+            return Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
         }
 
         public HttpResponseMessage RegistrerKode(string lagId, string kode)
-       {
+        {
             try
             {
                 _gameApi.RegistrerKode(new KodeModel
@@ -83,13 +91,13 @@ namespace BouvetCodeCamp
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return Request.CreateResponse(HttpStatusCode.Created);
-           
-       }
 
-       public HttpResponseMessage SendMelding(string lagId, string tekst, MeldingType type)
-       {
-           try
-           {
+        }
+
+        public HttpResponseMessage SendMelding(string lagId, string tekst, MeldingType type)
+        {
+            try
+            {
                 _gameApi.SendMelding(new MeldingModel
                 {
                     LagId = lagId,
@@ -97,10 +105,10 @@ namespace BouvetCodeCamp
                     Type = type
                 });
             }
-           catch (Exception e)
-           {
+            catch (Exception e)
+            {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
-           }
+            }
             return Request.CreateResponse(HttpStatusCode.Created);
 
 

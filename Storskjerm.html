@@ -9,7 +9,12 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
+    <script src="http://localhost:2014/signalr/hubs"></script>
+
+    
     <script>
+        var map;
         function initialize() {
             var mapCanvas = document.getElementById('map_canvas');
             var mapOptions = {
@@ -17,40 +22,61 @@
                 zoom: 16,
                 mapTypeId: google.maps.MapTypeId.SATELLITE
             }
-            var map = new google.maps.Map(mapCanvas, mapOptions)
-            map.setStyle({
-                featureType: 'poi',
-                elementType: 'geometry',
-                stylers: [
-                  { visibility: 'off' }
-                ]
-            }, {
-                featureType: 'poi.school',
-                elementType: 'geometry',
-                stylers: [
-                  { visibility: 'off' },
-                  { hue: '#fff700' },
-                  { lightness: -15 },
-                  { saturation: 99 }
-                ]
-            });
+             map = new google.maps.Map(mapCanvas, mapOptions)
+         
         }
         google.maps.event.addDomListener(window, 'load', initialize);
+        var lag = {};
+        lag.Lag = [];
         $(document).ready(function () {
             $.getJSON("http://localhost:2014/api/game/pif/getAll", function (data) {
-                var items = [];
                 $.each(data, function (key, val) {
-                    items.push("<li id='" + key + "'>" + val + "</li>");
+                    lag[val.lagId] = new google.maps.Marker({
+                        position: new google.maps.LatLng(val.latitude, val.longitude),
+                        map: map,
+                        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + val.lagId + '|FE6256|000000'
+                    });
                 });
-
-                $("<ul/>", {
-                    "class": "my-new-list",
-                    html: items.join("")
-                }).appendTo("body");
-            });
-           
+            });           
         });
+
+        function redZone(lat, long, size) {
+            var populationOptions = {
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center:  new google.maps.LatLng(lat,long),
+                radius: Math.sqrt(size) * 100
+            };
+            // Add the circle for this city to the map.
+            cityCircle = new google.maps.Circle(populationOptions);
+        }
     </script>
+    <script type="text/javascript">
+    $(function () {
+        //Set the hubs URL for the connection
+        $.connection.hub.url = "http://localhost:2014/signalr";
+
+        // Declare a proxy to reference the hub.
+        var hub = $.connection.gameHub;
+
+        // Create a function that the hub can call to broadcast messages.
+        hub.client.nyPifPosisjon = function (msg) {
+           
+            lag[msg.LagId].setPosition(new google.maps.LatLng(+msg.Latitude, msg.Longitude));
+            
+        };
+       
+        // Start the connection.
+        $.connection.hub.start({ jsonp: true });//
+    });
+    </script>
+
+
+
 
 </head>
 <body>

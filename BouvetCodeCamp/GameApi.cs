@@ -10,7 +10,7 @@ using BouvetCodeCamp.OutputModels;
 
 namespace BouvetCodeCamp
 {
-    public class GameApi:IGameApi
+    public class GameApi : IGameApi
     {
         private readonly IPifPosisjonRepository _pifPosisjonRepository;
         private readonly IAktivitetsloggRepository _aktivitetsloggRepository;
@@ -45,8 +45,8 @@ namespace BouvetCodeCamp
 
             LoggHendelse(string.Empty, HendelseType.HentetPifPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
 
-            return pifPosisjon == null 
-                ? null 
+            return pifPosisjon == null
+                ? null
                 : new PifPosisjonModel
             {
                 Latitude = pifPosisjon.Latitude,
@@ -67,8 +67,10 @@ namespace BouvetCodeCamp
                 {
                     Latitude = x.Latitude,
                     Longitude = x.Longitude,
-                    LagId = x.LagId
-                });
+                    LagId = x.LagId,
+                    Tid = x.Tid
+                }).GroupBy(x => x.LagId)
+                .Select(x => x.OrderByDescending(y => y.Tid).Take(1)).SelectMany(x => x);
         }
 
         public void RegistrerKode(KodeModel model)
@@ -86,7 +88,7 @@ namespace BouvetCodeCamp
             await _aktivitetsloggRepository.Opprett(new AktivitetsloggEntry
             {
                 HendelseType = hendelseType,
-                LagId = lagId, 
+                LagId = lagId,
                 Tid = DateTime.Now
             });
         }

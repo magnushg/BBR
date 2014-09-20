@@ -23,6 +23,7 @@ void Main()
 	using (WebApp.Start<Startup>(baseAddress))
 	{
 	//http://localhost:2014/api/game/pif/getAll
+	///http://localhost:2014/api/game/pif/put?Latitude=59.674976&Longitude=10.606908&LagId=3
 		Console.WriteLine("Server running at {0}", baseAddress);
 		Console.WriteLine("\r\nPress any key to stop server...");
 		Console.ReadLine();

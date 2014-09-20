@@ -10,6 +10,10 @@ using Owin;
 using Autofac;
 using System.Reflection;
 using Autofac.Integration.WebApi;
+using Autofac.Integration.SignalR;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hosting;
+using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
@@ -18,7 +22,7 @@ namespace BouvetCodeCamp
         public void Configuration(IAppBuilder appBuilder)
         {
             var config = new HttpConfiguration();
-            
+
             Configure(config.Formatters, config);
             config.MapHttpAttributeRoutes();
             config.EnableSystemDiagnosticsTracing();
@@ -34,11 +38,11 @@ namespace BouvetCodeCamp
             builder.RegisterType<PifPosisjonRepository>().As<IPifPosisjonRepository>();
             builder.RegisterType<MeldingRepository>().As<IMeldingRepository>();
             builder.RegisterType<LagRepository>().As<ILagRepository>();
-            builder.RegisterType<AktivitetsloggRepository>().As<IAktivitetsloggRepository>();            
-        
+            builder.RegisterType<AktivitetsloggRepository>().As<IAktivitetsloggRepository>();
+
 
             var container = builder.Build();
-             // Create an assign a dependency resolver for Web API to use.
+            // Create an assign a dependency resolver for Web API to use.
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             // This should be the first middleware added to the IAppBuilder.
@@ -48,6 +52,11 @@ namespace BouvetCodeCamp
             appBuilder.UseAutofacWebApi(config);
 
             appBuilder.UseWebApi(config);
+
+            var hubConfig = new HubConfiguration();
+            hubConfig.EnableJSONP = true;
+            appBuilder.MapSignalR(hubConfig);
+
         }
 
         private static void Configure(MediaTypeFormatterCollection formatters, HttpConfiguration config)
