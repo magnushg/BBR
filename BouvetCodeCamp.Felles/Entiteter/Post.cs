@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Security.Policy;
+﻿using System;
+using System.Security.Policy;
 
 namespace BouvetCodeCamp.Felles.Entiteter
 {
