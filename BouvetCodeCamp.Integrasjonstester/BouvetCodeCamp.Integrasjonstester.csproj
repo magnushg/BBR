@@ -70,6 +70,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataAksess\LagRepositoryIntegrasjonstester.cs" />
+    <Compile Include="DataAksess\PostRepositoryIntegrasjonstester.cs" />
     <Compile Include="Testkategorier.cs" />
     <Compile Include="DataAksess\BaseRepositoryIntegrasjonstest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,5 +10,7 @@
         public const string DatabaseId = "DocumentDbDatabaseNavn";
 
         public const string LagCollectionId = "DocumentDbLagCollectionId";
+
+        public const string PostCollectionId = "DocumentDbPostCollectionId";
     }
 }

@@ -12,8 +12,8 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
 {
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
-        public virtual string CollectionId { get; private set; }
-        public virtual DocumentCollection Collection { get; private set; }
+        public abstract string CollectionId { get; }
+        public abstract DocumentCollection Collection { get; }
         protected readonly IKonfigurasjon _konfigurasjon;
         protected readonly IDocumentDbContext Context;
 

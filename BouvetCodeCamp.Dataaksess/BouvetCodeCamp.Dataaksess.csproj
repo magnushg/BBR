@@ -61,6 +61,7 @@
     <Compile Include="Repositories\IKodeRepository.cs" />
     <Compile Include="Repositories\KodeRepository.cs" />
     <Compile Include="Repositories\LagRepository.cs" />
+    <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
