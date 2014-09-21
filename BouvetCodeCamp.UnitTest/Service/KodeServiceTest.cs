@@ -6,6 +6,7 @@ using BouvetCodeCamp.Service.Interfaces;
 using BouvetCodeCamp.Service.Services;
 using Moq;
 using NUnit.Framework;
+using Should;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
@@ -25,71 +26,83 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Test]
         public async void SettKodeTilstandTilOppdaget_GyldigKode_BlirFlaggetOgReturnererTrue()
         {
+            // Arrange
             var koordinat = new Coordinate("0", "0");
             var innsendtKode = new Kode() {Bokstav = "a", Gps = koordinat, PosisjonTilstand = PosisjonTilstand.Ukjent};
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
             _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).ReturnsAsync(lag);
-            _coordinatMock.Setup(x => x.CoordinateSAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
+            _coordinatMock.Setup(x => x.CoordinatesAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
 
+            // Act
             var resultat = await _kodeService.SettKodeTilstandTilOppdaget("1", innsendtKode.Bokstav, innsendtKode.Gps);
 
-            Assert.IsTrue(resultat);
-            Assert.AreEqual(innsendtKode.PosisjonTilstand, PosisjonTilstand.Oppdaget);
+            // Assert
+            resultat.ShouldBeTrue();
+            innsendtKode.PosisjonTilstand.ShouldEqual(PosisjonTilstand.Oppdaget);
         }
 
         [Test]
         public async void SettKodeTilstandTilOppdaget_Oppdaget_ReturnsFalse()
         {
+            // Arrange
             var koordinat = new Coordinate("0", "0");
             var innsendtKode = new Kode() {Bokstav = "a", Gps = koordinat, PosisjonTilstand = PosisjonTilstand.Oppdaget};
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
             _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).ReturnsAsync(lag);
-            _coordinatMock.Setup(x => x.CoordinateSAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
+            _coordinatMock.Setup(x => x.CoordinatesAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
 
+            // Act
             var resultat = await _kodeService.SettKodeTilstandTilOppdaget("1", innsendtKode.Bokstav, innsendtKode.Gps);
 
-            Assert.IsFalse(resultat);
+            // Assert
+            resultat.ShouldBeFalse();
         }
 
         [Test]
-        public async void SettKodeTilstandTilOppdaget_IgnorerCapsLockIKode()
+        public async void SettKodeTilstandTilOppdaget_ForskjelligCasingPåKode_KodeErGodkjent()
         {
+            // Arrange
             var koordinat = new Coordinate("0", "0");
             var innsendtKode = new Kode() {Bokstav = "a", Gps = koordinat, PosisjonTilstand = PosisjonTilstand.Ukjent};
-            var databaseKode = new Kode() {Bokstav = "A", Gps = koordinat, PosisjonTilstand = PosisjonTilstand.Ukjent};
-
+          
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
             _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).ReturnsAsync(lag);
-            _coordinatMock.Setup(x => x.CoordinateSAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
+            _coordinatMock.Setup(x => x.CoordinatesAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
 
-            var resultat = await _kodeService.SettKodeTilstandTilOppdaget("1", innsendtKode.Bokstav, innsendtKode.Gps);
+            // Act
+            var resultat = await _kodeService.SettKodeTilstandTilOppdaget("1", "A", innsendtKode.Gps);
 
-            Assert.IsTrue(resultat);
+            // Assert
+            resultat.ShouldBeTrue();
         }
 
         [Test]
         public async void SettKodeTilstandTilOppdaget_UgyldigKoordinat_ReturnsFalse()
         {
+            // Arrage
             var koordinat = new Coordinate("0", "0");
             var innsendtKode = new Kode() {Bokstav = "a", Gps = koordinat, PosisjonTilstand = PosisjonTilstand.Ukjent};
 
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
             _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).ReturnsAsync(lag);
-            _coordinatMock.Setup(x => x.CoordinateSAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(false);
+            _coordinatMock.Setup(x => x.CoordinatesAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(false);
 
+            // Act
             var resultat = await _kodeService.SettKodeTilstandTilOppdaget("1", innsendtKode.Bokstav, innsendtKode.Gps);
 
-            Assert.IsFalse(resultat);
+            // Assert
+            resultat.ShouldBeFalse();
         }
 
         [Test]
         [ExpectedException]
         public async void SettKodeTilstandTilOppdaget_FlereTilsvarendeKoderFunnet_KasterException()
         {
+            // Arrange
             var koordinat = new Coordinate("0", "0");
             var innsendtKode = new Kode() {Bokstav = "a", Gps = koordinat, PosisjonTilstand = PosisjonTilstand.Ukjent};
             var identiskKode = new Kode() {Bokstav = "a", Gps = koordinat, PosisjonTilstand = PosisjonTilstand.Ukjent};
@@ -97,9 +110,10 @@ namespace BouvetCodeCamp.UnitTest.Service
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode, identiskKode } };
 
             _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).ReturnsAsync(lag);
-            _coordinatMock.Setup(x => x.CoordinateSAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
+            _coordinatMock.Setup(x => x.CoordinatesAreInProximity(It.IsAny<Coordinate>(), It.IsAny<Coordinate>())).Returns(true);
 
-            var resultat = await _kodeService.SettKodeTilstandTilOppdaget("1", innsendtKode.Bokstav, innsendtKode.Gps);
+            // Act
+            await _kodeService.SettKodeTilstandTilOppdaget("1", innsendtKode.Bokstav, innsendtKode.Gps);
         }
     }
 }

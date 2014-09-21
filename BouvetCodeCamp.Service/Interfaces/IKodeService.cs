@@ -6,7 +6,7 @@ namespace BouvetCodeCamp.Service.Interfaces
 {
     public interface IKodeService
     {
-        Task<IEnumerable<Kode>> HentOppdagetKoder(string lagId);
+        Task<IEnumerable<Kode>> HentOppdagedeKoder(string lagId);
         Task<IEnumerable<Kode>> HentAlleKoder(string lagId);
         Task<bool> SettKodeTilstandTilOppdaget(string lagId, string kode, Coordinate koordinat);
     }

@@ -155,6 +155,33 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             lagretLag.PifPosisjoner.FirstOrDefault().Tid.ShouldEqual(pifPosisjon.Tid);
         }
 
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task Oppdater_LagMedFlerePoeng_LagHarFlerePoeng()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+
+            const int poeng = 10;
+            const int poengÿkning = 10;
+
+            var lag = Builder<Lag>.CreateNew()
+                .With(o => o.Poeng = poeng)
+                .Build();
+
+            var document = await repository.Opprett(lag);
+            var opprettetLag = await repository.Hent(document.Id);
+
+            // Act
+            opprettetLag.Poeng += poengÿkning;
+            await repository.Oppdater(opprettetLag);
+
+            // Assert
+            var oppdatertLag = await repository.Hent(opprettetLag.Id);
+
+            oppdatertLag.Poeng.ShouldEqual(20);
+        }
+
         private LagRepository OpprettRepository()
         {
             return new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));

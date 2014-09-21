@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.Service.Services
             _coordinateVerifier = coordinateVerifier;
         }
 
-        public async Task<IEnumerable<Kode>> HentOppdagetKoder(string lagId)
+        public async Task<IEnumerable<Kode>> HentOppdagedeKoder(string lagId)
         {
             var lag = await _lagService.HentLag(lagId);
 
@@ -47,7 +47,7 @@ namespace BouvetCodeCamp.Service.Services
             var lag = await _lagService.HentLag(lagId);
 
             var kandidater = lag.Koder.Where(k => k.Bokstav.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
-                && _coordinateVerifier.CoordinateSAreInProximity(k.Gps, koordinat)
+                && _coordinateVerifier.CoordinatesAreInProximity(k.Gps, koordinat)
                 && k.PosisjonTilstand.Equals(PosisjonTilstand.Ukjent)).ToList();
 
             switch (kandidater.Count())
