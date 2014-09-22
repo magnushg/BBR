@@ -8,6 +8,8 @@ using Should;
 
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
+    using System;
+
     [TestClass]
     public class PostRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest
     {
@@ -19,10 +21,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var postSomSkalLagres = new Post
             {
-                Id = "12345",
                 Latitude = "59.666",
                 Longitude = "23.555",
-                Kommentar = "Blabla"
+                Kommentar = "Blabla", 
+                OpprettetDato = DateTime.Now
             };
 
             var document = await repo.Opprett(postSomSkalLagres);
@@ -31,8 +33,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var alle = await repo.HentAlle();
 
-            lagretPost.Id.ShouldEqual(postSomSkalLagres.Id);
-
+            lagretPost.Latitude.ShouldEqual(postSomSkalLagres.Latitude);
+            lagretPost.Longitude.ShouldEqual(postSomSkalLagres.Longitude);
+            lagretPost.Kommentar.ShouldEqual(postSomSkalLagres.Kommentar);
         }
 
         private PostRepository OpprettRepository()
