@@ -3,8 +3,8 @@
 <head>
     <style>
         #map_canvas {
-            width: 300px;
-            height: 800px;
+            width: 400px;
+            height: 900px;
         }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
@@ -91,10 +91,21 @@
             hub.client.setRedZone = function (zone) {
                 if (zone.latitude == 0 && zone.longitude == 0) {
                     infectedZone.setMap(null);
-                } else {
-                    infectedZone.setMap(map);
-                    var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);
-                    infectedZone.setCenter(newPosition);
+                } else {                   
+                    var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);                  
+                    var options = {
+                      
+                        fillColor: '#00FF00',
+                        center: newPosition,
+                        map: map
+                    };
+                    infectedZone.setOptions(options);
+                    setTimeout(function () {
+                        var options = {
+
+                            fillColor: '#FF0000'
+                        }; infectedZone.setOptions(options);
+                    },30000)
                 }
 
             };
@@ -121,22 +132,35 @@
 <body>
     <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-2"><div id="map_canvas"></div></div>
-        <div class="col-md-4">Scoreboard her</div>
-        <div class="col-md-4">
-            <div>
-                <label for="lat">Lat</label><input type="number" id="lat" />
-                <label for="long">Long</label><input type="number" id="long" />
-                <label for="lag">Lag</label><input type="number" id="lag" />
-                <button id="makeRedZone">Lag infisert sone</button>
-                <button id="moveTeam">Flytt lag hit</button>
-                <button id="removeRedZone">Fjern infisert sone</button>
-            </div>
+        <div class="col-md-11"><img src="http://www.bouvet.no/Global/img/header_logo.png"></div>
         </div>
-        <div class="col-md-3"></div>
-       
-    </div>
-    
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3"><div id="map_canvas"></div></div>
+            <div class="col-md-3">
+                <div>Stilling</div>
+                <div>Lag 3 56 poeng</div>                  
+                <div>Lag 3 56 poeng</div>   
+                <div>Lag 3 56 poeng</div>   
+                <div>Lag 3 56 poeng</div>   
+                <div>Lag 3 56 poeng</div>   
+                <div>Lag 3 56 poeng</div>   
+                <div>Lag 3 56 poeng</div>                 
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <label for="lat">Lat</label><input type="number" id="lat" />
+                    <label for="long">Long</label><input type="number" id="long" />
+                    <label for="lag">Lag</label><input type="number" id="lag" />
+                    <button id="makeRedZone">Lag infisert sone</button>
+                    <button id="moveTeam">Flytt lag hit</button>
+                    <button id="removeRedZone">Fjern infisert sone</button>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+
 
 
 
