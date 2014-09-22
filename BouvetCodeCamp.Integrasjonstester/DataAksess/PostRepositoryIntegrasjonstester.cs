@@ -21,6 +21,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var postSomSkalLagres = new Post
             {
+                GpsPunktId = Guid.NewGuid().ToString(),
                 Latitude = "59.666",
                 Longitude = "23.555",
                 Kommentar = "Blabla", 
@@ -33,6 +34,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var alle = await repo.HentAlle();
 
+            lagretPost.DocumentId.ShouldNotBeEmpty();
             lagretPost.Latitude.ShouldEqual(postSomSkalLagres.Latitude);
             lagretPost.Longitude.ShouldEqual(postSomSkalLagres.Longitude);
             lagretPost.Kommentar.ShouldEqual(postSomSkalLagres.Kommentar);

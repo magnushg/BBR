@@ -5,11 +5,11 @@ namespace BouvetCodeCamp.Felles.Entiteter
     public abstract class BaseDocument
     {
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        public string DocumentId { get; private set; }
 
         protected BaseDocument()
         {
-            Id = string.Empty;
+            this.DocumentId = string.Empty;
         }
     }
 }

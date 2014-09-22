@@ -7,8 +7,8 @@
     <ProjectGuid>{95304726-8B1B-415E-AFDB-5D4B1493EF2D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BBRMapData</RootNamespace>
-    <AssemblyName>BBRMapData</AssemblyName>
+    <RootNamespace>BouvetCodeCamp.KartdataImport</RootNamespace>
+    <AssemblyName>BouvetCodeCamp.KartdataImport</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

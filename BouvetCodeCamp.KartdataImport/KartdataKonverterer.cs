@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Security.Policy;
 using System.Text;
-using System.Threading.Tasks;
+
 using BouvetCodeCamp.Felles.Entiteter;
 
 namespace BouvetCodeCamp.KartdataImport
@@ -22,7 +21,7 @@ namespace BouvetCodeCamp.KartdataImport
                 .Select(x => x.Split(','))
                 .Where(loc => loc.Count() >= 13)
                 .Select(loc => new Post {
-                                        Id = loc[0],
+                                        GpsPunktId = loc[0],
                                         OpprettetDato = DateTime.Parse(loc[1]),
                                         Latitude = loc[2],
                                         Longitude = loc[3],

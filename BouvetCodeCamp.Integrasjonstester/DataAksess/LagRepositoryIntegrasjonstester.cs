@@ -177,7 +177,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             await repository.Oppdater(opprettetLag);
 
             // Assert
-            var oppdatertLag = await repository.Hent(opprettetLag.Id);
+            var oppdatertLag = await repository.Hent(opprettetLag.DocumentId);
 
             oppdatertLag.Poeng.ShouldEqual(20);
         }

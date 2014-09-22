@@ -40,7 +40,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         {
             return await Task.Run(() =>
                 Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
-                    .Where(d => d.Id == id)
+                    .Where(d => d.DocumentId == id)
                     .AsEnumerable()
                     .FirstOrDefault());
         }
@@ -48,7 +48,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         public async Task Oppdater(T document)
         {
             var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
-                .Where(d => d.Id == document.Id)
+                .Where(d => d.Id == document.DocumentId)
                 .AsEnumerable().FirstOrDefault();
 
             if (entitet == null)
