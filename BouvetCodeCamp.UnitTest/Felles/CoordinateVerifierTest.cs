@@ -23,7 +23,7 @@ namespace BouvetCodeCamp.UnitTest.Felles
             Coordinate first = new Coordinate("45.45", "45.45"),
                 second = new Coordinate("45.45", "45.45");
 
-            Assert.IsTrue(_coordinateVerifier.CoordinateSAreInProximity(first, second));
+            Assert.IsTrue(_coordinateVerifier.CoordinatesAreInProximity(first, second));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace BouvetCodeCamp.UnitTest.Felles
 
             var second = new Coordinate(lngd.ToString(), latd.ToString());
 
-            Assert.IsTrue(_coordinateVerifier.CoordinateSAreInProximity(first, second));
+            Assert.IsTrue(_coordinateVerifier.CoordinatesAreInProximity(first, second));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace BouvetCodeCamp.UnitTest.Felles
 
             var second = new Coordinate(lngd.ToString(), latd.ToString());
 
-            Assert.IsFalse(_coordinateVerifier.CoordinateSAreInProximity(first, second));
+            Assert.IsFalse(_coordinateVerifier.CoordinatesAreInProximity(first, second));
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace BouvetCodeCamp.UnitTest.Felles
 
             var second = new Coordinate(lngd.ToString(), latd.ToString());
 
-            Assert.IsFalse(_coordinateVerifier.CoordinateSAreInProximity(first, second));
+            Assert.IsFalse(_coordinateVerifier.CoordinatesAreInProximity(first, second));
         }
 
         [Test]

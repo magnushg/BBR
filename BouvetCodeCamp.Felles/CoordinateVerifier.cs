@@ -13,7 +13,7 @@ namespace BouvetCodeCamp.Felles
         //http://stackoverflow.com/a/18690202/1770699
         private readonly Regex _match = new Regex(@"^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$");
 
-        public bool CoordinateSAreInProximity(Coordinate first, Coordinate second)
+        public bool CoordinatesAreInProximity(Coordinate first, Coordinate second)
         {
             double firstLong, firstLat,
                 secondLong, secondLat;
