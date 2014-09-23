@@ -43,6 +43,7 @@
     <Compile Include="InputModels\MeldingType.cs" />
     <Compile Include="LagController.cs" />
     <Compile Include="OutputModels\PifPosisjonModel.cs" />
+    <Compile Include="PostController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\GameHub.cs" />

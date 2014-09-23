@@ -34,8 +34,8 @@ namespace BouvetCodeCamp.Felles.Entiteter
             OpprettetDato = DateTime.MinValue;
             Latitude = string.Empty;
             Longitude = string.Empty;
-            Altitude = null;
-            Bilde = null;
+            Altitude = -999;
+            Bilde = new Url("http://placekitten.com/g/200/200");
             Kommentar = string.Empty;
         }
     }
