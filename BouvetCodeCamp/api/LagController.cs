@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp
+namespace BouvetCodeCamp.api
 {
     using System.Linq;
     using System.Net;
@@ -8,8 +8,9 @@
 
     using BouvetCodeCamp.Dataaksess.Interfaces;
     using BouvetCodeCamp.Felles.Entiteter;
-    
+
     [RoutePrefix("api/lag")]
+    [Authorize]
     public class LagController : ApiController
     {
         private readonly IRepository<Lag> lagRepository;
@@ -24,12 +25,12 @@
         [HttpGet]
         public async Task<HttpResponseMessage> Get()
         {
-            var lagene = await lagRepository.HentAlle();
+            var lagene = await this.lagRepository.HentAlle();
 
             if (lagene == null || !lagene.Any()) 
                 return this.OpprettIngenLagFantesIkkeResponse();
 
-            return Request.CreateResponse(HttpStatusCode.OK, lagene);
+            return this.Request.CreateResponse(HttpStatusCode.OK, lagene);
         }
 
         // GET api/lag/get/a-b-c-d
@@ -37,14 +38,14 @@
         [HttpGet]
         public async Task<HttpResponseMessage> GetLag(string id)
         {
-            var lag = await lagRepository.Hent(id);
+            var lag = await this.lagRepository.Hent(id);
 
             if (lag == null)
             {
                 return this.OpprettLagFantesIkkeResponse(id);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, lag);
+            return this.Request.CreateResponse(HttpStatusCode.OK, lag);
         }
 
         // POST api/lag/post
@@ -53,11 +54,11 @@
         public async Task<HttpResponseMessage> PostLag([FromBody]Lag model)
         {
             if (model == null) 
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
+                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await lagRepository.Opprett(model);
+            await this.lagRepository.Opprett(model);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // PUT api/lag/put
@@ -66,11 +67,11 @@
         public async Task<HttpResponseMessage> PutLag([FromBody]Lag model)
         {
             if (model == null)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
+                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await lagRepository.Oppdater(model);
+            await this.lagRepository.Oppdater(model);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE api/lag/delete/a-b-c-d
@@ -78,14 +79,14 @@
         [HttpDelete]
         public async Task<HttpResponseMessage> DeleteLag(string id)
         {
-            var lag = await lagRepository.Hent(id);
+            var lag = await this.lagRepository.Hent(id);
 
             if (lag == null) 
                 return this.OpprettLagFantesIkkeResponse(id);
 
-            await lagRepository.Slett(lag);
+            await this.lagRepository.Slett(lag);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [NonAction]
@@ -94,7 +95,7 @@
             var melding = string.Format("Lag med id = '{0}' fantes ikke.", id);
             var httpError = new HttpError(melding);
 
-            return Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+            return this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
         }
 
         [NonAction]
@@ -103,7 +104,7 @@
             var melding = string.Format("Ingen lag fantes");
             var httpError = new HttpError(melding);
 
-            return Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+            return this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
         }
     }
 }

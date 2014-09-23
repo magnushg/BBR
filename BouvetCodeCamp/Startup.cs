@@ -34,6 +34,8 @@ namespace BouvetCodeCamp
             config.EnableSystemDiagnosticsTracing();
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
+            appBuilder.Use(typeof(AuthenticationMiddleware));
+
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
