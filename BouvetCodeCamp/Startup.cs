@@ -14,22 +14,19 @@ using Owin;
 using Autofac;
 using System.Reflection;
 using Autofac.Integration.WebApi;
-using Autofac.Integration.SignalR;
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hosting;
 using BouvetCodeCamp.SignalR;
-using FakeItEasy;
 
 namespace BouvetCodeCamp
 {
-    using BouvetCodeCamp.Felles.Entiteter;
+    using Felles.Entiteter;
 
     public class Startup
     {
         public void Configuration(IAppBuilder appBuilder)
         {
             var config = new HttpConfiguration();
-            
+
             Configure(config.Formatters, config);
             config.MapHttpAttributeRoutes();
             config.EnableSystemDiagnosticsTracing();
@@ -50,13 +47,10 @@ namespace BouvetCodeCamp
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
             builder.RegisterType<PostRepository>().As<IRepository<Post>>();
 
-            // Fakes
-            builder.Register(x => A.Fake<IPifPosisjonRepository>(y => y.Strict())).As<IPifPosisjonRepository>();
-            builder.Register(x => A.Fake<IAktivitetsloggRepository>(y => y.Strict())).As<IAktivitetsloggRepository>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
             builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
-            
+
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
