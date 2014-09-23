@@ -27,8 +27,8 @@ namespace BouvetCodeCamp.KartdataImport
                                         Longitude = loc[3],
                                         Altitude = double.Parse(loc[4], CultureInfo.InvariantCulture),
                                         Bilde = new Url(loc[10]),
-                                        Kommentar = loc[11]
-                                    }).ToList();
+                                        Kommentar = loc[11]})
+                .ToList();
         }
 
         public string LesTekstFraFil(string filepath)

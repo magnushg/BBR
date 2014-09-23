@@ -14,12 +14,15 @@ using Owin;
 using Autofac;
 using System.Reflection;
 using Autofac.Integration.WebApi;
+using Autofac.Integration.SignalR;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hosting;
 using BouvetCodeCamp.SignalR;
+using FakeItEasy;
 
 namespace BouvetCodeCamp
 {
-    using Felles.Entiteter;
+    using BouvetCodeCamp.Felles.Entiteter;
 
     public class Startup
     {
@@ -39,10 +42,17 @@ namespace BouvetCodeCamp
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
 
-            builder.RegisterType<LagRepository>().As<Repository<Lag>>();
-
+            // Services
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<KodeService>().As<IKodeService>();
+
+            // Repositories
+            builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
+            builder.RegisterType<PostRepository>().As<IRepository<Post>>();
+
+            // Fakes
+            builder.Register(x => A.Fake<IPifPosisjonRepository>(y => y.Strict())).As<IPifPosisjonRepository>();
+            builder.Register(x => A.Fake<IAktivitetsloggRepository>(y => y.Strict())).As<IAktivitetsloggRepository>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
             builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
