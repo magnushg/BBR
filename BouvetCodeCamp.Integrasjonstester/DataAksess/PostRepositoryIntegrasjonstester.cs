@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Repositories;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Domene.Entiteter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 

@@ -66,9 +66,13 @@
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
       <Name>BouvetCodeCamp.Dataaksess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Felles\BouvetCodeCamp.Felles.csproj">
-      <Project>{0A78BCCD-AF06-47AD-9658-845B82BAA9B5}</Project>
-      <Name>BouvetCodeCamp.Felles</Name>
+    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
+      <Project>{26ddac6d-752d-47d2-8061-8fdcac281ffa}</Project>
+      <Name>BouvetCodeCamp.DomeneTjenester</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">
+      <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
+      <Name>BouvetCodeCamp.Domene</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

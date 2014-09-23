@@ -1,3 +1,6 @@
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
 namespace BouvetCodeCamp.api
 {
     using System.Linq;
@@ -5,9 +8,6 @@ namespace BouvetCodeCamp.api
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
-
-    using BouvetCodeCamp.Dataaksess.Interfaces;
-    using BouvetCodeCamp.Felles.Entiteter;
 
     [RoutePrefix("api/lag")]
     [Authorize]

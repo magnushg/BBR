@@ -37,14 +37,7 @@
     <Compile Include="api\LagController.cs" />
     <Compile Include="api\PostController.cs" />
     <Compile Include="AuthenticationMiddleware.cs" />
-    <Compile Include="GameApi.cs" />
     <Compile Include="GameController.cs" />
-    <Compile Include="IGameAPI.cs" />
-    <Compile Include="InputModels\GeoPosisjonModel.cs" />
-    <Compile Include="InputModels\KodeModel.cs" />
-    <Compile Include="InputModels\MeldingModel.cs" />
-    <Compile Include="InputModels\MeldingType.cs" />
-    <Compile Include="OutputModels\PifPosisjonModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\GameHub.cs" />
@@ -133,13 +126,13 @@
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
       <Name>BouvetCodeCamp.Dataaksess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Felles\BouvetCodeCamp.Felles.csproj">
-      <Project>{0a78bccd-af06-47ad-9658-845b82baa9b5}</Project>
-      <Name>BouvetCodeCamp.Felles</Name>
+    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
+      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
+      <Name>BouvetCodeCamp.DomeneTjenester</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Service\BouvetCodeCamp.Service.csproj">
-      <Project>{BEE34957-2178-4CDA-BAAB-9B8E10D36642}</Project>
-      <Name>BouvetCodeCamp.Service</Name>
+    <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">
+      <Project>{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}</Project>
+      <Name>BouvetCodeCamp.Domene</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

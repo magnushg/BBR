@@ -1,7 +1,7 @@
 ﻿using System;
-using BouvetCodeCamp.Felles;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Interfaces;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using NUnit.Framework;
 
 namespace BouvetCodeCamp.UnitTest.Felles

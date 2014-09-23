@@ -3,12 +3,14 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BouvetCodeCamp.Felles;
-using BouvetCodeCamp.InputModels;
-using MeldingType = BouvetCodeCamp.InputModels.MeldingType;
+using BouvetCodeCamp.Domene;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.Domene.InputModels;
+using BouvetCodeCamp.Domene.OutputModels;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Microsoft.AspNet.SignalR;
 using BouvetCodeCamp.SignalR;
-using BouvetCodeCamp.Felles.Entiteter;
+using MeldingType = BouvetCodeCamp.Domene.InputModels.MeldingType;
 
 namespace BouvetCodeCamp
 {
@@ -55,7 +57,7 @@ namespace BouvetCodeCamp
         public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
         {
 
-            _gameHub.Value.Clients.All.NyPifPosisjon(new OutputModels.PifPosisjonModel { LagId = model.LagId, Latitude = model.Latitude, Longitude = model.Longitude, Tid = DateTime.Now });
+            _gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = model.LagId, Latitude = model.Latitude, Longitude = model.Longitude, Tid = DateTime.Now });
             var nyPosisjon = await _gameApi.RegistrerPifPosition(model);
            
             return Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);

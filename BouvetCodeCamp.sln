@@ -15,7 +15,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp", "BouvetCodeCamp\BouvetCodeCamp.csproj", "{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BEA4BB17-4E4B-4E53-9488-5397E50B76A7} = {BEA4BB17-4E4B-4E53-9488-5397E50B76A7}
-		{0A78BCCD-AF06-47AD-9658-845B82BAA9B5} = {0A78BCCD-AF06-47AD-9658-845B82BAA9B5}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Dataaksess", "BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Dataaksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
@@ -24,15 +23,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Integrasjons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Tester", "01 - Tester", "{48C547AC-6E5D-4D7D-BD0E-A946210418CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Felles", "BouvetCodeCamp.Felles\BouvetCodeCamp.Felles.csproj", "{0A78BCCD-AF06-47AD-9658-845B82BAA9B5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Service", "BouvetCodeCamp.Service\BouvetCodeCamp.Service.csproj", "{BEE34957-2178-4CDA-BAAB-9B8E10D36642}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.UnitTest", "BouvetCodeCamp.UnitTest\BouvetCodeCamp.UnitTest.csproj", "{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Verktøy", "Verktøy", "{578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.KartdataImport", "BouvetCodeCamp.KartdataImport\BouvetCodeCamp.KartdataImport.csproj", "{95304726-8B1B-415E-AFDB-5D4B1493EF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Domene", "BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj", "{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.DomeneTjenester", "BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj", "{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,14 +55,6 @@ Global
 		{7DE8731C-5369-461E-AF95-602969ACAC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DE8731C-5369-461E-AF95-602969ACAC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE8731C-5369-461E-AF95-602969ACAC4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A78BCCD-AF06-47AD-9658-845B82BAA9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A78BCCD-AF06-47AD-9658-845B82BAA9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A78BCCD-AF06-47AD-9658-845B82BAA9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A78BCCD-AF06-47AD-9658-845B82BAA9B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEE34957-2178-4CDA-BAAB-9B8E10D36642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEE34957-2178-4CDA-BAAB-9B8E10D36642}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEE34957-2178-4CDA-BAAB-9B8E10D36642}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEE34957-2178-4CDA-BAAB-9B8E10D36642}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -72,6 +63,14 @@ Global
 		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

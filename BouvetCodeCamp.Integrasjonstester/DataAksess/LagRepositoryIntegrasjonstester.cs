@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Repositories;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Domene;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
 using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -12,8 +13,6 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using BouvetCodeCamp.Felles;
 
     [TestClass]
     public class LagRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest

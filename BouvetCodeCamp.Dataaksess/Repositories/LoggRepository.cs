@@ -1,7 +1,6 @@
 ﻿using BouvetCodeCamp.Dataaksess.Interfaces;
-using BouvetCodeCamp.Felles;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
 using Microsoft.Azure.Documents;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories

@@ -4,8 +4,8 @@ using System.Linq;
 
 using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Repositories;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
 
 namespace BouvetCodeCamp.KartdataImport
 {

@@ -4,11 +4,9 @@ using System.Web.Http.Cors;
 using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Dataaksess.Repositories;
-using BouvetCodeCamp.Felles;
-using BouvetCodeCamp.Felles.Interfaces;
-using BouvetCodeCamp.Felles.Konfigurasjon;
-using BouvetCodeCamp.Service.Interfaces;
-using BouvetCodeCamp.Service.Services;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Autofac;
@@ -20,8 +18,6 @@ using BouvetCodeCamp.SignalR;
 namespace BouvetCodeCamp
 {
     using FakeItEasy;
-
-    using Felles.Entiteter;
 
     public class Startup
     {
@@ -46,6 +42,7 @@ namespace BouvetCodeCamp
             // Services
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<KodeService>().As<IKodeService>();
+            builder.RegisterType<FakeLoggSerive>().As<ILoggService>();
 
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();

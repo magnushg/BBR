@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using BouvetCodeCamp.Felles;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Interfaces;
-using BouvetCodeCamp.Service.Interfaces;
-using BouvetCodeCamp.Service.Services;
+using BouvetCodeCamp.Domene;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Moq;
 using NUnit.Framework;
 using Should;

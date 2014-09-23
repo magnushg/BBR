@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Service.Interfaces;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Moq;
 using NUnit.Framework;
 

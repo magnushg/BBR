@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess.Interfaces;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Linq;
 

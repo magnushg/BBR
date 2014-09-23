@@ -5,8 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
-
-using BouvetCodeCamp.Felles.Entiteter;
+using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.KartdataImport
 {
