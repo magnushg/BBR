@@ -22,6 +22,8 @@ using FakeItEasy;
 
 namespace BouvetCodeCamp
 {
+    using BouvetCodeCamp.Felles.Entiteter;
+
     public class Startup
     {
         public void Configuration(IAppBuilder appBuilder)
@@ -40,7 +42,7 @@ namespace BouvetCodeCamp
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
 
-            builder.RegisterType<LagRepository>().As<ILagRepository>();
+            builder.RegisterType<LagRepository>().As<Repository<Lag>>();
 
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<KodeService>().As<IKodeService>();

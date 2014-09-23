@@ -10,6 +10,8 @@ using Microsoft.Azure.Documents.Linq;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
+    using Microsoft.Azure.Documents.Client;
+
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
         public abstract string CollectionId { get; }
@@ -49,12 +51,26 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         {
             var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                 .Where(d => d.Id == document.DocumentId)
-                .AsEnumerable().FirstOrDefault();
+                .AsEnumerable()
+                .FirstOrDefault();
 
             if (entitet == null)
                 throw new Exception("Fant ikke entiteten som skulle oppdateres.");
 
             await Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
+        }
+
+        public async Task Slett(T document)
+        {
+            var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
+                .Where(d => d.Id == document.DocumentId)
+                .AsEnumerable()
+                .FirstOrDefault();
+
+            if (entitet == null)
+                throw new Exception("Fant ikke entiteten som skulle slettes.");
+
+            await Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
         }
     }
 }

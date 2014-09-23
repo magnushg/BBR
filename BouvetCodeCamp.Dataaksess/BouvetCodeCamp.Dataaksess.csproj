@@ -54,7 +54,6 @@
     <Compile Include="Interfaces\IAktivitetsloggRepository.cs" />
     <Compile Include="Interfaces\IDocumentDbContext.cs" />
     <Compile Include="Interfaces\IKodeRepository.cs" />
-    <Compile Include="Interfaces\ILagRepository.cs" />
     <Compile Include="Interfaces\IMeldingRepository.cs" />
     <Compile Include="Interfaces\IPifPosisjonRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />

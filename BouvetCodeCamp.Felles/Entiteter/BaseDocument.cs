@@ -2,10 +2,13 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Felles.Entiteter
 {
+    using System.ComponentModel;
+
     public abstract class BaseDocument
     {
         [JsonProperty(PropertyName = "id")]
-        public string DocumentId { get; private set; }
+        [DisplayName("Id")]
+        public string DocumentId { get; set; }
 
         protected BaseDocument()
         {

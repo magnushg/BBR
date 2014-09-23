@@ -1,15 +1,17 @@
 ﻿using System.Threading.Tasks;
-using BouvetCodeCamp.Dataaksess.Interfaces;
+
 using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.Service.Interfaces;
 
 namespace BouvetCodeCamp.Service.Services
 {
+    using BouvetCodeCamp.Dataaksess.Interfaces;
+
     public class LagService : ILagService
     {
-        private readonly ILagRepository _lagRepository;
+        private readonly IRepository<Lag> _lagRepository;
 
-        public LagService(ILagRepository lagRepository)
+        public LagService(IRepository<Lag> lagRepository)
         {
             _lagRepository = lagRepository;
         }
