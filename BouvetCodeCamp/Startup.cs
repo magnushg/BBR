@@ -48,7 +48,7 @@ namespace BouvetCodeCamp
             builder.Register(x => A.Fake<IPifPosisjonRepository>(y => y.Strict())).As<IPifPosisjonRepository>();
             builder.Register(x => A.Fake<IAktivitetsloggRepository>(y => y.Strict())).As<IAktivitetsloggRepository>();
 
-            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
+            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>().SingleInstance();
             builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
             
             var container = builder.Build();

@@ -16,9 +16,6 @@ namespace BouvetCodeCamp
     public class GameController : ApiController
     {
         private readonly IGameApi _gameApi;
-
-   //     Lazy<IHubContext<IGameHub>> _gameHub = new Lazy<IHubContext<IGameHub>>(() => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"));
-        //IHubContext<IGameHub> ?
         Lazy<IHubContext<IGameHub>> _gameHub;
         public GameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
         {
