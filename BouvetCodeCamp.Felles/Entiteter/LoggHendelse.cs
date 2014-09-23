@@ -4,7 +4,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
 {
     using System;
 
-    public class AktivitetsloggHendelse : BaseDocument
+    public class LoggHendelse : BaseDocument
     {
         [JsonProperty(PropertyName = "lagId")]
         public string LagId { get; set; }
@@ -15,7 +15,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
         [JsonProperty(PropertyName = "tid")]
         public DateTime Tid { get; set; }
 
-        public AktivitetsloggHendelse()
+        public LoggHendelse()
         {
             LagId = string.Empty;
             HendelseType = HendelseType.Ukjent;

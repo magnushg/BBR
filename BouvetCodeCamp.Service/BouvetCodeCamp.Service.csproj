@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IAktivitetsLoggService.cs" />
+    <Compile Include="Interfaces\ILoggService.cs" />
     <Compile Include="Interfaces\IKodeService.cs" />
     <Compile Include="Interfaces\ILagService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

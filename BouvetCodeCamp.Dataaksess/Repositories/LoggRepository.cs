@@ -6,7 +6,7 @@ using Microsoft.Azure.Documents;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
-    public class LoggRepository : Repository<AktivitetsloggHendelse>
+    public class LoggRepository : Repository<LoggHendelse>
     {
         private string _collectionId;
         private DocumentCollection _collection;

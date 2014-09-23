@@ -27,9 +27,9 @@ namespace BouvetCodeCamp.Felles.Entiteter
         [DisplayName("Meldinger")]
         public List<Melding> Meldinger { get; set; }
 
-        [JsonProperty(PropertyName = "aktivitetsloggHendelser")]
-        [DisplayName("AktivitetsloggHendelser")]
-        public List<AktivitetsloggHendelse> AktivitetsloggHendelser { get; set; }
+        [JsonProperty(PropertyName = "loggHendelser")]
+        [DisplayName("loggHendelser")]
+        public List<LoggHendelse> LoggHendelser { get; set; }
 
         public Lag()
         {
@@ -38,7 +38,7 @@ namespace BouvetCodeCamp.Felles.Entiteter
             PifPosisjoner = new List<PifPosisjon>();
             Koder = new List<Kode>();
             this.Meldinger = new List<Melding>();
-            AktivitetsloggHendelser = new List<AktivitetsloggHendelse>();
+            this.LoggHendelser = new List<LoggHendelse>();
         }
     }
 }

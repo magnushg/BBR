@@ -14,16 +14,16 @@ namespace BouvetCodeCamp
     {
         private readonly IKodeService _kodeService;
         private readonly ILagService _lagService;
-        private readonly IAktivitetsLoggService _aktivitetsLoggService;
+        private readonly ILoggService loggService;
 
         public GameApi(
             IKodeService kodeService,
             ILagService lagService,
-            IAktivitetsLoggService aktivitetsLoggService)
+            ILoggService loggService)
         {
             _kodeService = kodeService;
             _lagService = lagService;
-            _aktivitetsLoggService = aktivitetsLoggService;
+            this.loggService = loggService;
         }
 
         public async Task<PifPosisjon> RegistrerPifPosition(GeoPosisjonModel model)
@@ -99,7 +99,7 @@ namespace BouvetCodeCamp
 
         private void LoggHendelse(string lagId, HendelseType hendelseType)
         {
-            _aktivitetsLoggService.Logg(new AktivitetsloggHendelse
+            this.loggService.Logg(new LoggHendelse
             {
                 HendelseType = hendelseType,
                 LagId = lagId,

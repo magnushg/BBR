@@ -26,22 +26,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         [TestInitialize]
         public async void FørHverTest()
         {
-            DocumentClient client;
-
-            using (client = new DocumentClient(new Uri(endpoint), authKey))
-            {
-                await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId);
-            }
-        }
-
-        [TestCleanup]
-        public async void EtterHverTest()
-        {
-            DocumentClient client;
-
-            using (client = new DocumentClient(new Uri(endpoint), authKey))
+            using (var client = new DocumentClient(new Uri(endpoint), authKey))
             {
                 await DocumentDbHelpers.SlettDatabaseAsync(client, this.databaseId);
+
+                await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId);
             }
         }
     }

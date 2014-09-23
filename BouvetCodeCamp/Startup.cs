@@ -19,6 +19,8 @@ using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
+    using FakeItEasy;
+
     using Felles.Entiteter;
 
     public class Startup
@@ -46,7 +48,7 @@ namespace BouvetCodeCamp
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
             builder.RegisterType<PostRepository>().As<IRepository<Post>>();
-
+            builder.RegisterType<LoggRepository>().As<IRepository<LoggHendelse>>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
             builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
