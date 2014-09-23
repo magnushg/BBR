@@ -41,6 +41,7 @@
     <Compile Include="InputModels\KodeModel.cs" />
     <Compile Include="InputModels\MeldingModel.cs" />
     <Compile Include="InputModels\MeldingType.cs" />
+    <Compile Include="LagController.cs" />
     <Compile Include="OutputModels\PifPosisjonModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

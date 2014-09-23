@@ -19,5 +19,7 @@ namespace BouvetCodeCamp.Dataaksess.Interfaces
         Task<T> Hent(string id);
 
         Task Oppdater(T document);
+
+        Task Slett(T document);
     }
 }

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<BouvetCodeCamp.Felles.Entiteter.Lag>
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Poeng)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.HiddenFor(modelItem => item.DocumentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Poeng)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.DocumentId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.DocumentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.DocumentId })
+        </td>
+    </tr>
+}
+
+</table>

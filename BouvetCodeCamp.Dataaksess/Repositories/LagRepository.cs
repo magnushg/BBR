@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Remoting.Contexts;
+
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.Felles.Entiteter;
@@ -8,7 +8,7 @@ using Microsoft.Azure.Documents;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
 {
-    public class LagRepository : Repository<Lag>, ILagRepository
+    public class LagRepository : Repository<Lag>
     {
         private string _collectionId;
 
