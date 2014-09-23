@@ -34,8 +34,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Verktøy", "Verktøy", "{57
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.KartdataImport", "BouvetCodeCamp.KartdataImport\BouvetCodeCamp.KartdataImport.csproj", "{95304726-8B1B-415E-AFDB-5D4B1493EF2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.AdminWeb", "BouvetCodeCamp.AdminWeb\BouvetCodeCamp.AdminWeb.csproj", "{7FE070F1-F33D-4B1B-AB87-1B200E651E37}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,10 +72,6 @@ Global
 		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7FE070F1-F33D-4B1B-AB87-1B200E651E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7FE070F1-F33D-4B1B-AB87-1B200E651E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7FE070F1-F33D-4B1B-AB87-1B200E651E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7FE070F1-F33D-4B1B-AB87-1B200E651E37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
