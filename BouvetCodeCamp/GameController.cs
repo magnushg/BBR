@@ -24,7 +24,6 @@ namespace BouvetCodeCamp
         {
             _gameApi = gameApi;
             _gameHub = gameHub;
-           
         }
         [Route("")]
         public HttpResponseMessage Get()

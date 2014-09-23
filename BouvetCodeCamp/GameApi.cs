@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.InputModels;
@@ -13,23 +12,23 @@ namespace BouvetCodeCamp
 {
     public class GameApi : IGameApi
     {
-        private readonly IPifPosisjonRepository _pifPosisjonRepository;
-        private readonly IAktivitetsloggRepository _aktivitetsloggRepository;
         private readonly IKodeService _kodeService;
+        private readonly ILagService _lagService;
+        private readonly IAktivitetsLoggService _aktivitetsLoggService;
 
         public GameApi(
-            IPifPosisjonRepository pifPosisjonRepository,
-            IAktivitetsloggRepository aktivitetsloggRepository, 
-            IKodeService kodeService)
+            IKodeService kodeService,
+            ILagService lagService,
+            IAktivitetsLoggService aktivitetsLoggService)
         {
-            _pifPosisjonRepository = pifPosisjonRepository;
-            _aktivitetsloggRepository = aktivitetsloggRepository;
             _kodeService = kodeService;
+            _lagService = lagService;
+            _aktivitetsLoggService = aktivitetsLoggService;
         }
 
         public async Task<PifPosisjon> RegistrerPifPosition(GeoPosisjonModel model)
         {
-            var pifPosisjon = new PifPosisjon()
+            var pifPosisjon = new PifPosisjon
             {
                 Latitude = model.Latitude,
                 Longitude = model.Longitude,
@@ -37,46 +36,51 @@ namespace BouvetCodeCamp
                 Tid = DateTime.Now
             };
 
-            await _pifPosisjonRepository.Opprett(pifPosisjon);
+            var lag = await _lagService.HentLag(model.LagId);
+            lag.PifPosisjoner.Add(pifPosisjon);
 
-            LoggHendelse(string.Empty, HendelseType.RegistrertGeoPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+            _lagService.Oppdater(lag);
+
+            LoggHendelse(model.LagId, HendelseType.RegistrertGeoPosisjon);
 
             return pifPosisjon;
         }
 
         public async Task<PifPosisjonModel> HentSistePifPositionForLag(string lagId)
         {
-            var pifPosisjonAll = await _pifPosisjonRepository.HentPifPosisjonerForLag(lagId);
-            var pifPosisjon = pifPosisjonAll.FirstOrDefault();
+            var lag = await _lagService.HentLag(lagId);
 
-            LoggHendelse(string.Empty, HendelseType.HentetPifPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+            var sortertListe = lag.PifPosisjoner.OrderBy(x => x.Tid);
+            var nyeste = sortertListe.FirstOrDefault();
 
-            return pifPosisjon == null
-                ? null
-                : new PifPosisjonModel
+            if (nyeste == null) return null;
+
+            return new PifPosisjonModel
             {
-                Latitude = pifPosisjon.Latitude,
-                Longitude = pifPosisjon.Longitude,
-                LagId = pifPosisjon.LagId
+                Latitude = nyeste.Latitude,
+                Longitude = nyeste.Longitude,
+                LagId = nyeste.LagId,
+                Tid = nyeste.Tid
             };
         }
 
+        /// <summary>
+        /// TODO: Denne burde kanskje sorteres.
+        /// </summary>
         public async Task<IEnumerable<PifPosisjonModel>> HentAllePifPosisjoner()
         {
-            var pifPosisjonAll = await _pifPosisjonRepository.HentAlle();
+            var alleLag = await _lagService.HentAlleLag();
+            var posisjoner = alleLag.SelectMany(x => x.PifPosisjoner);
 
-            LoggHendelse(string.Empty, HendelseType.HentetPifPosisjon); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
-
-            return pifPosisjonAll == null
-                ? null
-                : pifPosisjonAll.Select(x => new PifPosisjonModel
+            return posisjoner.Select(x =>
+                new PifPosisjonModel
                 {
                     Latitude = x.Latitude,
                     Longitude = x.Longitude,
                     LagId = x.LagId,
                     Tid = x.Tid
-                }).GroupBy(x => x.LagId)
-                .Select(x => x.OrderByDescending(y => y.Tid).Take(1)).SelectMany(x => x);
+                }
+            );
         }
 
         public async Task<bool> RegistrerKode(KodeModel model)
@@ -90,12 +94,12 @@ namespace BouvetCodeCamp
 
         public void SendMelding(MeldingModel model)
         {
-            LoggHendelse(string.Empty, HendelseType.SendtMelding); //TODO hwm 15.09.2014: Noen må sette verdi i LagId
+            LoggHendelse(model.LagId, HendelseType.SendtMelding);
         }
 
-        private async void LoggHendelse(string lagId, HendelseType hendelseType)
+        private void LoggHendelse(string lagId, HendelseType hendelseType)
         {
-            await _aktivitetsloggRepository.Opprett(new AktivitetsloggHendelse
+            _aktivitetsLoggService.Logg(new AktivitetsloggHendelse
             {
                 HendelseType = hendelseType,
                 LagId = lagId,

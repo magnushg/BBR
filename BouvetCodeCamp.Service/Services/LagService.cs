@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using BouvetCodeCamp.Felles.Entiteter;
 using BouvetCodeCamp.Service.Interfaces;
 
 namespace BouvetCodeCamp.Service.Services
 {
-    using BouvetCodeCamp.Dataaksess.Interfaces;
+    using Dataaksess.Interfaces;
 
     public class LagService : ILagService
     {
@@ -19,6 +20,11 @@ namespace BouvetCodeCamp.Service.Services
         public Task<Lag> HentLag(string lagId)
         {
             return _lagRepository.Hent(lagId);
+        }
+
+        public Task<IEnumerable<Lag>> HentAlleLag()
+        {
+            return _lagRepository.HentAlle();
         }
 
         public void Oppdater(Lag lag)

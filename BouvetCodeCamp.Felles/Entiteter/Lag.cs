@@ -14,11 +14,11 @@ namespace BouvetCodeCamp.Felles.Entiteter
         [JsonProperty(PropertyName = "poeng")]
         [DisplayName("Poeng")]
         public int Poeng { get; set; }
-        
+
         [JsonProperty(PropertyName = "pifPosisjoner")]
         [DisplayName("PifPosisjoner")]
         public List<PifPosisjon> PifPosisjoner { get; set; }
-        
+
         [JsonProperty(PropertyName = "koder")]
         [DisplayName("Koder")]
         public List<Kode> Koder { get; set; }

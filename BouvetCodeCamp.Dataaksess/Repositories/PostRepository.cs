@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Felles;
 using BouvetCodeCamp.Felles.Entiteter;
@@ -14,6 +10,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
     public class PostRepository : Repository<Post>
     {
         private string _collectionId;
+        private DocumentCollection _collection;
 
         public PostRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context) : base(konfigurasjon, context)
         {
@@ -32,7 +29,6 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             }
         }
 
-        private DocumentCollection _collection;
         public override DocumentCollection Collection
         {
             get

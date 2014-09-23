@@ -64,6 +64,7 @@
     <Compile Include="Felles\CoordinateVerifierTest.cs" />
     <Compile Include="Service\KodeServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GameApiTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -77,6 +78,10 @@
     <ProjectReference Include="..\BouvetCodeCamp.Service\BouvetCodeCamp.Service.csproj">
       <Project>{BEE34957-2178-4CDA-BAAB-9B8E10D36642}</Project>
       <Name>BouvetCodeCamp.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BouvetCodeCamp\BouvetCodeCamp.csproj">
+      <Project>{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}</Project>
+      <Name>BouvetCodeCamp</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

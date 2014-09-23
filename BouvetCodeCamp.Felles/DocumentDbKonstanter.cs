@@ -12,5 +12,7 @@
         public const string LagCollectionId = "DocumentDbLagCollectionId";
 
         public const string PostCollectionId = "DocumentDbPostCollectionId";
+
+        public const string LoggCollectionId = "DocumentDbLoggCollectionId";
     }
 }

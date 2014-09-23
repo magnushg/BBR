@@ -26,13 +26,13 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var repository = OpprettRepository();
 
             const int Poeng = 10;
-            
+
             var melding = Builder<Lag>.CreateNew()
                 .With(o => o.Poeng = Poeng)
                 .Build();
 
             var document = await repository.Opprett(melding);
-            
+
             // Act
             var lagretLag = await repository.Hent(document.Id);
 
