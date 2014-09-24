@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
 
 namespace BouvetCodeCamp.KartdataImport
 {
@@ -24,7 +22,8 @@ namespace BouvetCodeCamp.KartdataImport
             var mapdata = mapdataConverter.KonverterKartdata().ToList();
 
             var kartdataLagring = new KartdataLagring();
-            
+
+            kartdataLagring.SlettAlleKartdata();
             kartdataLagring.LagreKartdata(mapdata);
 
             Console.WriteLine("Done processing {0} map data points", mapdata.Count);
@@ -47,6 +46,16 @@ namespace BouvetCodeCamp.KartdataImport
             {
                 await _postRepository.Opprett(x);
             });
+        }
+
+        public async void SlettAlleKartdata()
+        {
+            var allePoster = await _postRepository.HentAlle();
+
+            foreach (var post in allePoster)
+            {
+                await _postRepository.Slett(post);
+            }
         }
     }
 }

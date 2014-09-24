@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using BouvetCodeCamp.Dataaksess;
+
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
@@ -18,8 +18,6 @@ namespace BouvetCodeCamp
     using BouvetCodeCamp.Infrastruktur;
     using BouvetCodeCamp.Infrastruktur.Interfaces;
     using BouvetCodeCamp.Infrastruktur.Repositories;
-
-    using FakeItEasy;
 
     public class Startup
     {

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using BouvetCodeCamp.Dataaksess;
+
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
+
 using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;

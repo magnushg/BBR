@@ -49,6 +49,10 @@ namespace BouvetCodeCamp.Infrastruktur.Repositories
 
         public async Task<IEnumerable<T>> HentAlle()
         {
+            var aa = Context.Client.CreateDocumentQuery(
+                this.Collection.DocumentsLink,
+                "SELECT * FROM Post ").ToList();
+
             return await Task.Run(() =>
                 this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
                     .AsEnumerable()

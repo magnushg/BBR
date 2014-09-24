@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Domene.Entiteter
 {
+    using System;
+
+    [Serializable]
     public abstract class BaseDocument
     {
         [JsonProperty(PropertyName = "id")]

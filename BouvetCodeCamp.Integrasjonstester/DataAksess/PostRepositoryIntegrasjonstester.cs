@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using BouvetCodeCamp.Dataaksess;
 using BouvetCodeCamp.Domene.Entiteter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -46,6 +45,4 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             return new PostRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
         }
     }
-
-    
 }

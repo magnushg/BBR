@@ -3,7 +3,6 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
     using System.Configuration;
 
-    using BouvetCodeCamp.Dataaksess;
     using BouvetCodeCamp.Infrastruktur;
 
     using Microsoft.Azure.Documents.Client;
@@ -24,13 +23,13 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         }
         
         [TestInitialize]
-        public async void FørHverTest()
+        public void FørHverTest()
         {
             using (var client = new DocumentClient(new Uri(endpoint), authKey))
             {
-                DocumentDbHelpers.SlettDatabaseAsync(client, this.databaseId).RunSynchronously();
+                DocumentDbHelpers.SlettDatabaseAsync(client, this.databaseId);
 
-                DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId).RunSynchronously();
+                DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId);
             }
         }
     }

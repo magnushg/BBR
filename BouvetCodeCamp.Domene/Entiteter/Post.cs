@@ -22,7 +22,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
         public double? Altitude { get; set; }
 
         [JsonProperty(PropertyName = "bilde")]
-        public Url Bilde { get; set; }
+        public string Bilde { get; set; }
 
         [JsonProperty(PropertyName = "kommentar")]
         public string Kommentar { get; set; }
@@ -34,7 +34,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
             Latitude = string.Empty;
             Longitude = string.Empty;
             Altitude = -999;
-            Bilde = new Url("http://placekitten.com/g/200/200");
+            Bilde = string.Empty;
             Kommentar = string.Empty;
         }
     }
