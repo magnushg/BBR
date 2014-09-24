@@ -3,7 +3,6 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
     using System.Configuration;
 
-    using BouvetCodeCamp.Infrastruktur;
     using BouvetCodeCamp.Infrastruktur.DataAksess;
 
     using Microsoft.Azure.Documents.Client;

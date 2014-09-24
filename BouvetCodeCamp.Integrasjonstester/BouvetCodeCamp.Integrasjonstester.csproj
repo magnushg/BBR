@@ -76,7 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Infrastruktur.csproj">
+    <ProjectReference Include="..\BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj">
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
       <Name>BouvetCodeCamp.Infrastruktur</Name>
     </ProjectReference>

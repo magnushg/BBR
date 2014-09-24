@@ -12,6 +12,7 @@ namespace BouvetCodeCamp.Lasttesting
     [TestClass]
     public class LagRepositoryLasttest : BaseRepositoryIntegrasjonstest
     {
+        [Ignore]
         [TestMethod]
         [TestCategory(Testkategorier.Last)]
         public void Lasttest_Hent_LagMedLagId_LagHarLagId()

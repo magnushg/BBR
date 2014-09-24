@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp", "BouvetCod
 		{BEA4BB17-4E4B-4E53-9488-5397E50B76A7} = {BEA4BB17-4E4B-4E53-9488-5397E50B76A7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Infrastruktur", "BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Infrastruktur.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Infrastruktur", "BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Integrasjonstester", "BouvetCodeCamp.Integrasjonstester\BouvetCodeCamp.Integrasjonstester.csproj", "{7DE8731C-5369-461E-AF95-602969ACAC4E}"
 EndProject

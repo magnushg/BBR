@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Moq;
 using NUnit.Framework;
 
 namespace BouvetCodeCamp.UnitTest
 {
+    using GameApi = BouvetCodeCamp.DomeneTjenester.GameApi;
+
     [TestFixture]
     public class GameApiTest
     {
