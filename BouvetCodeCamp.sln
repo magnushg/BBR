@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Domene", "Bo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.DomeneTjenester", "BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj", "{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Lasttesting", "BouvetCodeCamp.Lasttesting\BouvetCodeCamp.Lasttesting.csproj", "{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +85,6 @@ Global
 		{7DE8731C-5369-461E-AF95-602969ACAC4E} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
 		{95304726-8B1B-415E-AFDB-5D4B1493EF2D} = {578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}
+		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
 	EndGlobalSection
 EndGlobal

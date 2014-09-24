@@ -26,9 +26,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         {
             using (var client = new DocumentClient(new Uri(endpoint), authKey))
             {
-                await DocumentDbHelpers.SlettDatabaseAsync(client, this.databaseId);
+                DocumentDbHelpers.SlettDatabaseAsync(client, this.databaseId).RunSynchronously();
 
-                await DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId);
+                DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId).RunSynchronously();
             }
         }
     }

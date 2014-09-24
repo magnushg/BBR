@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Azure.Documents;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
@@ -9,9 +8,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     {
         String CollectionId { get; }
         
-        DocumentCollection Collection { get; }
-        
-        Task<Document> Opprett(T document);
+        Task<string> Opprett(T document);
 
         Task<IEnumerable<T>> HentAlle();
 

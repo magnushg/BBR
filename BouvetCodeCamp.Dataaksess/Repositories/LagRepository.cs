@@ -2,7 +2,7 @@
 
 using BouvetCodeCamp.Dataaksess.Interfaces;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
+
 using Microsoft.Azure.Documents;
 
 namespace BouvetCodeCamp.Dataaksess.Repositories
@@ -28,18 +28,5 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             }
         }
 
-        private DocumentCollection _collection;
-        public override DocumentCollection Collection
-        {
-            get
-            {
-                if (_collection == null)
-                {
-                    _collection = Context.ReadOrCreateCollection(Context.Database.SelfLink, CollectionId);
-                }
-
-                return _collection;
-            }
-        }
     }
 }

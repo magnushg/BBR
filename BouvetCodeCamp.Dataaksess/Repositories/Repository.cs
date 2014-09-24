@@ -16,9 +16,23 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
         public abstract string CollectionId { get; }
-        public abstract DocumentCollection Collection { get; }
+        
         protected readonly IKonfigurasjon _konfigurasjon;
         protected readonly IDocumentDbContext Context;
+
+        private DocumentCollection _collection;
+        public DocumentCollection Collection
+        {
+            get
+            {
+                if (_collection == null)
+                {
+                    _collection = Context.ReadOrCreateCollection(Context.Database.SelfLink, CollectionId);
+                }
+
+                return _collection;
+            }
+        }
 
         protected Repository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
         {
@@ -26,9 +40,11 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             Context = context;
         }
 
-        public async Task<Document> Opprett(T document)
+        public async Task<string> Opprett(T document)
         {
-            return await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
+            var opprettetDocument = await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
+
+            return opprettetDocument.Resource.Id;
         }
 
         public async Task<IEnumerable<T>> HentAlle()

@@ -27,9 +27,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
                 OpprettetDato = DateTime.Now
             };
 
-            var document = await repo.Opprett(postSomSkalLagres);
+            var documentId = repo.Opprett(postSomSkalLagres).Result;
 
-            var lagretPost = await repo.Hent(document.Id);
+            var lagretPost = await repo.Hent(documentId);
 
             var alle = await repo.HentAlle();
 

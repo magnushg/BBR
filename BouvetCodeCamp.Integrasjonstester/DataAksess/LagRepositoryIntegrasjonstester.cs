@@ -30,10 +30,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
                 .With(o => o.Poeng = Poeng)
                 .Build();
 
-            var document = await repository.Opprett(melding);
+            var documentId = await repository.Opprett(melding);
 
             // Act
-            var lagretLag = await repository.Hent(document.Id);
+            var lagretLag = await repository.Hent(documentId);
 
             // Assert
             lagretLag.Poeng.ShouldEqual(Poeng);
@@ -56,10 +56,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
                 .With(o => o.Koder = koder)
                 .Build();
 
-            var document = await repository.Opprett(melding);
+            var documentId = await repository.Opprett(melding);
 
             // Act
-            var lagretLag = await repository.Hent(document.Id);
+            var lagretLag = await repository.Hent(documentId);
 
             // Assert
             lagretLag.Koder.FirstOrDefault().PosisjonTilstand.ShouldEqual(kode.PosisjonTilstand);
@@ -81,10 +81,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
                 .With(o => o.LagId = LagId)
                 .Build();
 
-            var document = await repository.Opprett(melding);
+            var documentId = await repository.Opprett(melding);
 
             // Act
-            var lagretLag = await repository.Hent(document.Id);
+            var lagretLag = await repository.Hent(documentId);
 
             // Assert
             lagretLag.LagId.ShouldEqual(LagId);
@@ -110,10 +110,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
                 .With(o => o.Meldinger = meldinger)
                 .Build();
 
-            var document = await repository.Opprett(lag);
+            var documentId = await repository.Opprett(lag);
 
             // Act
-            var lagretLag = await repository.Hent(document.Id);
+            var lagretLag = await repository.Hent(documentId);
 
             // Assert
             lagretLag.Meldinger.FirstOrDefault().LagId.ShouldEqual(melding.LagId);
@@ -142,10 +142,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
                 .With(o => o.PifPosisjoner = pifPosisjoner)
                 .Build();
 
-            var document = await repository.Opprett(lag);
+            var documentId = await repository.Opprett(lag);
 
             // Act
-            var lagretLag = await repository.Hent(document.Id);
+            var lagretLag = await repository.Hent(documentId);
 
             // Assert
             lagretLag.PifPosisjoner.FirstOrDefault().LagId.ShouldEqual(pifPosisjon.LagId);
@@ -168,8 +168,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
                 .With(o => o.Poeng = poeng)
                 .Build();
 
-            var document = await repository.Opprett(lag);
-            var opprettetLag = await repository.Hent(document.Id);
+            var documentId = await repository.Opprett(lag);
+            var opprettetLag = await repository.Hent(documentId);
 
             // Act
             opprettetLag.Poeng += poengÿkning;
