@@ -34,10 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="api\LagController.cs" />
-    <Compile Include="api\PostController.cs" />
+    <Compile Include="AdminApi\LagController.cs" />
+    <Compile Include="AdminApi\PostController.cs" />
     <Compile Include="AuthenticationMiddleware.cs" />
-    <Compile Include="GameController.cs" />
+    <Compile Include="GameApi\GameController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\GameHub.cs" />

@@ -15,7 +15,7 @@ using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
-    using BouvetCodeCamp.Infrastruktur;
+    using BouvetCodeCamp.GameApi;
     using BouvetCodeCamp.Infrastruktur.DataAksess;
     using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
     using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
@@ -36,7 +36,7 @@ namespace BouvetCodeCamp
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<GameApi>().As<IGameApi>();
+            builder.RegisterType<GameController>().As<IGameApi>();
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
 
