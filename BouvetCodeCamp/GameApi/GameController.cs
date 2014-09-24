@@ -28,7 +28,7 @@
         public GameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
         {
             this._gameApi = gameApi;
-            this._gameHub = gameHub;
+            //this._gameHub = gameHub;
         }
         [Route("")]
         public HttpResponseMessage Get()
