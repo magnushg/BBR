@@ -36,7 +36,6 @@ namespace BouvetCodeCamp
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<GameController>().As<IGameApi>();
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
 
