@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Dataaksess.Interfaces;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Linq;
-
-namespace BouvetCodeCamp.Dataaksess.Repositories
+namespace BouvetCodeCamp.Infrastruktur.Repositories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.Infrastruktur.Interfaces;
+
+    using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
+    using Microsoft.Azure.Documents.Linq;
 
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
@@ -25,24 +25,24 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         {
             get
             {
-                if (_collection == null)
+                if (this._collection == null)
                 {
-                    _collection = Context.ReadOrCreateCollection(Context.Database.SelfLink, CollectionId);
+                    this._collection = this.Context.ReadOrCreateCollection(this.Context.Database.SelfLink, this.CollectionId);
                 }
 
-                return _collection;
+                return this._collection;
             }
         }
 
         protected Repository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
         {
-            _konfigurasjon = konfigurasjon;
-            Context = context;
+            this._konfigurasjon = konfigurasjon;
+            this.Context = context;
         }
 
         public async Task<string> Opprett(T document)
         {
-            var opprettetDocument = await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
+            var opprettetDocument = await this.Context.Client.CreateDocumentAsync(this.Collection.SelfLink, document);
 
             return opprettetDocument.Resource.Id;
         }
@@ -50,7 +50,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         public async Task<IEnumerable<T>> HentAlle()
         {
             return await Task.Run(() =>
-                Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
+                this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
                     .AsEnumerable()
                     .ToList());
         }
@@ -58,7 +58,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         public async Task<T> Hent(string id)
         {
             return await Task.Run(() =>
-                Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
+                this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
                     .Where(d => d.DocumentId == id)
                     .AsEnumerable()
                     .FirstOrDefault());
@@ -66,7 +66,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
 
         public async Task Oppdater(T document)
         {
-            var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
+            var entitet = this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink)
                 .Where(d => d.Id == document.DocumentId)
                 .AsEnumerable()
                 .FirstOrDefault();
@@ -74,12 +74,12 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             if (entitet == null)
                 throw new Exception("Fant ikke entiteten som skulle oppdateres.");
 
-            await Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
+            await this.Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
         }
 
         public async Task Slett(T document)
         {
-            var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
+            var entitet = this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink)
                 .Where(d => d.Id == document.DocumentId)
                 .AsEnumerable()
                 .FirstOrDefault();
@@ -87,7 +87,7 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
             if (entitet == null)
                 throw new Exception("Fant ikke entiteten som skulle slettes.");
 
-            await Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
+            await this.Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
         }
     }
 }

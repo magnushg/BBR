@@ -118,9 +118,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Dataaksess.csproj">
+    <ProjectReference Include="..\BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Infrastruktur.csproj">
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
-      <Name>BouvetCodeCamp.Dataaksess</Name>
+      <Name>BouvetCodeCamp.Infrastruktur</Name>
     </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
       <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>

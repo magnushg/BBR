@@ -1,10 +1,10 @@
-﻿using BouvetCodeCamp.Dataaksess.Interfaces;
-using BouvetCodeCamp.Domene.Entiteter;
-
-using Microsoft.Azure.Documents;
-
-namespace BouvetCodeCamp.Dataaksess.Repositories
+﻿namespace BouvetCodeCamp.Infrastruktur.Repositories
 {
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.Infrastruktur.Interfaces;
+
+    using Microsoft.Azure.Documents;
+
     public class PostRepository : Repository<Post>
     {
         private string _collectionId;
@@ -18,12 +18,12 @@ namespace BouvetCodeCamp.Dataaksess.Repositories
         {
             get
             {
-                if (string.IsNullOrEmpty(_collectionId))
+                if (string.IsNullOrEmpty(this._collectionId))
                 {
-                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.PostCollectionId);
+                    this._collectionId = this._konfigurasjon.HentAppSetting(DocumentDbKonstanter.PostCollectionId);
                 }
 
-                return _collectionId;
+                return this._collectionId;
             }
         }
     }

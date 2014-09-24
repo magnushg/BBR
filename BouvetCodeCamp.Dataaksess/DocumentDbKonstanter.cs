@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Dataaksess
+﻿namespace BouvetCodeCamp.Infrastruktur
 {
     public class DocumentDbKonstanter
     {

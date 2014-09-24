@@ -1,7 +1,7 @@
-﻿using System.Configuration;
-
-namespace BouvetCodeCamp.Dataaksess
+﻿namespace BouvetCodeCamp.Infrastruktur
 {
+    using System.Configuration;
+
     public class Konfigurasjon : IKonfigurasjon
     {
         public string HentAppSetting(string key)

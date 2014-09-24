@@ -9,8 +9,6 @@ namespace BouvetCodeCamp.api
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Dataaksess.Interfaces;
-
     [RoutePrefix("api/post")]
     [Authorize]
     public class PostController : ApiController

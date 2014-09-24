@@ -1,9 +1,10 @@
-using System.Threading.Tasks;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
-
-namespace BouvetCodeCamp.Dataaksess.Interfaces
+namespace BouvetCodeCamp.Infrastruktur.Interfaces
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.Azure.Documents;
+    using Microsoft.Azure.Documents.Client;
+
     public interface IDocumentDbContext
     {
         Task ReadOrCreateDatabase();

@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess;
-using BouvetCodeCamp.Dataaksess.Repositories;
 using BouvetCodeCamp.Domene.Entiteter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -8,6 +7,9 @@ using Should;
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
     using System;
+
+    using BouvetCodeCamp.Infrastruktur;
+    using BouvetCodeCamp.Infrastruktur.Repositories;
 
     [TestClass]
     public class PostRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest

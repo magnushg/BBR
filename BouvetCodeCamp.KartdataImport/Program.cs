@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 using BouvetCodeCamp.Dataaksess;
-using BouvetCodeCamp.Dataaksess.Repositories;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 
 namespace BouvetCodeCamp.KartdataImport
 {
+    using BouvetCodeCamp.Infrastruktur;
+    using BouvetCodeCamp.Infrastruktur.Repositories;
+
     class Program
     {
         static void Main(string[] args)

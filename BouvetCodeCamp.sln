@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp", "BouvetCod
 		{BEA4BB17-4E4B-4E53-9488-5397E50B76A7} = {BEA4BB17-4E4B-4E53-9488-5397E50B76A7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Dataaksess", "BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Dataaksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Infrastruktur", "BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Infrastruktur.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Integrasjonstester", "BouvetCodeCamp.Integrasjonstester\BouvetCodeCamp.Integrasjonstester.csproj", "{7DE8731C-5369-461E-AF95-602969ACAC4E}"
 EndProject
@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Tester", "01 - Tester"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.UnitTest", "BouvetCodeCamp.UnitTest\BouvetCodeCamp.UnitTest.csproj", "{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Verktøy", "Verktøy", "{578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Verktøy", "02 - Verktøy", "{578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.KartdataImport", "BouvetCodeCamp.KartdataImport\BouvetCodeCamp.KartdataImport.csproj", "{95304726-8B1B-415E-AFDB-5D4B1493EF2D}"
 EndProject

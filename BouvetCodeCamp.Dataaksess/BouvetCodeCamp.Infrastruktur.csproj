@@ -4,18 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{95304726-8B1B-415E-AFDB-5D4B1493EF2D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BouvetCodeCamp.KartdataImport</RootNamespace>
-    <AssemblyName>BouvetCodeCamp.KartdataImport</AssemblyName>
+    <RootNamespace>BouvetCodeCamp.Infrastruktur</RootNamespace>
+    <AssemblyName>BouvetCodeCamp.Infrastruktur</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,11 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Azure.Documents.Client">
+      <HintPath>..\packages\Microsoft.Azure.Documents.Client.0.9.0-preview\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,28 +49,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KartdataKonverterer.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="DocumentDbContext.cs" />
+    <Compile Include="DocumentDbHelpers.cs" />
+    <Compile Include="DocumentDbKonstanter.cs" />
+    <Compile Include="Interfaces\IDocumentDbContext.cs" />
+    <Compile Include="Konfigurasjon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\LagRepository.cs" />
+    <Compile Include="Repositories\LoggRepository.cs" />
+    <Compile Include="Repositories\PostRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <Content Include="mapdata\oscarsborg.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.Dataaksess\BouvetCodeCamp.Infrastruktur.csproj">
-      <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
-      <Name>BouvetCodeCamp.Infrastruktur</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
-      <Project>{26ddac6d-752d-47d2-8061-8fdcac281ffa}</Project>
+      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
       <Name>BouvetCodeCamp.DomeneTjenester</Name>
     </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">
-      <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
+      <Project>{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}</Project>
       <Name>BouvetCodeCamp.Domene</Name>
     </ProjectReference>
   </ItemGroup>

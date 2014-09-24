@@ -2,8 +2,6 @@
 using System.Web.Http;
 using System.Web.Http.Cors;
 using BouvetCodeCamp.Dataaksess;
-using BouvetCodeCamp.Dataaksess.Interfaces;
-using BouvetCodeCamp.Dataaksess.Repositories;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
@@ -17,6 +15,10 @@ using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
+    using BouvetCodeCamp.Infrastruktur;
+    using BouvetCodeCamp.Infrastruktur.Interfaces;
+    using BouvetCodeCamp.Infrastruktur.Repositories;
+
     using FakeItEasy;
 
     public class Startup

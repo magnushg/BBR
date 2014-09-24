@@ -1,14 +1,15 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Dataaksess.Interfaces;
-using BouvetCodeCamp.DomeneTjenester;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Documents.Linq;
-
-namespace BouvetCodeCamp.Dataaksess
+namespace BouvetCodeCamp.Infrastruktur
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using BouvetCodeCamp.Infrastruktur.Interfaces;
+
+    using Microsoft.Azure.Documents;
+    using Microsoft.Azure.Documents.Client;
+    using Microsoft.Azure.Documents.Linq;
+
     public class DocumentDbContext : IDocumentDbContext
     {
         private readonly IKonfigurasjon _konfigurasjon;
@@ -19,12 +20,12 @@ namespace BouvetCodeCamp.Dataaksess
         {
             get
             {
-                if (_database == null)
+                if (this._database == null)
                 {
-                    ReadOrCreateDatabase().Wait();
+                    this.ReadOrCreateDatabase().Wait();
                 }
 
-                return _database;
+                return this._database;
             }
         }
         
@@ -34,12 +35,12 @@ namespace BouvetCodeCamp.Dataaksess
         {
             get
             {
-                if (string.IsNullOrEmpty(_databaseId))
+                if (string.IsNullOrEmpty(this._databaseId))
                 {
-                    _databaseId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.DatabaseId);
+                    this._databaseId = this._konfigurasjon.HentAppSetting(DocumentDbKonstanter.DatabaseId);
                 }
 
-                return _databaseId;
+                return this._databaseId;
             }
         }
 
@@ -49,44 +50,44 @@ namespace BouvetCodeCamp.Dataaksess
         {
             get
             {
-                if (_client == null)
+                if (this._client == null)
                 {
-                    var endpoint = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.Endpoint);
-                    var authKey = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.AuthKey);
+                    var endpoint = this._konfigurasjon.HentAppSetting(DocumentDbKonstanter.Endpoint);
+                    var authKey = this._konfigurasjon.HentAppSetting(DocumentDbKonstanter.AuthKey);
                     
                     var endpointUri = new Uri(endpoint);
 
-                    _client = new DocumentClient(endpointUri, authKey);
+                    this._client = new DocumentClient(endpointUri, authKey);
                 }
 
-                return _client;
+                return this._client;
             }
         }
 
         public DocumentDbContext(IKonfigurasjon konfigurasjon)
         {
-            _konfigurasjon = konfigurasjon;
+            this._konfigurasjon = konfigurasjon;
         }
 
         public async Task ReadOrCreateDatabase()
         {
-            var databases = Client.CreateDatabaseQuery()
-                            .Where(db => db.Id == DatabaseId).ToArray();
+            var databases = this.Client.CreateDatabaseQuery()
+                            .Where(db => db.Id == this.DatabaseId).ToArray();
 
             if (databases.Any())
             {
-                _database = databases.First();
+                this._database = databases.First();
             }
             else
             {
-                var database = new Database { Id = DatabaseId };
-                _database = await Client.CreateDatabaseAsync(database);
+                var database = new Database { Id = this.DatabaseId };
+                this._database = await this.Client.CreateDatabaseAsync(database);
             }
         }
 
         public DocumentCollection ReadOrCreateCollection(string databaseLink, string collectionId)
         {
-            var collections = Client.CreateDocumentCollectionQuery(databaseLink)
+            var collections = this.Client.CreateDocumentCollectionQuery(databaseLink)
                               .Where(col => col.Id == collectionId).ToArray();
 
             if (collections.Any())
@@ -94,7 +95,7 @@ namespace BouvetCodeCamp.Dataaksess
                 return collections.First();
             }
 
-            return Client.CreateDocumentCollectionAsync(databaseLink, new DocumentCollection { Id = collectionId }).Result;
+            return this.Client.CreateDocumentCollectionAsync(databaseLink, new DocumentCollection { Id = collectionId }).Result;
         }
     }
 }

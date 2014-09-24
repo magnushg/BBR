@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using BouvetCodeCamp.Dataaksess;
-using BouvetCodeCamp.Dataaksess.Repositories;
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
@@ -13,6 +12,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using BouvetCodeCamp.Infrastruktur;
+    using BouvetCodeCamp.Infrastruktur.Repositories;
 
     [TestClass]
     public class LagRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest

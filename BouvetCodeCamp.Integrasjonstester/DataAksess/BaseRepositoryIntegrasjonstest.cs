@@ -4,6 +4,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System.Configuration;
 
     using BouvetCodeCamp.Dataaksess;
+    using BouvetCodeCamp.Infrastruktur;
+
     using Microsoft.Azure.Documents.Client;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
