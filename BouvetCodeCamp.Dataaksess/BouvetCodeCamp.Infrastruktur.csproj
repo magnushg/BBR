@@ -7,8 +7,8 @@
     <ProjectGuid>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BouvetCodeCamp.Infrastruktur</RootNamespace>
-    <AssemblyName>BouvetCodeCamp.Infrastruktur</AssemblyName>
+    <RootNamespace>BouvetCodeCamp.Infrastruktur.DataAksess</RootNamespace>
+    <AssemblyName>BouvetCodeCamp.Infrastruktur.DataAksess</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

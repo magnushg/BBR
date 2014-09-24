@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Infrastruktur.Repositories
+namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@ namespace BouvetCodeCamp.Infrastruktur.Repositories
 
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.Infrastruktur.Interfaces;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
 
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
@@ -49,7 +49,7 @@ namespace BouvetCodeCamp.Infrastruktur.Repositories
 
         public async Task<IEnumerable<T>> HentAlle()
         {
-            var aa = Context.Client.CreateDocumentQuery(
+            var aa = this.Context.Client.CreateDocumentQuery(
                 this.Collection.DocumentsLink,
                 "SELECT * FROM Post ").ToList();
 

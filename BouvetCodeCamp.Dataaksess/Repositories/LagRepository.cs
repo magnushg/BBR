@@ -1,9 +1,9 @@
-﻿namespace BouvetCodeCamp.Infrastruktur.Repositories
+﻿namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 {
     using System;
 
     using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Infrastruktur.Interfaces;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
 
     public class LagRepository : Repository<Lag>
     {

@@ -8,7 +8,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
 
     using BouvetCodeCamp.Infrastruktur;
-    using BouvetCodeCamp.Infrastruktur.Repositories;
+    using BouvetCodeCamp.Infrastruktur.DataAksess;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
     [TestClass]
     public class PostRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest

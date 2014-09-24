@@ -7,7 +7,8 @@ using BouvetCodeCamp.Domene.Entiteter;
 namespace BouvetCodeCamp.KartdataImport
 {
     using BouvetCodeCamp.Infrastruktur;
-    using BouvetCodeCamp.Infrastruktur.Repositories;
+    using BouvetCodeCamp.Infrastruktur.DataAksess;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
     class Program
     {

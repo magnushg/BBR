@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Infrastruktur
+﻿namespace BouvetCodeCamp.Infrastruktur.DataAksess
 {
     using System.Configuration;
 

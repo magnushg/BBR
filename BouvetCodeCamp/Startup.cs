@@ -16,8 +16,9 @@ using BouvetCodeCamp.SignalR;
 namespace BouvetCodeCamp
 {
     using BouvetCodeCamp.Infrastruktur;
-    using BouvetCodeCamp.Infrastruktur.Interfaces;
-    using BouvetCodeCamp.Infrastruktur.Repositories;
+    using BouvetCodeCamp.Infrastruktur.DataAksess;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
     public class Startup
     {

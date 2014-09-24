@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Infrastruktur.Interfaces
+namespace BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces
 {
     using System.Threading.Tasks;
 

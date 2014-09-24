@@ -1,7 +1,7 @@
-﻿namespace BouvetCodeCamp.Infrastruktur.Repositories
+﻿namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 {
     using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Infrastruktur.Interfaces;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
 
     using Microsoft.Azure.Documents;
 
