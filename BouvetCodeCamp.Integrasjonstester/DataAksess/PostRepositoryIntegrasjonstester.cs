@@ -22,11 +22,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var postSomSkalLagres = new Post
             {
-                GpsPunktId = Guid.NewGuid().ToString(),
                 Latitude = "59.666",
                 Longitude = "23.555",
-                Kommentar = "Blabla", 
-                OpprettetDato = DateTime.Now
+                Beskrivelse = "Blabla", 
+                Navn = "Testepost",
+                Kilde = "Nokia 3110",
             };
 
             var documentId = repo.Opprett(postSomSkalLagres).Result;
@@ -38,7 +38,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             lagretPost.DocumentId.ShouldNotBeEmpty();
             lagretPost.Latitude.ShouldEqual(postSomSkalLagres.Latitude);
             lagretPost.Longitude.ShouldEqual(postSomSkalLagres.Longitude);
-            lagretPost.Kommentar.ShouldEqual(postSomSkalLagres.Kommentar);
+            lagretPost.Beskrivelse.ShouldEqual(postSomSkalLagres.Beskrivelse);
         }
 
         private PostRepository OpprettRepository()

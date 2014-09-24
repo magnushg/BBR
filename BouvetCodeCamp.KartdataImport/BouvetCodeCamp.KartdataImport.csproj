@@ -47,11 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KartdataKonverterer.cs" />
+    <Compile Include="CSVKartdataKonverterer.cs" />
+    <Compile Include="JSONKartdataConverter.cs" />
+    <Compile Include="KartdataLagring.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="mapdata\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <Content Include="mapdata\oscarsborg.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

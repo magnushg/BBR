@@ -6,11 +6,8 @@ namespace BouvetCodeCamp.Domene.Entiteter
 {
     public class Post : BaseDocument
     {
-        [JsonProperty(PropertyName = "gpsPunktId")]
-        public string GpsPunktId { get; set; }
-
-        [JsonProperty(PropertyName = "OpprettetDato")]
-        public DateTime OpprettetDato { get; set; }
+        [JsonProperty(PropertyName = "navn")]
+        public string Navn { get; set; }
 
         [JsonProperty(PropertyName = "latitude")]
         public string Latitude { get; set; }
@@ -24,18 +21,21 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "bilde")]
         public string Bilde { get; set; }
 
-        [JsonProperty(PropertyName = "kommentar")]
-        public string Kommentar { get; set; }
+        [JsonProperty(PropertyName = "beskrivelse")]
+        public string Beskrivelse { get; set; }
+
+        [JsonProperty(PropertyName = "kilde")]
+        public string Kilde { get; set; }
 
         public Post()
         {
-            GpsPunktId = string.Empty;
-            OpprettetDato = DateTime.MinValue;
             Latitude = string.Empty;
             Longitude = string.Empty;
             Altitude = -999;
             Bilde = string.Empty;
-            Kommentar = string.Empty;
+            Beskrivelse = string.Empty;
+            Kilde = string.Empty;
+            Navn = string.Empty;
         }
     }
 }

@@ -8,9 +8,9 @@ using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.KartdataImport
 {
-    public class KartdataKonverterer
+    public class CSVKartdataKonverterer
     {
-        public IEnumerable<Post> KonverterKartdata()
+        public IEnumerable<Domene.Entiteter.Post> KonverterKartdata()
         {
             var mapData = LesTekstFraFil("mapdata/oscarsborg.csv");
             return mapData
@@ -18,14 +18,12 @@ namespace BouvetCodeCamp.KartdataImport
                 .Skip(1)
                 .Select(x => x.Split(','))
                 .Where(loc => loc.Count() >= 13)
-                .Select(loc => new Post {
-                    GpsPunktId = StripVekkUgyldigeTegn(loc[0]),
-                    OpprettetDato = DateTime.Parse(loc[1]),
+                .Select(loc => new Domene.Entiteter.Post {
                     Latitude = StripVekkUgyldigeTegn(loc[2]),
                     Longitude = StripVekkUgyldigeTegn(loc[3]),
                     Altitude = double.Parse(loc[4], CultureInfo.InvariantCulture),
                     Bilde = StripVekkUgyldigeTegn(loc[10]),
-                    Kommentar = StripVekkUgyldigeTegn(loc[11])
+                    Beskrivelse = StripVekkUgyldigeTegn(loc[11])
                 })
                 .ToList();
         }
