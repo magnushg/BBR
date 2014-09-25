@@ -31,7 +31,6 @@
 
         const string ApiBaseAddress = "http://localhost:2014/";
 
-        [TestCleanup]
         [TestInitialize]
         public void RyddEtterTest()
         {
@@ -43,7 +42,7 @@
         public async Task Lasttest_api_lag_post()
         {
             // Arrange
-            const int AntallTester = 20;
+            const int AntallTester = 10;
 
             // Act
             this.KjørTest(AntallTester);
@@ -105,9 +104,8 @@
 
             using (var webClient = new WebClient())
             {
-                //webClient.Headers.Add(HttpRequestHeader.Authorization, basicAuthorizationHeader.Scheme + " " + basicAuthorizationHeader.Parameter);
-                webClient.Headers.Add(HttpRequestHeader.Authorization, "Basic Ym91dmV0Om15c2VjcmV0");
-
+                webClient.Headers.Add(HttpRequestHeader.Authorization, basicAuthorizationHeader.Scheme + " " + basicAuthorizationHeader.Parameter);
+                
                 webClient.UploadStringAsync(new Uri(ApiEndPointAddress), "DELETE", string.Empty);
             }
         }
@@ -121,8 +119,7 @@
             {
                 webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                 webClient.Headers.Add(HttpRequestHeader.Authorization, basicAuthorizationHeader.Scheme + " " + basicAuthorizationHeader.Parameter);
-                //webClient.Headers.Add(HttpRequestHeader.Authorization, "Basic Ym91dmV0Om15c2VjcmV0");
-
+                
                 var lagSomJson = "{ \"lagId\" : \"" + 888 + "\" }";
 
                 webClient.UploadStringAsync(new Uri(ApiEndPointAddress), "POST", lagSomJson);
