@@ -10,7 +10,7 @@ namespace BouvetCodeCamp.AdminApi
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/lag")]
-    //[Authorize]
+    [Authorize]
     public class LagController : ApiController
     {
         private readonly IRepository<Lag> lagRepository;

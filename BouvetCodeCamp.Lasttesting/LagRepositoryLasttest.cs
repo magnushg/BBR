@@ -70,7 +70,7 @@
 
                 result = await task();
             }
-            return success;
+            return result;
         }
 
         private AuthenticationHeaderValue OpprettBasicHeader(string brukernavn, string passord)

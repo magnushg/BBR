@@ -9,7 +9,6 @@
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.SignalR;
 
@@ -53,19 +52,7 @@
                message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
            });
         }
-        //Øverst til venstre 59.680782, 10.602574
-        //Nederst til høyre 59.672267, 10.609526
-        [HttpGet]
-        [Route("pif/put")]
-        public async Task<HttpResponseMessage> RegistrerPifPosition([FromUri] GeoPosisjonModel model)
-        {
-
-            this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = model.LagId, Latitude = model.Latitude, Longitude = model.Longitude, Tid = DateTime.Now });
-            var nyPosisjon = await this._gameApi.RegistrerPifPosition(model);
-           
-            return this.Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
-        }
-
+       
         //Øverst til venstre 59.680782, 10.602574
         //Nederst til høyre 59.672267, 10.609526
         [HttpGet]
@@ -77,25 +64,6 @@
             
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
-
-        [HttpGet]
-        [Route("pif/get")]
-        public async Task<HttpResponseMessage> HentSistePifPositionForLag(string lagId)
-        {
-            var pifPosisjonModel = await this._gameApi.HentSistePifPositionForLag(lagId);
-
-            return this.Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, this.Configuration.Formatters.JsonFormatter);
-        }
-
-        [HttpGet]
-        [Route("pif/getAll")]
-        public async Task<HttpResponseMessage> HentAlleSistePifPosisjoner()
-        {
-            var pifPosisjonModel = await this._gameApi.HentAllePifPosisjoner();
-
-            return this.Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, this.Configuration.Formatters.JsonFormatter);
-        }
-
 
 
 

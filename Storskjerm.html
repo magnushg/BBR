@@ -37,7 +37,7 @@
         var lag = {};
         lag.Lag = [];
         $(document).ready(function () {
-            $.getJSON("http://localhost:2014/api/game/pif/getAll", function (data) {
+            $.getJSON("http://localhost:2014/api/game/pif/get", function (data) {
                 $.each(data, function (key, val) {
                     lag[val.lagId] = createMarker(val.latitude, val.longitude, val.lagId);
                 });
