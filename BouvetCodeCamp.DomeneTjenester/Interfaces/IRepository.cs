@@ -17,5 +17,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task Oppdater(T document);
 
         Task Slett(T document);
+
+        Task SlettAlle();
     }
 }

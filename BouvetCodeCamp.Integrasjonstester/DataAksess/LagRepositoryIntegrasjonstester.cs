@@ -184,6 +184,27 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             oppdatertLag.Poeng.ShouldEqual(20);
         }
 
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task SlettAlle_HarEttLag_HarIngenLag()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+            
+            var lag = Builder<Lag>.CreateNew()
+                .Build();
+
+            await repository.Opprett(lag);
+            
+            // Act
+            await repository.SlettAlle();
+
+            // Assert
+            var alleLag = await repository.HentAlle();
+
+            alleLag.ShouldBeEmpty();
+        }
+
         private LagRepository OpprettRepository()
         {
             return new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));

@@ -10,7 +10,7 @@ namespace BouvetCodeCamp.AdminApi
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/lag")]
-    [Authorize]
+    //[Authorize]
     public class LagController : ApiController
     {
         private readonly IRepository<Lag> lagRepository;
@@ -71,6 +71,16 @@ namespace BouvetCodeCamp.AdminApi
 
             await this.lagRepository.Oppdater(model);
 
+            return this.Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        // DELETE api/lag/delete
+        [Route("delete")]
+        [HttpDelete]
+        public async Task<HttpResponseMessage> Delete()
+        {
+            await this.lagRepository.SlettAlle();
+            
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 

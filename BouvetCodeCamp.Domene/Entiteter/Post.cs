@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Policy;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Domene.Entiteter
 {

@@ -49,10 +49,6 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public async Task<IEnumerable<T>> HentAlle()
         {
-            var aa = this.Context.Client.CreateDocumentQuery(
-                this.Collection.DocumentsLink,
-                "SELECT * FROM Post ").ToList();
-
             return await Task.Run(() =>
                 this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
                     .AsEnumerable()
@@ -92,6 +88,20 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                 throw new Exception("Fant ikke entiteten som skulle slettes.");
 
             await this.Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
+        }
+
+        public async Task SlettAlle()
+        {
+            var entiteter =
+                this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink).AsEnumerable();
+
+            if (entiteter != null && entiteter.Any())
+            {
+                foreach (var document in entiteter)
+                {
+                    await this.Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
+                }
+            }
         }
     }
 }

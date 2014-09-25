@@ -11,6 +11,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using BouvetCodeCamp.Infrastruktur.DataAksess;
     using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
+    using FizzWare.NBuilder;
+
     [TestClass]
     public class PostRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest
     {
@@ -39,6 +41,27 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             lagretPost.Latitude.ShouldEqual(postSomSkalLagres.Latitude);
             lagretPost.Longitude.ShouldEqual(postSomSkalLagres.Longitude);
             lagretPost.Beskrivelse.ShouldEqual(postSomSkalLagres.Beskrivelse);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task SlettAlle_HarEnPost_HarIngenPoster()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+
+            var post = Builder<Post>.CreateNew()
+                .Build();
+
+            await repository.Opprett(post);
+
+            // Act
+            await repository.SlettAlle();
+
+            // Assert
+            var allePoster = await repository.HentAlle();
+
+            allePoster.ShouldBeEmpty();
         }
 
         private PostRepository OpprettRepository()
