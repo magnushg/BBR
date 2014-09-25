@@ -42,14 +42,35 @@
         public async Task Lasttest_api_lag_post()
         {
             // Arrange
-            const int AntallTester = 10;
+            const int AntallTester = 5;
 
             // Act
             this.KjørTest(AntallTester);
 
             // Assert
             var antallLag = await this.ValiderResultat();
-            antallLag.ShouldEqual(AntallTester);
+
+            antallLag.ShouldEqual(await RetryUntilSuccessOrTimeout(async () => 
+                await this.ValiderResultat(), 
+                TimeSpan.FromSeconds(10), 
+                AntallTester));
+        }
+
+        public async Task<int> RetryUntilSuccessOrTimeout(Func<Task<int>> task, TimeSpan timeSpan, int ønsketAntall)
+        {
+            var result = 0;
+            var secondsElapsed = 0;
+
+            const int WaitStepInMilliseconds = 1000;
+
+            while ((result < ønsketAntall) && (secondsElapsed < timeSpan.TotalMilliseconds))
+            {
+                Thread.Sleep(WaitStepInMilliseconds);
+                secondsElapsed += WaitStepInMilliseconds;
+
+                result = await task();
+            }
+            return success;
         }
 
         private AuthenticationHeaderValue OpprettBasicHeader(string brukernavn, string passord)
