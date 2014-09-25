@@ -12,6 +12,7 @@
 
         public PostRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context) : base(konfigurasjon, context)
         {
+            
         }
 
         public override string CollectionId

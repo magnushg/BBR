@@ -1,5 +1,4 @@
-﻿using System;
-using BouvetCodeCamp.Domene.Entiteter;
+﻿using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using NUnit.Framework;
@@ -17,6 +16,225 @@ namespace BouvetCodeCamp.UnitTest.Felles
             _coordinateVerifier = new CoordinateVerifier();
         }
 
+        ///
+        /// CoordinateIsInPolygon
+        ///
+        [Test]
+        public void CoordinateIsInPolygon_InsidePolygon_True()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(1.5, 1.5);
+
+            Assert.IsTrue(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+//        [Ignore]
+        public void CoordinateIsInPolygon_LeftOfPolygon_False()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(0.5, 1);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_RightOfPolygon_False()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(2.5, 1.5);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_AbovePolygon_False()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(0.5, 1.5);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_UnderPolygon_False()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(2.5, 1);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_BottomRightCorner_True()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(2, 2);
+
+            Assert.IsTrue(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_BottomLeftCorner_False()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(1, 2);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_TopLeftCorner_False()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(1, 1);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_TopRightCorner_False()
+        {
+            Coordinate[] polygon = GetSquarePolygon();
+            var point = new Coordinate(1, 2);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_GetZiggyPolygon_Case1()
+        {
+            //            1             2         3
+            //
+            //     2      X------------------------X
+            //            XX                     XXX
+            //             XX                 XXX
+            //     3        XX               XX
+            //               XX            XX
+            //                XX          XX
+            //                 XX       XXX
+            //     4            XX      XX   (p)
+            //                  X        XX
+            //                 XX         XX
+            //     5          XX           XXX
+            //               XX              XX
+            //              X                 XX
+            //             XX                  XX
+            //     6      XXXXXXXXXXXXXXXXXXXXXXX
+            Coordinate[] polygon = GetZiggyPolygon();
+            var point = new Coordinate(4, 2.5);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_GetZiggyPolygon_Case2()
+        {
+            //            1             2         3
+            //
+            //     2      X------------------------X
+            //            XX                     XXX
+            //             XX                 XXX
+            //     3        XX         (p)   XX
+            //               XX            XX
+            //                XX          XX
+            //                 XX       XXX
+            //     4            XX      XX
+            //                  X        XX
+            //                 XX         XX
+            //     5          XX           XXX
+            //               XX              XX
+            //              X                 XX
+            //             XX                  XX
+            //     6      XXXXXXXXXXXXXXXXXXXXXXX
+            Coordinate[] polygon = GetZiggyPolygon();
+            var point = new Coordinate(2, 3);
+
+            Assert.IsTrue(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_GetZiggyPolygon_Case3()
+        {
+            //            1             2         3
+            //
+            //     2      X----------(p)------------X
+            //            XX                     XXX
+            //             XX                 XXX
+            //     3        XX               XX
+            //               XX            XX
+            //                XX          XX
+            //                 XX       XXX
+            //     4            XX      XX
+            //                  X        XX
+            //                 XX         XX
+            //     5          XX           XXX
+            //               XX              XX
+            //              X                 XX
+            //             XX                  XX
+            //     6      XXXXXXXXXXXXXXXXXXXXXXX
+            Coordinate[] polygon = GetZiggyPolygon();
+            var point = new Coordinate(2, 2);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_GetZiggyPolygon_Case4()
+        {
+            //            1             2         3
+            //
+            //     2      X-------------------------X
+            //            XX                     XXX
+            //             XX                 XXX
+            //     3        XX               XX
+            //               XX            XX
+            //                XX          XX
+            //                 XX       XXX
+            //     4        (p) XX      XX
+            //                  X        XX
+            //                 XX         XX
+            //     5          XX           XXX
+            //               XX              XX
+            //              X                 XX
+            //             XX                  XX
+            //     6      XXXXXXXXXXXXXXXXXXXXXXX
+            Coordinate[] polygon = GetZiggyPolygon();
+            var point = new Coordinate(1.49, 4);
+
+            Assert.IsTrue(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        [Test]
+        public void CoordinateIsInPolygon_GetZiggyPolygon_Case5()
+        {
+            //            1             2         3
+            //
+            //     2      X-------------------------X
+            //            XX                     XXX
+            //             XX                 XXX
+            //     3        XX               XX
+            //               XX            XX
+            //                XX          XX
+            //                 XX       XXX
+            //     4            XX      XX
+            //                  X        XX
+            //                 XX         XX
+            //     5          XX           XXX
+            //               XX              XX
+            //              X                 XX
+            //             XX                  XX
+            //     6      XXXXXXXXXXXXXXXXXXXXXXX
+            //                     (p)
+            Coordinate[] polygon = GetZiggyPolygon();
+            var point = new Coordinate(1.7, 7);
+
+            Assert.IsFalse(_coordinateVerifier.CoordinateIsInPolygon(point, polygon));
+        }
+
+        ///
+        /// CoordinateSAreInProximity
+        ///
         [Test]
         public void CoordinateSAreInProximity_PerfectMatch_ReturnsTrue()
         {
@@ -152,6 +370,49 @@ namespace BouvetCodeCamp.UnitTest.Felles
 
             Assert.IsFalse(_coordinateVerifier.IsStringValidCoordinate(under));
             Assert.IsFalse(_coordinateVerifier.IsStringValidCoordinate(over));
+        }
+
+        private static Coordinate[] GetSquarePolygon()
+        {
+            return new []
+            {
+                new Coordinate(1, 1),
+                new Coordinate(2, 1), //   ____
+                new Coordinate(2, 2), //  |    |
+                new Coordinate(1, 2), //  |____|
+            };
+        }
+
+        private static Coordinate[] GetZiggyPolygon()
+        {
+//            1             2         3
+//
+//     2      X------------------------X
+//            XX                     XXX
+//             XX                 XXX
+//     3        XX               XX
+//               XX            XX
+//                XX          XX
+//                 XX       XXX
+//     4            XX      XX
+//                  X        XX
+//                 XX         XX
+//     5          XX           XXX
+//               XX              XX
+//              X                 XX
+//             XX                  XX
+//     6      XXXXXXXXXXXXXXXXXXXXXXX
+
+            return new []
+            {
+                new Coordinate(1,2), 
+                new Coordinate(2,2), 
+                new Coordinate(3,2), 
+                new Coordinate(2,4), 
+                new Coordinate(3,6), 
+                new Coordinate(1,6), 
+                new Coordinate(0.5, 4), 
+            };
         }
     }
 }

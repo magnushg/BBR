@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
@@ -25,6 +27,26 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             return Math.Abs(firstLong - secondLong) <= LongProximityThreshold
                    && Math.Abs(firstLat - secondLat) <= LatProximityThreshold;
+        }
+
+        // algoritme tatt fra
+        // http://stackoverflow.com/a/14998816/1770699
+        public bool CoordinateIsInPolygon(Coordinate point, Coordinate[] polygon)
+        {
+            bool result = false;
+            int j = polygon.Count() - 1;
+            for (int i = 0; i < polygon.Count(); i++)
+            {
+                if (polygon[i].Y < point.Y && polygon[j].Y >= point.Y || polygon[j].Y < point.Y && polygon[i].Y >= point.Y)
+                {
+                    if (polygon[i].X + (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) * (polygon[j].X - polygon[i].X) < point.X)
+                    {
+                        result = !result;
+                    }
+                }
+                j = i;
+            }
+            return result;
         }
 
         public bool IsStringValidCoordinate(string coordinate)
