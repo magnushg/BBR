@@ -29,7 +29,9 @@
             this._gameApi = gameApi;
             //this._gameHub = gameHub;
         }
-        [Route("")]
+
+        // GET api/game/get
+        [Route("get")]
         public HttpResponseMessage Get()
         {
             return this.Request.CreateResponse(HttpStatusCode.OK, new
@@ -38,15 +40,12 @@
             });
         }
 
-        public HttpResponseMessage ReportPosition(int groupId, double lat, double lon)
-        {
-            return new HttpResponseMessage();
-        }
-
         [HttpGet]
         [Route("sendCommand")]
         public HttpResponseMessage SendCommand(int groupId, Direction direction, double distance, string message)
         {
+            // TODO: lagre melding
+
             return this.Request.CreateResponse(HttpStatusCode.OK, new
            {
                message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
@@ -59,14 +58,13 @@
         [Route("setRedZone")]
         public async Task<HttpResponseMessage> SetRedZone([FromUri] Coordinate model)
         {
-
             this._gameHub.Value.Clients.All.SetRedZone(new Coordinate(model.Longitude,model.Latitude ));
             
+            //TODO: opprette infisert sone
+
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
-
-
-
+        
         public async Task<HttpResponseMessage> RegistrerKode([FromUri] KodeModel model)
         {
             try
@@ -80,12 +78,8 @@
             catch (Exception e)
             {
                 return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
-            }            
-
+            }       
         }
-
-
-
 
         public HttpResponseMessage SendMelding(string lagId, string tekst, MeldingType type)
         {
@@ -103,8 +97,6 @@
                 return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return this.Request.CreateResponse(HttpStatusCode.Created);
-
-
         }
     }
 }
