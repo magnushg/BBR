@@ -10,9 +10,9 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         
         Task<string> Opprett(T document);
 
-        Task<IEnumerable<T>> HentAlle();
+        IEnumerable<T> HentAlle();
 
-        Task<T> Hent(string id);
+        T Hent(string id);
 
         Task Oppdater(T document);
 

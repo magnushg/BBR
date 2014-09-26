@@ -5,9 +5,6 @@ using Should;
 
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
-    using System;
-
-    using BouvetCodeCamp.Infrastruktur;
     using BouvetCodeCamp.Infrastruktur.DataAksess;
     using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
@@ -33,9 +30,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var documentId = repo.Opprett(postSomSkalLagres).Result;
 
-            var lagretPost = await repo.Hent(documentId);
+            var lagretPost = repo.Hent(documentId);
 
-            var alle = await repo.HentAlle();
+            var alle = repo.HentAlle();
 
             lagretPost.DocumentId.ShouldNotBeEmpty();
             lagretPost.Latitude.ShouldEqual(postSomSkalLagres.Latitude);
@@ -59,7 +56,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             await repository.SlettAlle();
 
             // Assert
-            var allePoster = await repository.HentAlle();
+            var allePoster = repository.HentAlle();
 
             allePoster.ShouldBeEmpty();
         }

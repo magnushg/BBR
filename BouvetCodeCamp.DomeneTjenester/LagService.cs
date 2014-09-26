@@ -14,12 +14,12 @@ namespace BouvetCodeCamp.DomeneTjenester
             _lagRepository = lagRepository;
         }
 
-        public Task<Lag> HentLag(string lagId)
+        public Lag HentLag(string lagId)
         {
             return _lagRepository.Hent(lagId);
         }
 
-        public Task<IEnumerable<Lag>> HentAlleLag()
+        public IEnumerable<Lag> HentAlleLag()
         {
             return _lagRepository.HentAlle();
         }

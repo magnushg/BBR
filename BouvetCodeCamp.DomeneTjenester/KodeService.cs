@@ -20,16 +20,16 @@ namespace BouvetCodeCamp.DomeneTjenester
             _coordinateVerifier = coordinateVerifier;
         }
 
-        public async Task<IEnumerable<Kode>> HentOppdagedeKoder(string lagId)
+        public IEnumerable<Kode> HentOppdagedeKoder(string lagId)
         {
-            var lag = await _lagService.HentLag(lagId);
+            var lag = _lagService.HentLag(lagId);
 
             return lag.Koder.Where(kode => kode.PosisjonTilstand.Equals(PosisjonTilstand.Oppdaget));
         }
 
-        public async Task<IEnumerable<Kode>> HentAlleKoder(string lagId)
+        public IEnumerable<Kode> HentAlleKoder(string lagId)
         {
-            var lag = await _lagService.HentLag(lagId);
+            var lag = _lagService.HentLag(lagId);
 
             return lag.Koder;
         }
@@ -41,9 +41,9 @@ namespace BouvetCodeCamp.DomeneTjenester
         ///   3 - tilstanden ikke allerede er satt til oppdaget
         /// </summary>
         /// <returns>true hvis alle kriterier er oppfylt</returns>
-        public async Task<bool> SettKodeTilstandTilOppdaget(string lagId, string kode, Coordinate koordinat)
+        public bool SettKodeTilstandTilOppdaget(string lagId, string kode, Coordinate koordinat)
         {
-            var lag = await _lagService.HentLag(lagId);
+            var lag = _lagService.HentLag(lagId);
 
             var kandidater = lag.Koder.Where(k => k.Bokstav.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
                 && _coordinateVerifier.CoordinatesAreInProximity(k.Gps, koordinat)

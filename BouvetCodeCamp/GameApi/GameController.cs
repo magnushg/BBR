@@ -65,11 +65,11 @@
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
         
-        public async Task<HttpResponseMessage> RegistrerKode([FromUri] KodeModel model)
+        public HttpResponseMessage RegistrerKode([FromUri] KodeModel model)
         {
             try
             {
-                var kodeRegistrert = await this._gameApi.RegistrerKode(model);
+                var kodeRegistrert = this._gameApi.RegistrerKode(model);
 
                 return kodeRegistrert ?
                     this.Request.CreateResponse(HttpStatusCode.OK) :

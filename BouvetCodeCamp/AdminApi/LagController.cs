@@ -23,9 +23,9 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/lag/get
         [Route("get")]
         [HttpGet]
-        public async Task<HttpResponseMessage> Get()
+        public HttpResponseMessage Get()
         {
-            var lagene = await this.lagRepository.HentAlle();
+            var lagene = this.lagRepository.HentAlle();
 
             if (lagene == null || !lagene.Any()) 
                 return this.OpprettIngenLagFantesIkkeResponse();
@@ -36,9 +36,9 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/lag/get/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
-        public async Task<HttpResponseMessage> GetLag(string id)
+        public HttpResponseMessage GetLag(string id)
         {
-            var lag = await this.lagRepository.Hent(id);
+            var lag = this.lagRepository.Hent(id);
 
             if (lag == null)
             {
@@ -89,7 +89,7 @@ namespace BouvetCodeCamp.AdminApi
         [HttpDelete]
         public async Task<HttpResponseMessage> DeleteLag(string id)
         {
-            var lag = await this.lagRepository.Hent(id);
+            var lag = this.lagRepository.Hent(id);
 
             if (lag == null) 
                 return this.OpprettLagFantesIkkeResponse(id);

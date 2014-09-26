@@ -36,10 +36,10 @@ namespace BouvetCodeCamp.UnitTest
                 new PifPosisjon {Tid = new DateTime(2002, 1, 1)},
                 new PifPosisjon {Tid = new DateTime(2003, 1, 1)},
             };
-            _lagService.Setup(x => x.HentLag(It.IsAny<string>()))
-                .ReturnsAsync(lag);
 
-            var resultat = await _gameApi.HentSistePifPositionForLag(String.Empty);
+            _lagService.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+
+            var resultat = _gameApi.HentSistePifPositionForLag(String.Empty);
 
             Assert.AreEqual(tidligsteTid, resultat.Tid);
         }
