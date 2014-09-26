@@ -2,8 +2,8 @@
 {
     using System;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
+    using Domene.Entiteter;
+    using Interfaces;
 
     public class LagRepository : Repository<Lag>
     {
@@ -17,12 +17,12 @@
         {
             get
             {
-                if (string.IsNullOrEmpty(this._collectionId))
+                if (string.IsNullOrEmpty(_collectionId))
                 {
-                    this._collectionId = this._konfigurasjon.HentAppSetting(DocumentDbKonstanter.LagCollectionId);
+                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.LagCollectionId);
                 }
 
-                return this._collectionId;
+                return _collectionId;
             }
         }
 

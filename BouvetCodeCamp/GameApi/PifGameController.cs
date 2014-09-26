@@ -13,14 +13,14 @@ namespace BouvetCodeCamp.GameApi
     using Microsoft.AspNet.SignalR;
 
     [RoutePrefix("api/game/pif")]
-    public class PifGameController : ApiController
+    public class PifGameController : BaseApiController
     {
         private readonly IGameApi _gameApi;
         Lazy<IHubContext<IGameHub>> _gameHub;
 
         public PifGameController(IGameApi gameApi)
         {
-            this._gameApi = gameApi;
+            _gameApi = gameApi;
         }
 
         // POST api/game/pif/SendPifPosition
@@ -29,7 +29,7 @@ namespace BouvetCodeCamp.GameApi
         public HttpResponseMessage SendPifPosition([FromBody] GeoPosisjonModel modell)
         {
             if (modell == null) 
-                return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
@@ -47,22 +47,22 @@ namespace BouvetCodeCamp.GameApi
         // POST api/game/pif/sendpostkode
         [HttpPost]
         [Route("sendpostkode")]
-        public HttpResponseMessage SendPostKode([FromUri] KodeModel modell)
+        public HttpResponseMessage SendPostKode([FromBody] KodeModel modell)
         {
             if (modell == null)
-                return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                var kodeRegistrert = this._gameApi.RegistrerKode(modell);
+                var kodeRegistrert = _gameApi.RegistrerKode(modell);
 
                 return kodeRegistrert ?
-                    this.Request.CreateResponse(HttpStatusCode.OK) :
-                    this.Request.CreateResponse(HttpStatusCode.BadRequest);
+                    Request.CreateResponse(HttpStatusCode.OK) :
+                    Request.CreateResponse(HttpStatusCode.BadRequest);
             }
             catch (Exception e)
             {
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
         }
 
@@ -72,16 +72,6 @@ namespace BouvetCodeCamp.GameApi
         public void ErInfisert()
         {
            
-        }
-        
-        private HttpResponseMessage OpprettErrorResponse(ErrorResponseType errorResponseType)
-        {
-            switch (errorResponseType)
-            {
-                case ErrorResponseType.UgyldigInputFormat:
-                    return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig inputformat");
-            }
-            return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
         }
     }
 }

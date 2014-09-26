@@ -46,7 +46,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagService.HentLag(lagId);
 
             var kandidater = lag.Koder.Where(k => k.Bokstav.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
-                && _coordinateVerifier.CoordinatesAreInProximity(k.Gps, koordinat)
+                && _coordinateVerifier.CoordinatesAreInProximity(k.Posisjon, koordinat)
                 && k.PosisjonTilstand.Equals(PosisjonTilstand.Ukjent)).ToList();
 
             switch (kandidater.Count())

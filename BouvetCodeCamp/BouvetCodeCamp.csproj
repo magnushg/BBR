@@ -62,9 +62,11 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdminApi\InfisertController.cs" />
     <Compile Include="AdminApi\LagController.cs" />
     <Compile Include="AdminApi\PostController.cs" />
     <Compile Include="AuthenticationMiddleware.cs" />
+    <Compile Include="GameApi\BaseApiController.cs" />
     <Compile Include="GameApi\BaseGameController.cs" />
     <Compile Include="GameApi\GameController.cs" />
     <Compile Include="GameApi\PifGameController.cs" />

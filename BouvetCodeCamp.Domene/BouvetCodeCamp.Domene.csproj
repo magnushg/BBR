@@ -48,6 +48,8 @@
     <Compile Include="Direction.cs" />
     <Compile Include="Entiteter\BaseDocument.cs" />
     <Compile Include="Entiteter\Coordinate.cs" />
+    <Compile Include="Entiteter\GameState.cs" />
+    <Compile Include="Entiteter\InfisertPolygon.cs" />
     <Compile Include="Entiteter\Kode.cs" />
     <Compile Include="Entiteter\Lag.cs" />
     <Compile Include="Entiteter\LoggHendelse.cs" />

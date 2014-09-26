@@ -49,7 +49,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Arrange
             var repository = OpprettRepository();
 
-            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Gps = new Coordinate("10", "90") };
+            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Posisjon = new Coordinate("10", "90") };
             var koder = new List<Kode>
                             {
                                 kode
@@ -67,8 +67,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Assert
             lagretLag.Koder.FirstOrDefault().PosisjonTilstand.ShouldEqual(kode.PosisjonTilstand);
             lagretLag.Koder.FirstOrDefault().Bokstav.ShouldEqual(kode.Bokstav);
-            lagretLag.Koder.FirstOrDefault().Gps.Latitude.ShouldEqual(kode.Gps.Latitude);
-            lagretLag.Koder.FirstOrDefault().Gps.Longitude.ShouldEqual(kode.Gps.Longitude);
+            lagretLag.Koder.FirstOrDefault().Posisjon.Latitude.ShouldEqual(kode.Posisjon.Latitude);
+            lagretLag.Koder.FirstOrDefault().Posisjon.Longitude.ShouldEqual(kode.Posisjon.Longitude);
         }
 
         [TestMethod]

@@ -5,12 +5,12 @@
     using System.Net.Http;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    
+    using Domene;
+    using Domene.InputModels;
+    using DomeneTjenester.Interfaces;
+
     [RoutePrefix("api/game/base")]
-    public class BaseGameController : ApiController
+    public class BaseGameController : BaseApiController
     {
         private readonly IGameApi gameApi;
 
@@ -33,11 +33,11 @@
         public HttpResponseMessage HentPifPosisjon(string lagId)
         {
             if (string.IsNullOrEmpty(lagId)) 
-                this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
-            var pifPosisjonModel = this.gameApi.HentSistePifPositionForLag(lagId);
+            var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
 
-            return this.Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, this.Configuration.Formatters.JsonFormatter);
+            return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
         }
 
         // GET api/game/base/hentgjeldendepost
@@ -54,27 +54,17 @@
         public HttpResponseMessage SendPifMelding([FromBody] MeldingModel modell)
         {
             if (modell == null) 
-                return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                this.gameApi.SendMelding(modell);
+                gameApi.SendMelding(modell);
             }
             catch (Exception e)
             {
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            return this.Request.CreateResponse(HttpStatusCode.Created);
-        }
-
-        private HttpResponseMessage OpprettErrorResponse(ErrorResponseType errorResponseType)
-        {
-            switch (errorResponseType)
-            {
-                case ErrorResponseType.UgyldigInputFormat:
-                    return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig inputformat");
-            }
-            return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
+            return Request.CreateResponse(HttpStatusCode.Created);
         }
     }
 }
