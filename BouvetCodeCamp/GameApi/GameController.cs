@@ -64,39 +64,5 @@
 
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
-        
-        public HttpResponseMessage RegistrerKode([FromUri] KodeModel model)
-        {
-            try
-            {
-                var kodeRegistrert = this._gameApi.RegistrerKode(model);
-
-                return kodeRegistrert ?
-                    this.Request.CreateResponse(HttpStatusCode.OK) :
-                    this.Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-            catch (Exception e)
-            {
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
-            }       
-        }
-
-        public HttpResponseMessage SendMelding(string lagId, string tekst, MeldingType type)
-        {
-            try
-            {
-                this._gameApi.SendMelding(new MeldingModel
-                {
-                    LagId = lagId,
-                    Tekst = tekst,
-                    Type = type
-                });
-            }
-            catch (Exception e)
-            {
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
-            }
-            return this.Request.CreateResponse(HttpStatusCode.Created);
-        }
     }
 }

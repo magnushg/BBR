@@ -54,6 +54,7 @@
     <Compile Include="Entiteter\Melding.cs" />
     <Compile Include="Entiteter\PifPosisjon.cs" />
     <Compile Include="Entiteter\Post.cs" />
+    <Compile Include="ErrorResponseType.cs" />
     <Compile Include="HendelseType.cs" />
     <Compile Include="InputModels\GeoPosisjonModel.cs" />
     <Compile Include="InputModels\KodeModel.cs" />

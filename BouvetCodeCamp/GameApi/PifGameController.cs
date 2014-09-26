@@ -3,9 +3,9 @@ namespace BouvetCodeCamp.GameApi
     using System;
     using System.Net;
     using System.Net.Http;
-    using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
     using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
@@ -24,38 +24,61 @@ namespace BouvetCodeCamp.GameApi
             this._gameApi = gameApi;
         }
 
-        // PUT api/game/pif/put
-        [HttpGet]
-        [Route("put")]
-        public HttpResponseMessage PutPifPosition([FromUri] GeoPosisjonModel model)
+        // POST api/game/pif/SendPifPosition
+        [HttpPost]
+        [Route("sendPifPosition")]
+        public HttpResponseMessage SendPifPosition([FromUri] GeoPosisjonModel modell)
         {
+            if (modell == null) 
+                return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+
             //Øverst til venstre 59.680782, 10.602574
             //Nederst til høyre 59.672267, 10.609526
 
-            this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = model.LagId, Latitude = model.Latitude, Longitude = model.Longitude, Tid = DateTime.Now });
-            var nyPosisjon = this._gameApi.RegistrerPifPosition(model);
+            this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
+            var nyPosisjon = this._gameApi.RegistrerPifPosition(modell);
            
             return this.Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
         }
-
-        // GET api/game/pif/get/91735
-        [HttpGet]
-        [Route("get/{lagId}")]
-        public HttpResponseMessage GetPifPosisjon(string lagId)
+        
+        // POST api/game/pif/sendpostkode
+        [HttpPost]
+        [Route("sendpostkode")]
+        public HttpResponseMessage SendPostKode([FromUri] KodeModel modell)
         {
-            var pifPosisjonModel = this._gameApi.HentSistePifPositionForLag(lagId);
+            if (modell == null)
+                return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
-            return this.Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, this.Configuration.Formatters.JsonFormatter);
+            try
+            {
+                var kodeRegistrert = this._gameApi.RegistrerKode(modell);
+
+                return kodeRegistrert ?
+                    this.Request.CreateResponse(HttpStatusCode.OK) :
+                    this.Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            catch (Exception e)
+            {
+                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
         }
 
-        // GET api/game/pif/get
+        // GET api/game/pif/erinfisert
         [HttpGet]
-        [Route("get")]
-        public HttpResponseMessage Get()
+        [Route("erinfisert")]
+        public void ErInfisert()
         {
-            var pifPosisjonModel = this._gameApi.HentAllePifPosisjoner();
-
-            return this.Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, this.Configuration.Formatters.JsonFormatter);
+           
+        }
+        
+        private HttpResponseMessage OpprettErrorResponse(ErrorResponseType errorResponseType)
+        {
+            switch (errorResponseType)
+            {
+                case ErrorResponseType.UgyldigInputFormat:
+                    return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig inputformat");
+            }
+            return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
         }
     }
 }
