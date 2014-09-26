@@ -47,21 +47,19 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             return opprettetDocument.Resource.Id;
         }
 
-        public async Task<IEnumerable<T>> HentAlle()
+        public IEnumerable<T> HentAlle()
         {
-            return await Task.Run(() =>
-                this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
-                    .AsEnumerable()
-                    .ToList());
+            return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
+                .AsEnumerable();
+
         }
 
-        public async Task<T> Hent(string id)
+        public T Hent(string id)
         {
-            return await Task.Run(() =>
-                this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
-                    .Where(d => d.DocumentId == id)
-                    .AsEnumerable()
-                    .FirstOrDefault());
+            return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
+                .Where(d => d.DocumentId == id)
+                .AsEnumerable()
+                .FirstOrDefault();
         }
 
         public async Task Oppdater(T document)
@@ -92,8 +90,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public async Task SlettAlle()
         {
-            var entiteter =
-                this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink).AsEnumerable();
+            var entiteter = this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink)
+                .AsEnumerable();
 
             if (entiteter != null && entiteter.Any())
             {

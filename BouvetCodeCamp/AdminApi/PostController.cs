@@ -23,9 +23,9 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/post/get
         [Route("get")]
         [HttpGet]
-        public async Task<HttpResponseMessage> Get()
+        public HttpResponseMessage Get()
         {
-            var poster = await this.postRepository.HentAlle();
+            var poster = this.postRepository.HentAlle();
 
             if (poster == null || !poster.Any())
                 return this.OpprettIngenPosterFantesIkkeResponse();
@@ -36,9 +36,9 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/post/get/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
-        public async Task<HttpResponseMessage> GetPost(string id)
+        public HttpResponseMessage GetPost(string id)
         {
-            var post = await this.postRepository.Hent(id);
+            var post = this.postRepository.Hent(id);
 
             if (post == null)
             {
@@ -89,7 +89,7 @@ namespace BouvetCodeCamp.AdminApi
         [HttpDelete]
         public async Task<HttpResponseMessage> DeletePost(string id)
         {
-            var post = await this.postRepository.Hent(id);
+            var post = this.postRepository.Hent(id);
 
             if (post == null)
                 return this.OpprettPostFantesIkkeResponse(id);

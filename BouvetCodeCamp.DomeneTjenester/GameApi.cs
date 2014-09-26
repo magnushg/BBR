@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.Domene.InputModels;
@@ -26,7 +26,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             this.loggService = loggService;
         }
 
-        public async Task<PifPosisjon> RegistrerPifPosition(GeoPosisjonModel model)
+        public PifPosisjon RegistrerPifPosition(GeoPosisjonModel model)
         {
             var pifPosisjon = new PifPosisjon
             {
@@ -36,7 +36,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Tid = DateTime.Now
             };
 
-            var lag = await _lagService.HentLag(model.LagId);
+            var lag = _lagService.HentLag(model.LagId);
             lag.PifPosisjoner.Add(pifPosisjon);
 
             _lagService.Oppdater(lag);
@@ -46,9 +46,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             return pifPosisjon;
         }
 
-        public async Task<PifPosisjonModel> HentSistePifPositionForLag(string lagId)
+        public PifPosisjonModel HentSistePifPositionForLag(string lagId)
         {
-            var lag = await _lagService.HentLag(lagId);
+            var lag = _lagService.HentLag(lagId);
 
             var sortertListe = lag.PifPosisjoner.OrderBy(x => x.Tid);
             var nyeste = sortertListe.FirstOrDefault();
@@ -67,9 +67,9 @@ namespace BouvetCodeCamp.DomeneTjenester
         /// <summary>
         /// TODO: Denne burde kanskje sorteres.
         /// </summary>
-        public async Task<IEnumerable<PifPosisjonModel>> HentAllePifPosisjoner()
+        public IEnumerable<PifPosisjonModel> HentAllePifPosisjoner()
         {
-            var alleLag = await _lagService.HentAlleLag();
+            var alleLag = _lagService.HentAlleLag();
             var posisjoner = alleLag.SelectMany(x => x.PifPosisjoner);
 
             return posisjoner.Select(x =>
@@ -83,9 +83,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             );
         }
 
-        public async Task<bool> RegistrerKode(KodeModel model)
+        public bool RegistrerKode(KodeModel model)
         {
-            var resultat = await _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
+            var resultat = _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
 
             LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 

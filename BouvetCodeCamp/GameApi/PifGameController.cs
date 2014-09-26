@@ -27,13 +27,13 @@ namespace BouvetCodeCamp.GameApi
         // PUT api/game/pif/put
         [HttpGet]
         [Route("put")]
-        public async Task<HttpResponseMessage> PutPifPosition([FromUri] GeoPosisjonModel model)
+        public HttpResponseMessage PutPifPosition([FromUri] GeoPosisjonModel model)
         {
             //Øverst til venstre 59.680782, 10.602574
             //Nederst til høyre 59.672267, 10.609526
 
             this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = model.LagId, Latitude = model.Latitude, Longitude = model.Longitude, Tid = DateTime.Now });
-            var nyPosisjon = await this._gameApi.RegistrerPifPosition(model);
+            var nyPosisjon = this._gameApi.RegistrerPifPosition(model);
            
             return this.Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
         }
@@ -41,9 +41,9 @@ namespace BouvetCodeCamp.GameApi
         // GET api/game/pif/get/91735
         [HttpGet]
         [Route("get/{lagId}")]
-        public async Task<HttpResponseMessage> GetPifPosisjon(string lagId)
+        public HttpResponseMessage GetPifPosisjon(string lagId)
         {
-            var pifPosisjonModel = await this._gameApi.HentSistePifPositionForLag(lagId);
+            var pifPosisjonModel = this._gameApi.HentSistePifPositionForLag(lagId);
 
             return this.Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, this.Configuration.Formatters.JsonFormatter);
         }
@@ -51,9 +51,9 @@ namespace BouvetCodeCamp.GameApi
         // GET api/game/pif/get
         [HttpGet]
         [Route("get")]
-        public async Task<HttpResponseMessage> Get()
+        public HttpResponseMessage Get()
         {
-            var pifPosisjonModel = await this._gameApi.HentAllePifPosisjoner();
+            var pifPosisjonModel = this._gameApi.HentAllePifPosisjoner();
 
             return this.Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, this.Configuration.Formatters.JsonFormatter);
         }

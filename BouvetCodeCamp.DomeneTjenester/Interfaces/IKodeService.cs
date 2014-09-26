@@ -6,8 +6,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
     public interface IKodeService
     {
-        Task<IEnumerable<Kode>> HentOppdagedeKoder(string lagId);
-        Task<IEnumerable<Kode>> HentAlleKoder(string lagId);
-        Task<bool> SettKodeTilstandTilOppdaget(string lagId, string kode, Coordinate koordinat);
+        IEnumerable<Kode> HentOppdagedeKoder(string lagId);
+        IEnumerable<Kode> HentAlleKoder(string lagId);
+        bool SettKodeTilstandTilOppdaget(string lagId, string kode, Coordinate koordinat);
     }
 }

@@ -24,7 +24,7 @@ namespace BouvetCodeCamp.KartdataImport
 
         public async void SlettAlleKartdata()
         {
-            var allePoster = await _postRepository.HentAlle();
+            var allePoster = _postRepository.HentAlle();
 
             foreach (var post in allePoster)
             {
