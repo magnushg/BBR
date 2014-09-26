@@ -5,11 +5,11 @@ namespace BouvetCodeCamp.GameApi
     using System.Net.Http;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.Domene.OutputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR;
+    using Domene;
+    using Domene.InputModels;
+    using Domene.OutputModels;
+    using DomeneTjenester.Interfaces;
+    using SignalR;
 
     using Microsoft.AspNet.SignalR;
 
@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.GameApi
 
         public PifGameController(IGameApi gameApi)
         {
-            this._gameApi = gameApi;
+            _gameApi = gameApi;
         }
 
         // POST api/game/pif/SendPifPosition
@@ -30,15 +30,15 @@ namespace BouvetCodeCamp.GameApi
         public HttpResponseMessage SendPifPosition([FromUri] GeoPosisjonModel modell)
         {
             if (modell == null) 
-                return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             //Øverst til venstre 59.680782, 10.602574
             //Nederst til høyre 59.672267, 10.609526
 
-            this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
-            var nyPosisjon = this._gameApi.RegistrerPifPosition(modell);
+            _gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
+            var nyPosisjon = _gameApi.RegistrerPifPosition(modell);
            
-            return this.Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
+            return Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
         }
         
         // POST api/game/pif/sendpostkode
@@ -47,19 +47,19 @@ namespace BouvetCodeCamp.GameApi
         public HttpResponseMessage SendPostKode([FromUri] KodeModel modell)
         {
             if (modell == null)
-                return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                var kodeRegistrert = this._gameApi.RegistrerKode(modell);
+                var kodeRegistrert = _gameApi.RegistrerKode(modell);
 
                 return kodeRegistrert ?
-                    this.Request.CreateResponse(HttpStatusCode.OK) :
-                    this.Request.CreateResponse(HttpStatusCode.BadRequest);
+                    Request.CreateResponse(HttpStatusCode.OK) :
+                    Request.CreateResponse(HttpStatusCode.BadRequest);
             }
             catch (Exception e)
             {
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
         }
 
@@ -76,9 +76,9 @@ namespace BouvetCodeCamp.GameApi
             switch (errorResponseType)
             {
                 case ErrorResponseType.UgyldigInputFormat:
-                    return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig inputformat");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig inputformat");
             }
-            return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
         }
     }
 }

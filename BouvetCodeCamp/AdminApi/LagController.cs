@@ -6,8 +6,8 @@ namespace BouvetCodeCamp.AdminApi
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene.Entiteter;
+    using DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/lag")]
     [Authorize]
@@ -25,12 +25,12 @@ namespace BouvetCodeCamp.AdminApi
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var lagene = this.lagRepository.HentAlle();
+            var lagene = lagRepository.HentAlle();
 
             if (lagene == null || !lagene.Any()) 
-                return this.OpprettIngenLagFantesIkkeResponse();
+                return OpprettIngenLagFantesIkkeResponse();
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, lagene);
+            return Request.CreateResponse(HttpStatusCode.OK, lagene);
         }
 
         // GET api/lag/get/a-b-c-d
@@ -38,14 +38,14 @@ namespace BouvetCodeCamp.AdminApi
         [HttpGet]
         public HttpResponseMessage GetLag(string id)
         {
-            var lag = this.lagRepository.Hent(id);
+            var lag = lagRepository.Hent(id);
 
             if (lag == null)
             {
-                return this.OpprettLagFantesIkkeResponse(id);
+                return OpprettLagFantesIkkeResponse(id);
             }
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, lag);
+            return Request.CreateResponse(HttpStatusCode.OK, lag);
         }
 
         // POST api/lag/post
@@ -54,11 +54,11 @@ namespace BouvetCodeCamp.AdminApi
         public async Task<HttpResponseMessage> PostLag([FromBody]Lag model)
         {
             if (model == null) 
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await this.lagRepository.Opprett(model);
+            await lagRepository.Opprett(model);
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // PUT api/lag/put
@@ -67,11 +67,11 @@ namespace BouvetCodeCamp.AdminApi
         public async Task<HttpResponseMessage> PutLag([FromBody]Lag model)
         {
             if (model == null)
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await this.lagRepository.Oppdater(model);
+            await lagRepository.Oppdater(model);
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE api/lag/delete
@@ -79,9 +79,9 @@ namespace BouvetCodeCamp.AdminApi
         [HttpDelete]
         public async Task<HttpResponseMessage> Delete()
         {
-            await this.lagRepository.SlettAlle();
+            await lagRepository.SlettAlle();
             
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE api/lag/delete/a-b-c-d
@@ -89,14 +89,14 @@ namespace BouvetCodeCamp.AdminApi
         [HttpDelete]
         public async Task<HttpResponseMessage> DeleteLag(string id)
         {
-            var lag = this.lagRepository.Hent(id);
+            var lag = lagRepository.Hent(id);
 
             if (lag == null) 
-                return this.OpprettLagFantesIkkeResponse(id);
+                return OpprettLagFantesIkkeResponse(id);
 
-            await this.lagRepository.Slett(lag);
+            await lagRepository.Slett(lag);
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [NonAction]
@@ -105,7 +105,7 @@ namespace BouvetCodeCamp.AdminApi
             var melding = string.Format("Lag med id = '{0}' fantes ikke.", id);
             var httpError = new HttpError(melding);
 
-            return this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+            return Request.CreateResponse(HttpStatusCode.NotFound, httpError);
         }
 
         [NonAction]
@@ -114,7 +114,7 @@ namespace BouvetCodeCamp.AdminApi
             var melding = string.Format("Ingen lag fantes");
             var httpError = new HttpError(melding);
 
-            return this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+            return Request.CreateResponse(HttpStatusCode.NotFound, httpError);
         }
     }
 }

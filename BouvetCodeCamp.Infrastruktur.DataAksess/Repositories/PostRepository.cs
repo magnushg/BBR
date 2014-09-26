@@ -1,7 +1,7 @@
 ﻿namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 {
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
+    using Domene.Entiteter;
+    using Interfaces;
 
     using Microsoft.Azure.Documents;
 
@@ -12,19 +12,18 @@
 
         public PostRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context) : base(konfigurasjon, context)
         {
-            
         }
 
         public override string CollectionId
         {
             get
             {
-                if (string.IsNullOrEmpty(this._collectionId))
+                if (string.IsNullOrEmpty(_collectionId))
                 {
-                    this._collectionId = this._konfigurasjon.HentAppSetting(DocumentDbKonstanter.PostCollectionId);
+                    _collectionId = _konfigurasjon.HentAppSetting(DocumentDbKonstanter.PostCollectionId);
                 }
 
-                return this._collectionId;
+                return _collectionId;
             }
         }
     }

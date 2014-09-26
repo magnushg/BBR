@@ -6,8 +6,8 @@ namespace BouvetCodeCamp.AdminApi
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene.Entiteter;
+    using DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/post")]
     [Authorize]

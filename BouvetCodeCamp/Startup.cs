@@ -15,10 +15,10 @@ using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
-    using BouvetCodeCamp.GameApi;
-    using BouvetCodeCamp.Infrastruktur.DataAksess;
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
+    using GameApi;
+    using Infrastruktur.DataAksess;
+    using Infrastruktur.DataAksess.Interfaces;
+    using Infrastruktur.DataAksess.Repositories;
 
     public class Startup
     {
@@ -49,6 +49,7 @@ namespace BouvetCodeCamp
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
             builder.RegisterType<PostRepository>().As<IRepository<Post>>();
             builder.RegisterType<LoggRepository>().As<IRepository<LoggHendelse>>();
+            builder.RegisterType<GameStateRepository>().As<IRepository<GameStateRepository>>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
             builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();

@@ -6,17 +6,15 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR;
+    using Domene;
+    using Domene.Entiteter;
+    using DomeneTjenester.Interfaces;
+    using SignalR;
 
     using Microsoft.AspNet.SignalR;
 
-    using MeldingType = BouvetCodeCamp.Domene.InputModels.MeldingType;
-
     [RoutePrefix("api/game")]
+    [Obsolete]
     public class GameController : ApiController
     {
         private readonly IGameApi _gameApi;
@@ -26,7 +24,7 @@
         Lazy<IHubContext<IGameHub>> _gameHub;
         public GameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
         {
-            this._gameApi = gameApi;
+            _gameApi = gameApi;
             //this._gameHub = gameHub;
         }
 
@@ -34,7 +32,7 @@
         [Route("get")]
         public HttpResponseMessage Get()
         {
-            return this.Request.CreateResponse(HttpStatusCode.OK, new
+            return Request.CreateResponse(HttpStatusCode.OK, new
             {
                 value = "Welcome to Bouvet Code Camp"
             });
@@ -46,7 +44,7 @@
         {
             // TODO: lagre melding
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, new
+            return Request.CreateResponse(HttpStatusCode.OK, new
            {
                message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
            });
@@ -58,11 +56,11 @@
         [Route("setRedZone")]
         public async Task<HttpResponseMessage> SetRedZone([FromUri] Coordinate model)
         {
-            this._gameHub.Value.Clients.All.SetRedZone(new Coordinate(model.Longitude,model.Latitude ));
+            _gameHub.Value.Clients.All.SetRedZone(new Coordinate(model.Longitude,model.Latitude ));
             
             //TODO: opprette infisert sone
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

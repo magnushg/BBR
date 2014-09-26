@@ -14,5 +14,8 @@
         public const string PostCollectionId = "DocumentDbPostCollectionId";
 
         public const string LoggCollectionId = "DocumentDbLoggCollectionId";
+
+        public const string GameStateCollectionId = "DocumentDbGameStateCollectionId";
+
     }
 }

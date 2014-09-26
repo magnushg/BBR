@@ -5,9 +5,9 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
     using System.Linq;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
+    using Domene.Entiteter;
+    using DomeneTjenester.Interfaces;
+    using Interfaces;
 
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
@@ -25,38 +25,38 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
         {
             get
             {
-                if (this._collection == null)
+                if (_collection == null)
                 {
-                    this._collection = this.Context.ReadOrCreateCollection(this.Context.Database.SelfLink, this.CollectionId);
+                    _collection = Context.ReadOrCreateCollection(Context.Database.SelfLink, CollectionId);
                 }
 
-                return this._collection;
+                return _collection;
             }
         }
 
         protected Repository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
         {
-            this._konfigurasjon = konfigurasjon;
-            this.Context = context;
+            _konfigurasjon = konfigurasjon;
+            Context = context;
         }
 
         public async Task<string> Opprett(T document)
         {
-            var opprettetDocument = await this.Context.Client.CreateDocumentAsync(this.Collection.SelfLink, document);
+            var opprettetDocument = await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
 
             return opprettetDocument.Resource.Id;
         }
 
         public IEnumerable<T> HentAlle()
         {
-            return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
+            return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                 .AsEnumerable();
 
         }
 
         public T Hent(string id)
         {
-            return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
+            return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                 .Where(d => d.DocumentId == id)
                 .AsEnumerable()
                 .FirstOrDefault();
@@ -64,7 +64,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public async Task Oppdater(T document)
         {
-            var entitet = this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink)
+            var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                 .Where(d => d.Id == document.DocumentId)
                 .AsEnumerable()
                 .FirstOrDefault();
@@ -72,12 +72,12 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             if (entitet == null)
                 throw new Exception("Fant ikke entiteten som skulle oppdateres.");
 
-            await this.Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
+            await Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
         }
 
         public async Task Slett(T document)
         {
-            var entitet = this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink)
+            var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                 .Where(d => d.Id == document.DocumentId)
                 .AsEnumerable()
                 .FirstOrDefault();
@@ -85,19 +85,19 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             if (entitet == null)
                 throw new Exception("Fant ikke entiteten som skulle slettes.");
 
-            await this.Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
+            await Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
         }
 
         public async Task SlettAlle()
         {
-            var entiteter = this.Context.Client.CreateDocumentQuery<Document>(this.Collection.DocumentsLink)
+            var entiteter = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                 .AsEnumerable();
 
             if (entiteter != null && entiteter.Any())
             {
                 foreach (var document in entiteter)
                 {
-                    await this.Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
+                    await Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
                 }
             }
         }
