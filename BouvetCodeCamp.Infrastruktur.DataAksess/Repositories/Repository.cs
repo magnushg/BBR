@@ -51,7 +51,6 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
         {
             return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
                 .AsEnumerable();
-
         }
 
         public T Hent(string id)
@@ -100,6 +99,14 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                     await this.Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
                 }
             }
+        }
+
+        public T Søk(Func<T, bool> predicate)
+        {
+            return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
+                    .Where(predicate)
+                    .AsEnumerable()
+                    .FirstOrDefault();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
@@ -16,7 +16,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public Lag HentLag(string lagId)
         {
-            return _lagRepository.Hent(lagId);
+            return _lagRepository.Søk(o => o.LagId == lagId);
         }
 
         public IEnumerable<Lag> HentAlleLag()

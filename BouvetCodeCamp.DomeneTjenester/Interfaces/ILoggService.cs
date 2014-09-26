@@ -11,7 +11,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     {
         public void Logg(LoggHendelse hendelse)
         {
-            throw new System.NotImplementedException();
+            // TODO: Noen?
         }
     }
 }

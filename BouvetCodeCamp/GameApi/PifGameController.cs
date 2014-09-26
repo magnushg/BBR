@@ -7,7 +7,6 @@ namespace BouvetCodeCamp.GameApi
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.SignalR;
 
@@ -26,19 +25,23 @@ namespace BouvetCodeCamp.GameApi
 
         // POST api/game/pif/SendPifPosition
         [HttpPost]
-        [Route("sendPifPosition")]
-        public HttpResponseMessage SendPifPosition([FromUri] GeoPosisjonModel modell)
+        [Route("sendpifposition")]
+        public HttpResponseMessage SendPifPosition([FromBody] GeoPosisjonModel modell)
         {
             if (modell == null) 
                 return this.OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
-            //Øverst til venstre 59.680782, 10.602574
-            //Nederst til høyre 59.672267, 10.609526
-
-            this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
-            var nyPosisjon = this._gameApi.RegistrerPifPosition(modell);
-           
-            return this.Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
+            try
+            {
+                //TODO: Morten u fix?
+                //this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
+                this._gameApi.RegistrerPifPosition(modell);
+            }
+            catch (Exception e)
+            {
+                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return this.Request.CreateResponse(HttpStatusCode.OK);
         }
         
         // POST api/game/pif/sendpostkode

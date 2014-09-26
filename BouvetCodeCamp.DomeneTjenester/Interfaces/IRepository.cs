@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
+    using BouvetCodeCamp.Domene.Entiteter;
+
     public interface IRepository<T>
     {
         String CollectionId { get; }
@@ -19,5 +21,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task Slett(T document);
 
         Task SlettAlle();
+
+        T Søk(Func<T, bool> predicate);
     }
 }

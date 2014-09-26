@@ -1,19 +1,17 @@
-﻿namespace BouvetCodeCamp.Lasttesting
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace BouvetCodeCamp.Integrasjonstester
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Threading;
-    using System.Threading.Tasks;
     using System.Web.Http;
 
     using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Integrasjonstester;
     using BouvetCodeCamp.Integrasjonstester.DataAksess;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,13 +28,6 @@
         private const string Brukernavn = "bouvet";
 
         const string ApiBaseAddress = "http://localhost:2014/";
-
-        private readonly LasttestManager lasttestManager;
-
-        public LagRepositoryLasttest()
-        {
-            lasttestManager = new LasttestManager();
-        }
 
         [TestInitialize]
         public void RyddEtterTest()
@@ -57,19 +48,19 @@
             // Assert
             var antallLag = await this.ValiderResultat();
 
-            antallLag.ShouldEqual(await lasttestManager.RetryUntilSuccessOrTimeout(async () => 
-                await this.ValiderResultat(), 
-                TimeSpan.FromSeconds(10), 
+            antallLag.ShouldEqual(await TestManager.RetryUntilSuccessOrTimeout(async () =>
+                await this.ValiderResultat(),
+                TimeSpan.FromSeconds(10),
                 AntallTester));
         }
-        
+
         private async Task<int> ValiderResultat()
         {
             const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/get";
-            
+
             using (var httpClient = new HttpClient())
             {
-                httpClient.DefaultRequestHeaders.Authorization = lasttestManager.OpprettBasicHeader("bouvet", "mysecret");
+                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader("bouvet", "mysecret");
 
                 var httpResponseMessage = httpClient.GetAsync(ApiEndPointAddress).Result;
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -77,7 +68,7 @@
                 try
                 {
                     var alleLag = JsonConvert.DeserializeObject<IEnumerable<Lag>>(content);
-                    
+
                     return alleLag.Count();
                 }
                 catch (Exception e)
@@ -85,7 +76,7 @@
                     var errorMessage = JsonConvert.DeserializeObject<HttpError>(content);
 
                     Debug.WriteLine(errorMessage["message"]);
-                }                    
+                }
             }
 
             return 0;
@@ -104,12 +95,12 @@
         private void SlettAlleLag()
         {
             const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/delete";
-            var basicAuthorizationHeader = lasttestManager.OpprettBasicHeader(Brukernavn, Passord);
+            var basicAuthorizationHeader = TestManager.OpprettBasicHeader(Brukernavn, Passord);
 
             using (var webClient = new WebClient())
             {
                 webClient.Headers.Add(HttpRequestHeader.Authorization, basicAuthorizationHeader.Scheme + " " + basicAuthorizationHeader.Parameter);
-                
+
                 webClient.UploadStringAsync(new Uri(ApiEndPointAddress), "DELETE", string.Empty);
             }
         }
@@ -117,13 +108,13 @@
         private void OpprettLag()
         {
             const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/post";
-            var basicAuthorizationHeader = lasttestManager.OpprettBasicHeader(Brukernavn, Passord);
+            var basicAuthorizationHeader = TestManager.OpprettBasicHeader(Brukernavn, Passord);
 
             using (var webClient = new WebClient())
             {
                 webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                 webClient.Headers.Add(HttpRequestHeader.Authorization, basicAuthorizationHeader.Scheme + " " + basicAuthorizationHeader.Parameter);
-                
+
                 var lagSomJson = "{ \"lagId\" : \"" + 888 + "\" }";
 
                 webClient.UploadStringAsync(new Uri(ApiEndPointAddress), "POST", lagSomJson);

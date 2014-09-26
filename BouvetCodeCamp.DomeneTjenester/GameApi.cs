@@ -26,7 +26,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             this.loggService = loggService;
         }
 
-        public PifPosisjon RegistrerPifPosition(GeoPosisjonModel model)
+        public void RegistrerPifPosition(GeoPosisjonModel model)
         {
             var pifPosisjon = new PifPosisjon
             {
@@ -42,8 +42,6 @@ namespace BouvetCodeCamp.DomeneTjenester
             _lagService.Oppdater(lag);
 
             LoggHendelse(model.LagId, HendelseType.RegistrertGeoPosisjon);
-
-            return pifPosisjon;
         }
 
         public PifPosisjonModel HentSistePifPositionForLag(string lagId)
