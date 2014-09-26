@@ -1,7 +1,8 @@
-﻿namespace BouvetCodeCamp.Lasttesting
+﻿using System.Text;
+
+namespace BouvetCodeCamp.Lasttesting
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -12,9 +13,9 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Integrasjonstester;
-    using BouvetCodeCamp.Integrasjonstester.DataAksess;
+    using Domene.Entiteter;
+    using Integrasjonstester;
+    using Integrasjonstester.DataAksess;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -45,13 +46,13 @@
             const int AntallTester = 5;
 
             // Act
-            this.KjørTest(AntallTester);
+            KjørTest(AntallTester);
 
             // Assert
-            var antallLag = await this.ValiderResultat();
+            var antallLag = await ValiderResultat();
 
             antallLag.ShouldEqual(await RetryUntilSuccessOrTimeout(async () => 
-                await this.ValiderResultat(), 
+                await ValiderResultat(), 
                 TimeSpan.FromSeconds(10), 
                 AntallTester));
         }
@@ -75,7 +76,7 @@
 
         private AuthenticationHeaderValue OpprettBasicHeader(string brukernavn, string passord)
         {
-            byte[] byteArrayMedAuthorizationToken = System.Text.Encoding.UTF8.GetBytes(brukernavn + ":" + passord);
+            byte[] byteArrayMedAuthorizationToken = Encoding.UTF8.GetBytes(brukernavn + ":" + passord);
 
             return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArrayMedAuthorizationToken));
         }
@@ -112,7 +113,7 @@
         {
             for (int i = 0; i < antallTester; i++)
             {
-                this.OpprettLag();
+                OpprettLag();
             }
 
             Thread.Sleep(10000);
@@ -121,7 +122,7 @@
         private void SlettAlleLag()
         {
             const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/delete";
-            var basicAuthorizationHeader = this.OpprettBasicHeader(Brukernavn, Passord);
+            var basicAuthorizationHeader = OpprettBasicHeader(Brukernavn, Passord);
 
             using (var webClient = new WebClient())
             {
@@ -134,7 +135,7 @@
         private void OpprettLag()
         {
             const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/post";
-            var basicAuthorizationHeader = this.OpprettBasicHeader(Brukernavn, Passord);
+            var basicAuthorizationHeader = OpprettBasicHeader(Brukernavn, Passord);
 
             using (var webClient = new WebClient())
             {
