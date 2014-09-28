@@ -15,12 +15,11 @@ namespace BouvetCodeCamp.UnitTest
         private IGameApi _gameApi;
         private readonly Mock<IKodeService> _kodeService = new Mock<IKodeService>();
         private readonly Mock<ILagService> _lagService = new Mock<ILagService>();
-        private readonly Mock<ILoggService> _loggService = new Mock<ILoggService>();
- 
+        
         [SetUp]
         public void Setup()
         {
-            _gameApi = new GameApi(_kodeService.Object, _lagService.Object, this._loggService.Object);
+            _gameApi = new GameApi(_kodeService.Object, _lagService.Object);
         }
 
         [Test]
