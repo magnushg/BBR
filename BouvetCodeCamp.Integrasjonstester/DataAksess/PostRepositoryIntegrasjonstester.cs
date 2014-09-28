@@ -21,8 +21,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var postSomSkalLagres = new Post
             {
-                Latitude = "59.666",
-                Longitude = "23.555",
+                Posisjon = new Koordinat
+                {
+                    Latitude = "59.666",
+                    Longitude = "23.555"
+                },
                 Beskrivelse = "Blabla", 
                 Navn = "Testepost",
                 Kilde = "Nokia 3110",
@@ -35,8 +38,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var alle = repo.HentAlle();
 
             lagretPost.DocumentId.ShouldNotBeEmpty();
-            lagretPost.Latitude.ShouldEqual(postSomSkalLagres.Latitude);
-            lagretPost.Longitude.ShouldEqual(postSomSkalLagres.Longitude);
+            lagretPost.Posisjon.Latitude.ShouldEqual(postSomSkalLagres.Posisjon.Latitude);
+            lagretPost.Posisjon.Longitude.ShouldEqual(postSomSkalLagres.Posisjon.Longitude);
             lagretPost.Beskrivelse.ShouldEqual(postSomSkalLagres.Beskrivelse);
         }
 

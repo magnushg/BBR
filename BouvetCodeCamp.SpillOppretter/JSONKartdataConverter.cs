@@ -20,8 +20,11 @@ namespace BouvetCodeCamp.SpillOppretter
                Navn = StripVekkUgyldigeTegn(string.Format("Post {0}", index + 1)),
                Beskrivelse = StripVekkUgyldigeTegn(kartinfo.description),
                Bilde = StripVekkUgyldigeTegn(kartinfo.image.FirstOrDefault()),
-               Latitude = StripVekkUgyldigeTegn(kartinfo.position.FirstOrDefault().latitude),
-               Longitude = StripVekkUgyldigeTegn(kartinfo.position.FirstOrDefault().longitude),
+               Posisjon = new Koordinat
+               {
+                   Latitude = StripVekkUgyldigeTegn(kartinfo.position.FirstOrDefault().latitude),
+                   Longitude = StripVekkUgyldigeTegn(kartinfo.position.FirstOrDefault().longitude)
+               },
                Altitude = kartinfo.position.FirstOrDefault().altitude,
                Kilde = StripVekkUgyldigeTegn(kartinfo.position.FirstOrDefault().source),
             });
