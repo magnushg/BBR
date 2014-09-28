@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.Infrastruktur.DataAksess;
 using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
-namespace BouvetCodeCamp.KartdataImport
+namespace BouvetCodeCamp.SpillOppretter
 {
     public class KartdataLagring
     {
@@ -24,12 +23,13 @@ namespace BouvetCodeCamp.KartdataImport
 
         public async void SlettAlleKartdata()
         {
-            var allePoster = _postRepository.HentAlle();
+            await _postRepository.SlettAlle();
+            //var allePoster = _postRepository.HentAlle();
 
-            foreach (var post in allePoster)
-            {
-                await _postRepository.Slett(post);
-            }
+            //foreach (var post in allePoster)
+            //{
+            //    await _postRepository.Slett(post);
+            //}
         }
     }
 }

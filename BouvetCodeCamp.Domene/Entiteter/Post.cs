@@ -7,11 +7,8 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "navn")]
         public string Navn { get; set; }
 
-        [JsonProperty(PropertyName = "latitude")]
-        public string Latitude { get; set; }
-
-        [JsonProperty(PropertyName = "longitude")]
-        public string Longitude { get; set; }
+        [JsonProperty(PropertyName = "gps")]
+        public Koordinat Posisjon { get; set; }
 
         [JsonProperty(PropertyName = "altitude")]
         public double? Altitude { get; set; }
@@ -27,8 +24,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
 
         public Post()
         {
-            Latitude = string.Empty;
-            Longitude = string.Empty;
+            Posisjon = Koordinat.Empty;
             Altitude = -999;
             Bilde = string.Empty;
             Beskrivelse = string.Empty;

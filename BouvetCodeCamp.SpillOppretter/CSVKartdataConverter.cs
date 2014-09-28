@@ -3,8 +3,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BouvetCodeCamp.Domene.Entiteter;
 
-namespace BouvetCodeCamp.KartdataImport
+namespace BouvetCodeCamp.SpillOppretter
 {
     public class CSVKartdataConverter
     {
@@ -17,8 +18,11 @@ namespace BouvetCodeCamp.KartdataImport
                 .Select(x => x.Split(','))
                 .Where(loc => loc.Count() >= 13)
                 .Select(loc => new Domene.Entiteter.Post {
-                    Latitude = StripVekkUgyldigeTegn(loc[2]),
-                    Longitude = StripVekkUgyldigeTegn(loc[3]),
+                    Posisjon = new Koordinat
+                    {
+                        Latitude = StripVekkUgyldigeTegn(loc[2]),
+                        Longitude = StripVekkUgyldigeTegn(loc[3]),
+                    },
                     Altitude = double.Parse(loc[4], CultureInfo.InvariantCulture),
                     Bilde = StripVekkUgyldigeTegn(loc[10]),
                     Beskrivelse = StripVekkUgyldigeTegn(loc[11])

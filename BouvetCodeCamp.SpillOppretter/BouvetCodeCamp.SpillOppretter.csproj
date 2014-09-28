@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{95304726-8B1B-415E-AFDB-5D4B1493EF2D}</ProjectGuid>
+    <ProjectGuid>{17A89190-399A-48E5-BF75-7BF816E066ED}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BouvetCodeCamp.KartdataImport</RootNamespace>
-    <AssemblyName>BouvetCodeCamp.KartdataImport</AssemblyName>
+    <RootNamespace>BouvetCodeCamp.SpillOppretter</RootNamespace>
+    <AssemblyName>BouvetCodeCamp.SpillOppretter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -33,13 +33,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Label="SlowCheetah">
-    <SlowCheetahToolsPath>$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\..\packages\SlowCheetah.2.5.14\tools\))</SlowCheetahToolsPath>
-    <SlowCheetah_EnableImportFromNuGet Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='' ">true</SlowCheetah_EnableImportFromNuGet>
-    <SlowCheetah_NuGetImportPath Condition=" '$(SlowCheetah_NuGetImportPath)'=='' ">$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\Properties\SlowCheetah\SlowCheetah.Transforms.targets ))</SlowCheetah_NuGetImportPath>
-    <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Azure.Documents.Client">
+      <HintPath>..\packages\Microsoft.Azure.Documents.Client.0.9.0-preview\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -56,42 +53,35 @@
     <Compile Include="CSVKartdataConverter.cs" />
     <Compile Include="JSONKartdataConverter.cs" />
     <Compile Include="KartdataLagring.cs" />
+    <Compile Include="LagOppretter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="mapdata\poster.json">
+    <None Include="App.config" />
+    <Content Include="ImportData\oscarsborg.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="App.config">
-      <TransformOnBuild>true</TransformOnBuild>
-    </None>
-    <Content Include="mapdata\oscarsborg.csv">
+    <Content Include="ImportData\poster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="App.Debug.config">
-      <DependentUpon>App.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="App.Release.config">
-      <DependentUpon>App.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-    </None>
+    <Content Include="ImportData\lagData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
-    <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj">
-      <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
-      <Name>BouvetCodeCamp.Infrastruktur</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
-      <Project>{26ddac6d-752d-47d2-8061-8fdcac281ffa}</Project>
+      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
       <Name>BouvetCodeCamp.DomeneTjenester</Name>
     </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">
       <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
       <Name>BouvetCodeCamp.Domene</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj">
+      <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
+      <Name>BouvetCodeCamp.Infrastruktur.DataAksess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -102,7 +92,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
