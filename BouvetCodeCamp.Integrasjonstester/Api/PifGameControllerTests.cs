@@ -27,7 +27,7 @@
             // Arrange
             SørgForAtEtLagFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendPifPosition";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpifposisjon";
 
             bool isSuccessStatusCode;
 
@@ -56,7 +56,7 @@
         public async Task SendPifPosisjon_UgyldigModell_FårHttpStatusCodeBadRequest()
         {
             // Arrange
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendPifPosition";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpifposisjon";
 
             bool isSuccessStatusCode;
 
