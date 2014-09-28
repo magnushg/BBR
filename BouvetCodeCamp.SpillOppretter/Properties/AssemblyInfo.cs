@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BouvetCodeCamp.KartdataImport")]
+[assembly: AssemblyTitle("BouvetCodeCamp.SpillOppretter")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BouvetCodeCamp.KartdataImport")]
+[assembly: AssemblyProduct("BouvetCodeCamp.SpillOppretter")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9c5a376b-71cf-4d19-8370-f4f96940715a")]
+[assembly: Guid("d1a48dd2-e803-4eb0-bd4f-05ffecb2f5fe")]
 
 // Version information for an assembly consists of the following four values:
 //

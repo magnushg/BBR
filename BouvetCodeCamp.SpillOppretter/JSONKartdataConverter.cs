@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using BouvetCodeCamp.Domene.Entiteter;
 using Newtonsoft.Json;
 
-namespace BouvetCodeCamp.KartdataImport
+namespace BouvetCodeCamp.SpillOppretter
 {
     public class JSONKartdataConverter
     {

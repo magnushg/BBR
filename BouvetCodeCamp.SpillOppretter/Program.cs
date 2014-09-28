@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BouvetCodeCamp.KartdataImport
+namespace BouvetCodeCamp.SpillOppretter
 {
     class Program
     {
@@ -13,7 +16,7 @@ namespace BouvetCodeCamp.KartdataImport
             var kartdataLagring = new KartdataLagring();
 
             Console.WriteLine("Converting data and saving to database");
-            
+
             var mapdata = mapdataConverter.KonverterKartdata().ToList();
 
             kartdataLagring.SlettAlleKartdata();

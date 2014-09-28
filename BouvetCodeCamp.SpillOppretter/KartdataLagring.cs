@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.Infrastruktur.DataAksess;
 using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
-namespace BouvetCodeCamp.KartdataImport
+namespace BouvetCodeCamp.SpillOppretter
 {
     public class KartdataLagring
     {
