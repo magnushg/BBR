@@ -6,6 +6,7 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 namespace BouvetCodeCamp.DomeneTjenester
 {
     using System;
+    using System.Linq;
 
     public class LagService : ILagService
     {
@@ -16,9 +17,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             _lagRepository = lagRepository;
         }
 
-        public Lag HentLag(string lagId)
+        public Lag HentLagMedLagId(string lagId)
         {
-            var lag = _lagRepository.Søk(o => o.LagId == lagId);
+            var lag = _lagRepository.Søk(o => o.LagId == lagId).FirstOrDefault();
 
             if (lag == null)
                 throw new Exception("Fant ikke lag med lagId: " + lagId);

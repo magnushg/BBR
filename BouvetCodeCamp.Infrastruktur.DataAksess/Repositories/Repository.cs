@@ -101,12 +101,11 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             }
         }
 
-        public T Søk(Func<T, bool> predicate)
+        public IEnumerable<T> Søk(Func<T, bool> predicate)
         {
             return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
                     .Where(predicate)
-                    .AsEnumerable()
-                    .FirstOrDefault();
+                    .AsEnumerable();
         }
     }
 }

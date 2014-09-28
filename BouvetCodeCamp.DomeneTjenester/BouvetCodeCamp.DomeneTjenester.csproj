@@ -53,7 +53,6 @@
     <Compile Include="Interfaces\IGameStateService.cs" />
     <Compile Include="Interfaces\IKodeService.cs" />
     <Compile Include="Interfaces\ILagService.cs" />
-    <Compile Include="Interfaces\ILoggService.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="KodeService.cs" />
     <Compile Include="LagService.cs" />

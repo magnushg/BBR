@@ -10,20 +10,19 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
+    using System.Threading.Tasks;
+
     public class GameApi : IGameApi
     {
         private readonly IKodeService _kodeService;
         private readonly ILagService _lagService;
-        private readonly ILoggService loggService;
 
         public GameApi(
             IKodeService kodeService,
-            ILagService lagService,
-            ILoggService loggService)
+            ILagService lagService)
         {
             _kodeService = kodeService;
             _lagService = lagService;
-            this.loggService = loggService;
         }
 
         public void RegistrerPifPosition(GeoPosisjonModel model)
@@ -36,7 +35,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Tid = DateTime.Now
             };
 
-            var lag = _lagService.HentLag(model.LagId);
+            var lag = _lagService.HentLagMedLagId(model.LagId);
             lag.PifPosisjoner.Add(pifPosisjon);
 
             _lagService.Oppdater(lag);
@@ -46,12 +45,13 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public PifPosisjonModel HentSistePifPositionForLag(string lagId)
         {
-            var lag = _lagService.HentLag(lagId);
+            var lag = _lagService.HentLagMedLagId(lagId);
 
             var sortertListe = lag.PifPosisjoner.OrderBy(x => x.Tid);
             var nyeste = sortertListe.FirstOrDefault();
 
-            if (nyeste == null) return null;
+            if (nyeste == null) 
+                return new PifPosisjonModel();
 
             return new PifPosisjonModel
             {
@@ -97,12 +97,15 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         private void LoggHendelse(string lagId, HendelseType hendelseType)
         {
-            this.loggService.Logg(new LoggHendelse
-            {
-                HendelseType = hendelseType,
-                LagId = lagId,
-                Tid = DateTime.Now
-            });
+            var lag = _lagService.HentLagMedLagId(lagId);
+
+            lag.LoggHendelser.Add(new LoggHendelse
+                                      {
+                                          HendelseType = hendelseType, 
+                                          Tid = DateTime.Now
+                                      });
+
+            _lagService.Oppdater(lag);
         }
     }
 }

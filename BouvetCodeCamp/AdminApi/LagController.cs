@@ -87,14 +87,29 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/lag/delete/a-b-c-d
         [Route("delete/{id}")]
         [HttpDelete]
-        public async Task<HttpResponseMessage> DeleteLag(string id)
+        public async Task<HttpResponseMessage> Delete(string id)
         {
             var lag = lagRepository.Hent(id);
 
-            if (lag == null) 
+            if (lag == null)
                 return OpprettLagFantesIkkeResponse(id);
 
             await lagRepository.Slett(lag);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        // DELETE api/lag/delete/a-b-c-d
+        [Route("deletelag/{lagId}")]
+        [HttpDelete]
+        public async Task<HttpResponseMessage> DeleteLag(string lagId)
+        {
+            var lagTilSletting = lagRepository.Søk(o => o.LagId == lagId);
+            
+            foreach (var lag in lagTilSletting)
+            {
+                await lagRepository.Slett(lag);
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

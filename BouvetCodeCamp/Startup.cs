@@ -43,13 +43,11 @@ namespace BouvetCodeCamp
             // Services
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<KodeService>().As<IKodeService>();
-            builder.RegisterType<FakeLoggSerive>().As<ILoggService>();
             builder.RegisterType<DomeneTjenester.GameApi>().As<IGameApi>();
 
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
             builder.RegisterType<PostRepository>().As<IRepository<Post>>();
-            builder.RegisterType<LoggRepository>().As<IRepository<LoggHendelse>>();
             builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();

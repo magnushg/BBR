@@ -14,7 +14,7 @@
     <RootNamespace>BouvetCodeCamp.WebHost</RootNamespace>
     <AssemblyName>BouvetCodeCamp.WebHost</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -42,8 +42,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\BBR-Azure.pubxml" />
-    <None Include="Properties\PublishProfiles\bouvet-code-camp %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\bouvet-code-camp.pubxml" />
+    <None Include="Properties\PublishProfiles\BBR-IIS.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -91,7 +90,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52504</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52504/</IISUrl>
+          <IISUrl>http://localhost/bouvetcodecamp</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -22,14 +22,14 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public IEnumerable<Kode> HentOppdagedeKoder(string lagId)
         {
-            var lag = _lagService.HentLag(lagId);
+            var lag = _lagService.HentLagMedLagId(lagId);
 
             return lag.Koder.Where(kode => kode.PosisjonTilstand.Equals(PosisjonTilstand.Oppdaget));
         }
 
         public IEnumerable<Kode> HentAlleKoder(string lagId)
         {
-            var lag = _lagService.HentLag(lagId);
+            var lag = _lagService.HentLagMedLagId(lagId);
 
             return lag.Koder;
         }
@@ -43,7 +43,7 @@ namespace BouvetCodeCamp.DomeneTjenester
         /// <returns>true hvis alle kriterier er oppfylt</returns>
         public bool SettKodeTilstandTilOppdaget(string lagId, string kode, Koordinat koordinat)
         {
-            var lag = _lagService.HentLag(lagId);
+            var lag = _lagService.HentLagMedLagId(lagId);
 
             var kandidater = lag.Koder.Where(k => k.Bokstav.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
                 && this.koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat)

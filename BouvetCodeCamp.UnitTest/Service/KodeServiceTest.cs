@@ -30,7 +30,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var innsendtKode = new Kode() {Bokstav = "a", Posisjon = koordinat, PosisjonTilstand = PosisjonTilstand.Ukjent};
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
-            _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+            _lagServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act
@@ -49,7 +49,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var innsendtKode = new Kode() {Bokstav = "a", Posisjon = koordinat, PosisjonTilstand = PosisjonTilstand.Oppdaget};
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
-            _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+            _lagServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act
@@ -68,7 +68,7 @@ namespace BouvetCodeCamp.UnitTest.Service
           
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
-            _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+            _lagServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act
@@ -87,7 +87,7 @@ namespace BouvetCodeCamp.UnitTest.Service
 
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode }};
 
-            _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+            _lagServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(false);
 
             // Act
@@ -108,7 +108,7 @@ namespace BouvetCodeCamp.UnitTest.Service
 
             var lag = new Lag() { Koder = new List<Kode> { innsendtKode, identiskKode } };
 
-            _lagServiceMock.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+            _lagServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act

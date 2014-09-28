@@ -14,6 +14,7 @@
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
     <script>
+        var baseApiAddress = "bouvetcodecamp";
         var map;
         function initialize() {
             var mapCanvas = document.getElementById('map_canvas');
@@ -37,22 +38,22 @@
         var lag = {};
         lag.Lag = [];
         $(document).ready(function () {
-            $.getJSON("http://localhost:2014/api/game/pif/get", function (data) {
+            $.getJSON("http://" + baseApiAddress + "/api/game/pif/get", function (data) {
                 $.each(data, function (key, val) {
                     lag[val.lagId] = createMarker(val.latitude, val.longitude, val.lagId);
                 });
             });
 
             $("#makeRedZone").click(function () {
-                $.getJSON("http://localhost:2014/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
+                $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
             });
 
             $("#moveTeam").click(function () {
-                $.getJSON("http://localhost:2014/api/game/pif/put?Latitude=" + $("#lat").val() + "&Longitude=" + $("#long").val() + "&LagId=" + $("#lag").val());
+                $.getJSON("http://" + baseApiAddress + "/api/game/pif/put?Latitude=" + $("#lat").val() + "&Longitude=" + $("#long").val() + "&LagId=" + $("#lag").val());
             });
 
             $("#removeRedZone").click(function () {
-                $.getJSON("http://localhost:2014/api/game/setRedZone?latitude=" + "0" + "&longitude=" + "0");
+                $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + "0" + "&longitude=" + "0");
             });
         });
 
@@ -84,7 +85,7 @@
     <script type="text/javascript">
         $(function () {
             //Set the hubs URL for the connection
-            $.connection.hub.url = "http://localhost:2014/signalr";
+            $.connection.hub.url = "http://" + baseApiAddress + "/signalr";
 
             // Declare a proxy to reference the hub.
             var hub = $.connection.gameHub;

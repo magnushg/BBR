@@ -79,6 +79,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Api\ApiTest.cs" />
+    <Compile Include="Api\BaseGameControllerTests.cs" />
     <Compile Include="Api\PifGameControllerTests.cs" />
     <Compile Include="LagRepositoryLasttest.cs" />
     <Compile Include="DataAksess\LagRepositoryIntegrasjonstester.cs" />

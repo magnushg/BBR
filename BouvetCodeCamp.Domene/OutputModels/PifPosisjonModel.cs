@@ -7,6 +7,6 @@ namespace BouvetCodeCamp.Domene.OutputModels
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string LagId { get; set; }
-        public DateTime Tid { get; set; }      
+        public DateTime? Tid { get; set; }
     }
 }

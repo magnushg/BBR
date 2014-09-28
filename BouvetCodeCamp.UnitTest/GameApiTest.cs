@@ -37,7 +37,7 @@ namespace BouvetCodeCamp.UnitTest
                 new PifPosisjon {Tid = new DateTime(2003, 1, 1)},
             };
 
-            _lagService.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+            _lagService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
 
             var resultat = _gameApi.HentSistePifPositionForLag(String.Empty);
 

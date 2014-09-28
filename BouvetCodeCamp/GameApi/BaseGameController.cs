@@ -3,6 +3,7 @@
     using System;
     using System.Net;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web.Http;
 
     using Domene;
@@ -35,9 +36,16 @@
             if (string.IsNullOrEmpty(lagId)) 
                 OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
-            var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
+            try
+            {
+                var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
 
-            return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
+                return Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
         }
 
         // GET api/game/base/hentgjeldendepost

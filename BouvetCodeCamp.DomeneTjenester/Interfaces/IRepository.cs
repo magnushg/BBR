@@ -22,6 +22,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
         Task SlettAlle();
 
-        T Søk(Func<T, bool> predicate);
+        IEnumerable<T> Søk(Func<T, bool> predicate);
     }
 }

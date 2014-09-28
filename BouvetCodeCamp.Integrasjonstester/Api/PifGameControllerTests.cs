@@ -1,6 +1,5 @@
 ﻿namespace BouvetCodeCamp.Integrasjonstester.Api
 {
-    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
@@ -12,8 +11,6 @@
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.Domene.InputModels;
 
-    using FizzWare.NBuilder;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Newtonsoft.Json;
@@ -21,22 +18,8 @@
     using Should;
 
     [TestClass]
-    public class PifGameControllerTests
+    public class PifGameControllerTests : ApiTest
     {
-        private const string Passord = "mysecret";
-
-        private const string Brukernavn = "bouvet";
-
-        const string ApiBaseAddress = "http://bouvetcodecamp";
-
-        private const string LagId = "testlag1";
-
-        [TestCleanup]
-        public void RyddOppEtterTest()
-        {
-            SlettAlleLag();
-        }
-        
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
         public async Task SendPifPosition_GyldigModell_FårHttpStatusKodeOk()
@@ -73,8 +56,6 @@
         public async Task SendPifPosisjon_UgyldigModell_FårHttpStatusCodeBadRequest()
         {
             // Arrange
-            SørgForAtEtLagFinnes();
-
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendPifPosition";
 
             bool isSuccessStatusCode;
@@ -145,63 +126,35 @@
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        private void SørgForAtEtLagFinnes()
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task SendPostKode_UgyldigModell_FårHttpStatusKodeBadRequest()
         {
-            var lag = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = LagId)
-                .Build();
+            // Arrange
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpostkode";
 
-            var lagOpprettet = this.OpprettLagViaApi(lag).Result;
+            bool isSuccessStatusCode;
 
-            if (!lagOpprettet)
-                Assert.Fail();
-        }
+            HttpStatusCode responseCode;
 
-        private async Task<bool> OpprettLagViaApi(Lag lag)
-        {
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/post";
-
+            // Act
             using (var httpClient = new HttpClient())
             {
-                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modellSomJson = JsonConvert.SerializeObject(lag);
+                var modellSomJson = string.Empty;
 
                 var httpResponseMessage = await httpClient.PostAsync(
                     ApiEndPointAddress,
                     new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
 
-                return httpResponseMessage.IsSuccessStatusCode;
+                isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+                responseCode = httpResponseMessage.StatusCode;
             }
-        }
 
-        private void SørgForAtEtLagMedKoderFinnes(List<Kode> koder)
-        {
-            var lagMedKoder = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = LagId)
-                .With(o => o.Koder = koder)
-                .Build();
-
-            var lagOpprettet = this.OpprettLagViaApi(lagMedKoder).Result;
-            
-            if (!lagOpprettet)
-                Assert.Fail();
-        }
-
-        private bool SlettAlleLag()
-        {
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/delete";
-
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var httpResponseMessage = httpClient.DeleteAsync(ApiEndPointAddress).Result;
-
-                return httpResponseMessage.IsSuccessStatusCode;
-            }
+            // Assert
+            isSuccessStatusCode.ShouldBeFalse();
+            responseCode.ShouldEqual(HttpStatusCode.BadRequest);
         }
     }
 }
