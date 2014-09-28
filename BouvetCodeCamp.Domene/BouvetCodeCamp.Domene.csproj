@@ -61,8 +61,8 @@
     <Compile Include="InputModels\GeoPosisjonModel.cs" />
     <Compile Include="InputModels\KodeModel.cs" />
     <Compile Include="InputModels\MeldingModel.cs" />
-    <Compile Include="InputModels\MeldingType.cs" />
     <Compile Include="MeldingType.cs" />
+    <Compile Include="OutputModels\KodeOutputModel.cs" />
     <Compile Include="OutputModels\PifPosisjonModel.cs" />
     <Compile Include="PosisjonTilstand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

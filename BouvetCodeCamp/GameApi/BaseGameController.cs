@@ -20,12 +20,24 @@
             this.gameApi = gameApi;
         }
 
-        // GET api/game/base/hentregistrertekoder
+        // GET api/game/base/hentregistrertekoder/142
         [HttpGet]
-        [Route("hentregistrertekoder")]
-        public void HentRegistrerteKoder()
+        [Route("hentregistrertekoder/{lagId}")]
+        public HttpResponseMessage HentRegistrerteKoder(string lagId)
         {
-            
+            if (string.IsNullOrEmpty(lagId))
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+
+            try
+            {
+                var kodeModeller = gameApi.HentRegistrerteKoder(lagId);
+
+                return Request.CreateResponse(HttpStatusCode.OK, kodeModeller, Configuration.Formatters.JsonFormatter);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
         }
 
         // GET api/game/base/hentPifPosisjon/91735
@@ -53,7 +65,7 @@
         [Route("hentgjeldendepost")]
         public void HentGjeldendePost()
         {
-            
+            //TODO
         }
         
         // POST api/game/base/sendPifMelding

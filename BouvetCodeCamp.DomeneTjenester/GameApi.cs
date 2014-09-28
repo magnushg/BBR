@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using BouvetCodeCamp.Domene;
@@ -10,7 +9,7 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
-    using System.Threading.Tasks;
+    using System.Collections.Generic;
 
     public class GameApi : IGameApi
     {
@@ -62,25 +61,6 @@ namespace BouvetCodeCamp.DomeneTjenester
             };
         }
 
-        /// <summary>
-        /// TODO: Denne burde kanskje sorteres.
-        /// </summary>
-        public IEnumerable<PifPosisjonModel> HentAllePifPosisjoner()
-        {
-            var alleLag = _lagService.HentAlleLag();
-            var posisjoner = alleLag.SelectMany(x => x.PifPosisjoner);
-
-            return posisjoner.Select(x =>
-                new PifPosisjonModel
-                {
-                    Latitude = x.Latitude,
-                    Longitude = x.Longitude,
-                    LagId = x.LagId,
-                    Tid = x.Tid
-                }
-            );
-        }
-
         public bool RegistrerKode(KodeModel model)
         {
             var resultat = _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
@@ -92,7 +72,41 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public void SendMelding(MeldingModel model)
         {
+            var lag = _lagService.HentLagMedLagId(model.LagId);
+
+            lag.Meldinger.Add(
+                new Melding
+                    {
+                        LagId = model.LagId, 
+                        Tekst = model.Tekst, 
+                        Tid = DateTime.Now, 
+                        Type = model.Type
+                    });
+
+            lag.LoggHendelser.Add(
+                new LoggHendelse
+                    {
+                        HendelseType = HendelseType.SendtMelding, 
+                        Tid = DateTime.Now
+                    });
+
+            _lagService.Oppdater(lag);
+
             LoggHendelse(model.LagId, HendelseType.SendtMelding);
+        }
+
+        public IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId)
+        {
+            var lag = _lagService.HentLagMedLagId(lagId);
+
+            var registrerteKoderForLag = lag.Koder.Where(o => o.PosisjonTilstand == PosisjonTilstand.Oppdaget);
+
+            return registrerteKoderForLag.Select(registrertKode => 
+                new KodeOutputModel
+                    {
+                        Kode = registrertKode.Bokstav, 
+                        Koordinat = registrertKode.Posisjon
+                    }).ToList();
         }
 
         private void LoggHendelse(string lagId, HendelseType hendelseType)

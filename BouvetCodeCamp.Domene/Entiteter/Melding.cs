@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
         {
             LagId = string.Empty;
             Tid = DateTime.MinValue;
-            Type = MeldingType.Ukjent;
+            Type = MeldingType.Ingen;
             Tekst = string.Empty;
         }
     }

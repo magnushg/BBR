@@ -74,7 +74,7 @@ namespace BouvetCodeCamp.AdminApi
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // DELETE api/lag/delete
+        // DELETE api/post/delete
         [Route("delete")]
         [HttpDelete]
         public async Task<HttpResponseMessage> Delete()

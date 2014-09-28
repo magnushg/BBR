@@ -74,7 +74,6 @@
     <Compile Include="Authentication\AuthenticationMiddleware.cs" />
     <Compile Include="GameApi\BaseApiController.cs" />
     <Compile Include="GameApi\BaseGameController.cs" />
-    <Compile Include="GameApi\GameController.cs" />
     <Compile Include="GameApi\PifGameController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

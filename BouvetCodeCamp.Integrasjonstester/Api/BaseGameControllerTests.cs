@@ -9,6 +9,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Text;
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.Domene.InputModels;
     using BouvetCodeCamp.Domene.OutputModels;
@@ -170,6 +171,54 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             responseCode.ShouldEqual(HttpStatusCode.BadRequest);
         }
 
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task HentRegistrerteKoder_LagHarRegistrerteKoder_FårKoder()
+        {
+            // Arrange
+            this.SørgForAtEtLagMedRegistrerteKoderFinnes();
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentregistrertekoder/" + LagId;
+
+            IEnumerable<KodeOutputModel> kodeModeller;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                kodeModeller = JsonConvert.DeserializeObject<IEnumerable<KodeOutputModel>>(content);
+            }
+
+            // Assert
+            kodeModeller.ShouldNotBeEmpty();
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task HentRegistrerteKoder_LagHarIngenRegistrerteKoder_FårTomt()
+        {
+            // Arrange
+            this.SørgForAtEtLagFinnes();
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentregistrertekoder/" + LagId;
+
+            IEnumerable<KodeOutputModel> kodeModeller;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                kodeModeller = JsonConvert.DeserializeObject<IEnumerable<KodeOutputModel>>(content);
+            }
+
+            // Assert
+            kodeModeller.ShouldBeEmpty();
+        }
+
         private void SørgForAtEtLagMedEnPifPosisjonFinnes()
         {
             var pifPosisjoner = new List<PifPosisjon>
@@ -200,6 +249,29 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var lag = Builder<Lag>.CreateNew()
                 .With(o => o.LagId = LagId)
                 .With(o => o.PifPosisjoner = pifPosisjoner)
+                .Build();
+
+            var lagOpprettet = this.OpprettLagViaApi(lag).Result;
+
+            if (!lagOpprettet)
+                Assert.Fail();
+        }
+
+        private void SørgForAtEtLagMedRegistrerteKoderFinnes()
+        {
+            var registrerteKoder = new List<Kode>
+                                       {
+                                           new Kode
+                                               {
+                                                   Bokstav = "akje",
+                                                   Posisjon = new Koordinat("12", "12"),
+                                                   PosisjonTilstand = PosisjonTilstand.Oppdaget
+                                               }
+                                       };
+
+            var lag = Builder<Lag>.CreateNew()
+                .With(o => o.LagId = LagId)
+                .With(o => o.Koder = registrerteKoder)
                 .Build();
 
             var lagOpprettet = this.OpprettLagViaApi(lag).Result;

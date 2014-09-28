@@ -3,11 +3,11 @@ namespace BouvetCodeCamp.GameApi
     using System;
     using System.Net;
     using System.Net.Http;
-    using System.Threading.Tasks;
     using System.Web.Http;
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
+    using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.SignalR;
 
@@ -17,25 +17,24 @@ namespace BouvetCodeCamp.GameApi
     public class PifGameController : BaseApiController
     {
         private readonly IGameApi _gameApi;
-        Lazy<IHubContext<IGameHub>> _gameHub;
 
         public PifGameController(IGameApi gameApi)
         {
             _gameApi = gameApi;
         }
 
-        // POST api/game/pif/SendPifPosition
+        // POST api/game/pif/sendpifposisjon
         [HttpPost]
-        [Route("sendpifposition")]
-        public HttpResponseMessage SendPifPosition([FromBody] GeoPosisjonModel modell)
+        [Route("sendpifposisjon")]
+        public HttpResponseMessage SendPifPosisjon([FromBody] GeoPosisjonModel modell)
         {
             if (modell == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                //TODO: Morten u fix?
-                //this._gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
+                //this._gameHub.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
+                
                 this._gameApi.RegistrerPifPosition(modell);
             }
             catch (Exception e)
@@ -72,7 +71,7 @@ namespace BouvetCodeCamp.GameApi
         [Route("erinfisert")]
         public void ErInfisert()
         {
-           
+           //TODO
         }
     }
 }

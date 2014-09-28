@@ -10,7 +10,7 @@
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
-    <script src="http://localhost:2014/signalr/hubs"></script>
+    <script src="http://bouvetcodecamp/signalr/hubs"></script>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
     <script>
@@ -37,24 +37,43 @@
         google.maps.event.addDomListener(window, 'load', initialize);
         var lag = {};
         lag.Lag = [];
+
+        function sendAutentisertRequest(url, type, successCallback) {
+            $.ajax({
+                url: url,
+                type: type,
+                dataType: 'json',
+                success: successCallback,
+                beforeSend: setAuthorizationHeader
+            });
+        }
+
+        function setAuthorizationHeader(xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
+        }
+
+        function settLagPÂKartet(data) {
+            $.each(data, function (key, val) {
+                lag[val.lagId] = createMarker(val.latitude, val.longitude, val.lagId);
+            });
+        }
+
         $(document).ready(function () {
-            $.getJSON("http://" + baseApiAddress + "/api/game/pif/get", function (data) {
-                $.each(data, function (key, val) {
-                    lag[val.lagId] = createMarker(val.latitude, val.longitude, val.lagId);
-                });
-            });
+            // Trengs denne egentlig?
+            //sendAutentisertRequest("http://" + baseApiAddress + "/api/lag/get", "GET", settLagPÂKartet);
+            
+            //TODO: Disse mÂ refakt, sende request med successcallback
+            //$("#makeRedZone").click(function () {
+            //    $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
+            //});
 
-            $("#makeRedZone").click(function () {
-                $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
-            });
+            //$("#moveTeam").click(function () {
+            //    $.getJSON("http://" + baseApiAddress + "/api/game/pif/put?Latitude=" + $("#lat").val() + "&Longitude=" + $("#long").val() + "&LagId=" + $("#lag").val());
+            //});
 
-            $("#moveTeam").click(function () {
-                $.getJSON("http://" + baseApiAddress + "/api/game/pif/put?Latitude=" + $("#lat").val() + "&Longitude=" + $("#long").val() + "&LagId=" + $("#lag").val());
-            });
-
-            $("#removeRedZone").click(function () {
-                $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + "0" + "&longitude=" + "0");
-            });
+            //$("#removeRedZone").click(function () {
+            //    $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + "0" + "&longitude=" + "0");
+            //});
         });
 
 
