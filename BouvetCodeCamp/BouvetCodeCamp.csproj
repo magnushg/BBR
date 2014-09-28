@@ -71,7 +71,7 @@
     <Compile Include="AdminApi\InfisertController.cs" />
     <Compile Include="AdminApi\LagController.cs" />
     <Compile Include="AdminApi\PostController.cs" />
-    <Compile Include="AuthenticationMiddleware.cs" />
+    <Compile Include="Authentication\AuthenticationMiddleware.cs" />
     <Compile Include="GameApi\BaseApiController.cs" />
     <Compile Include="GameApi\BaseGameController.cs" />
     <Compile Include="GameApi\GameController.cs" />
@@ -79,6 +79,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\GameHub.cs" />
+    <Compile Include="SignalR\IGameHub.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

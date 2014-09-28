@@ -15,7 +15,8 @@ using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
-    using GameApi;
+    using BouvetCodeCamp.Authentication;
+
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;
     using Infrastruktur.DataAksess.Repositories;
@@ -52,7 +53,7 @@ namespace BouvetCodeCamp
             builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
-            builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
+            builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
 
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.

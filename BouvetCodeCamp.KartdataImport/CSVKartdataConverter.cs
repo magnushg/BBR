@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.KartdataImport
 {
-    public class CSVKartdataKonverterer
+    public class CSVKartdataConverter
     {
         public IEnumerable<Domene.Entiteter.Post> KonverterKartdata()
         {

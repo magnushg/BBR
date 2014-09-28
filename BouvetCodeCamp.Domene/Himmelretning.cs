@@ -1,6 +1,6 @@
 ﻿namespace BouvetCodeCamp.Domene
 {
-    public enum Direction
+    public enum Himmelretning
     {
         North,
         East,

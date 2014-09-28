@@ -111,7 +111,7 @@
                             {
                                 new Kode {
                                         Bokstav = PostKode,
-                                        Posisjon = new Coordinate("12", "12"),
+                                        Posisjon = new Koordinat("12", "12"),
                                         PosisjonTilstand = PosisjonTilstand.Ukjent
                                     }
                             };
@@ -128,7 +128,7 @@
 
                 var modell = new KodeModel {
                     Kode = PostKode,
-                    Koordinat = new Coordinate("12", "12"),
+                    Koordinat = new Koordinat("12", "12"),
                     LagId = LagId
                 };
 

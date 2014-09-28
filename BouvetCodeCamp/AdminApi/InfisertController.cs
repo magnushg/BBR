@@ -15,6 +15,7 @@ namespace BouvetCodeCamp.AdminApi
             _gameStateService = gameStateService;
         }
 
+        // GET api/infisert/get
         [HttpGet]
         public InfisertPolygon Get()
         {
@@ -22,6 +23,7 @@ namespace BouvetCodeCamp.AdminApi
             return gameState.InfisertPolygon;
         }
 
+        // POST api/infisert/post
         [HttpPost]
         public void Post([FromBody] InfisertPolygon model)
         {

@@ -12,12 +12,12 @@ namespace BouvetCodeCamp.DomeneTjenester
     public class KodeService : IKodeService
     {
         private readonly ILagService _lagService;
-        private readonly ICoordinateVerifier _coordinateVerifier;
+        private readonly IKoordinatVerifier koordinatVerifier;
 
-        public KodeService(ILagService lagService, ICoordinateVerifier coordinateVerifier)
+        public KodeService(ILagService lagService, IKoordinatVerifier koordinatVerifier)
         {
             _lagService = lagService;
-            _coordinateVerifier = coordinateVerifier;
+            this.koordinatVerifier = koordinatVerifier;
         }
 
         public IEnumerable<Kode> HentOppdagedeKoder(string lagId)
@@ -41,12 +41,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         ///   3 - tilstanden ikke allerede er satt til oppdaget
         /// </summary>
         /// <returns>true hvis alle kriterier er oppfylt</returns>
-        public bool SettKodeTilstandTilOppdaget(string lagId, string kode, Coordinate koordinat)
+        public bool SettKodeTilstandTilOppdaget(string lagId, string kode, Koordinat koordinat)
         {
             var lag = _lagService.HentLag(lagId);
 
             var kandidater = lag.Koder.Where(k => k.Bokstav.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
-                && _coordinateVerifier.CoordinatesAreInProximity(k.Posisjon, koordinat)
+                && this.koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat)
                 && k.PosisjonTilstand.Equals(PosisjonTilstand.Ukjent)).ToList();
 
             switch (kandidater.Count())

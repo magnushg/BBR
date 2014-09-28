@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSVKartdataKonverterer.cs" />
+    <Compile Include="CSVKartdataConverter.cs" />
     <Compile Include="JSONKartdataConverter.cs" />
     <Compile Include="KartdataLagring.cs" />
     <Compile Include="Program.cs" />

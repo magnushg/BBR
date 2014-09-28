@@ -45,10 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoordinateVerifier.cs" />
+    <Compile Include="KoordinatVerifier.cs" />
     <Compile Include="GameApi.cs" />
     <Compile Include="GameStateService.cs" />
-    <Compile Include="Interfaces\ICoordinateVerifier.cs" />
+    <Compile Include="Interfaces\IKoordinatVerifier.cs" />
     <Compile Include="Interfaces\IGameAPI.cs" />
     <Compile Include="Interfaces\IGameStateService.cs" />
     <Compile Include="Interfaces\IKodeService.cs" />

@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BouvetCodeCamp
+﻿namespace BouvetCodeCamp.Authentication
 {
     using System;
     using System.Security.Claims;
     using System.Text;
+    using System.Threading.Tasks;
 
     using Microsoft.Owin;
 
@@ -58,7 +56,7 @@ namespace BouvetCodeCamp
                 }
             }
  
-            await Next.Invoke(context);
+            await this.Next.Invoke(context);
         }
     }
 }

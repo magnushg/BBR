@@ -40,13 +40,13 @@
 
         [HttpGet]
         [Route("sendCommand")]
-        public HttpResponseMessage SendCommand(int groupId, Direction direction, double distance, string message)
+        public HttpResponseMessage SendCommand(int groupId, Himmelretning himmelretning, double distance, string message)
         {
             // TODO: lagre melding
 
             return Request.CreateResponse(HttpStatusCode.OK, new
            {
-               message = string.Format("You chose to move {0} for {1} meters with message {2}", direction, distance, message)
+               message = string.Format("You chose to move {0} for {1} meters with message {2}", himmelretning, distance, message)
            });
         }
        
@@ -54,9 +54,9 @@
         //Nederst til høyre 59.672267, 10.609526
         [HttpGet]
         [Route("setRedZone")]
-        public async Task<HttpResponseMessage> SetRedZone([FromUri] Coordinate model)
+        public async Task<HttpResponseMessage> SetRedZone([FromUri] Koordinat model)
         {
-            _gameHub.Value.Clients.All.SetRedZone(new Coordinate(model.Longitude,model.Latitude ));
+            _gameHub.Value.Clients.All.SetRedZone(new Koordinat(model.Longitude,model.Latitude ));
             
             //TODO: opprette infisert sone
 

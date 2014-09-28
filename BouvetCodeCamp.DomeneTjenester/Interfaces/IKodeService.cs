@@ -8,6 +8,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     {
         IEnumerable<Kode> HentOppdagedeKoder(string lagId);
         IEnumerable<Kode> HentAlleKoder(string lagId);
-        bool SettKodeTilstandTilOppdaget(string lagId, string kode, Coordinate koordinat);
+        bool SettKodeTilstandTilOppdaget(string lagId, string kode, Koordinat koordinat);
     }
 }

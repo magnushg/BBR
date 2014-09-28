@@ -6,13 +6,13 @@ namespace BouvetCodeCamp.Domene.InputModels
     {
         public string Kode { get; set; }
         public string LagId { get; set; }
-        public Coordinate Koordinat { get; set; }
+        public Koordinat Koordinat { get; set; }
 
         public KodeModel()
         {
             Kode = string.Empty;
             LagId = string.Empty;
-            Koordinat = Coordinate.Empty;
+            Koordinat = Koordinat.Empty;
         }
     }
 }

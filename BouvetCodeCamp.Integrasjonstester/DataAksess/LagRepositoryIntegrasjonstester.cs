@@ -49,7 +49,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Arrange
             var repository = OpprettRepository();
 
-            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Posisjon = new Coordinate("10", "90") };
+            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Posisjon = new Koordinat("10", "90") };
             var koder = new List<Kode>
                             {
                                 kode

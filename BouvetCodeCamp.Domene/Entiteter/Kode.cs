@@ -5,7 +5,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
     public class Kode
     {
         [JsonProperty(PropertyName = "gps")]
-        public Coordinate Posisjon { get; set; }
+        public Koordinat Posisjon { get; set; }
 
         [JsonProperty(PropertyName = "bokstav")]
         public string Bokstav { get; set; }
@@ -15,7 +15,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
 
         public Kode()
         {
-            Posisjon = Coordinate.Empty;
+            Posisjon = Koordinat.Empty;
             Bokstav = string.Empty;
             PosisjonTilstand = PosisjonTilstand.Ukjent;
         }
