@@ -11,7 +11,7 @@ namespace BouvetCodeCamp.SpillOppretter
     {
         public IEnumerable<Post> KonverterKartdata()
         {
-            var data = LesTekstFraFil("mapdata/poster.json");
+            var data = LesTekstFraFil("importData/poster.json");
 
             var deserialisert = JsonConvert.DeserializeObject<IEnumerable<JPost>>(data);
 

@@ -53,15 +53,19 @@
     <Compile Include="CSVKartdataConverter.cs" />
     <Compile Include="JSONKartdataConverter.cs" />
     <Compile Include="KartdataLagring.cs" />
+    <Compile Include="LagOppretter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="mapdata\oscarsborg.csv">
+    <Content Include="ImportData\oscarsborg.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="mapdata\poster.json">
+    <Content Include="ImportData\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\lagData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
