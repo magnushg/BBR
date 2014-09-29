@@ -9,29 +9,27 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
-    public class KodeService : IKodeService
+    public class PostService : IPostService
     {
         private readonly ILagService _lagService;
         private readonly IKoordinatVerifier koordinatVerifier;
 
-        public KodeService(ILagService lagService, IKoordinatVerifier koordinatVerifier)
+        public PostService(ILagService lagService, IKoordinatVerifier koordinatVerifier)
         {
             _lagService = lagService;
             this.koordinatVerifier = koordinatVerifier;
         }
 
-        public IEnumerable<Kode> HentOppdagedeKoder(string lagId)
+        public IEnumerable<LagPost> HentOppdagedePoster(string lagId)
         {
-            var lag = _lagService.HentLagMedLagId(lagId);
-
-            return lag.Koder.Where(kode => kode.PosisjonTilstand.Equals(PosisjonTilstand.Oppdaget));
+            return _lagService.HentLagMedLagId(lagId).Poster.Where(post => post.PostTilstand == PostTilstand.Oppdaget);
         }
 
-        public IEnumerable<Kode> HentAlleKoder(string lagId)
+        public IEnumerable<LagPost> HentAllePoster(string lagId)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
-            return lag.Koder;
+            return lag.Poster;
         }
 
         /// <summary>
@@ -45,16 +43,16 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
-            var kandidater = lag.Koder.Where(k => k.Bokstav.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
+            var kandidater = lag.Poster.Where(k => k.Kode.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
                 && this.koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat)
-                && k.PosisjonTilstand.Equals(PosisjonTilstand.Ukjent)).ToList();
+                && k.PostTilstand.Equals(PostTilstand.Ukjent)).ToList();
 
             switch (kandidater.Count())
             {
                 case 0:
                     return false;
                 case 1:
-                    kandidater.First().PosisjonTilstand = PosisjonTilstand.Oppdaget;
+                    kandidater.First().PostTilstand = PostTilstand.Oppdaget;
                     _lagService.Oppdater(lag);
                     return true;
                 default:

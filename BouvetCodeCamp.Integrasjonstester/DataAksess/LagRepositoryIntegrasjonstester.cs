@@ -49,14 +49,14 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Arrange
             var repository = OpprettRepository();
 
-            var kode = new Kode { PosisjonTilstand = PosisjonTilstand.Oppdaget, Bokstav = "a", Posisjon = new Koordinat("10", "90") };
-            var koder = new List<Kode>
+            var post = new LagPost { PostTilstand = PostTilstand.Oppdaget, Kode = "a", Posisjon = new Koordinat("10", "90") };
+            var poster = new List<LagPost>
                             {
-                                kode
+                                post
                             };
 
             var melding = Builder<Lag>.CreateNew()
-                .With(o => o.Koder = koder)
+                .With(o => o.Poster = poster)
                 .Build();
 
             var documentId = await repository.Opprett(melding);
@@ -65,10 +65,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var lagretLag = repository.Hent(documentId);
 
             // Assert
-            lagretLag.Koder.FirstOrDefault().PosisjonTilstand.ShouldEqual(kode.PosisjonTilstand);
-            lagretLag.Koder.FirstOrDefault().Bokstav.ShouldEqual(kode.Bokstav);
-            lagretLag.Koder.FirstOrDefault().Posisjon.Latitude.ShouldEqual(kode.Posisjon.Latitude);
-            lagretLag.Koder.FirstOrDefault().Posisjon.Longitude.ShouldEqual(kode.Posisjon.Longitude);
+            lagretLag.Poster.FirstOrDefault().PostTilstand.ShouldEqual(post.PostTilstand);
+            lagretLag.Poster.FirstOrDefault().Kode.ShouldEqual(post.Kode);
+            lagretLag.Poster.FirstOrDefault().Posisjon.Latitude.ShouldEqual(post.Posisjon.Latitude);
+            lagretLag.Poster.FirstOrDefault().Posisjon.Longitude.ShouldEqual(post.Posisjon.Longitude);
         }
 
         [TestMethod]

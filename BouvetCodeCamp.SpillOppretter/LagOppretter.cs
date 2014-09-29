@@ -36,7 +36,7 @@ namespace BouvetCodeCamp.SpillOppretter
                 LagNummer = index,
                 LoggHendelser = new List<LoggHendelse>(),
                 Meldinger = new List<Melding>(),
-                Koder = new List<Kode>(),
+                Poster = new List<LagPost>(),
                 PifPosisjoner = new List<PifPosisjon>(),
                 Poeng = 0
             });

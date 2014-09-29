@@ -4,10 +4,10 @@ using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
-    public interface IKodeService
+    public interface IPostService
     {
-        IEnumerable<Kode> HentOppdagedeKoder(string lagId);
-        IEnumerable<Kode> HentAlleKoder(string lagId);
+        IEnumerable<LagPost> HentOppdagedePoster(string lagId);
+        IEnumerable<LagPost> HentAllePoster(string lagId);
         bool SettKodeTilstandTilOppdaget(string lagId, string kode, Koordinat koordinat);
     }
 }

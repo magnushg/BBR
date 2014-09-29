@@ -14,14 +14,14 @@ namespace BouvetCodeCamp.DomeneTjenester
 
     public class GameApi : IGameApi
     {
-        private readonly IKodeService _kodeService;
+        private readonly IPostService _postService;
         private readonly ILagService _lagService;
 
         public GameApi(
-            IKodeService kodeService,
+            IPostService postService,
             ILagService lagService)
         {
-            _kodeService = kodeService;
+            _postService = postService;
             _lagService = lagService;
         }
 
@@ -69,7 +69,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task<bool> RegistrerKode(KodeModel model)
         {
-            var resultat = _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
+            var resultat = _postService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
 
             await LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
@@ -103,12 +103,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
-            var registrerteKoderForLag = lag.Koder.Where(o => o.PosisjonTilstand == PosisjonTilstand.Oppdaget);
+            var registrerteKoderForLag = lag.Poster.Where(o => o.PostTilstand == PostTilstand.Oppdaget);
 
             return registrerteKoderForLag.Select(registrertKode => 
                 new KodeOutputModel
                     {
-                        Kode = registrertKode.Bokstav, 
+                        Kode = registrertKode.Kode, 
                         Koordinat = registrertKode.Posisjon
                     }).ToList();
         }

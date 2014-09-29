@@ -51,10 +51,10 @@
     <Compile Include="Interfaces\IKoordinatVerifier.cs" />
     <Compile Include="Interfaces\IGameAPI.cs" />
     <Compile Include="Interfaces\IGameStateService.cs" />
-    <Compile Include="Interfaces\IKodeService.cs" />
+    <Compile Include="Interfaces\IPostService.cs" />
     <Compile Include="Interfaces\ILagService.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="KodeService.cs" />
+    <Compile Include="PostService.cs" />
     <Compile Include="LagService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

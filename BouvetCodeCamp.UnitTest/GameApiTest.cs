@@ -13,7 +13,7 @@ namespace BouvetCodeCamp.UnitTest
     public class GameApiTest
     {
         private IGameApi _gameApi;
-        private readonly Mock<IKodeService> _kodeService = new Mock<IKodeService>();
+        private readonly Mock<IPostService> _kodeService = new Mock<IPostService>();
         private readonly Mock<ILagService> _lagService = new Mock<ILagService>();
  
         [SetUp]
