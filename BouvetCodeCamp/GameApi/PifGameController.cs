@@ -5,6 +5,7 @@ namespace BouvetCodeCamp.GameApi
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using System.Web.Http.Description;
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
@@ -21,8 +22,17 @@ namespace BouvetCodeCamp.GameApi
         }
 
         // POST api/game/pif/sendpifposisjon
-        [HttpPost]
+        /// <summary>
+        /// Send PIF-posisjon
+        /// </summary>
+        /// <param name="modell">GeoPosisjonModel modell</param>
+        /// <remarks>Lagrer ny posisjon for PIF</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("sendpifposisjon")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpPost]
         public HttpResponseMessage SendPifPosisjon([FromBody] GeoPosisjonModel modell)
         {
             if (modell == null) 

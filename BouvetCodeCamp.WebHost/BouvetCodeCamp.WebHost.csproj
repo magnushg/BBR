@@ -14,7 +14,7 @@
     <RootNamespace>BouvetCodeCamp.WebHost</RootNamespace>
     <AssemblyName>BouvetCodeCamp.WebHost</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -40,6 +40,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="moduler\adminpanel\Adminpanel.html" />
+    <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\assets\owl.carousel.css" />
+    <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\owl.carousel.js" />
+    <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\owl.carousel.min.js" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\BBR-Azure.pubxml" />
     <None Include="Properties\PublishProfiles\BBR-IIS.pubxml" />
@@ -51,6 +55,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="moduler\scoreboard\Scoreboard.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -75,6 +80,7 @@
       <Name>BouvetCodeCamp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -90,7 +96,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52504</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/bouvetcodecamp</IISUrl>
+          <IISUrl>http://localhost:52504/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
