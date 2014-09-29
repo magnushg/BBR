@@ -24,9 +24,8 @@ namespace BouvetCodeCamp.SpillOppretter
             _lagRepository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
         }
 
-        public void OpprettLag()
+        public IEnumerable<Lag> OpprettLag(IEnumerable<Post> poster)
         {
-            var lagJson = File.ReadAllText("importData/lagData.json", Encoding.UTF8);
             var lagPosterJson = File.ReadAllText("importData/lagPoster.json", Encoding.UTF8);
 
             var lagListe = Enumerable.Range(1, _antallLag).Select(index => new Lag
@@ -39,12 +38,45 @@ namespace BouvetCodeCamp.SpillOppretter
                 Poster = new List<LagPost>(),
                 PifPosisjoner = new List<PifPosisjon>(),
                 Poeng = 0
-            });
-            //var lagListe = JsonConvert.DeserializeObject<IEnumerable<Lag>>(lagJson);
-            var lagPoster = JsonConvert.DeserializeObject<IEnumerable<LagPoster>>(lagPosterJson);
-            
-            LagreLagliste(lagListe);
+            }).ToList();
 
+            var lagPoster = JsonConvert.DeserializeObject<IEnumerable<LagPoster>>(lagPosterJson);
+
+            var lagListeMedPoster = lagListe.Select(lag => new Lag
+            {
+                LagId = lag.LagId,
+                LagNavn = lag.LagNavn,
+                LagNummer = lag.LagNummer,
+                Poeng = lag.Poeng,
+                PifPosisjoner = lag.PifPosisjoner,
+                LoggHendelser = lag.LoggHendelser,
+                Meldinger = lag.Meldinger,
+                Poster = lagPoster
+                    .FirstOrDefault(lagPost => lagPost.Lagnummer == lag.LagNummer)
+                    .Poster.Select(post => OpprettLagPost(poster.FirstOrDefault(p => p.Nummer == post))).ToList()
+
+            }).ToList();
+            
+            LagreLagliste(lagListeMedPoster);
+
+            return lagListe;
+
+        }
+
+        private LagPost OpprettLagPost(Post post)
+        {
+            return new LagPost
+            {
+                Altitude = post.Altitude,
+                Beskrivelse = post.Beskrivelse,
+                Bilde = post.Bilde,
+                Kilde = post.Kilde,
+                Navn = post.Navn,
+                Nummer = post.Nummer,
+                Posisjon = post.Posisjon,
+                PostTilstand = PostTilstand.Ukjent,
+                Kode = string.Empty
+            };
         }
 
         public async void LagreLagliste(IEnumerable<Lag> lagListe)
@@ -60,7 +92,7 @@ namespace BouvetCodeCamp.SpillOppretter
     public class LagPoster
     {
         public int Lagnummer { get; set; }
-        public string[] Poster { get; set; }
+        public int[] Poster { get; set; }
     }
 
 }

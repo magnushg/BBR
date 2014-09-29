@@ -22,8 +22,12 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "kilde")]
         public string Kilde { get; set; }
 
+        [JsonProperty(PropertyName = "postNummer")]
+        public int Nummer { get; set; }
+
         public Post()
         {
+            Nummer = -1;
             Posisjon = Koordinat.Empty;
             Altitude = -999;
             Bilde = string.Empty;

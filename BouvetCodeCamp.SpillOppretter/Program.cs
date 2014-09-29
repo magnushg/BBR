@@ -21,12 +21,12 @@ namespace BouvetCodeCamp.SpillOppretter
             var mapdata = mapdataConverter.KonverterKartdata().ToList();
 
             kartdataLagring.SlettAlleKartdata();
-            kartdataLagring.LagreKartdata(mapdata);
+            var poster = kartdataLagring.LagreKartdata(mapdata);
 
             Console.WriteLine("Done processing {0} map data points", mapdata.Count);
 
             Console.WriteLine("Oppretter lag");
-            lagoppretter.OpprettLag();
+            lagoppretter.OpprettLag(poster);
 
             Console.WriteLine("\r\nPress any key to exit...");
             Console.ReadLine();
