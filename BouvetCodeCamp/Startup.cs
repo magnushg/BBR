@@ -21,6 +21,10 @@ namespace BouvetCodeCamp
     using Infrastruktur.DataAksess.Interfaces;
     using Infrastruktur.DataAksess.Repositories;
 
+    using Microsoft.Owin.Extensions;
+
+    using Swashbuckle.Application;
+
     public class Startup
     {
         public void Configuration(IAppBuilder appBuilder)
@@ -34,6 +38,13 @@ namespace BouvetCodeCamp
 
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
+            KonfigurerApiDokumentasjon(appBuilder, config);
+
+            config.Routes.MapHttpRoute(
+            name: "Default",
+            routeTemplate: "{controller}/{id}",
+            defaults: new { id = RouteParameter.Optional });
+            
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
@@ -64,11 +75,28 @@ namespace BouvetCodeCamp
             appBuilder.UseAutofacWebApi(config);
 
             appBuilder.UseWebApi(config);
-
+            
             var hubConfig = new HubConfiguration();
             hubConfig.EnableJSONP = true;
             appBuilder.MapSignalR(hubConfig);
+        }
 
+        private static void KonfigurerApiDokumentasjon(IAppBuilder appBuilder, HttpConfiguration config)
+        {
+            appBuilder.UseStageMarker(PipelineStage.MapHandler);
+
+            Swashbuckle.Bootstrapper.Init(config);
+
+            SwaggerSpecConfig.Customize(c =>
+            {
+                c.IgnoreObsoleteActions();
+                c.IncludeXmlComments(GetXmlCommentsPath());
+            });
+        }
+
+        protected static string GetXmlCommentsPath()
+        {
+            return System.String.Format(@"{0}\bin\BouvetCodeCamp.XML", System.AppDomain.CurrentDomain.BaseDirectory);
         }
 
         private static void Configure(MediaTypeFormatterCollection formatters, HttpConfiguration config)
