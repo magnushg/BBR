@@ -3,8 +3,8 @@
 <head>
     <style>
         #map_canvas {
-            width: 400px;
-            height: 900px;
+            /*width: 400px;
+            height: 900px;*/
         }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
@@ -12,6 +12,10 @@
     <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
     <script src="http://bouvetcodecamp/signalr/hubs"></script>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Own Carousel -->
+    <link rel="stylesheet" href="moduler/scoreboard/owl.carousel.2.0.0-beta.2.4/assets/owl.carousel.css">
+    <script src="moduler/scoreboard/owl.carousel.2.0.0-beta.2.4/owl.carousel.min.js"></script>
 
     <script>
         var baseApiAddress = "bouvetcodecamp";
@@ -145,45 +149,188 @@
         });
     </script>
 
+    <style type="text/css">
+        
+        .stillingstabell, .hendelsestabell { width: 100%; }
 
-
+        .stillingstabell th, .hendelsestabell th {
+            background-color: lightgrey;
+        }
+        
+        .stillingstabell th, 
+        .stillingstabell td,
+        .hendelsestabell th, 
+        .hendelsestabell td  {
+            text-align: left;
+            padding: 5px;
+        }
+        
+    </style>
 
 </head>
 <body>
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-11"><img src="http://www.bouvet.no/Global/img/header_logo.png"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-3"><div id="map_canvas"></div></div>
-            <div class="col-md-3">
-                <div>Stilling</div>
-                <div>Lag 3 56 poeng</div>                  
-                <div>Lag 3 56 poeng</div>   
-                <div>Lag 3 56 poeng</div>   
-                <div>Lag 3 56 poeng</div>   
-                <div>Lag 3 56 poeng</div>   
-                <div>Lag 3 56 poeng</div>   
-                <div>Lag 3 56 poeng</div>                 
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <label for="lat">Lat</label><input type="number" id="lat" />
-                    <label for="long">Long</label><input type="number" id="long" />
-                    <label for="lag">Lag</label><input type="number" id="lag" />
-                    <button id="makeRedZone">Lag infisert sone</button>
-                    <button id="moveTeam">Flytt lag hit</button>
-                    <button id="removeRedZone">Fjern infisert sone</button>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5"><div id="map_canvas"></div></div>
+        <div class="col-md-5">
+            <div class="karusellwrapper">
+                <div class="stillingsvisning">
+                    <section>
+                        <table class="stillingstabell">
+                            <caption>Stilling</caption>
+                            <thead>
+                                <tr>
+                                    <th>Lag</th>
+                                    <th>Poeng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
                 </div>
-            </div>
-            <div class="col-md-3"></div>
-
+                <div class="hendelservisning">
+                    <section>
+                        <table class="hendelsestabell">
+                            <caption>Hendelser</caption>
+                            <thead>
+                                <tr>
+                                    <th>Lag</th>
+                                    <th>Hendelse</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                                <tr>
+                                    <td>Lag 1</td>
+                                    <td>9999</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>           
         </div>
-
-
-
-
-
+        <div class="col-md-1"></div>
+    </div>
 </body>
 </html>
