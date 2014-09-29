@@ -1,0 +1,183 @@
+[
+    {
+        "lagnummer": 11,
+        "poster": [
+            "post 13",
+            "post 10",
+            "post 5",
+            "post 11",
+            "post 26",
+            "post 23",
+            "post 18"
+        ]
+    },
+
+    {
+        "lagnummer": 5,
+        "poster": [
+            "post 22",
+            "post 20",
+            "post 29",
+            "post 5",
+            "post 7",
+            "post 13",
+            "post 1"
+        ]
+    },
+    {
+        "lagnummer": 12,
+        "poster": [
+            "post 27",
+            "post 3",
+            "post 9",
+            "post 8",
+            "post 4",
+            "post 20",
+            "post 30"
+        ]
+    },
+    {
+        "lagnummer": 8,
+        "poster": [
+            "post 16",
+            "post 26",
+            "post 2",
+            "post 10",
+            "post 19",
+            "post 21",
+            "post 28"
+        ]
+    },
+    {
+        "lagnummer": 4,
+        "poster": [
+            "post 13",
+            "post 2",
+            "post 28",
+            "post 24",
+            "post 19",
+            "post 22",
+            "post 11"
+        ]
+    },
+    {
+        "lagnummer": 14,
+        "poster": [
+            "post 2",
+            "post 21",
+            "post 18",
+            "post 30",
+            "post 29",
+            "post 12",
+            "post 15"
+        ]
+    },
+    {
+        "lagnummer": 15,
+        "poster": [
+            "post 14",
+            "post 27",
+            "post 20",
+            "post 12",
+            "post 3",
+            "post 15",
+            "post 18"
+        ]
+    },
+    {
+        "lagnummer": 10,
+        "poster": [
+            "post 1",
+            "post 6",
+            "post 14",
+            "post 19",
+            "post 20",
+            "post 30",
+            "post 29"
+        ]
+    },
+    {
+        "lagnummer": 2,
+        "poster": [
+            "post 30",
+            "post 19",
+            "post 20",
+            "post 29",
+            "post 13",
+            "post 9",
+            "post 4"
+        ]
+    },
+    {
+        "lagnummer": 7,
+        "poster": [
+            "post 28",
+            "post 30",
+            "post 12",
+            "post 7",
+            "post 2",
+            "post 13",
+            "post 15"
+        ]
+    },
+    {
+        "lagnummer": 1,
+        "poster": [
+            "post 24",
+            "post 21",
+            "post 23",
+            "post 1",
+            "post 8",
+            "post 2",
+            "post 13"
+        ]
+    },
+    {
+        "lagnummer": 6,
+        "poster": [
+            "post 21",
+            "post 18",
+            "post 24",
+            "post 15",
+            "post 5",
+            "post 3",
+            "post 10"
+        ]
+    },
+    {
+        "lagnummer": 3,
+        "poster": [
+            "post 15",
+            "post 10",
+            "post 3",
+            "post 7",
+            "post 28",
+            "post 30",
+            "post 16"
+        ]
+    },
+    {
+        "lagnummer": 9,
+        "poster": [
+            "post 27",
+            "post 15",
+            "post 13",
+            "post 4",
+            "post 6",
+            "post 19",
+            "post 23"
+        ]
+    },
+    {
+        "lagnummer": 13,
+        "poster": [
+            "post 19",
+            "post 21",
+            "post 30",
+            "post 13",
+            "post 8",
+            "post 1",
+            "post 27"
+        ]
+    }
+]

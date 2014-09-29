@@ -10,6 +10,14 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [DisplayName("LagId")]
         public string LagId { get; set; }
 
+        [JsonProperty(PropertyName = "lagnummer")]
+        [DisplayName("LagNummer")]
+        public int LagNummer { get; set; }
+
+        [JsonProperty(PropertyName = "lagNavn")]
+        [DisplayName("lagNavn")]
+        public string LagNavn { get; set; }
+
         [JsonProperty(PropertyName = "poeng")]
         [DisplayName("Poeng")]
         public int Poeng { get; set; }

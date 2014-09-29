@@ -14,7 +14,7 @@ namespace BouvetCodeCamp.SpillOppretter
 
             Console.WriteLine("Initializing Document Db");
             var kartdataLagring = new KartdataLagring();
-            var lagoppretter = new LagOppretter();
+            var lagoppretter = new LagOppretter(15);
 
             Console.WriteLine("Converting data and saving to database");
 
