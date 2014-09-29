@@ -51,7 +51,6 @@
     <Compile Include="Entiteter\Koordinat.cs" />
     <Compile Include="Entiteter\GameState.cs" />
     <Compile Include="Entiteter\InfisertPolygon.cs" />
-    <Compile Include="Entiteter\Kode.cs" />
     <Compile Include="Entiteter\Lag.cs" />
     <Compile Include="Entiteter\LoggHendelse.cs" />
     <Compile Include="Entiteter\Melding.cs" />

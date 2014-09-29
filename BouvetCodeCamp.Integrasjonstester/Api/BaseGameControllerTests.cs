@@ -225,8 +225,11 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                                     {
                                                         new PifPosisjon {
                                                             LagId = LagId,
-                                                            Latitude = "12.1",
-                                                            Longitude = "12.1",
+                                                            Posisjon = new Koordinat
+                                                            {
+                                                              Latitude = "12.1",
+                                                              Longitude = "12.1"
+                                                            },
                                                             Tid = DateTime.Now
                                                         }
                                     };
