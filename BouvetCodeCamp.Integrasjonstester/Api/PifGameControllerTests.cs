@@ -88,12 +88,12 @@
         {
             // Arrange
             const string PostKode = "asflææø12";
-            var koder = new List<Kode>
+            var koder = new List<LagPost>
                             {
-                                new Kode {
-                                        Bokstav = PostKode,
+                                new LagPost {
+                                        Kode = PostKode,
                                         Posisjon = new Koordinat("12", "12"),
-                                        PosisjonTilstand = PosisjonTilstand.Ukjent
+                                        PostTilstand = PostTilstand.Ukjent
                                     }
                             };
 

@@ -259,19 +259,19 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         private void SørgForAtEtLagMedRegistrerteKoderFinnes()
         {
-            var registrerteKoder = new List<Kode>
+            var registrerteKoder = new List<LagPost>
                                        {
-                                           new Kode
+                                           new LagPost()
                                                {
-                                                   Bokstav = "akje",
+                                                   Kode = "akje",
                                                    Posisjon = new Koordinat("12", "12"),
-                                                   PosisjonTilstand = PosisjonTilstand.Oppdaget
+                                                   PostTilstand = PostTilstand.Oppdaget
                                                }
                                        };
 
             var lag = Builder<Lag>.CreateNew()
                 .With(o => o.LagId = LagId)
-                .With(o => o.Koder = registrerteKoder)
+                .With(o => o.Poster = registrerteKoder)
                 .Build();
 
             var lagOpprettet = this.OpprettLagViaApi(lag).Result;

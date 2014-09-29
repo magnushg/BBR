@@ -78,11 +78,11 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 Assert.Fail();
         }
 
-        protected void SørgForAtEtLagMedKoderFinnes(List<Kode> koder)
+        protected void SørgForAtEtLagMedKoderFinnes(List<LagPost> koder)
         {
             var lagMedKoder = Builder<Lag>.CreateNew()
                 .With(o => o.LagId = LagId)
-                .With(o => o.Koder = koder)
+                .With(o => o.Poster = koder)
                 .Build();
 
             var lagOpprettet = this.OpprettLagViaApi(lagMedKoder).Result;

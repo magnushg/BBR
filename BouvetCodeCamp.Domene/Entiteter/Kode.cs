@@ -11,13 +11,13 @@ namespace BouvetCodeCamp.Domene.Entiteter
         public string Bokstav { get; set; }
 
         [JsonProperty(PropertyName = "posisjonTilstand")]
-        public PosisjonTilstand PosisjonTilstand { get; set; }
+        public PostTilstand PostTilstand { get; set; }
 
         public Kode()
         {
             Posisjon = Koordinat.Empty;
             Bokstav = string.Empty;
-            PosisjonTilstand = PosisjonTilstand.Ukjent;
+            PostTilstand = PostTilstand.Ukjent;
         }
     }
 }

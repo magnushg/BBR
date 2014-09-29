@@ -1,6 +1,6 @@
 namespace BouvetCodeCamp.Domene
 {
-    public enum PosisjonTilstand
+    public enum PostTilstand
     {
         Ukjent, 
         Oppdaget
