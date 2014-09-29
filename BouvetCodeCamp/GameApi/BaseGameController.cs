@@ -71,14 +71,14 @@
         // POST api/game/base/sendpifmelding
         [HttpPost]
         [Route("sendpifmelding")]
-        public HttpResponseMessage SendPifMelding([FromBody] MeldingModel modell)
+        public async Task<HttpResponseMessage> SendPifMelding([FromBody] MeldingModel modell)
         {
             if (modell == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                gameApi.SendMelding(modell);
+                await gameApi.SendMelding(modell);
             }
             catch (Exception e)
             {

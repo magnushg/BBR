@@ -8,6 +8,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     {
         Lag HentLagMedLagId(string lagId);
         IEnumerable<Lag> HentAlleLag();
-        void Oppdater(Lag lag);
+        Task Oppdater(Lag lag);
     }
 }

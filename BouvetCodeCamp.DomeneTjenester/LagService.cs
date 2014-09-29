@@ -7,6 +7,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class LagService : ILagService
     {
@@ -32,9 +33,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             return _lagRepository.HentAlle();
         }
 
-        public void Oppdater(Lag lag)
+        public async Task Oppdater(Lag lag)
         {
-            _lagRepository.Oppdater(lag);
+            await _lagRepository.Oppdater(lag);
         }
     }
 }

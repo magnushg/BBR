@@ -3,15 +3,12 @@ namespace BouvetCodeCamp.GameApi
     using System;
     using System.Net;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web.Http;
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR;
-
-    using Microsoft.AspNet.SignalR;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController
@@ -47,14 +44,14 @@ namespace BouvetCodeCamp.GameApi
         // POST api/game/pif/sendpostkode
         [HttpPost]
         [Route("sendpostkode")]
-        public HttpResponseMessage SendPostKode([FromBody] KodeModel modell)
+        public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeModel modell)
         {
             if (modell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                var kodeRegistrert = _gameApi.RegistrerKode(modell);
+                var kodeRegistrert = await _gameApi.RegistrerKode(modell);
 
                 return kodeRegistrert ?
                     Request.CreateResponse(HttpStatusCode.OK) :

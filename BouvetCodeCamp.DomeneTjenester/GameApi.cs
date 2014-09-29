@@ -10,6 +10,7 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 namespace BouvetCodeCamp.DomeneTjenester
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public class GameApi : IGameApi
     {
@@ -24,7 +25,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             _lagService = lagService;
         }
 
-        public void RegistrerPifPosition(GeoPosisjonModel model)
+        public async void RegistrerPifPosition(GeoPosisjonModel model)
         {
             var pifPosisjon = new PifPosisjon
             {
@@ -37,9 +38,14 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagService.HentLagMedLagId(model.LagId);
             lag.PifPosisjoner.Add(pifPosisjon);
 
-            _lagService.Oppdater(lag);
+            lag.LoggHendelser.Add(
+                new LoggHendelse
+                {
+                    HendelseType = HendelseType.RegistrertGeoPosisjon,
+                    Tid = DateTime.Now
+                });
 
-            LoggHendelse(model.LagId, HendelseType.RegistrertGeoPosisjon);
+            await _lagService.Oppdater(lag);
         }
 
         public PifPosisjonModel HentSistePifPositionForLag(string lagId)
@@ -61,16 +67,16 @@ namespace BouvetCodeCamp.DomeneTjenester
             };
         }
 
-        public bool RegistrerKode(KodeModel model)
+        public async Task<bool> RegistrerKode(KodeModel model)
         {
             var resultat = _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
 
-            LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
+            await LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
             return resultat;
         }
 
-        public void SendMelding(MeldingModel model)
+        public async Task SendMelding(MeldingModel model)
         {
             var lag = _lagService.HentLagMedLagId(model.LagId);
 
@@ -90,9 +96,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                         Tid = DateTime.Now
                     });
 
-            _lagService.Oppdater(lag);
-
-            LoggHendelse(model.LagId, HendelseType.SendtMelding);
+            await _lagService.Oppdater(lag);
         }
 
         public IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId)
@@ -109,7 +113,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                     }).ToList();
         }
 
-        private void LoggHendelse(string lagId, HendelseType hendelseType)
+        private async Task LoggHendelse(string lagId, HendelseType hendelseType)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
@@ -119,7 +123,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                                           Tid = DateTime.Now
                                       });
 
-            _lagService.Oppdater(lag);
+            await _lagService.Oppdater(lag);
         }
     }
 }
