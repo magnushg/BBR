@@ -40,7 +40,7 @@
             }
         }
 
-        // GET api/game/base/hentPifPosisjon/91735
+        // GET api/game/base/hentpifposisjon/91735
         [HttpGet]
         [Route("hentpifposisjon/{lagId}")]
         public HttpResponseMessage HentPifPosisjon(string lagId)
@@ -60,15 +60,15 @@
             }
         }
 
-        // GET api/game/base/hentgjeldendepost
+        // GET api/game/base/hentgjeldendepost/a-b-c-d-
         [HttpGet]
-        [Route("hentgjeldendepost")]
-        public void HentGjeldendePost()
+        [Route("hentgjeldendepost/{lagId}")]
+        public void HentGjeldendePost(string lagId)
         {
-            //TODO
+            //TODO: finn alle postene til laget. Plukk neste fra listen som ikke er Registrert.
         }
-        
-        // POST api/game/base/sendPifMelding
+
+        // POST api/game/base/sendpifmelding
         [HttpPost]
         [Route("sendpifmelding")]
         public HttpResponseMessage SendPifMelding([FromBody] MeldingModel modell)
