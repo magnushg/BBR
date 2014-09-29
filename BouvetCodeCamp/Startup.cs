@@ -15,6 +15,9 @@ using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
+    using System;
+    using System.IO;
+
     using BouvetCodeCamp.Authentication;
 
     using Infrastruktur.DataAksess;
@@ -96,7 +99,14 @@ namespace BouvetCodeCamp
 
         protected static string GetXmlCommentsPath()
         {
-            return System.String.Format(@"{0}\bin\BouvetCodeCamp.XML", System.AppDomain.CurrentDomain.BaseDirectory);
+            try
+            {
+                return String.Format(@"{0}\docs\BouvetCodeCamp.XML", System.AppDomain.CurrentDomain.BaseDirectory);
+            }
+            catch (FileNotFoundException fileNotFoundException)
+            {
+                throw new Exception("Fant ikke XML-dokumentasjon", fileNotFoundException);
+            }
         }
 
         private static void Configure(MediaTypeFormatterCollection formatters, HttpConfiguration config)
