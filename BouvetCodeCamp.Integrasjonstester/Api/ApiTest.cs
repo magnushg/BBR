@@ -53,7 +53,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         private bool SlettLag(string lagId)
         {
-            var ApiEndPointAddress = ApiBaseAddress + "/api/lag/deletelag/" + lagId;
+            var ApiEndPointAddress = ApiBaseAddress + "/api/lag/deletebylagid/" + lagId;
 
             using (var httpClient = new HttpClient())
             {
