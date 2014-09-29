@@ -8,6 +8,7 @@
 
     public class BaseApiController : ApiController
     {
+        [NonAction]
         public HttpResponseMessage OpprettErrorResponse(ErrorResponseType errorResponseType)
         {
             switch (errorResponseType)
