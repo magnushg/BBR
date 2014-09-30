@@ -56,7 +56,7 @@
                 xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
             }
 
-            function settLagPÂKartet(data) {
+            function settLagPaaKartet(data) {
                 $.each(data, function (key, val) {
                     lag[val.lagId] = createMarker(val.latitude, val.longitude, val.lagId);
                 });
@@ -64,7 +64,7 @@
 
             $(document).ready(function () {
                 // Trengs denne egentlig?
-                //sendAutentisertRequest("http://" + baseApiAddress + "/api/lag/get", "GET", settLagPÂKartet);
+                //sendAutentisertRequest("http://" + baseApiAddress + "/api/lag/get", "GET", settLagPaaKartet);
             
                 //TODO: Disse mÂ refakt, sende request med successcallback
                 //$("#makeRedZone").click(function () {

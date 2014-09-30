@@ -13,7 +13,7 @@
         <script src="https://maps.googleapis.com/maps/api/js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
-        <script src="http://bouvetcodecamp/signalr/hubs"></script>
+        <script src="http://localhost:52504/signalr/hubs"></script>
         <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     
         <!-- Owl Carousel -->
@@ -67,7 +67,7 @@
                 xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
             }
 
-            function settLagPÂKartet() {
+            function settLagPaaKartet() {
                 //TODO: hwm 30.09. Plukk ut siste pif-posisjon pr lag og rendre pÂ kart
                 $.each(SCOREBOARD.Lag, function (key, val) {
                     //dummy
@@ -109,7 +109,7 @@
                 
                 oppdaterStillingstabell();
 
-                settLagPÂKartet();
+                settLagPaaKartet();
             }
 
             function oppdaterStillingstabell() {
