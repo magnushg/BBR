@@ -2,7 +2,7 @@
 
 namespace BouvetCodeCamp.Domene.OutputModels
 {
-    public class PifPosisjonModel
+    public class PifPosisjonModell
     {
         public string Latitude { get; set; }
         public string Longitude { get; set; }

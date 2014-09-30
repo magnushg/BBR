@@ -12,6 +12,8 @@ namespace BouvetCodeCamp.DomeneTjenester
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
+
     public class GameApi : IGameApi
     {
         private readonly IPostService _postService;
@@ -25,7 +27,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             _lagService = lagService;
         }
         
-        public async Task RegistrerPifPosisjon(PifPosisjonModell modell)
+        public async Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonModell modell)
         {
             var pifPosisjon = new PifPosisjon
             {
@@ -51,7 +53,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             await _lagService.Oppdater(lag);
         }
 
-        public PifPosisjonModel HentSistePifPositionForLag(string lagId)
+        public PifPosisjonModell HentSistePifPositionForLag(string lagId)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
@@ -59,9 +61,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             var nyeste = sortertListe.FirstOrDefault();
 
             if (nyeste == null)
-                return new PifPosisjonModel();
+                return new PifPosisjonModell();
 
-            return new PifPosisjonModel
+            return new PifPosisjonModell
             {
                 Latitude = nyeste.Posisjon.Latitude,
                 Longitude = nyeste.Posisjon.Longitude,
@@ -70,11 +72,11 @@ namespace BouvetCodeCamp.DomeneTjenester
             };
         }
 
-        public async Task<bool> RegistrerKode(KodeModel model)
+        public async Task<bool> RegistrerKode(KodeModell modell)
         {
-            var resultat = _postService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
+            var resultat = _postService.SettKodeTilstandTilOppdaget(modell.LagId, modell.Kode, modell.Koordinat);
 
-            await LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
+            await LoggHendelse(modell.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
             return resultat;
         }

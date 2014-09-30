@@ -42,11 +42,6 @@ namespace BouvetCodeCamp
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
             KonfigurerApiDokumentasjon(appBuilder, config);
-
-            config.Routes.MapHttpRoute(
-            name: "Default",
-            routeTemplate: "{controller}/{id}",
-            defaults: new { id = RouteParameter.Optional });
             
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
@@ -64,8 +59,9 @@ namespace BouvetCodeCamp
             builder.RegisterType<PostRepository>().As<IRepository<Post>>();
             builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>();
 
-            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
             builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
+
+            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
 
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.
@@ -79,8 +75,8 @@ namespace BouvetCodeCamp
 
             appBuilder.UseWebApi(config);
             
-            var hubConfig = new HubConfiguration();
-            hubConfig.EnableJSONP = true;
+            var hubConfig = new HubConfiguration { EnableJSONP = true };
+
             appBuilder.MapSignalR(hubConfig);
         }
 

@@ -9,16 +9,25 @@ namespace BouvetCodeCamp.GameApi
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
+    using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.SignalR;
+
+    using Microsoft.AspNet.SignalR;
+
+    using PifPosisjonModell = BouvetCodeCamp.Domene.InputModels.PifPosisjonModell;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController
     {
         private readonly IGameApi _gameApi;
 
-        public PifGameController(IGameApi gameApi)
+        readonly Lazy<IHubContext<IGameHub>> _gameHub;
+
+        public PifGameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
         {
             _gameApi = gameApi;
+            _gameHub = gameHub;
         }
 
         /// <summary>
@@ -32,16 +41,23 @@ namespace BouvetCodeCamp.GameApi
         [Route("sendpifposisjon")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public HttpResponseMessage SendPifPosisjon([FromBody] PifPosisjonModell modell)
+        public async Task<HttpResponseMessage> SendPifPosisjon([FromBody] PifPosisjonModell modell)
         {
             if (modell == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                //this._gameHub.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
+                this._gameHub.Value.Clients.All.NyPifPosisjon(
+                    new Domene.OutputModels.PifPosisjonModell
+                        {
+                            LagId = modell.LagId, 
+                            Latitude = modell.Latitude, 
+                            Longitude = modell.Longitude, 
+                            Tid = DateTime.Now
+                        });
                 
-                this._gameApi.RegistrerPifPosisjon(modell);
+                await this._gameApi.RegistrerPifPosisjon(modell);
             }
             catch (Exception e)
             {
@@ -61,7 +77,7 @@ namespace BouvetCodeCamp.GameApi
         [Route("sendpostkode")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeModel modell)
+        public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeModell modell)
         {
             if (modell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);

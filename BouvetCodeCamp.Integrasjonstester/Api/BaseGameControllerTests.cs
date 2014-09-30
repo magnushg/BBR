@@ -22,7 +22,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
     using Should;
 
-    using PifPosisjonModel = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModel;
+    using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
 
     [TestClass]
     public class BaseGameControllerTests : ApiTest
@@ -59,7 +59,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + LagId;
 
-            PifPosisjonModel pifPosisjon;
+            PifPosisjonModell pifPosisjon;
 
             // Act
             using (var httpClient = new HttpClient())
@@ -67,7 +67,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-                pifPosisjon = JsonConvert.DeserializeObject<PifPosisjonModel>(content);
+                pifPosisjon = JsonConvert.DeserializeObject<PifPosisjonModell>(content);
             }
 
             // Assert
@@ -86,7 +86,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + LagId;
 
-            PifPosisjonModel pifPosisjon;
+            PifPosisjonModell pifPosisjon;
 
             // Act
             using (var httpClient = new HttpClient())
@@ -94,7 +94,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-                pifPosisjon = JsonConvert.DeserializeObject<PifPosisjonModel>(content);
+                pifPosisjon = JsonConvert.DeserializeObject<PifPosisjonModell>(content);
             }
 
             // Assert

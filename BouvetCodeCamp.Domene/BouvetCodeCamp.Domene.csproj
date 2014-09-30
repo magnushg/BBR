@@ -59,11 +59,11 @@
     <Compile Include="ErrorResponseType.cs" />
     <Compile Include="HendelseType.cs" />
     <Compile Include="InputModels\PifPosisjonModell.cs" />
-    <Compile Include="InputModels\KodeModel.cs" />
+    <Compile Include="InputModels\KodeModell.cs" />
     <Compile Include="InputModels\MeldingModell.cs" />
     <Compile Include="MeldingType.cs" />
     <Compile Include="OutputModels\KodeOutputModel.cs" />
-    <Compile Include="OutputModels\PifPosisjonModel.cs" />
+    <Compile Include="OutputModels\PifPosisjonModell.cs" />
     <Compile Include="PostTilstand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

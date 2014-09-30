@@ -7,13 +7,15 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
     using System.Threading.Tasks;
 
+    using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
+
     public interface IGameApi
     {
-        Task RegistrerPifPosisjon(PifPosisjonModell modell);
+        Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonModell modell);
 
-        PifPosisjonModel HentSistePifPositionForLag(string lagId);
+        PifPosisjonModell HentSistePifPositionForLag(string lagId);
         
-        Task<bool> RegistrerKode(KodeModel model);
+        Task<bool> RegistrerKode(KodeModell modell);
 
         Task SendMelding(MeldingModell modell);
 
