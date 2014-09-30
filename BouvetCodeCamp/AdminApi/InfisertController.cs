@@ -4,6 +4,8 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.AdminApi
 {
+    using System;
+
     [RoutePrefix("api/infisert")]
     [Authorize]
     public class InfisertController : ApiController
@@ -17,6 +19,7 @@ namespace BouvetCodeCamp.AdminApi
 
         // GET api/infisert/get
         [HttpGet]
+        [Obsolete]
         public InfisertPolygon Get()
         {
             var gameState = _gameStateService.HentGameState();
@@ -25,6 +28,7 @@ namespace BouvetCodeCamp.AdminApi
 
         // POST api/infisert/post
         [HttpPost]
+        [Obsolete]
         public void Post([FromBody] InfisertPolygon model)
         {
             var gameState = _gameStateService.HentGameState();

@@ -1,5 +1,6 @@
 namespace BouvetCodeCamp.AdminApi
 {
+    using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -11,6 +12,7 @@ namespace BouvetCodeCamp.AdminApi
 
     [RoutePrefix("api/lag")]
     [Authorize]
+    [Obsolete]
     public class LagController : ApiController
     {
         private readonly IRepository<Lag> lagRepository;
@@ -23,6 +25,7 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/lag/get
         [Route("get")]
         [HttpGet]
+        [Obsolete]
         public HttpResponseMessage Get()
         {
             var lagene = lagRepository.HentAlle();
@@ -36,6 +39,7 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/lag/get/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
+        [Obsolete]
         public HttpResponseMessage GetLag(string id)
         {
             var lag = lagRepository.Hent(id);
@@ -51,6 +55,7 @@ namespace BouvetCodeCamp.AdminApi
         // POST api/lag/post
         [Route("post")]
         [HttpPost]
+        [Obsolete]
         public async Task<HttpResponseMessage> PostLag([FromBody]Lag model)
         {
             if (model == null) 
@@ -64,6 +69,7 @@ namespace BouvetCodeCamp.AdminApi
         // PUT api/lag/put
         [Route("put")]
         [HttpPut]
+        [Obsolete]
         public async Task<HttpResponseMessage> PutLag([FromBody]Lag model)
         {
             if (model == null)
@@ -77,6 +83,7 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/lag/delete
         [Route("delete")]
         [HttpDelete]
+        [Obsolete]
         public async Task<HttpResponseMessage> Delete()
         {
             await lagRepository.SlettAlle();
@@ -87,6 +94,7 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/lag/delete/a-b-c-d
         [Route("delete/{id}")]
         [HttpDelete]
+        [Obsolete]
         public async Task<HttpResponseMessage> Delete(string id)
         {
             var lag = lagRepository.Hent(id);
@@ -102,6 +110,7 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/lag/deletebylagid/a-b-c-d
         [Route("deletebylagid/{lagId}")]
         [HttpDelete]
+        [Obsolete]
         public async Task<HttpResponseMessage> DeleteByLagId(string lagId)
         {
             var lagTilSletting = lagRepository.Søk(o => o.LagId == lagId);
