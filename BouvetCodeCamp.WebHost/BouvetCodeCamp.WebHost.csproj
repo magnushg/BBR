@@ -16,9 +16,9 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -46,7 +46,6 @@
     <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\owl.carousel.js" />
     <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\owl.carousel.min.js" />
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\BBR-Azure.pubxml" />
     <None Include="Properties\PublishProfiles\BBR-IIS.pubxml" />
     <None Include="Properties\PublishProfiles\bouvet-code-camp.pubxml" />
     <None Include="Web.Debug.config">
