@@ -226,7 +226,7 @@
   </Target>
   <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(TargetDir)\docs\BouvetCodeCamp.xml $(SolutionDir)\BouvetCodeCamp.WebHost\docs\BouvetCodeCamp.xml</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Debug xcopy /Y $(TargetDir)\docs\BouvetCodeCamp.xml $(SolutionDir)\BouvetCodeCamp.WebHost\docs\BouvetCodeCamp.xml</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
