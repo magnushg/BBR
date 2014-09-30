@@ -12,7 +12,6 @@ namespace BouvetCodeCamp.AdminApi
 
     [RoutePrefix("api/lag")]
     [Authorize]
-    [Obsolete]
     public class LagController : ApiController
     {
         private readonly IRepository<Lag> lagRepository;
