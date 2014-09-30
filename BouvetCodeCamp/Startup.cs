@@ -19,6 +19,7 @@ namespace BouvetCodeCamp
     using System.IO;
 
     using BouvetCodeCamp.Authentication;
+    using BouvetCodeCamp.Filters;
 
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;
@@ -90,6 +91,7 @@ namespace BouvetCodeCamp
             {
                 c.IgnoreObsoleteActions();
                 c.IncludeXmlComments(GetXmlCommentsPath());
+                c.OperationFilter<AddAuthorizationRequiredResponseCodes>();
             });
         }
 

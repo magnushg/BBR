@@ -73,6 +73,7 @@
     <Compile Include="AdminApi\LagController.cs" />
     <Compile Include="AdminApi\PostController.cs" />
     <Compile Include="Authentication\AuthenticationMiddleware.cs" />
+    <Compile Include="Filters\AddAuthorizationRequiredResponseCodes.cs" />
     <Compile Include="GameApi\BaseApiController.cs" />
     <Compile Include="GameApi\BaseGameController.cs" />
     <Compile Include="GameApi\PifGameController.cs" />

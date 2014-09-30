@@ -9,7 +9,6 @@ namespace BouvetCodeCamp.GameApi
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.SignalR;
 
@@ -31,7 +30,7 @@ namespace BouvetCodeCamp.GameApi
         }
 
         /// <summary>
-        /// Tar imot en PIF-posisjon og lagrer som siste kjente PIF-posisjon for et lag.
+        /// Tar imot en PIF-posisjon og lagrer posisjonen som siste kjente PIF-posisjon for et lag.
         /// </summary>
         /// <param name="modell">PifPosisjonModell modell</param>
         /// <remarks>POST /api/game/pif/sendpifposisjon</remarks>
