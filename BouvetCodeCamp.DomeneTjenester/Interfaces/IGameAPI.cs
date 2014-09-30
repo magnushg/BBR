@@ -9,13 +9,13 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
     public interface IGameApi
     {
-        Task RegistrerPifPosition(PifPosisjonModell modell);
+        Task RegistrerPifPosisjon(PifPosisjonModell modell);
 
         PifPosisjonModel HentSistePifPositionForLag(string lagId);
         
         Task<bool> RegistrerKode(KodeModel model);
 
-        Task SendMelding(MeldingModel model);
+        Task SendMelding(MeldingModell modell);
 
         IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId);
     }

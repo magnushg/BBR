@@ -22,7 +22,7 @@ namespace BouvetCodeCamp.GameApi
         }
 
         /// <summary>
-        /// Tar imot en PIF-posisjon og lagrer som siste kjente posisjon.
+        /// Tar imot en PIF-posisjon og lagrer som siste kjente PIF-posisjon for et lag.
         /// </summary>
         /// <param name="modell">PifPosisjonModell modell</param>
         /// <remarks>POST /api/game/pif/sendpifposisjon</remarks>
@@ -41,7 +41,7 @@ namespace BouvetCodeCamp.GameApi
             {
                 //this._gameHub.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
                 
-                this._gameApi.RegistrerPifPosition(modell);
+                this._gameApi.RegistrerPifPosisjon(modell);
             }
             catch (Exception e)
             {
@@ -50,9 +50,17 @@ namespace BouvetCodeCamp.GameApi
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
         
-        // POST api/game/pif/sendpostkode
-        [HttpPost]
+        /// <summary>
+        /// Registrerer en kode på en post for et lag.
+        /// </summary>
+        /// <param name="modell">KodeModel modell</param>
+        /// <remarks>POST api/game/pif/sendpostkode</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("sendpostkode")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpPost]
         public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeModel modell)
         {
             if (modell == null)
@@ -71,11 +79,19 @@ namespace BouvetCodeCamp.GameApi
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
         }
-
-        // GET api/game/pif/erinfisert
+        
+        /// <summary>
+        /// Henter infisert status for et lag. Er infisert hvis PIF har kommet innenfor en infisert sone.
+        /// </summary>
+        /// <param name="lagId">string lagId</param>
+        /// <remarks>GET api/game/pif/erinfisert/a-b-c-d</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("erinfisert/{lagId}")]
+        [ResponseType(typeof(HttpResponseMessage))]
         [HttpGet]
-        [Route("erinfisert")]
-        public void ErInfisert()
+        public void ErInfisert(string lagId)
         {
            //TODO
         }

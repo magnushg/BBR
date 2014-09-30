@@ -1,6 +1,6 @@
 ﻿namespace BouvetCodeCamp.Domene.InputModels
 {
-    public class MeldingModel
+    public class MeldingModell
     {
         public MeldingType Type { get; set; }
         public string Tekst { get; set; }

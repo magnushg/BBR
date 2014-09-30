@@ -60,7 +60,7 @@
     <Compile Include="HendelseType.cs" />
     <Compile Include="InputModels\PifPosisjonModell.cs" />
     <Compile Include="InputModels\KodeModel.cs" />
-    <Compile Include="InputModels\MeldingModel.cs" />
+    <Compile Include="InputModels\MeldingModell.cs" />
     <Compile Include="MeldingType.cs" />
     <Compile Include="OutputModels\KodeOutputModel.cs" />
     <Compile Include="OutputModels\PifPosisjonModel.cs" />

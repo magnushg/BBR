@@ -25,7 +25,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             _lagService = lagService;
         }
         
-        public async Task RegistrerPifPosition(PifPosisjonModell modell)
+        public async Task RegistrerPifPosisjon(PifPosisjonModell modell)
         {
             var pifPosisjon = new PifPosisjon
             {
@@ -79,17 +79,17 @@ namespace BouvetCodeCamp.DomeneTjenester
             return resultat;
         }
 
-        public async Task SendMelding(MeldingModel model)
+        public async Task SendMelding(MeldingModell modell)
         {
-            var lag = _lagService.HentLagMedLagId(model.LagId);
+            var lag = _lagService.HentLagMedLagId(modell.LagId);
 
             lag.Meldinger.Add(
                 new Melding
                 {
-                    LagId = model.LagId,
-                    Tekst = model.Tekst,
+                    LagId = modell.LagId,
+                    Tekst = modell.Tekst,
                     Tid = DateTime.Now,
-                    Type = model.Type
+                    Type = modell.Type
                 });
 
             lag.LoggHendelser.Add(

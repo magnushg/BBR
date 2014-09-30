@@ -120,7 +120,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             {
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new MeldingModel
+                var modell = new MeldingModell
                 {
                     LagId = LagId,
                     Tekst = "Heihei",
