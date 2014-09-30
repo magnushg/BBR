@@ -14,27 +14,27 @@ namespace BouvetCodeCamp.DomeneTjenester
 
     public class GameApi : IGameApi
     {
-        private readonly IKodeService _kodeService;
+        private readonly IPostService _postService;
         private readonly ILagService _lagService;
 
         public GameApi(
-            IKodeService kodeService,
+            IPostService postService,
             ILagService lagService)
         {
-            _kodeService = kodeService;
+            _postService = postService;
             _lagService = lagService;
         }
-
-        public async void RegistrerPifPosition(PifPosisjonModell modell)
+        
+        public async Task RegistrerPifPosition(PifPosisjonModell modell)
         {
             var pifPosisjon = new PifPosisjon
             {
                 Posisjon = new Koordinat
                 {
-                    Latitude = model.Latitude,
-                    Longitude = model.Longitude
+                    Latitude = modell.Latitude,
+                    Longitude = modell.Longitude
                 },
-                LagId = model.LagId,
+                LagId = modell.LagId,
                 Tid = DateTime.Now
             };
 
@@ -51,17 +51,17 @@ namespace BouvetCodeCamp.DomeneTjenester
             await _lagService.Oppdater(lag);
         }
 
-        public Domene.OutputModels.PifPosisjonModel HentSistePifPositionForLag(string lagId)
+        public PifPosisjonModel HentSistePifPositionForLag(string lagId)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
             var sortertListe = lag.PifPosisjoner.OrderBy(x => x.Tid);
             var nyeste = sortertListe.FirstOrDefault();
 
-            if (nyeste == null) 
-                return new Domene.OutputModels.PifPosisjonModel();
+            if (nyeste == null)
+                return new PifPosisjonModel();
 
-            return new Domene.OutputModels.PifPosisjonModel
+            return new PifPosisjonModel
             {
                 Latitude = nyeste.Posisjon.Latitude,
                 Longitude = nyeste.Posisjon.Longitude,
@@ -72,7 +72,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task<bool> RegistrerKode(KodeModel model)
         {
-            var resultat = _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
+            var resultat = _postService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
 
             await LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
@@ -85,19 +85,19 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             lag.Meldinger.Add(
                 new Melding
-                    {
-                        LagId = model.LagId, 
-                        Tekst = model.Tekst, 
-                        Tid = DateTime.Now, 
-                        Type = model.Type
-                    });
+                {
+                    LagId = model.LagId,
+                    Tekst = model.Tekst,
+                    Tid = DateTime.Now,
+                    Type = model.Type
+                });
 
             lag.LoggHendelser.Add(
                 new LoggHendelse
-                    {
-                        HendelseType = HendelseType.SendtMelding, 
-                        Tid = DateTime.Now
-                    });
+                {
+                    HendelseType = HendelseType.SendtMelding,
+                    Tid = DateTime.Now
+                });
 
             await _lagService.Oppdater(lag);
         }
@@ -106,14 +106,14 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
-            var registrerteKoderForLag = lag.Koder.Where(o => o.PosisjonTilstand == PosisjonTilstand.Oppdaget);
+            var registrerteKoderForLag = lag.Poster.Where(o => o.PostTilstand == PostTilstand.Oppdaget);
 
-            return registrerteKoderForLag.Select(registrertKode => 
+            return registrerteKoderForLag.Select(registrertKode =>
                 new KodeOutputModel
-                    {
-                        Kode = registrertKode.Bokstav, 
-                        Koordinat = registrertKode.Posisjon
-                    }).ToList();
+                {
+                    Kode = registrertKode.Kode,
+                    Koordinat = registrertKode.Posisjon
+                }).ToList();
         }
 
         private async Task LoggHendelse(string lagId, HendelseType hendelseType)
@@ -121,10 +121,10 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagService.HentLagMedLagId(lagId);
 
             lag.LoggHendelser.Add(new LoggHendelse
-                                      {
-                                          HendelseType = hendelseType, 
-                                          Tid = DateTime.Now
-                                      });
+            {
+                HendelseType = hendelseType,
+                Tid = DateTime.Now
+            });
 
             await _lagService.Oppdater(lag);
         }

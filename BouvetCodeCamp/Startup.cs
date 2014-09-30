@@ -107,6 +107,10 @@ namespace BouvetCodeCamp
             {
                 throw new Exception("Fant ikke XML-dokumentasjon", fileNotFoundException);
             }
+            catch (DirectoryNotFoundException directoryNotFoundException)
+            {
+                throw new Exception("Fant ikke XML-dokumentasjon i mappen", directoryNotFoundException);
+            }
         }
 
         private static void Configure(MediaTypeFormatterCollection formatters, HttpConfiguration config)
