@@ -17,21 +17,62 @@ namespace BouvetCodeCamp.SpillOppretter
     {
         private readonly int _antallLag;
         private readonly LagRepository _lagRepository;
+        private IEnumerable<Lag> _lagListe;
+        private IEnumerable<Post> _poster;
+        private IEnumerable<Lag> _lagListeMedPoster;
 
         public LagOppretter(int antallLag)
         {
             _antallLag = antallLag;
             _lagRepository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            _lagListe = new List<Lag>();
         }
 
         public IEnumerable<Lag> OpprettLag(IEnumerable<Post> poster)
         {
-            var lagPosterJson = File.ReadAllText("importData/lagPoster.json", Encoding.UTF8);
-            var posterMedKoderJson = File.ReadAllText("importData/koder.json", Encoding.UTF8);
-            
-            var posterMedKoder = JsonConvert.DeserializeObject<IEnumerable<PosterMedKoder>>(posterMedKoderJson);
+            _lagListe = OpprettLagListeMedTommeLag();
+            _poster = poster;
 
-            var lagListe = Enumerable.Range(1, _antallLag).Select(index => new Lag
+            _lagListeMedPoster = TilordnePosterTilLagListe();
+            var lagListeMedPosterOgSekvensNummer = TilordneSekvensNummerTilPostListe();
+
+            LagreLagliste(lagListeMedPosterOgSekvensNummer);
+
+            return _lagListe;
+
+        }
+
+        private IEnumerable<Lag> TilordneSekvensNummerTilPostListe()
+        {
+           return _lagListeMedPoster.Select(lag => new Lag
+            {
+                LagId = lag.LagId,
+                LagNavn = lag.LagNavn,
+                LagNummer = lag.LagNummer,
+                LoggHendelser = lag.LoggHendelser,
+                Meldinger = lag.Meldinger,
+                PifPosisjoner = lag.PifPosisjoner,
+                Poeng = lag.Poeng,
+                Poster = lag.Poster.Select((post, index) => new LagPost
+                {
+                    Altitude = post.Altitude,
+                    Beskrivelse = post.Beskrivelse,
+                    Bilde = post.Bilde,
+                    Kilde = post.Kilde,
+                    Kode = post.Kode,
+                    Navn = post.Navn,
+                    Nummer = post.Nummer,
+                    Posisjon = post.Posisjon,
+                    PostTilstand = post.PostTilstand,
+                    Sekvensnummer = index
+
+                }).ToList()
+            });
+        }
+
+        private IEnumerable<Lag> OpprettLagListeMedTommeLag()
+        {
+            return Enumerable.Range(1, _antallLag).Select(index => new Lag
             {
                 LagId = Guid.NewGuid().ToString(),
                 LagNavn = "BouvetBBR L" + index,
@@ -42,10 +83,18 @@ namespace BouvetCodeCamp.SpillOppretter
                 PifPosisjoner = new List<PifPosisjon>(),
                 Poeng = 0
             }).ToList();
+        }
 
+        private IEnumerable<Lag> TilordnePosterTilLagListe()
+        {
+            var lagPosterJson = File.ReadAllText("importData/lagPoster.json", Encoding.UTF8);
             var lagPoster = JsonConvert.DeserializeObject<IEnumerable<LagPoster>>(lagPosterJson);
 
-            var lagListeMedPoster = lagListe.Select(lag => new Lag
+            var posterMedKoderJson = File.ReadAllText("importData/koder.json", Encoding.UTF8);
+            var posterMedKoder = JsonConvert.DeserializeObject<IEnumerable<PosterMedKoder>>(posterMedKoderJson);
+
+
+           return  _lagListe.Select(lag => new Lag
             {
                 LagId = lag.LagId,
                 LagNavn = lag.LagNavn,
@@ -55,15 +104,10 @@ namespace BouvetCodeCamp.SpillOppretter
                 LoggHendelser = lag.LoggHendelser,
                 Meldinger = lag.Meldinger,
                 Poster = lagPoster
-                    .FirstOrDefault(lagPost => lagPost.Lagnummer == lag.LagNummer)
-                    .Poster.Select(post => OpprettLagPost(poster.FirstOrDefault(p => p.Nummer == post), posterMedKoder, lag.LagNummer)).ToList()
+                     .FirstOrDefault(lagPost => lagPost.Lagnummer == lag.LagNummer)
+                     .Poster.Select(post => OpprettLagPost(_poster.FirstOrDefault(p => p.Nummer == post), posterMedKoder, lag.LagNummer)).ToList()
 
             }).ToList();
-
-            LagreLagliste(lagListeMedPoster);
-
-            return lagListe;
-
         }
 
         private LagPost OpprettLagPost(Post post, IEnumerable<PosterMedKoder> posterMedKoder, int lagNummer)

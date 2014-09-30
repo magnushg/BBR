@@ -14,5 +14,8 @@ namespace BouvetCodeCamp.Domene.Entiteter
 
         [JsonProperty(PropertyName = "kode")]
         public string Kode { get; set; }
+
+        [JsonProperty(PropertyName = "sekvensnummer")]
+        public int Sekvensnummer { get; set; }
     }
 }
