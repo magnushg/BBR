@@ -46,7 +46,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             lag.LoggHendelser.Add(
                 new LoggHendelse
                 {
-                    HendelseType = HendelseType.RegistrertGeoPosisjon,
+                    HendelseType = HendelseType.RegistrertPifPosisjon,
                     Tid = DateTime.Now
                 });
 

@@ -5,7 +5,10 @@
 
     public interface IGameHub
     {
-        void NyPifPosisjon(PifPosisjonModell nyPifPosisjon);
+        void NyPifPosisjon(PifPosisjonModell pifPosisjonModell);
+
         void SetRedZone(Koordinat koordinat);
+
+        void NyLoggHendelse(LoggHendelseModell loggHendelseModell);
     }
 }

@@ -55,6 +55,14 @@ namespace BouvetCodeCamp.GameApi
                             Longitude = modell.Longitude, 
                             Tid = DateTime.Now
                         });
+
+                this._gameHub.Value.Clients.All.NyLoggHendelse(
+                    new Domene.OutputModels.LoggHendelseModell
+                    {
+                        LagId = modell.LagId,
+                        Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
+                        Tid = DateTime.Now.ToShortTimeString()
+                    });
                 
                 await this._gameApi.RegistrerPifPosisjon(modell);
             }
