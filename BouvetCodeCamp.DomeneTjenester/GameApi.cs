@@ -14,28 +14,28 @@ namespace BouvetCodeCamp.DomeneTjenester
 
     public class GameApi : IGameApi
     {
-        private readonly IPostService _postService;
+        private readonly IKodeService _kodeService;
         private readonly ILagService _lagService;
 
         public GameApi(
-            IPostService postService,
+            IKodeService kodeService,
             ILagService lagService)
         {
-            _postService = postService;
+            _kodeService = kodeService;
             _lagService = lagService;
         }
 
-        public async void RegistrerPifPosition(GeoPosisjonModel model)
+        public async void RegistrerPifPosition(PifPosisjonModell modell)
         {
             var pifPosisjon = new PifPosisjon
             {
-                Latitude = model.Latitude,
-                Longitude = model.Longitude,
-                LagId = model.LagId,
+                Latitude = modell.Latitude,
+                Longitude = modell.Longitude,
+                LagId = modell.LagId,
                 Tid = DateTime.Now
             };
 
-            var lag = _lagService.HentLagMedLagId(model.LagId);
+            var lag = _lagService.HentLagMedLagId(modell.LagId);
             lag.PifPosisjoner.Add(pifPosisjon);
 
             lag.LoggHendelser.Add(
@@ -48,7 +48,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             await _lagService.Oppdater(lag);
         }
 
-        public PifPosisjonModel HentSistePifPositionForLag(string lagId)
+        public Domene.OutputModels.PifPosisjonModel HentSistePifPositionForLag(string lagId)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
@@ -56,9 +56,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             var nyeste = sortertListe.FirstOrDefault();
 
             if (nyeste == null) 
-                return new PifPosisjonModel();
+                return new Domene.OutputModels.PifPosisjonModel();
 
-            return new PifPosisjonModel
+            return new Domene.OutputModels.PifPosisjonModel
             {
                 Latitude = nyeste.Latitude,
                 Longitude = nyeste.Longitude,
@@ -69,7 +69,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task<bool> RegistrerKode(KodeModel model)
         {
-            var resultat = _postService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
+            var resultat = _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
 
             await LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
@@ -103,12 +103,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
-            var registrerteKoderForLag = lag.Poster.Where(o => o.PostTilstand == PostTilstand.Oppdaget);
+            var registrerteKoderForLag = lag.Koder.Where(o => o.PosisjonTilstand == PosisjonTilstand.Oppdaget);
 
             return registrerteKoderForLag.Select(registrertKode => 
                 new KodeOutputModel
                     {
-                        Kode = registrertKode.Kode, 
+                        Kode = registrertKode.Bokstav, 
                         Koordinat = registrertKode.Posisjon
                     }).ToList();
         }

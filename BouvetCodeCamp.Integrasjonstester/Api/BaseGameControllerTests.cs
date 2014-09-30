@@ -22,6 +22,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
     using Should;
 
+    using PifPosisjonModel = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModel;
+
     [TestClass]
     public class BaseGameControllerTests : ApiTest
     {

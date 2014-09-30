@@ -36,7 +36,7 @@
             {
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new GeoPosisjonModel { LagId = LagId, Latitude = "14.02", Longitude = "11" };
+                var modell = new PifPosisjonModell { LagId = LagId, Latitude = "14.02", Longitude = "11" };
 
                 var modellSomJson = JsonConvert.SerializeObject(modell);
 

@@ -59,7 +59,7 @@
     <Compile Include="Entiteter\Post.cs" />
     <Compile Include="ErrorResponseType.cs" />
     <Compile Include="HendelseType.cs" />
-    <Compile Include="InputModels\GeoPosisjonModel.cs" />
+    <Compile Include="InputModels\PifPosisjonModell.cs" />
     <Compile Include="InputModels\KodeModel.cs" />
     <Compile Include="InputModels\MeldingModel.cs" />
     <Compile Include="MeldingType.cs" />

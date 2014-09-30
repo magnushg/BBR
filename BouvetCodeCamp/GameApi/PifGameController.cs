@@ -21,19 +21,18 @@ namespace BouvetCodeCamp.GameApi
             _gameApi = gameApi;
         }
 
-        // POST api/game/pif/sendpifposisjon
         /// <summary>
-        /// Send PIF-posisjon
+        /// Tar imot en PIF-posisjon og lagrer som siste kjente posisjon.
         /// </summary>
-        /// <param name="modell">GeoPosisjonModel modell</param>
-        /// <remarks>Lagrer ny posisjon for PIF</remarks>
+        /// <param name="modell">PifPosisjonModell modell</param>
+        /// <remarks>POST /api/game/pif/sendpifposisjon</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         [Route("sendpifposisjon")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public HttpResponseMessage SendPifPosisjon([FromBody] GeoPosisjonModel modell)
+        public HttpResponseMessage SendPifPosisjon([FromBody] PifPosisjonModell modell)
         {
             if (modell == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);

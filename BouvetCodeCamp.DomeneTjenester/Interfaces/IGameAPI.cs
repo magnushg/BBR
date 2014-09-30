@@ -9,9 +9,9 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
     public interface IGameApi
     {
-        void RegistrerPifPosition(GeoPosisjonModel model);
+        void RegistrerPifPosition(PifPosisjonModell modell);
 
-        PifPosisjonModel HentSistePifPositionForLag(string lagId);
+        Domene.OutputModels.PifPosisjonModel HentSistePifPositionForLag(string lagId);
         
         Task<bool> RegistrerKode(KodeModel model);
 
