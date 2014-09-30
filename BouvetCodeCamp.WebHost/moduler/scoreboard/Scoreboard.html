@@ -25,6 +25,10 @@
             var map;
             var MaksAntallLoggHendelser = 20;
 
+            var SCOREBOARD = SCOREBOARD || {};
+            SCOREBOARD.Lag = [];
+            SCOREBOARD.LoggHendelser = [];
+
             function initialize() {
                 var mapCanvas = document.getElementById('map_canvas');
                 var mapOptions = {
@@ -48,11 +52,7 @@
             }
 
             google.maps.event.addDomListener(window, 'load', initialize);
-
-            var lagArray = new Array();
-            var loggHendelseArray = new Array();
-            //lagArray.Lag = [];
-
+            
             function sendAutentisertRequest(url, type, successCallback) {
                 $.ajax({
                     url: url,
@@ -68,9 +68,11 @@
             }
 
             function settLagPåKartet() {
-                //$.each(lagArray, function (key, val) {
-                //    lagArray[val.lagId] = createMarker(val.latitude, val.longitude, val.lagId);
-                //});
+                //TODO: hwm 30.09. Plukk ut siste pif-posisjon pr lag og rendre på kart
+                $.each(SCOREBOARD.Lag, function (key, val) {
+                    //dummy
+                    SCOREBOARD.Lag[key].Marker = createMarker(0, 0, 0);
+                });
             }
             
             function sorterLagEtterPoeng(a, b) {
@@ -99,10 +101,11 @@
             
             function lastInnLagene(data) {
                 $.each(data, function (key, val) {
-                    lagArray.push(val);
+                    SCOREBOARD.Lag.push(val);
+                    SCOREBOARD.Lag[key].Marker = {};
                 });
 
-                lagArray.sort(sorterLagEtterPoeng);
+                SCOREBOARD.Lag.sort(sorterLagEtterPoeng);
                 
                 oppdaterStillingstabell();
 
@@ -112,7 +115,7 @@
             function oppdaterStillingstabell() {
                 $('.stillingstabell > tbody').html("");
 
-                $.each(lagArray, function (index, value) {
+                $.each(SCOREBOARD.Lag, function (index, value) {
                     $('.stillingstabell').find('tbody:last').append('<tr><td>' + value.lagnummer + '</td><td>' + value.poeng + '</td></tr>');
                 });
             }
@@ -120,7 +123,7 @@
             function oppdaterHendelsestabell() {
                 $('.hendelsestabell > tbody').html("");
 
-                $.each(loggHendelseArray, function (index, value) {
+                $.each(SCOREBOARD.LoggHendelser, function (index, value) {
                     $('.hendelsestabell').find('tbody:last').append('<tr><td>' + value.lagId + '</td><td>' + value.hendelse + '</td><td>' + value.tid + '</td></tr>');
                 });
             }
@@ -207,11 +210,9 @@
 
                 // Create a function that the hub can call to broadcast messages.
                 hub.client.nyPifPosisjon = function (msg) {
-                    if (lagArray[msg.lagId] === undefined) {
-                        lagArray[msg.lagId] = createMarker(msg.latitude, msg.longitude, msg.lagId);
-                    } else {
-                        lagArray[msg.lagId].setPosition(new google.maps.LatLng(msg.latitude, msg.longitude));
-                    }
+                    var lag = hentLagEtterLagId(msg.lagId);
+                   
+                    lag[0].Marker.setPosition(new google.maps.LatLng(msg.latitude, msg.longitude));
                 };
 
                 // Ny logghendelse
@@ -223,11 +224,17 @@
                 $.connection.hub.start({ jsonp: true });
             });
 
-            function LeggTilNyLoggHendelse(elem) {
-                loggHendelseArray.unshift(elem);
+            function hentLagEtterLagId(lagId) {
+                return $.grep(SCOREBOARD.Lag, function (n, i) {
+                    return n.lagId == lagId;
+                });
+            }
 
-                if (loggHendelseArray.length > MaksAntallLoggHendelser)
-                    loggHendelseArray.pop();
+            function LeggTilNyLoggHendelse(elem) {
+                SCOREBOARD.LoggHendelser.unshift(elem);
+
+                if (SCOREBOARD.LoggHendelser.length > MaksAntallLoggHendelser)
+                    SCOREBOARD.LoggHendelser.pop();
 
                 oppdaterHendelsestabell();
             }
