@@ -18,6 +18,7 @@ namespace BouvetCodeCamp.SpillOppretter
             return deserialisert.Select((kartinfo, index) => new Post
             {
                Navn = StripVekkUgyldigeTegn(string.Format("Post {0}", index + 1)),
+               Nummer = index + 1,
                Beskrivelse = StripVekkUgyldigeTegn(kartinfo.description),
                Bilde = StripVekkUgyldigeTegn(kartinfo.image.FirstOrDefault()),
                Posisjon = new Koordinat

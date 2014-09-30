@@ -8,11 +8,8 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "lagId")]
         public string LagId { get; set; }
 
-        [JsonProperty(PropertyName = "latitude")]
-        public string Latitude { get; set; }
-
-        [JsonProperty(PropertyName = "longitude")]
-        public string Longitude { get; set; }
+        [JsonProperty(PropertyName = "gps")]
+        public Koordinat Posisjon { get; set; }
 
         [JsonProperty(PropertyName = "tid")]
         public DateTime Tid { get; set; }
@@ -20,8 +17,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
         public PifPosisjon()
         {
             LagId = string.Empty;
-            Latitude = string.Empty;
-            Longitude = string.Empty;
+            Posisjon = Koordinat.Empty;
             Tid = DateTime.MinValue;
         }
     }

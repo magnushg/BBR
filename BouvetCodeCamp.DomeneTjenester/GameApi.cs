@@ -29,9 +29,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var pifPosisjon = new PifPosisjon
             {
-                Latitude = modell.Latitude,
-                Longitude = modell.Longitude,
-                LagId = modell.LagId,
+                Posisjon = new Koordinat
+                {
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude
+                },
+                LagId = model.LagId,
                 Tid = DateTime.Now
             };
 
@@ -60,8 +63,8 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             return new Domene.OutputModels.PifPosisjonModel
             {
-                Latitude = nyeste.Latitude,
-                Longitude = nyeste.Longitude,
+                Latitude = nyeste.Posisjon.Latitude,
+                Longitude = nyeste.Posisjon.Longitude,
                 LagId = nyeste.LagId,
                 Tid = nyeste.Tid
             };

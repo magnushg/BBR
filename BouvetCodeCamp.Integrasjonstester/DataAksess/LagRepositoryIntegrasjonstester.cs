@@ -134,8 +134,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             
             var pifPosisjon = new PifPosisjon {
                                       LagId = "abc",
-                                      Latitude = "12.12",
-                                      Longitude = "10.123121",
+                                      Posisjon = new Koordinat
+                                      {
+                                          Latitude = "12.12",
+                                          Longitude = "10.123121"
+                                      },
                                       Tid = DateTime.Now
                                   };
 
@@ -152,8 +155,8 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             // Assert
             lagretLag.PifPosisjoner.FirstOrDefault().LagId.ShouldEqual(pifPosisjon.LagId);
-            lagretLag.PifPosisjoner.FirstOrDefault().Latitude.ShouldEqual(pifPosisjon.Latitude);
-            lagretLag.PifPosisjoner.FirstOrDefault().Longitude.ShouldEqual(pifPosisjon.Longitude);
+            lagretLag.PifPosisjoner.FirstOrDefault().Posisjon.Latitude.ShouldEqual(pifPosisjon.Posisjon.Latitude);
+            lagretLag.PifPosisjoner.FirstOrDefault().Posisjon.Longitude.ShouldEqual(pifPosisjon.Posisjon.Longitude);
             lagretLag.PifPosisjoner.FirstOrDefault().Tid.ShouldEqual(pifPosisjon.Tid);
         }
 
