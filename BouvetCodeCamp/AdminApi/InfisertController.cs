@@ -16,6 +16,7 @@ namespace BouvetCodeCamp.AdminApi
         }
 
         [HttpGet]
+        [Route("get")]
         public InfisertPolygon Get()
         {
             var gameState = _gameStateService.HentGameState();
@@ -23,6 +24,7 @@ namespace BouvetCodeCamp.AdminApi
         }
 
         [HttpPost]
+        [Route("post")]
         public void Post([FromBody] InfisertPolygon model)
         {
             var gameState = _gameStateService.HentGameState();
