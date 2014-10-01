@@ -66,6 +66,7 @@
     <Compile Include="OutputModels\KodeOutputModel.cs" />
     <Compile Include="OutputModels\LoggHendelseModell.cs" />
     <Compile Include="OutputModels\PifPosisjonModell.cs" />
+    <Compile Include="OutputModels\PostOutputModel.cs" />
     <Compile Include="PostTilstand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

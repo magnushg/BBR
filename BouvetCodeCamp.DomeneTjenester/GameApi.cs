@@ -118,6 +118,28 @@ namespace BouvetCodeCamp.DomeneTjenester
                 }).ToList();
         }
 
+        public PostOutputModel HentGjeldendePost(string lagId)
+        {
+            var lag = _lagService.HentLagMedLagId(lagId);
+
+            return
+                OpprettPostOutput(
+                    lag.Poster.OrderBy(post => post.Sekvensnummer)
+                        .First(post => post.PostTilstand == PostTilstand.Ukjent));
+
+
+        }
+
+        private PostOutputModel OpprettPostOutput(LagPost post)
+        {
+            return new PostOutputModel
+            {
+                Navn = post.Navn,
+                Nummer = post.Nummer,
+                Posisjon = post.Posisjon
+            };
+        }
+
         private async Task LoggHendelse(string lagId, HendelseType hendelseType)
         {
             var lag = _lagService.HentLagMedLagId(lagId);

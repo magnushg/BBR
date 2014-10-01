@@ -88,9 +88,9 @@
         [Route("hentgjeldendepost/{lagId}")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpGet]
-        public void HentGjeldendePost(string lagId)
+        public HttpResponseMessage HentGjeldendePost(string lagId)
         {
-            //TODO: finn alle postene til laget. Plukk neste fra listen som ikke er Registrert.
+            return Request.CreateResponse(HttpStatusCode.OK, gameApi.HentGjeldendePost(lagId));
         }
         
         /// <summary>
