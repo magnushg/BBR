@@ -13,14 +13,13 @@ namespace BouvetCodeCamp.UnitTest
     public class GameApiTest
     {
         private IGameApi _gameApi;
-        private readonly Mock<IKodeService> _kodeService = new Mock<IKodeService>();
+        private readonly Mock<IPostService> _kodeService = new Mock<IPostService>();
         private readonly Mock<ILagService> _lagService = new Mock<ILagService>();
-        private readonly Mock<ILoggService> _loggService = new Mock<ILoggService>();
  
         [SetUp]
         public void Setup()
         {
-            _gameApi = new GameApi(_kodeService.Object, _lagService.Object, this._loggService.Object);
+            _gameApi = new GameApi(_kodeService.Object, _lagService.Object);
         }
 
         [Test]
@@ -37,7 +36,7 @@ namespace BouvetCodeCamp.UnitTest
                 new PifPosisjon {Tid = new DateTime(2003, 1, 1)},
             };
 
-            _lagService.Setup(x => x.HentLag(It.IsAny<string>())).Returns(lag);
+            _lagService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
 
             var resultat = _gameApi.HentSistePifPositionForLag(String.Empty);
 

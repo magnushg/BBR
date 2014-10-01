@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using BouvetCodeCamp.Domene;
@@ -10,101 +9,126 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
+
     public class GameApi : IGameApi
     {
-        private readonly IKodeService _kodeService;
+        private readonly IPostService _postService;
         private readonly ILagService _lagService;
-        private readonly ILoggService loggService;
 
         public GameApi(
-            IKodeService kodeService,
-            ILagService lagService,
-            ILoggService loggService)
+            IPostService postService,
+            ILagService lagService)
         {
-            _kodeService = kodeService;
+            _postService = postService;
             _lagService = lagService;
-            this.loggService = loggService;
         }
-
-        public PifPosisjon RegistrerPifPosition(GeoPosisjonModel model)
+        
+        public async Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonModell modell)
         {
             var pifPosisjon = new PifPosisjon
             {
-                Latitude = model.Latitude,
-                Longitude = model.Longitude,
-                LagId = model.LagId,
+                Posisjon = new Koordinat
+                {
+                    Latitude = modell.Latitude,
+                    Longitude = modell.Longitude
+                },
+                LagId = modell.LagId,
                 Tid = DateTime.Now
             };
 
-            var lag = _lagService.HentLag(model.LagId);
+            var lag = _lagService.HentLagMedLagId(modell.LagId);
             lag.PifPosisjoner.Add(pifPosisjon);
 
-            _lagService.Oppdater(lag);
+            lag.LoggHendelser.Add(
+                new LoggHendelse
+                {
+                    HendelseType = HendelseType.RegistrertPifPosisjon,
+                    Tid = DateTime.Now
+                });
 
-            LoggHendelse(model.LagId, HendelseType.RegistrertGeoPosisjon);
-
-            return pifPosisjon;
+            await _lagService.Oppdater(lag);
         }
 
-        public PifPosisjonModel HentSistePifPositionForLag(string lagId)
+        public PifPosisjonModell HentSistePifPositionForLag(string lagId)
         {
-            var lag = _lagService.HentLag(lagId);
+            var lag = _lagService.HentLagMedLagId(lagId);
 
             var sortertListe = lag.PifPosisjoner.OrderBy(x => x.Tid);
             var nyeste = sortertListe.FirstOrDefault();
 
-            if (nyeste == null) return null;
+            if (nyeste == null)
+                return new PifPosisjonModell();
 
-            return new PifPosisjonModel
+            return new PifPosisjonModell
             {
-                Latitude = nyeste.Latitude,
-                Longitude = nyeste.Longitude,
+                Latitude = nyeste.Posisjon.Latitude,
+                Longitude = nyeste.Posisjon.Longitude,
                 LagId = nyeste.LagId,
                 Tid = nyeste.Tid
             };
         }
 
-        /// <summary>
-        /// TODO: Denne burde kanskje sorteres.
-        /// </summary>
-        public IEnumerable<PifPosisjonModel> HentAllePifPosisjoner()
+        public async Task<bool> RegistrerKode(KodeModell modell)
         {
-            var alleLag = _lagService.HentAlleLag();
-            var posisjoner = alleLag.SelectMany(x => x.PifPosisjoner);
+            var resultat = _postService.SettKodeTilstandTilOppdaget(modell.LagId, modell.Kode, modell.Koordinat);
 
-            return posisjoner.Select(x =>
-                new PifPosisjonModel
-                {
-                    Latitude = x.Latitude,
-                    Longitude = x.Longitude,
-                    LagId = x.LagId,
-                    Tid = x.Tid
-                }
-            );
-        }
-
-        public bool RegistrerKode(KodeModel model)
-        {
-            var resultat = _kodeService.SettKodeTilstandTilOppdaget(model.LagId, model.Kode, model.Koordinat);
-
-            LoggHendelse(model.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
+            await LoggHendelse(modell.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
             return resultat;
         }
 
-        public void SendMelding(MeldingModel model)
+        public async Task SendMelding(MeldingModell modell)
         {
-            LoggHendelse(model.LagId, HendelseType.SendtMelding);
+            var lag = _lagService.HentLagMedLagId(modell.LagId);
+
+            lag.Meldinger.Add(
+                new Melding
+                {
+                    LagId = modell.LagId,
+                    Tekst = modell.Tekst,
+                    Tid = DateTime.Now,
+                    Type = modell.Type
+                });
+
+            lag.LoggHendelser.Add(
+                new LoggHendelse
+                {
+                    HendelseType = HendelseType.SendtMelding,
+                    Tid = DateTime.Now
+                });
+
+            await _lagService.Oppdater(lag);
         }
 
-        private void LoggHendelse(string lagId, HendelseType hendelseType)
+        public IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId)
         {
-            this.loggService.Logg(new LoggHendelse
+            var lag = _lagService.HentLagMedLagId(lagId);
+
+            var registrerteKoderForLag = lag.Poster.Where(o => o.PostTilstand == PostTilstand.Oppdaget);
+
+            return registrerteKoderForLag.Select(registrertKode =>
+                new KodeOutputModel
+                {
+                    Kode = registrertKode.Kode,
+                    Koordinat = registrertKode.Posisjon
+                }).ToList();
+        }
+
+        private async Task LoggHendelse(string lagId, HendelseType hendelseType)
+        {
+            var lag = _lagService.HentLagMedLagId(lagId);
+
+            lag.LoggHendelser.Add(new LoggHendelse
             {
                 HendelseType = hendelseType,
-                LagId = lagId,
                 Tid = DateTime.Now
             });
+
+            await _lagService.Oppdater(lag);
         }
     }
 }

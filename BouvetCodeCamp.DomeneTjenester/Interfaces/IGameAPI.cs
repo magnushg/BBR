@@ -1,21 +1,24 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Domene.Entiteter;
+
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.Domene.OutputModels;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
+    using System.Threading.Tasks;
+
+    using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
+
     public interface IGameApi
     {
-        PifPosisjon RegistrerPifPosition(GeoPosisjonModel model);
+        Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonModell modell);
 
-        PifPosisjonModel HentSistePifPositionForLag(string lagId);
+        PifPosisjonModell HentSistePifPositionForLag(string lagId);
+        
+        Task<bool> RegistrerKode(KodeModell modell);
 
-        IEnumerable<PifPosisjonModel> HentAllePifPosisjoner();
+        Task SendMelding(MeldingModell modell);
 
-        bool RegistrerKode(KodeModel model);
-
-        void SendMelding(MeldingModel model);
+        IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId);
     }
 }

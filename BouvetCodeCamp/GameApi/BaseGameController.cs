@@ -3,14 +3,16 @@
     using System;
     using System.Net;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web.Http;
+    using System.Web.Http.Description;
 
     using Domene;
     using Domene.InputModels;
     using DomeneTjenester.Interfaces;
-    
+
     [RoutePrefix("api/game/base")]
-    public class BaseGameController : ApiController
+    public class BaseGameController : BaseApiController
     {
         private readonly IGameApi gameApi;
 
@@ -18,63 +20,104 @@
         {
             this.gameApi = gameApi;
         }
-
-        // GET api/game/base/hentregistrertekoder
+        
+        /// <summary>
+        /// Henter alle kodene som et lag har registrert ute på postene.
+        /// </summary>
+        /// <param name="lagId">string lagId</param>
+        /// <remarks>GET api/game/base/hentregistrertekoder/142</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("hentregistrertekoder/{lagId}")]
+        [ResponseType(typeof(HttpResponseMessage))]
         [HttpGet]
-        [Route("hentregistrertekoder")]
-        public void HentRegistrerteKoder()
+        public HttpResponseMessage HentRegistrerteKoder(string lagId)
         {
-            
-        }
+            if (string.IsNullOrEmpty(lagId))
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
-        // GET api/game/base/hentPifPosisjon/91735
-        [HttpGet]
+            try
+            {
+                var kodeModeller = gameApi.HentRegistrerteKoder(lagId);
+
+                return Request.CreateResponse(HttpStatusCode.OK, kodeModeller, Configuration.Formatters.JsonFormatter);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+        }
+        
+        /// <summary>
+        /// Henter siste kjente posisjon for PIF.
+        /// </summary>
+        /// <param name="lagId">string lagId</param>
+        /// <remarks>GET api/game/base/hentpifposisjon/91735</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("hentpifposisjon/{lagId}")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpGet]
         public HttpResponseMessage HentPifPosisjon(string lagId)
         {
             if (string.IsNullOrEmpty(lagId)) 
                 OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
-            var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
+            try
+            {
+                var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
 
-            return Request.CreateResponse(HttpStatusCode.Found, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
-        }
-
-        // GET api/game/base/hentgjeldendepost
-        [HttpGet]
-        [Route("hentgjeldendepost")]
-        public void HentGjeldendePost()
-        {
-            
+                return Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
         }
         
-        // POST api/game/base/sendPifMelding
-        [HttpPost]
+        /// <summary>
+        /// Henter gjeldende post for et lag.
+        /// </summary>
+        /// <param name="lagId">string lagId</param>
+        /// <remarks>GET api/game/base/hentgjeldendepost/a-b-c-d-</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("hentgjeldendepost/{lagId}")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpGet]
+        public void HentGjeldendePost(string lagId)
+        {
+            //TODO: finn alle postene til laget. Plukk neste fra listen som ikke er Registrert.
+        }
+        
+        /// <summary>
+        /// Sender en melding til PIF.
+        /// </summary>
+        /// <param name="modell">MeldingModell modell</param>
+        /// <remarks>POST api/game/base/sendpifmelding</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("sendpifmelding")]
-        public HttpResponseMessage SendPifMelding([FromBody] MeldingModel modell)
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpPost]
+        public async Task<HttpResponseMessage> SendPifMelding([FromBody] MeldingModell modell)
         {
             if (modell == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                gameApi.SendMelding(modell);
+                await gameApi.SendMelding(modell);
             }
             catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            return Request.CreateResponse(HttpStatusCode.Created);
-        }
-
-        private HttpResponseMessage OpprettErrorResponse(ErrorResponseType errorResponseType)
-        {
-            switch (errorResponseType)
-            {
-                case ErrorResponseType.UgyldigInputFormat:
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig inputformat");
-            }
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

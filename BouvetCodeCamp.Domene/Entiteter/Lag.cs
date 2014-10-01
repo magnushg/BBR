@@ -10,6 +10,14 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [DisplayName("LagId")]
         public string LagId { get; set; }
 
+        [JsonProperty(PropertyName = "lagnummer")]
+        [DisplayName("LagNummer")]
+        public int LagNummer { get; set; }
+
+        [JsonProperty(PropertyName = "lagNavn")]
+        [DisplayName("lagNavn")]
+        public string LagNavn { get; set; }
+
         [JsonProperty(PropertyName = "poeng")]
         [DisplayName("Poeng")]
         public int Poeng { get; set; }
@@ -18,9 +26,9 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [DisplayName("PifPosisjoner")]
         public List<PifPosisjon> PifPosisjoner { get; set; }
 
-        [JsonProperty(PropertyName = "koder")]
-        [DisplayName("Koder")]
-        public List<Kode> Koder { get; set; }
+        [JsonProperty(PropertyName = "poster")]
+        [DisplayName("Poster")]
+        public List<LagPost> Poster { get; set; }
 
         [JsonProperty(PropertyName = "meldig")]
         [DisplayName("Meldinger")]
@@ -35,7 +43,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
             LagId = string.Empty;
             Poeng = 0;
             PifPosisjoner = new List<PifPosisjon>();
-            Koder = new List<Kode>();
+            Poster = new List<LagPost>();
             this.Meldinger = new List<Melding>();
             this.LoggHendelser = new List<LoggHendelse>();
         }

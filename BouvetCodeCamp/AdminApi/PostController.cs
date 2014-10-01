@@ -1,5 +1,6 @@
 namespace BouvetCodeCamp.AdminApi
 {
+    using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -23,6 +24,7 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/post/get
         [Route("get")]
         [HttpGet]
+        [Obsolete]
         public HttpResponseMessage Get()
         {
             var poster = this.postRepository.HentAlle();
@@ -36,6 +38,7 @@ namespace BouvetCodeCamp.AdminApi
         // GET api/post/get/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
+        [Obsolete]
         public HttpResponseMessage GetPost(string id)
         {
             var post = this.postRepository.Hent(id);
@@ -51,6 +54,7 @@ namespace BouvetCodeCamp.AdminApi
         // POST api/post/post
         [Route("post")]
         [HttpPost]
+        [Obsolete]
         public async Task<HttpResponseMessage> PostPost([FromBody]Post model)
         {
             if (model == null)
@@ -64,6 +68,7 @@ namespace BouvetCodeCamp.AdminApi
         // PUT api/post/put
         [Route("put")]
         [HttpPut]
+        [Obsolete]
         public async Task<HttpResponseMessage> PutPost([FromBody]Post model)
         {
             if (model == null)
@@ -74,9 +79,10 @@ namespace BouvetCodeCamp.AdminApi
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // DELETE api/lag/delete
+        // DELETE api/post/delete
         [Route("delete")]
         [HttpDelete]
+        [Obsolete]
         public async Task<HttpResponseMessage> Delete()
         {
             await this.postRepository.SlettAlle();
@@ -87,6 +93,7 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/post/delete/a-b-c-d
         [Route("delete/{id}")]
         [HttpDelete]
+        [Obsolete]
         public async Task<HttpResponseMessage> DeletePost(string id)
         {
             var post = this.postRepository.Hent(id);

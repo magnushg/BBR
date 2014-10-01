@@ -15,10 +15,19 @@ using BouvetCodeCamp.SignalR;
 
 namespace BouvetCodeCamp
 {
-    using GameApi;
+    using System;
+    using System.IO;
+
+    using BouvetCodeCamp.Authentication;
+    using BouvetCodeCamp.Filters;
+
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;
     using Infrastruktur.DataAksess.Repositories;
+
+    using Microsoft.Owin.Extensions;
+
+    using Swashbuckle.Application;
 
     public class Startup
     {
@@ -33,6 +42,8 @@ namespace BouvetCodeCamp
 
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
+            KonfigurerApiDokumentasjon(appBuilder, config);
+            
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
@@ -41,19 +52,17 @@ namespace BouvetCodeCamp
 
             // Services
             builder.RegisterType<LagService>().As<ILagService>();
-            builder.RegisterType<KodeService>().As<IKodeService>();
-            builder.RegisterType<FakeLoggSerive>().As<ILoggService>();
-            builder.RegisterType<GameStateService>().As<IGameStateService>();
+            builder.RegisterType<PostService>().As<IPostService>();
             builder.RegisterType<DomeneTjenester.GameApi>().As<IGameApi>();
 
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
             builder.RegisterType<PostRepository>().As<IRepository<Post>>();
-            builder.RegisterType<LoggRepository>().As<IRepository<LoggHendelse>>();
             builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>();
 
+            builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
+
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
-            builder.RegisterType<CoordinateVerifier>().As<ICoordinateVerifier>();
 
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.
@@ -66,11 +75,40 @@ namespace BouvetCodeCamp
             appBuilder.UseAutofacWebApi(config);
 
             appBuilder.UseWebApi(config);
+            
+            var hubConfig = new HubConfiguration { EnableJSONP = true };
 
-            var hubConfig = new HubConfiguration();
-            hubConfig.EnableJSONP = true;
             appBuilder.MapSignalR(hubConfig);
+        }
 
+        private static void KonfigurerApiDokumentasjon(IAppBuilder appBuilder, HttpConfiguration config)
+        {
+            appBuilder.UseStageMarker(PipelineStage.MapHandler);
+
+            Swashbuckle.Bootstrapper.Init(config);
+
+            SwaggerSpecConfig.Customize(c =>
+            {
+                c.IgnoreObsoleteActions();
+                c.IncludeXmlComments(GetXmlCommentsPath());
+                c.OperationFilter<AddAuthorizationRequiredResponseCodes>();
+            });
+        }
+
+        protected static string GetXmlCommentsPath()
+        {
+            try
+            {
+                return String.Format(@"{0}\docs\BouvetCodeCamp.XML", System.AppDomain.CurrentDomain.BaseDirectory);
+            }
+            catch (FileNotFoundException fileNotFoundException)
+            {
+                throw new Exception("Fant ikke XML-dokumentasjon", fileNotFoundException);
+            }
+            catch (DirectoryNotFoundException directoryNotFoundException)
+            {
+                throw new Exception("Fant ikke XML-dokumentasjon i mappen", directoryNotFoundException);
+            }
         }
 
         private static void Configure(MediaTypeFormatterCollection formatters, HttpConfiguration config)

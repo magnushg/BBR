@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp", "BouvetCod
 		{BEA4BB17-4E4B-4E53-9488-5397E50B76A7} = {BEA4BB17-4E4B-4E53-9488-5397E50B76A7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Infrastruktur", "BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Infrastruktur.DataAksess", "BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Integrasjonstester", "BouvetCodeCamp.Integrasjonstester\BouvetCodeCamp.Integrasjonstester.csproj", "{7DE8731C-5369-461E-AF95-602969ACAC4E}"
 EndProject
@@ -27,13 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.UnitTest", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Verktøy", "02 - Verktøy", "{578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.KartdataImport", "BouvetCodeCamp.KartdataImport\BouvetCodeCamp.KartdataImport.csproj", "{95304726-8B1B-415E-AFDB-5D4B1493EF2D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Domene", "BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj", "{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.DomeneTjenester", "BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj", "{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Lasttesting", "BouvetCodeCamp.Lasttesting\BouvetCodeCamp.Lasttesting.csproj", "{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.SpillOppretter", "BouvetCodeCamp.SpillOppretter\BouvetCodeCamp.SpillOppretter.csproj", "{17A89190-399A-48E5-BF75-7BF816E066ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95304726-8B1B-415E-AFDB-5D4B1493EF2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,10 +67,10 @@ Global
 		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17A89190-399A-48E5-BF75-7BF816E066ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A89190-399A-48E5-BF75-7BF816E066ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A89190-399A-48E5-BF75-7BF816E066ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A89190-399A-48E5-BF75-7BF816E066ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,7 +78,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7DE8731C-5369-461E-AF95-602969ACAC4E} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
-		{95304726-8B1B-415E-AFDB-5D4B1493EF2D} = {578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}
-		{29ED5B99-C151-4639-9AA5-C9CE9AF3D837} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
+		{17A89190-399A-48E5-BF75-7BF816E066ED} = {578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}
 	EndGlobalSection
 EndGlobal

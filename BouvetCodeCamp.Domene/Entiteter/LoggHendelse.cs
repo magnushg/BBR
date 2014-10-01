@@ -3,11 +3,8 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Domene.Entiteter
 {
-    public class LoggHendelse : BaseDocument
+    public class LoggHendelse
     {
-        [JsonProperty(PropertyName = "lagId")]
-        public string LagId { get; set; }
-
         [JsonProperty(PropertyName = "hendelsesType")]
         public HendelseType HendelseType { get; set; }
 
@@ -16,7 +13,6 @@ namespace BouvetCodeCamp.Domene.Entiteter
 
         public LoggHendelse()
         {
-            LagId = string.Empty;
             HendelseType = HendelseType.Ukjent;
             Tid = DateTime.MinValue;
         }

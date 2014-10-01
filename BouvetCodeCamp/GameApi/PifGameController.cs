@@ -3,55 +3,95 @@ namespace BouvetCodeCamp.GameApi
     using System;
     using System.Net;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web.Http;
+    using System.Web.Http.Description;
 
-    using Domene;
-    using Domene.InputModels;
-    using Domene.OutputModels;
-    using DomeneTjenester.Interfaces;
-    using SignalR;
+    using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.Domene.InputModels;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.SignalR;
 
     using Microsoft.AspNet.SignalR;
 
+    using PifPosisjonModell = BouvetCodeCamp.Domene.InputModels.PifPosisjonModell;
+
     [RoutePrefix("api/game/pif")]
-    public class PifGameController : ApiController
+    public class PifGameController : BaseApiController
     {
         private readonly IGameApi _gameApi;
-        Lazy<IHubContext<IGameHub>> _gameHub;
 
-        public PifGameController(IGameApi gameApi)
+        readonly Lazy<IHubContext<IGameHub>> _gameHub;
+
+        public PifGameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
         {
             _gameApi = gameApi;
+            _gameHub = gameHub;
         }
 
-        // POST api/game/pif/SendPifPosition
+        /// <summary>
+        /// Tar imot en PIF-posisjon og lagrer posisjonen som siste kjente PIF-posisjon for et lag.
+        /// </summary>
+        /// <param name="modell">PifPosisjonModell modell</param>
+        /// <remarks>POST /api/game/pif/sendpifposisjon</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("sendpifposisjon")]
+        [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        [Route("sendPifPosition")]
-        public HttpResponseMessage SendPifPosition([FromUri] GeoPosisjonModel modell)
+        public async Task<HttpResponseMessage> SendPifPosisjon([FromBody] PifPosisjonModell modell)
         {
             if (modell == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
-            //Øverst til venstre 59.680782, 10.602574
-            //Nederst til høyre 59.672267, 10.609526
+            try
+            {
+                this._gameHub.Value.Clients.All.NyPifPosisjon(
+                    new Domene.OutputModels.PifPosisjonModell
+                        {
+                            LagId = modell.LagId, 
+                            Latitude = modell.Latitude, 
+                            Longitude = modell.Longitude, 
+                            Tid = DateTime.Now
+                        });
 
-            _gameHub.Value.Clients.All.NyPifPosisjon(new PifPosisjonModel { LagId = modell.LagId, Latitude = modell.Latitude, Longitude = modell.Longitude, Tid = DateTime.Now });
-            var nyPosisjon = _gameApi.RegistrerPifPosition(modell);
-           
-            return Request.CreateResponse(HttpStatusCode.OK, nyPosisjon);
+                this._gameHub.Value.Clients.All.NyLoggHendelse(
+                    new Domene.OutputModels.LoggHendelseModell
+                    {
+                        LagId = modell.LagId,
+                        Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
+                        Tid = DateTime.Now.ToShortTimeString()
+                    });
+                
+                await this._gameApi.RegistrerPifPosisjon(modell);
+            }
+            catch (Exception e)
+            {
+                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return this.Request.CreateResponse(HttpStatusCode.OK);
         }
         
-        // POST api/game/pif/sendpostkode
-        [HttpPost]
+        /// <summary>
+        /// Registrerer en kode på en post for et lag.
+        /// </summary>
+        /// <param name="modell">KodeModel modell</param>
+        /// <remarks>POST api/game/pif/sendpostkode</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         [Route("sendpostkode")]
-        public HttpResponseMessage SendPostKode([FromUri] KodeModel modell)
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpPost]
+        public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeModell modell)
         {
             if (modell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
 
             try
             {
-                var kodeRegistrert = _gameApi.RegistrerKode(modell);
+                var kodeRegistrert = await _gameApi.RegistrerKode(modell);
 
                 return kodeRegistrert ?
                     Request.CreateResponse(HttpStatusCode.OK) :
@@ -62,23 +102,21 @@ namespace BouvetCodeCamp.GameApi
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
         }
-
-        // GET api/game/pif/erinfisert
-        [HttpGet]
-        [Route("erinfisert")]
-        public void ErInfisert()
-        {
-           
-        }
         
-        private HttpResponseMessage OpprettErrorResponse(ErrorResponseType errorResponseType)
+        /// <summary>
+        /// Henter infisert status for et lag. Er infisert hvis PIF har kommet innenfor en infisert sone.
+        /// </summary>
+        /// <param name="lagId">string lagId</param>
+        /// <remarks>GET api/game/pif/erinfisert/a-b-c-d</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("erinfisert/{lagId}")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpGet]
+        public void ErInfisert(string lagId)
         {
-            switch (errorResponseType)
-            {
-                case ErrorResponseType.UgyldigInputFormat:
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig inputformat");
-            }
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
+           //TODO
         }
     }
 }

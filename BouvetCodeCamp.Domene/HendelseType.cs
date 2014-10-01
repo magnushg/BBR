@@ -3,7 +3,7 @@
     public enum HendelseType
     {
         Ukjent,
-        RegistrertGeoPosisjon,
+        RegistrertPifPosisjon,
         RegistrertKodeSuksess,
         RegistrertKodeMislykket,
         HentetPifPosisjon,
