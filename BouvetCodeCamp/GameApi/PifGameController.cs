@@ -30,7 +30,7 @@ namespace BouvetCodeCamp.GameApi
         /// <summary>
         /// Tar imot en PIF-posisjon og lagrer posisjonen som siste kjente PIF-posisjon for et lag.
         /// </summary>
-        /// <param name="inputModell">PifPosisjonModell modell</param>
+        /// <param name="inputModell">PifPosisjonInputModell inputModell</param>
         /// <remarks>POST /api/game/pif/sendpifposisjon</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>
@@ -74,7 +74,7 @@ namespace BouvetCodeCamp.GameApi
         /// <summary>
         /// Registrerer en kode på en post for et lag.
         /// </summary>
-        /// <param name="inputModell">KodeModel modell</param>
+        /// <param name="inputModell">KodeInputModell inputModell</param>
         /// <remarks>POST api/game/pif/sendpostkode</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>

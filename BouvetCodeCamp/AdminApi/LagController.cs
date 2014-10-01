@@ -1,7 +1,6 @@
 namespace BouvetCodeCamp.AdminApi
 {
     using System;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -9,7 +8,6 @@ namespace BouvetCodeCamp.AdminApi
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.GameApi;
 
     using Domene.Entiteter;
     using DomeneTjenester.Interfaces;

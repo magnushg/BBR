@@ -106,7 +106,7 @@
         /// <summary>
         /// Sender en melding til PIF.
         /// </summary>
-        /// <param name="inputModell">MeldingModell modell</param>
+        /// <param name="inputModell">MeldingInputModell inputModell</param>
         /// <remarks>POST api/game/base/sendpifmelding</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>
