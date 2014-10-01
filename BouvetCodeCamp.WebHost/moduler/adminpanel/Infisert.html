@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
+
+<style>
+  body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+    float: left;
+  }
+  #map.mode-create {
+    cursor: crosshair;
+  }
+
+  #controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 2em;
+    z-index: 10000;
+  }
+</style>
+
+<div id="map"></div>
+<div id="controls">
+  <button id="create">CREATE</button><br/>
+  <button id="delete">DELETE</button>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/d3/d3.min.js"></script>
+<script src="../bower_components/hammerjs/hammer.min.js"></script>
+<script src="../bower_components/evispa-timo-jsclipper/clipper.js"></script>
+<script src="../bower_components/concavehull/dist/concavehull.js"></script>
+<script src="../bower_components/leaflet/dist/leaflet.js"></script>
+<script src="../bower_components/leaflet.freedraw/dist/leaflet.freedraw.js"></script>
+<script src="../bower_components/underscore/underscore.js"></script>
+
+<script>
+
+  $(function() {
+
+    var el = document.getElementById("map")
+      , apiResouce = "http://localhost:2014/api/admin/infisert"
+      , latlng = [59.676403, 10.606424];
+
+    var map = L.map(el).setView(latlng, 16);
+
+    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      id: 'jorgenbs.jl9j4hbj'
+    }).addTo(map);
+
+    var freeDraw = new L.FreeDraw();
+    freeDraw.setMode(L.FreeDraw.MODES.CREATE);
+    freeDraw.options.setBoundariesAfterEdit(false);
+    freeDraw.options.exitModeAfterCreate(false);
+
+    freeDraw.on('markers', function getMarkers(eventData) {
+      console.log(L.FreeDraw.Utilities.getMySQLMultiPolygon(eventData.latLngs));
+      var model = mapToPostModel(eventData.latLngs);
+      window.latlngs = eventData.latLngs;
+      console.log(model)
+
+      $.post(apiResouce, model);
+    });
+
+    map.addLayer(freeDraw);
+
+    $("#create").click(function() { 
+      freeDraw.setMode(L.FreeDraw.MODES.CREATE);
+    });
+    $("#delete").click(function() { 
+      freeDraw.setMode(L.FreeDraw.MODES.DELETE);
+    });
+
+    $.get(apiResouce).done(function (data) {
+      if (data.coordinates != null && data.coordinates.length > 0)
+        L.polygon(data.coordinates).addTo(map);
+    });
+
+    //stygg som juling
+    function mapToPostModel(latlngsArray) {
+      
+      return {
+        "Koordinats": _.map(latlngsArray, function(obj) { 
+          console.log(obj);
+          return _.map(obj, function (latling) { 
+            return {
+              "latitude": latling.lat, 
+              "longitude": latling.lng 
+            }
+          });
+
+        })[0]
+      };
+    };
+
+  });
+</script>

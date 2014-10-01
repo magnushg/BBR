@@ -1,0 +1,27 @@
+{
+  "name": "concavehull",
+  "version": "0.1.2",
+  "homepage": "https://github.com/Wildhoney/ConcaveHull",
+  "authors": [
+    "Adam Timberlake <adam.timberlake@gmail.com>"
+  ],
+  "description": "Workable refactoring into a module of a concave hull algorithm.",
+  "main": "dist/concavehull.min.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.2",
+    "commit": "4b7d26f960bdab200329a10f3f831b8e3f4ed308"
+  },
+  "_source": "git://github.com/Wildhoney/ConcaveHull.git",
+  "_target": "~0.1.2",
+  "_originalSource": "concavehull"
+}

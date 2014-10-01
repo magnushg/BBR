@@ -3,6 +3,10 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Domene.Entiteter
 {
+    /// <summary>
+    /// Denne klassen er for generelle globale states som ikke behøver
+    /// sin egen kolleksjon
+    /// </summary>
     public class GameState : BaseDocument
     {
         [JsonProperty(PropertyName = "infisertPolygon")]

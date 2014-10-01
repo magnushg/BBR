@@ -5,6 +5,10 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
+    /// <summary>
+    /// Tanken med denne servicen er for å abstrahere bort gamestaterepository
+    /// siden det kun skal eksistere 1 gamestate om gangen.
+    /// </summary>
     public class GameStateService : IGameStateService
     {
         private readonly IRepository<GameState> _gameStateRepository;
