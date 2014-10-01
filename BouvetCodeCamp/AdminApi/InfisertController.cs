@@ -19,7 +19,7 @@ namespace BouvetCodeCamp.AdminApi
 
         // GET api/infisert/get
         [HttpGet]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public InfisertPolygon Get()
         {
             var gameState = _gameStateService.HentGameState();
@@ -28,7 +28,7 @@ namespace BouvetCodeCamp.AdminApi
 
         // POST api/infisert/post
         [HttpPost]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public void Post([FromBody] InfisertPolygon model)
         {
             var gameState = _gameStateService.HentGameState();

@@ -118,6 +118,15 @@ namespace BouvetCodeCamp.DomeneTjenester
                 }).ToList();
         }
 
+        public async Task TildelPoeng(PoengModell modell)
+        {
+            var lag = _lagService.HentLagMedLagId(modell.LagId);
+
+            lag.Poeng += modell.Poeng;
+
+            await _lagService.Oppdater(lag);
+        }
+
         private async Task LoggHendelse(string lagId, HendelseType hendelseType)
         {
             var lag = _lagService.HentLagMedLagId(lagId);

@@ -20,5 +20,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task SendMelding(MeldingModell modell);
 
         IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId);
+
+        Task TildelPoeng(PoengModell modell);
     }
 }

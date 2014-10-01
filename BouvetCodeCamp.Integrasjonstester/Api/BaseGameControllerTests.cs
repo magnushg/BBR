@@ -25,8 +25,15 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
 
     [TestClass]
-    public class BaseGameControllerTests : ApiTest
+    public class BaseGameControllerTests : BaseApiTest
     {
+        [TestInitialize]
+        [TestCleanup]
+        public void RyddOppEtterTest()
+        {
+            this.SlettLag(TestLagId);
+        }
+
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
         public async Task HentPifPosisjon_GyldigModell_FårHttpStatusKodeOk()
@@ -34,7 +41,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             this.SørgForAtEtLagMedEnPifPosisjonFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + LagId;
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + TestLagId;
 
             bool isSuccessStatusCode;
 
@@ -57,7 +64,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             this.SørgForAtEtLagMedEnPifPosisjonFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + LagId;
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + TestLagId;
 
             PifPosisjonModell pifPosisjon;
 
@@ -84,7 +91,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             this.SørgForAtEtLagMedUtenPifPosisjonFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + LagId;
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + TestLagId;
 
             PifPosisjonModell pifPosisjon;
 
@@ -122,7 +129,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
                 var modell = new MeldingModell
                 {
-                    LagId = LagId,
+                    LagId = TestLagId,
                     Tekst = "Heihei",
                     Type = MeldingType.Fritekst
                 };
@@ -139,7 +146,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
             // Assert
             isSuccessStatusCode.ShouldBeTrue();
-            responseCode.ShouldEqual(HttpStatusCode.Created);
+            responseCode.ShouldEqual(HttpStatusCode.OK);
         }
 
         [TestMethod]
@@ -180,7 +187,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             this.SørgForAtEtLagMedRegistrerteKoderFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentregistrertekoder/" + LagId;
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentregistrertekoder/" + TestLagId;
 
             IEnumerable<KodeOutputModel> kodeModeller;
 
@@ -204,7 +211,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             this.SørgForAtEtLagFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentregistrertekoder/" + LagId;
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentregistrertekoder/" + TestLagId;
 
             IEnumerable<KodeOutputModel> kodeModeller;
 
@@ -226,7 +233,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var pifPosisjoner = new List<PifPosisjon>
                                     {
                                                         new PifPosisjon {
-                                                            LagId = LagId,
+                                                            LagId = TestLagId,
                                                             Posisjon = new Koordinat
                                                             {
                                                               Latitude = "12.1",
@@ -237,7 +244,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                                     };
 
             var lag = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = LagId)
+                .With(o => o.LagId = TestLagId)
                 .With(o => o.PifPosisjoner = pifPosisjoner)
                 .Build();
 
@@ -252,7 +259,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var pifPosisjoner = new List<PifPosisjon>();
 
             var lag = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = LagId)
+                .With(o => o.LagId = TestLagId)
                 .With(o => o.PifPosisjoner = pifPosisjoner)
                 .Build();
 
@@ -275,7 +282,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                                        };
 
             var lag = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = LagId)
+                .With(o => o.LagId = TestLagId)
                 .With(o => o.Poster = registrerteKoder)
                 .Build();
 

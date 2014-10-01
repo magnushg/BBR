@@ -7,42 +7,44 @@ namespace BouvetCodeCamp.AdminApi
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BouvetCodeCamp.GameApi;
+
     using Domene.Entiteter;
     using DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/post")]
     [Authorize]
-    public class PostController : ApiController
+    public class PostController : BaseApiController
     {
-        private readonly IRepository<Post> postRepository;
+        private readonly IPostService postService;
 
-        public PostController(IRepository<Post> postRepository)
+        public PostController(IPostService postService)
         {
-            this.postRepository = postRepository;
+            this.postService = postService;
         }
 
         // GET api/post/get
         [Route("get")]
         [HttpGet]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public HttpResponseMessage Get()
         {
-            var poster = this.postRepository.HentAlle();
-
-            if (poster == null || !poster.Any())
-                return this.OpprettIngenPosterFantesIkkeResponse();
-
+            var poster = postService.HentAlle();
+            
             return this.Request.CreateResponse(HttpStatusCode.OK, poster);
         }
 
         // GET api/post/get/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public HttpResponseMessage GetPost(string id)
         {
-            var post = this.postRepository.Hent(id);
+            if (string.IsNullOrEmpty(id))
+                return this.UgyldigRequestResponse("id");
 
+            var post = postService.Hent(id);
+            
             if (post == null)
             {
                 return this.OpprettPostFantesIkkeResponse(id);
@@ -54,13 +56,13 @@ namespace BouvetCodeCamp.AdminApi
         // POST api/post/post
         [Route("post")]
         [HttpPost]
-        [Obsolete]
-        public async Task<HttpResponseMessage> PostPost([FromBody]Post model)
+        [Obsolete] // Skjule for Swagger-apidoc
+        public async Task<HttpResponseMessage> PostPost([FromBody]Post modell)
         {
-            if (model == null)
+            if (modell == null)
                 return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await this.postRepository.Opprett(model);
+            await this.postService.Opprett(modell);
 
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -68,13 +70,13 @@ namespace BouvetCodeCamp.AdminApi
         // PUT api/post/put
         [Route("put")]
         [HttpPut]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> PutPost([FromBody]Post model)
         {
             if (model == null)
                 return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await this.postRepository.Oppdater(model);
+            await this.postService.Oppdater(model);
 
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -82,46 +84,31 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/post/delete
         [Route("delete")]
         [HttpDelete]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> Delete()
         {
-            await this.postRepository.SlettAlle();
-
+            await postService.SlettAlle();
+            
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE api/post/delete/a-b-c-d
         [Route("delete/{id}")]
         [HttpDelete]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> DeletePost(string id)
         {
-            var post = this.postRepository.Hent(id);
+            if (string.IsNullOrEmpty(id))
+                return this.UgyldigRequestResponse("id");
+            
+            var post = postService.Hent(id);
 
             if (post == null)
                 return this.OpprettPostFantesIkkeResponse(id);
-
-            await this.postRepository.Slett(post);
+            
+            await postService.Slett(post);
 
             return this.Request.CreateResponse(HttpStatusCode.OK);
-        }
-
-        [NonAction]
-        private HttpResponseMessage OpprettPostFantesIkkeResponse(string id)
-        {
-            var melding = string.Format("Post med id = '{0}' fantes ikke.", id);
-            var httpError = new HttpError(melding);
-
-            return this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
-        }
-
-        [NonAction]
-        private HttpResponseMessage OpprettIngenPosterFantesIkkeResponse()
-        {
-            var melding = string.Format("Ingen poster fantes");
-            var httpError = new HttpError(melding);
-
-            return this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
         }
     }
 }

@@ -6,6 +6,7 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 namespace BouvetCodeCamp.DomeneTjenester
 {
     using System;
+    using System.Collections;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -36,6 +37,31 @@ namespace BouvetCodeCamp.DomeneTjenester
         public async Task Oppdater(Lag lag)
         {
             await _lagRepository.Oppdater(lag);
+        }
+
+        public Lag Hent(string id)
+        {
+            return _lagRepository.Hent(id);
+        }
+
+        public async Task SlettAlle()
+        {
+            await _lagRepository.SlettAlle();
+        }
+
+        public async Task Slett(Lag lag)
+        {
+            await _lagRepository.Slett(lag);
+        }
+
+        public IEnumerable<Lag> Søk(Func<Lag, bool> predicate)
+        {
+            return _lagRepository.Søk(predicate);
+        }
+
+        public Task Opprett(Lag lag)
+        {
+            return _lagRepository.Opprett(lag);
         }
     }
 }

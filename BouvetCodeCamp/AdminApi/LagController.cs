@@ -7,45 +7,51 @@ namespace BouvetCodeCamp.AdminApi
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BouvetCodeCamp.Domene.InputModels;
+    using BouvetCodeCamp.GameApi;
+
     using Domene.Entiteter;
     using DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/lag")]
     [Authorize]
-    public class LagController : ApiController
+    public class LagController : BaseApiController
     {
-        private readonly IRepository<Lag> lagRepository;
+        private readonly ILagService lagService;
 
-        public LagController(IRepository<Lag> lagRepository)
+        private readonly IGameApi gameApi;
+
+        public LagController(ILagService lagService, IGameApi gameApi)
         {
-            this.lagRepository = lagRepository;
+            this.lagService = lagService;
+            this.gameApi = gameApi;
         }
 
         // GET api/lag/get
         [Route("get")]
         [HttpGet]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public HttpResponseMessage Get()
         {
-            var lagene = lagRepository.HentAlle();
-
-            if (lagene == null || !lagene.Any()) 
-                return OpprettIngenLagFantesIkkeResponse();
-
-            return Request.CreateResponse(HttpStatusCode.OK, lagene);
+            var alleLag = lagService.HentAlleLag();
+            
+            return Request.CreateResponse(HttpStatusCode.OK, alleLag);
         }
 
         // GET api/lag/get/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public HttpResponseMessage GetLag(string id)
         {
-            var lag = lagRepository.Hent(id);
+            if (string.IsNullOrEmpty(id))
+                return this.UgyldigRequestResponse("id");
+
+            var lag = lagService.Hent(id);
 
             if (lag == null)
             {
-                return OpprettLagFantesIkkeResponse(id);
+                return this.LagFantesIkkeResponse(id);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, lag);
@@ -54,13 +60,13 @@ namespace BouvetCodeCamp.AdminApi
         // POST api/lag/post
         [Route("post")]
         [HttpPost]
-        [Obsolete]
-        public async Task<HttpResponseMessage> PostLag([FromBody]Lag model)
+        [Obsolete] // Skjule for Swagger-apidoc
+        public async Task<HttpResponseMessage> PostLag([FromBody]Lag modell)
         {
-            if (model == null) 
+            if (modell == null) 
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await lagRepository.Opprett(model);
+            await lagService.Opprett(modell);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -68,24 +74,24 @@ namespace BouvetCodeCamp.AdminApi
         // PUT api/lag/put
         [Route("put")]
         [HttpPut]
-        [Obsolete]
-        public async Task<HttpResponseMessage> PutLag([FromBody]Lag model)
+        [Obsolete] // Skjule for Swagger-apidoc
+        public async Task<HttpResponseMessage> PutLag([FromBody]Lag modell)
         {
-            if (model == null)
+            if (modell == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await lagRepository.Oppdater(model);
-
+            await lagService.Oppdater(modell);
+            
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE api/lag/delete
         [Route("delete")]
         [HttpDelete]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> Delete()
         {
-            await lagRepository.SlettAlle();
+            await lagService.SlettAlle();
             
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -93,15 +99,18 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/lag/delete/a-b-c-d
         [Route("delete/{id}")]
         [HttpDelete]
-        [Obsolete]
-        public async Task<HttpResponseMessage> Delete(string id)
+        [Obsolete] // Skjule for Swagger-apidoc
+        public async Task<HttpResponseMessage> DeleteLag(string id)
         {
-            var lag = lagRepository.Hent(id);
+            if (string.IsNullOrEmpty(id)) 
+                return this.UgyldigRequestResponse("id");
+
+            var lag = lagService.Hent(id);
 
             if (lag == null)
-                return OpprettLagFantesIkkeResponse(id);
-
-            await lagRepository.Slett(lag);
+                return this.LagFantesIkkeResponse(id);
+            
+            await lagService.Slett(lag);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -109,35 +118,37 @@ namespace BouvetCodeCamp.AdminApi
         // DELETE api/lag/deletebylagid/a-b-c-d
         [Route("deletebylagid/{lagId}")]
         [HttpDelete]
-        [Obsolete]
+        [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> DeleteByLagId(string lagId)
         {
-            var lagTilSletting = lagRepository.Søk(o => o.LagId == lagId);
+            if (string.IsNullOrEmpty(lagId))
+                return this.UgyldigRequestResponse("LagId");
+
+            var lagTilSletting = lagService.Søk(o => o.LagId == lagId);
             
             foreach (var lag in lagTilSletting)
             {
-                await lagRepository.Slett(lag);
+                await lagService.Slett(lag);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
-
-        [NonAction]
-        private HttpResponseMessage OpprettLagFantesIkkeResponse(string id)
+        
+        // POST api/lag/tildelpoeng
+        [Route("tildelpoeng")]
+        [HttpPost]
+        [Obsolete] // Skjule for Swagger-apidoc
+        public async Task<HttpResponseMessage> TildelPoeng([FromBody]PoengModell modell)
         {
-            var melding = string.Format("Lag med id = '{0}' fantes ikke.", id);
-            var httpError = new HttpError(melding);
+            if (modell == null)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            return Request.CreateResponse(HttpStatusCode.NotFound, httpError);
-        }
+            if (string.IsNullOrEmpty(modell.LagId))
+                return UgyldigRequestResponse("LagId");
 
-        [NonAction]
-        private HttpResponseMessage OpprettIngenLagFantesIkkeResponse()
-        {
-            var melding = string.Format("Ingen lag fantes");
-            var httpError = new HttpError(melding);
-
-            return Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+            await gameApi.TildelPoeng(modell);
+            
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

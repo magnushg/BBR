@@ -15,11 +15,12 @@ namespace BouvetCodeCamp.UnitTest.Service
         private IPostService _postService;
         private readonly Mock<ILagService> _lagServiceMock = new Mock<ILagService>();
         private readonly Mock<IKoordinatVerifier> _coordinatMock = new Mock<IKoordinatVerifier>();
+        private readonly Mock<IRepository<Post>> _postRepositoryMock = new Mock<IRepository<Post>>();
 
         [SetUp]
         public void Setup()
         {
-            _postService = new PostService(_lagServiceMock.Object, _coordinatMock.Object);
+            _postService = new PostService(_lagServiceMock.Object, _coordinatMock.Object, _postRepositoryMock.Object);
         }
 
         [Test]

@@ -9,15 +9,22 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
+    using System.Threading.Tasks;
+
     public class PostService : IPostService
     {
         private readonly ILagService _lagService;
         private readonly IKoordinatVerifier koordinatVerifier;
 
-        public PostService(ILagService lagService, IKoordinatVerifier koordinatVerifier)
+        private readonly IRepository<Post> postRepository;
+
+        public PostService(ILagService lagService, 
+            IKoordinatVerifier koordinatVerifier,
+            IRepository<Post> postRepository)
         {
             _lagService = lagService;
             this.koordinatVerifier = koordinatVerifier;
+            this.postRepository = postRepository;
         }
 
         public IEnumerable<LagPost> HentOppdagedePoster(string lagId)
@@ -25,7 +32,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             return _lagService.HentLagMedLagId(lagId).Poster.Where(post => post.PostTilstand == PostTilstand.Oppdaget);
         }
 
-        public IEnumerable<LagPost> HentAllePoster(string lagId)
+        public IEnumerable<LagPost> HentAllePosterForLag(string lagId)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
@@ -58,6 +65,36 @@ namespace BouvetCodeCamp.DomeneTjenester
                 default:
                     throw new AmbiguousMatchException("Flere koder funnet basert på kriteriene gitt");
             }
+        }
+
+        public IEnumerable<Post> HentAlle()
+        {
+            return postRepository.HentAlle();
+        }
+
+        public Post Hent(string id)
+        {
+            return postRepository.Hent(id);
+        }
+
+        public async Task Opprett(Post document)
+        {
+            await postRepository.Opprett(document);
+        }
+
+        public async Task Oppdater(Post post)
+        {
+            await postRepository.Oppdater(post);
+        }
+
+        public async Task SlettAlle()
+        {
+            await postRepository.SlettAlle();
+        }
+
+        public async Task Slett(Post post)
+        {
+            await postRepository.Slett(post);
         }
     }
 }

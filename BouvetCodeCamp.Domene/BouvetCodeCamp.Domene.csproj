@@ -62,6 +62,7 @@
     <Compile Include="InputModels\PifPosisjonModell.cs" />
     <Compile Include="InputModels\KodeModell.cs" />
     <Compile Include="InputModels\MeldingModell.cs" />
+    <Compile Include="InputModels\PoengModell.cs" />
     <Compile Include="MeldingType.cs" />
     <Compile Include="OutputModels\KodeOutputModel.cs" />
     <Compile Include="OutputModels\LoggHendelseModell.cs" />
