@@ -59,15 +59,15 @@
     <Compile Include="Entiteter\Post.cs" />
     <Compile Include="ErrorResponseType.cs" />
     <Compile Include="HendelseType.cs" />
-    <Compile Include="InputModels\PifPosisjonModell.cs" />
-    <Compile Include="InputModels\KodeModell.cs" />
-    <Compile Include="InputModels\MeldingModell.cs" />
-    <Compile Include="InputModels\PoengModell.cs" />
+    <Compile Include="InputModels\PifPosisjonInputModell.cs" />
+    <Compile Include="InputModels\KodeInputModell.cs" />
+    <Compile Include="InputModels\MeldingInputModell.cs" />
+    <Compile Include="InputModels\PoengInputModell.cs" />
     <Compile Include="MeldingType.cs" />
     <Compile Include="OutputModels\KodeOutputModel.cs" />
-    <Compile Include="OutputModels\LoggHendelseModell.cs" />
-    <Compile Include="OutputModels\PifPosisjonModell.cs" />
-    <Compile Include="OutputModels\PostOutputModel.cs" />
+    <Compile Include="OutputModels\LoggHendelseOutputModell.cs" />
+    <Compile Include="OutputModels\PifPosisjonOutputModell.cs" />
+    <Compile Include="OutputModels\PostOutputModell.cs" />
     <Compile Include="PostTilstand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

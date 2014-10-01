@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Domene.Entiteter;
+﻿using BouvetCodeCamp.Domene.Entiteter;
 using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Domene.OutputModels
 {
-    public class PostOutputModel
+    public class PostOutputModell
     {
         [JsonProperty(PropertyName = "navn")]
         public string Navn { get; set; }

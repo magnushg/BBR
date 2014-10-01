@@ -35,7 +35,7 @@
         public HttpResponseMessage HentRegistrerteKoder(string lagId)
         {
             if (string.IsNullOrEmpty(lagId))
-                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
             try
             {
@@ -63,7 +63,7 @@
         public HttpResponseMessage HentPifPosisjon(string lagId)
         {
             if (string.IsNullOrEmpty(lagId)) 
-                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
             try
             {
@@ -90,13 +90,23 @@
         [HttpGet]
         public HttpResponseMessage HentGjeldendePost(string lagId)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, gameApi.HentGjeldendePost(lagId));
+            if (string.IsNullOrEmpty(lagId))
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
+
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, gameApi.HentGjeldendePost(lagId));
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
         }
         
         /// <summary>
         /// Sender en melding til PIF.
         /// </summary>
-        /// <param name="modell">MeldingModell modell</param>
+        /// <param name="inputModell">MeldingModell modell</param>
         /// <remarks>POST api/game/base/sendpifmelding</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>
@@ -104,14 +114,14 @@
         [Route("sendpifmelding")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPifMelding([FromBody] MeldingModell modell)
+        public async Task<HttpResponseMessage> SendPifMelding([FromBody] MeldingInputModell inputModell)
         {
-            if (modell == null) 
-                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+            if (inputModell == null) 
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
             try
             {
-                await gameApi.SendMelding(modell);
+                await gameApi.SendMelding(inputModell);
             }
             catch (Exception e)
             {

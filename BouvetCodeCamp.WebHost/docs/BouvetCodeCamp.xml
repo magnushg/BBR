@@ -34,31 +34,31 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.GameApi.BaseGameController.SendPifMelding(BouvetCodeCamp.Domene.InputModels.MeldingModell)">
+        <member name="M:BouvetCodeCamp.GameApi.BaseGameController.SendPifMelding(BouvetCodeCamp.Domene.InputModels.MeldingInputModell)">
             <summary>
             Sender en melding til PIF.
             </summary>
-            <param name="modell">MeldingModell modell</param>
+            <param name="inputModell">MeldingModell modell</param>
             <remarks>POST api/game/base/sendpifmelding</remarks>
             <response code="200">Ok</response>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.GameApi.PifGameController.SendPifPosisjon(BouvetCodeCamp.Domene.InputModels.PifPosisjonModell)">
+        <member name="M:BouvetCodeCamp.GameApi.PifGameController.SendPifPosisjon(BouvetCodeCamp.Domene.InputModels.PifPosisjonInputModell)">
             <summary>
             Tar imot en PIF-posisjon og lagrer posisjonen som siste kjente PIF-posisjon for et lag.
             </summary>
-            <param name="modell">PifPosisjonModell modell</param>
+            <param name="inputModell">PifPosisjonModell modell</param>
             <remarks>POST /api/game/pif/sendpifposisjon</remarks>
             <response code="200">Ok</response>
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.GameApi.PifGameController.SendPostKode(BouvetCodeCamp.Domene.InputModels.KodeModell)">
+        <member name="M:BouvetCodeCamp.GameApi.PifGameController.SendPostKode(BouvetCodeCamp.Domene.InputModels.KodeInputModell)">
             <summary>
             Registrerer en kode på en post for et lag.
             </summary>
-            <param name="modell">KodeModel modell</param>
+            <param name="inputModell">KodeModel modell</param>
             <remarks>POST api/game/pif/sendpostkode</remarks>
             <response code="200">Ok</response>
             <response code="400">Bad request</response>

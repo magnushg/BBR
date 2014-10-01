@@ -232,7 +232,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new PoengModell
+                var modell = new PoengInputModell
                                  {
                                      LagId = TestLagId,
                                      Poeng = 10

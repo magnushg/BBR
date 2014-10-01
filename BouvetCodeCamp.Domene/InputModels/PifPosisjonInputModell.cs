@@ -1,6 +1,6 @@
 ﻿namespace BouvetCodeCamp.Domene.InputModels
 {
-    public class PifPosisjonModell
+    public class PifPosisjonInputModell
     {
         public string Latitude { get; set; }
         public string Longitude { get; set; }

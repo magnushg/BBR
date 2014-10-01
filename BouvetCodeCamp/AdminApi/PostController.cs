@@ -7,6 +7,7 @@ namespace BouvetCodeCamp.AdminApi
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.GameApi;
 
     using Domene.Entiteter;
@@ -41,14 +42,14 @@ namespace BouvetCodeCamp.AdminApi
         public HttpResponseMessage GetPost(string id)
         {
             if (string.IsNullOrEmpty(id))
-                return this.UgyldigRequestResponse("id");
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler id");
 
             var post = postService.Hent(id);
-            
+
             if (post == null)
-            {
-                return this.OpprettPostFantesIkkeResponse(id);
-            }
+                return this.OpprettErrorResponse(
+                    ErrorResponseType.FantIkkeObjekt,
+                    string.Format("Post med id = '{0}' fantes ikke.", id));
 
             return this.Request.CreateResponse(HttpStatusCode.OK, post);
         }
@@ -99,12 +100,14 @@ namespace BouvetCodeCamp.AdminApi
         public async Task<HttpResponseMessage> DeletePost(string id)
         {
             if (string.IsNullOrEmpty(id))
-                return this.UgyldigRequestResponse("id");
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler id");
             
             var post = postService.Hent(id);
 
             if (post == null)
-                return this.OpprettPostFantesIkkeResponse(id);
+                return this.OpprettErrorResponse(
+                    ErrorResponseType.FantIkkeObjekt,
+                    string.Format("Post med id = '{0}' fantes ikke.", id));
             
             await postService.Slett(post);
 

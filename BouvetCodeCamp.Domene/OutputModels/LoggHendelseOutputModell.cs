@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
 
-    public class LoggHendelseModell
+    public class LoggHendelseOutputModell
     {
         [JsonProperty(PropertyName = "lagId")]
         public string LagId { get; set; }

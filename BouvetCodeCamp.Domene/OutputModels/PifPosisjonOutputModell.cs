@@ -4,7 +4,7 @@ namespace BouvetCodeCamp.Domene.OutputModels
 {
     using Newtonsoft.Json;
 
-    public class PifPosisjonModell
+    public class PifPosisjonOutputModell
     {
         [JsonProperty(PropertyName = "latitude")]
         public string Latitude { get; set; }

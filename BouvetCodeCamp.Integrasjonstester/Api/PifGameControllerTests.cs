@@ -43,7 +43,7 @@
             {
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new PifPosisjonModell { LagId = TestLagId, Latitude = "14.02", Longitude = "11" };
+                var modell = new PifPosisjonInputModell { LagId = TestLagId, Latitude = "14.02", Longitude = "11" };
 
                 var modellSomJson = JsonConvert.SerializeObject(modell);
 
@@ -114,7 +114,7 @@
             {
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new KodeModell {
+                var modell = new KodeInputModell {
                     Kode = PostKode,
                     Koordinat = new Koordinat("12", "12"),
                     LagId = TestLagId

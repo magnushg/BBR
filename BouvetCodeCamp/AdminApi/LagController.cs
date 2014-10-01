@@ -7,6 +7,7 @@ namespace BouvetCodeCamp.AdminApi
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.InputModels;
     using BouvetCodeCamp.GameApi;
 
@@ -45,14 +46,14 @@ namespace BouvetCodeCamp.AdminApi
         public HttpResponseMessage GetLag(string id)
         {
             if (string.IsNullOrEmpty(id))
-                return this.UgyldigRequestResponse("id");
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler id");
 
             var lag = lagService.Hent(id);
 
             if (lag == null)
-            {
-                return this.LagFantesIkkeResponse(id);
-            }
+                return this.OpprettErrorResponse(
+                    ErrorResponseType.FantIkkeObjekt,
+                    string.Format("Lag med id = '{0}' fantes ikke.", id));
 
             return Request.CreateResponse(HttpStatusCode.OK, lag);
         }
@@ -102,13 +103,15 @@ namespace BouvetCodeCamp.AdminApi
         [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> DeleteLag(string id)
         {
-            if (string.IsNullOrEmpty(id)) 
-                return this.UgyldigRequestResponse("id");
+            if (string.IsNullOrEmpty(id))
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler id");
 
             var lag = lagService.Hent(id);
 
             if (lag == null)
-                return this.LagFantesIkkeResponse(id);
+                return this.OpprettErrorResponse(
+                    ErrorResponseType.FantIkkeObjekt, 
+                    string.Format("Lag med id = '{0}' fantes ikke.", id));
             
             await lagService.Slett(lag);
 
@@ -122,7 +125,7 @@ namespace BouvetCodeCamp.AdminApi
         public async Task<HttpResponseMessage> DeleteByLagId(string lagId)
         {
             if (string.IsNullOrEmpty(lagId))
-                return this.UgyldigRequestResponse("LagId");
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
             var lagTilSletting = lagService.Søk(o => o.LagId == lagId);
             
@@ -138,15 +141,15 @@ namespace BouvetCodeCamp.AdminApi
         [Route("tildelpoeng")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
-        public async Task<HttpResponseMessage> TildelPoeng([FromBody]PoengModell modell)
+        public async Task<HttpResponseMessage> TildelPoeng([FromBody]PoengInputModell inputModell)
         {
-            if (modell == null)
+            if (inputModell == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            if (string.IsNullOrEmpty(modell.LagId))
-                return UgyldigRequestResponse("LagId");
+            if (string.IsNullOrEmpty(inputModell.LagId))
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
-            await gameApi.TildelPoeng(modell);
+            await gameApi.TildelPoeng(inputModell);
             
             return Request.CreateResponse(HttpStatusCode.OK);
         }

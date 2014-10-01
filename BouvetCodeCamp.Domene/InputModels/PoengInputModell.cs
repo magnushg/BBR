@@ -1,6 +1,6 @@
 ﻿namespace BouvetCodeCamp.Domene.InputModels
 {
-    public class PoengModell
+    public class PoengInputModell
     {
         public string LagId { get; set; }
 
