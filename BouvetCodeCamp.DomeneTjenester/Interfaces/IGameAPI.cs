@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System.Net;
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.Domene.OutputModels;
 
@@ -20,6 +20,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task SendMelding(MeldingModell modell);
 
         IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId);
+        PostOutputModel HentGjeldendePost(string lagId);
 
         Task TildelPoeng(PoengModell modell);
     }
