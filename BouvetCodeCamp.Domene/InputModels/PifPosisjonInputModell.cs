@@ -1,9 +1,10 @@
 ﻿namespace BouvetCodeCamp.Domene.InputModels
 {
+    using BouvetCodeCamp.Domene.Entiteter;
+
     public class PifPosisjonInputModell
     {
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public Koordinat Posisjon { get; set; }
         public string LagId { get; set; }
     }
 }

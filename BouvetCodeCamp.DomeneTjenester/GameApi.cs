@@ -31,8 +31,8 @@ namespace BouvetCodeCamp.DomeneTjenester
             {
                 Posisjon = new Koordinat
                 {
-                    Latitude = inputModell.Latitude,
-                    Longitude = inputModell.Longitude
+                    Latitude = inputModell.Posisjon.Latitude,
+                    Longitude = inputModell.Posisjon.Longitude
                 },
                 LagId = inputModell.LagId,
                 Tid = DateTime.Now

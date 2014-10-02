@@ -49,8 +49,8 @@ namespace BouvetCodeCamp.GameApi
                     new Domene.OutputModels.PifPosisjonOutputModell
                         {
                             LagId = inputModell.LagId, 
-                            Latitude = inputModell.Latitude, 
-                            Longitude = inputModell.Longitude, 
+                            Latitude = inputModell.Posisjon.Latitude, 
+                            Longitude = inputModell.Posisjon.Longitude, 
                             Tid = DateTime.Now
                         });
 

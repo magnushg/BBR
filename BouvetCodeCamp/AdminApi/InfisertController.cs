@@ -6,9 +6,11 @@ namespace BouvetCodeCamp.AdminApi
 {
     using System;
 
+    using BouvetCodeCamp.Domene.InputModels;
+
     [RoutePrefix("api/infisert")]
     [Authorize]
-    public class InfisertController : ApiController
+    public class InfisertController : BaseApiController
     {
         private readonly IGameStateService _gameStateService;
 
@@ -18,6 +20,7 @@ namespace BouvetCodeCamp.AdminApi
         }
 
         // GET api/infisert/get
+        [Route("get")]
         [HttpGet]
         [Obsolete] // Skjule for Swagger-apidoc
         public InfisertPolygon Get()
@@ -27,12 +30,16 @@ namespace BouvetCodeCamp.AdminApi
         }
 
         // POST api/infisert/post
+        [Route("post")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
-        public void Post([FromBody] InfisertPolygon model)
+        public void Post([FromBody] InfisertPolygonInputModell modell)
         {
             var gameState = _gameStateService.HentGameState();
-            gameState.InfisertPolygon = model;
+
+            gameState.InfisertPolygon = new InfisertPolygon {
+                                                Koordinats = modell.Koordinater
+                                            };
 
             _gameStateService.OppdaterGameState(gameState);
         }

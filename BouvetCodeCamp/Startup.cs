@@ -54,6 +54,7 @@ namespace BouvetCodeCamp
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<PostService>().As<IPostService>();
             builder.RegisterType<DomeneTjenester.GameApi>().As<IGameApi>();
+            builder.RegisterType<GameStateService>().As<IGameStateService>();
 
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
