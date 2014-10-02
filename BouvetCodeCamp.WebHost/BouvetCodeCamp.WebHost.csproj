@@ -42,9 +42,13 @@
   <ItemGroup>
     <Content Include="docs\BouvetCodeCamp.xml" />
     <Content Include="moduler\adminpanel\Adminpanel.html" />
-    <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\assets\owl.carousel.css" />
-    <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\owl.carousel.js" />
-    <Content Include="moduler\scoreboard\owl.carousel.2.0.0-beta.2.4\owl.carousel.min.js" />
+    <Content Include="moduler\scoreboard\owl-carousel\AjaxLoader.gif" />
+    <Content Include="moduler\scoreboard\owl-carousel\grabbing.png" />
+    <Content Include="moduler\scoreboard\owl-carousel\owl.carousel.css" />
+    <Content Include="moduler\scoreboard\owl-carousel\owl.carousel.js" />
+    <Content Include="moduler\scoreboard\owl-carousel\owl.carousel.min.js" />
+    <Content Include="moduler\scoreboard\owl-carousel\owl.theme.css" />
+    <Content Include="moduler\scoreboard\owl-carousel\owl.transitions.css" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\BBR-IIS.pubxml" />
     <None Include="Properties\PublishProfiles\bouvet-code-camp.pubxml" />

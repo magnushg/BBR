@@ -18,8 +18,15 @@
     using Should;
 
     [TestClass]
-    public class PifGameControllerTests : ApiTest
+    public class PifGameControllerTests : BaseApiTest
     {
+        [TestInitialize]
+        [TestCleanup]
+        public void RyddOppEtterTest()
+        {
+            this.SlettLag(TestLagId);
+        }
+
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
         public async Task SendPifPosition_GyldigModell_FårHttpStatusKodeOk()
@@ -36,7 +43,13 @@
             {
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new PifPosisjonModell { LagId = LagId, Latitude = "14.02", Longitude = "11" };
+                var modell = new PifPosisjonInputModell { 
+                    LagId = TestLagId, 
+                    Posisjon = new Koordinat {
+                        Latitude = "14.02",
+                        Longitude = "11"
+                    }
+                };
 
                 var modellSomJson = JsonConvert.SerializeObject(modell);
 
@@ -97,7 +110,7 @@
                                     }
                             };
 
-            SørgForAtEtLagMedKoderFinnes(koder);
+            this.SørgForAtEtLagMedLagPostKoderFinnes(koder);
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpostkode";
             bool isSuccessStatusCode;
@@ -107,10 +120,10 @@
             {
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new KodeModell {
+                var modell = new KodeInputModell {
                     Kode = PostKode,
                     Koordinat = new Koordinat("12", "12"),
-                    LagId = LagId
+                    LagId = TestLagId
                 };
 
                 var modellSomJson = JsonConvert.SerializeObject(modell);

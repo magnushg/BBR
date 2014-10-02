@@ -40,7 +40,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
         {
             get
             {
-                return new Koordinat("", "");
+                return new Koordinat("0", "0");
             }
         }
 

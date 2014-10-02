@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System.Net;
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.Domene.OutputModels;
 
@@ -7,18 +7,20 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
     using System.Threading.Tasks;
 
-    using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
-
     public interface IGameApi
     {
-        Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonModell modell);
+        Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonInputModell inputModell);
 
-        PifPosisjonModell HentSistePifPositionForLag(string lagId);
+        PifPosisjonOutputModell HentSistePifPositionForLag(string lagId);
         
-        Task<bool> RegistrerKode(KodeModell modell);
+        Task<bool> RegistrerKode(KodeInputModell inputModell);
 
-        Task SendMelding(MeldingModell modell);
+        Task SendMelding(MeldingInputModell inputModell);
 
         IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId);
+
+        PostOutputModell HentGjeldendePost(string lagId);
+
+        Task TildelPoeng(PoengInputModell inputModell);
     }
 }

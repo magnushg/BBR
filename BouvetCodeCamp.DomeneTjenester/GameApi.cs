@@ -12,8 +12,6 @@ namespace BouvetCodeCamp.DomeneTjenester
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using PifPosisjonModell = BouvetCodeCamp.Domene.OutputModels.PifPosisjonModell;
-
     public class GameApi : IGameApi
     {
         private readonly IPostService _postService;
@@ -27,20 +25,20 @@ namespace BouvetCodeCamp.DomeneTjenester
             _lagService = lagService;
         }
         
-        public async Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonModell modell)
+        public async Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonInputModell inputModell)
         {
             var pifPosisjon = new PifPosisjon
             {
                 Posisjon = new Koordinat
                 {
-                    Latitude = modell.Latitude,
-                    Longitude = modell.Longitude
+                    Latitude = inputModell.Posisjon.Latitude,
+                    Longitude = inputModell.Posisjon.Longitude
                 },
-                LagId = modell.LagId,
+                LagId = inputModell.LagId,
                 Tid = DateTime.Now
             };
 
-            var lag = _lagService.HentLagMedLagId(modell.LagId);
+            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
             lag.PifPosisjoner.Add(pifPosisjon);
 
             lag.LoggHendelser.Add(
@@ -53,7 +51,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             await _lagService.Oppdater(lag);
         }
 
-        public PifPosisjonModell HentSistePifPositionForLag(string lagId)
+        public PifPosisjonOutputModell HentSistePifPositionForLag(string lagId)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
@@ -61,9 +59,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             var nyeste = sortertListe.FirstOrDefault();
 
             if (nyeste == null)
-                return new PifPosisjonModell();
+                return new PifPosisjonOutputModell();
 
-            return new PifPosisjonModell
+            return new PifPosisjonOutputModell
             {
                 Latitude = nyeste.Posisjon.Latitude,
                 Longitude = nyeste.Posisjon.Longitude,
@@ -72,26 +70,26 @@ namespace BouvetCodeCamp.DomeneTjenester
             };
         }
 
-        public async Task<bool> RegistrerKode(KodeModell modell)
+        public async Task<bool> RegistrerKode(KodeInputModell inputModell)
         {
-            var resultat = _postService.SettKodeTilstandTilOppdaget(modell.LagId, modell.Kode, modell.Koordinat);
+            var resultat = _postService.SettKodeTilstandTilOppdaget(inputModell.LagId, inputModell.Kode, inputModell.Koordinat);
 
-            await LoggHendelse(modell.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
+            await LoggHendelse(inputModell.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
             return resultat;
         }
 
-        public async Task SendMelding(MeldingModell modell)
+        public async Task SendMelding(MeldingInputModell inputModell)
         {
-            var lag = _lagService.HentLagMedLagId(modell.LagId);
+            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
 
             lag.Meldinger.Add(
                 new Melding
                 {
-                    LagId = modell.LagId,
-                    Tekst = modell.Tekst,
+                    LagId = inputModell.LagId,
+                    Tekst = inputModell.Tekst,
                     Tid = DateTime.Now,
-                    Type = modell.Type
+                    Type = inputModell.Type
                 });
 
             lag.LoggHendelser.Add(
@@ -116,6 +114,44 @@ namespace BouvetCodeCamp.DomeneTjenester
                     Kode = registrertKode.Kode,
                     Koordinat = registrertKode.Posisjon
                 }).ToList();
+        }
+
+        public PostOutputModell HentGjeldendePost(string lagId)
+        {
+            var lag = _lagService.HentLagMedLagId(lagId);
+
+            return
+                OpprettPostOutput(
+                    lag.Poster.OrderBy(post => post.Sekvensnummer)
+                        .First(post => post.PostTilstand == PostTilstand.Ukjent));
+
+
+        }
+
+        public async Task TildelPoeng(PoengInputModell inputModell)
+        {
+            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
+
+            lag.Poeng += inputModell.Poeng;
+
+            lag.LoggHendelser.Add(
+                new LoggHendelse
+                {
+                    HendelseType = HendelseType.TildeltPoeng,
+                    Tid = DateTime.Now
+                });
+
+            await _lagService.Oppdater(lag);
+        }
+
+        private PostOutputModell OpprettPostOutput(LagPost post)
+        {
+            return new PostOutputModell
+            {
+                Navn = post.Navn,
+                Nummer = post.Nummer,
+                Posisjon = post.Posisjon
+            };
         }
 
         private async Task LoggHendelse(string lagId, HendelseType hendelseType)

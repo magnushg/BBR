@@ -14,8 +14,6 @@ namespace BouvetCodeCamp.GameApi
 
     using Microsoft.AspNet.SignalR;
 
-    using PifPosisjonModell = BouvetCodeCamp.Domene.InputModels.PifPosisjonModell;
-
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController
     {
@@ -32,7 +30,7 @@ namespace BouvetCodeCamp.GameApi
         /// <summary>
         /// Tar imot en PIF-posisjon og lagrer posisjonen som siste kjente PIF-posisjon for et lag.
         /// </summary>
-        /// <param name="modell">PifPosisjonModell modell</param>
+        /// <param name="inputModell">PifPosisjonInputModell inputModell</param>
         /// <remarks>POST /api/game/pif/sendpifposisjon</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>
@@ -40,31 +38,31 @@ namespace BouvetCodeCamp.GameApi
         [Route("sendpifposisjon")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPifPosisjon([FromBody] PifPosisjonModell modell)
+        public async Task<HttpResponseMessage> SendPifPosisjon([FromBody] PifPosisjonInputModell inputModell)
         {
-            if (modell == null) 
-                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+            if (inputModell == null)
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
             try
             {
                 this._gameHub.Value.Clients.All.NyPifPosisjon(
-                    new Domene.OutputModels.PifPosisjonModell
+                    new Domene.OutputModels.PifPosisjonOutputModell
                         {
-                            LagId = modell.LagId, 
-                            Latitude = modell.Latitude, 
-                            Longitude = modell.Longitude, 
+                            LagId = inputModell.LagId, 
+                            Latitude = inputModell.Posisjon.Latitude, 
+                            Longitude = inputModell.Posisjon.Longitude, 
                             Tid = DateTime.Now
                         });
 
                 this._gameHub.Value.Clients.All.NyLoggHendelse(
-                    new Domene.OutputModels.LoggHendelseModell
+                    new Domene.OutputModels.LoggHendelseOutputModell
                     {
-                        LagId = modell.LagId,
+                        LagId = inputModell.LagId,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
                         Tid = DateTime.Now.ToShortTimeString()
                     });
                 
-                await this._gameApi.RegistrerPifPosisjon(modell);
+                await this._gameApi.RegistrerPifPosisjon(inputModell);
             }
             catch (Exception e)
             {
@@ -76,7 +74,7 @@ namespace BouvetCodeCamp.GameApi
         /// <summary>
         /// Registrerer en kode på en post for et lag.
         /// </summary>
-        /// <param name="modell">KodeModel modell</param>
+        /// <param name="inputModell">KodeInputModell inputModell</param>
         /// <remarks>POST api/game/pif/sendpostkode</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>
@@ -84,14 +82,14 @@ namespace BouvetCodeCamp.GameApi
         [Route("sendpostkode")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeModell modell)
+        public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeInputModell inputModell)
         {
-            if (modell == null)
-                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat);
+            if (inputModell == null)
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
             try
             {
-                var kodeRegistrert = await _gameApi.RegistrerKode(modell);
+                var kodeRegistrert = await _gameApi.RegistrerKode(inputModell);
 
                 return kodeRegistrert ?
                     Request.CreateResponse(HttpStatusCode.OK) :

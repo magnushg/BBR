@@ -2,6 +2,8 @@
 {
     public enum ErrorResponseType
     {
-        UgyldigInputFormat
+        UgyldigInputFormat,
+
+        FantIkkeObjekt
     }
 }
