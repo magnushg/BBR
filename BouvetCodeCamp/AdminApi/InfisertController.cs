@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
@@ -38,18 +41,19 @@ namespace BouvetCodeCamp.AdminApi
         /// <summary>
         /// Setter infisert sone
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="modell"></param>
         [HttpPost]
+        [Route("")]
         [Obsolete] // Skjule for Swagger-apidoc
-        public void Post([FromBody] InfisertPolygonInputModell modell)
+        public async Task<HttpResponseMessage> Post([FromBody] InfisertPolygon modell)
         {
             var gameState = _gameStateService.HentGameState();
-            gameState.InfisertPolygon = model;
+            gameState.InfisertPolygon = modell;
 
             try
             {
-            _gameStateService.OppdaterGameState(gameState);
-        }
+                await _gameStateService.OppdaterGameState(gameState);
+            }
             catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);

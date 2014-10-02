@@ -42,6 +42,7 @@
   <ItemGroup>
     <Content Include="docs\BouvetCodeCamp.xml" />
     <Content Include="moduler\adminpanel\Adminpanel.html" />
+    <Content Include="moduler\adminpanel\Infisert.html" />
     <Content Include="moduler\scoreboard\owl-carousel\AjaxLoader.gif" />
     <Content Include="moduler\scoreboard\owl-carousel\grabbing.png" />
     <Content Include="moduler\scoreboard\owl-carousel\owl.carousel.css" />

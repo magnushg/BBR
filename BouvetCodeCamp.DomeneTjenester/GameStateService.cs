@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
@@ -35,9 +36,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             }
         }
 
-        public void OppdaterGameState(GameState gameState)
+        public async Task OppdaterGameState(GameState gameState)
         {
-            _gameStateRepository.Oppdater(gameState);
+            await _gameStateRepository.Oppdater(gameState);
         }
     }
 }

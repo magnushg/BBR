@@ -4,7 +4,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
 {
     public class InfisertPolygon
     {
-        [JsonProperty(PropertyName = "coordinates")]
-        public Koordinat[] Koordinats { get; set; }
+        [JsonProperty(PropertyName = "koordinater")]
+        public Koordinat[] Koordinater { get; set; }
     }
 }
