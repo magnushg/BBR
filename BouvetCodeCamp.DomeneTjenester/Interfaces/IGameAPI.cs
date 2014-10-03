@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BouvetCodeCamp.Domene.Entiteter;
+using System.Net;
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.Domene.OutputModels;
 
@@ -12,8 +12,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell);
 
         PifPosisjonOutputModell HentSistePifPositionForLag(string lagId);
-
-        Task<bool> RegistrerKode(KodeInputModell inputModell);
+        
+        Task<bool> RegistrerKode(PostInputModell inputModell);
 
         Task SendMelding(MeldingInputModell inputModell);
 

@@ -8,7 +8,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     {
         IEnumerable<LagPost> HentOppdagedePoster(string lagId);
         IEnumerable<LagPost> HentAllePosterForLag(string lagId);
-        bool SettKodeTilstandTilOppdaget(string lagId, string kode, Koordinat koordinat);
+        bool SettKodeTilstandTilOppdaget(string lagId, int postnummer, string kode, Koordinat koordinat);
 
         IEnumerable<Post> HentAlle();
 

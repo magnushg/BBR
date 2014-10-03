@@ -76,7 +76,7 @@ namespace BouvetCodeCamp.GameApi
         /// <summary>
         /// Registrerer en kode på en post for et lag.
         /// </summary>
-        /// <param name="inputModell">KodeInputModell inputModell</param>
+        /// <param name="inputModell">PostInputModell inputModell</param>
         /// <remarks>POST api/game/pif/sendpostkode</remarks>
         /// <response code="200">Ok</response>
         /// <response code="400">Bad request</response>
@@ -84,7 +84,7 @@ namespace BouvetCodeCamp.GameApi
         [Route("sendpostkode")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPostKode([FromBody] KodeInputModell inputModell)
+        public async Task<HttpResponseMessage> SendPostKode([FromBody] PostInputModell inputModell)
         {
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
