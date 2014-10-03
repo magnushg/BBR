@@ -1,3 +1,5 @@
+using BouvetCodeCamp.Domene.OutputModels;
+
 namespace BouvetCodeCamp.GameApi
 {
     using System;
@@ -7,10 +9,10 @@ namespace BouvetCodeCamp.GameApi
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR;
+    using Domene;
+    using Domene.InputModels;
+    using DomeneTjenester.Interfaces;
+    using SignalR;
 
     using Microsoft.AspNet.SignalR;
 
@@ -45,8 +47,8 @@ namespace BouvetCodeCamp.GameApi
 
             try
             {
-                this._gameHub.Value.Clients.All.NyPifPosisjon(
-                    new Domene.OutputModels.PifPosisjonOutputModell
+                _gameHub.Value.Clients.All.NyPifPosisjon(
+                    new PifPosisjonOutputModell
                         {
                             LagId = inputModell.LagId, 
                             Latitude = inputModell.Posisjon.Latitude, 
@@ -54,23 +56,23 @@ namespace BouvetCodeCamp.GameApi
                             Tid = DateTime.Now
                         });
 
-                this._gameHub.Value.Clients.All.NyLoggHendelse(
-                    new Domene.OutputModels.LoggHendelseOutputModell
+                _gameHub.Value.Clients.All.NyLoggHendelse(
+                    new LoggHendelseOutputModell
                     {
                         LagId = inputModell.LagId,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
                         Tid = DateTime.Now.ToShortTimeString()
                     });
-                
-                await this._gameApi.RegistrerPifPosisjon(inputModell);
+
+                await _gameApi.RegistrerPifPosisjon(inputModell);
             }
             catch (Exception e)
             {
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
-        
+
         /// <summary>
         /// Registrerer en kode på en post for et lag.
         /// </summary>
@@ -100,7 +102,7 @@ namespace BouvetCodeCamp.GameApi
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
         }
-        
+
         /// <summary>
         /// Henter infisert status for et lag. Er infisert hvis PIF har kommet innenfor en infisert sone.
         /// </summary>
@@ -112,9 +114,21 @@ namespace BouvetCodeCamp.GameApi
         [Route("erinfisert/{lagId}")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpGet]
-        public void ErInfisert(string lagId)
+        public HttpResponseMessage ErInfisert(string lagId)
         {
-           //TODO
+            if (string.IsNullOrEmpty(lagId))
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
+
+            try
+            {
+                var result = _gameApi.ErLagPifInnenInfeksjonssone(lagId);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
         }
     }
 }

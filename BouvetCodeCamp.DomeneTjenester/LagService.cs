@@ -6,7 +6,6 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 namespace BouvetCodeCamp.DomeneTjenester
 {
     using System;
-    using System.Collections;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -21,7 +20,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public Lag HentLagMedLagId(string lagId)
         {
-            var lag = _lagRepository.Søk(o => o.LagId == lagId).FirstOrDefault();
+            var lag = _lagRepository.Søk(o => o.LagId == lagId).First();
 
             if (lag == null)
                 throw new Exception("Fant ikke lag med lagId: " + lagId);
@@ -62,6 +61,15 @@ namespace BouvetCodeCamp.DomeneTjenester
         public Task Opprett(Lag lag)
         {
             return _lagRepository.Opprett(lag);
+        }
+
+        public PifPosisjon HentSistePifPosisjon(string lagId)
+        {
+            var lag = HentLagMedLagId(lagId);
+            var sortertListe = lag.PifPosisjoner.OrderByDescending(x => x.Tid);
+            var nyeste = sortertListe.FirstOrDefault();
+
+            return nyeste;
         }
     }
 }

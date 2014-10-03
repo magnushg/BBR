@@ -23,5 +23,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         IEnumerable<Lag> Søk(Func<Lag, bool> predicate);
 
         Task Opprett(Lag lag);
+
+        PifPosisjon HentSistePifPosisjon(string lagId);
     }
 }

@@ -33,7 +33,7 @@ namespace BouvetCodeCamp.AdminApi
         public HttpResponseMessage Get()
         {
             var alleLag = lagService.HentAlleLag();
-            
+
             return Request.CreateResponse(HttpStatusCode.OK, alleLag);
         }
 

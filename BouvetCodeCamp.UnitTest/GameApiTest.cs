@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace BouvetCodeCamp.UnitTest
 {
-    using GameApi = BouvetCodeCamp.DomeneTjenester.GameApi;
+    using GameApi = DomeneTjenester.GameApi;
 
     [TestFixture]
     public class GameApiTest
@@ -15,32 +15,32 @@ namespace BouvetCodeCamp.UnitTest
         private IGameApi _gameApi;
         private readonly Mock<IPostService> _kodeService = new Mock<IPostService>();
         private readonly Mock<ILagService> _lagService = new Mock<ILagService>();
- 
+        private readonly Mock<IGameStateService> _gameStateService = new Mock<IGameStateService>();
+        private readonly Mock<IKoordinatVerifier> _koordinatVerifier = new Mock<IKoordinatVerifier>();
+
         [SetUp]
         public void Setup()
         {
-            _gameApi = new GameApi(_kodeService.Object, _lagService.Object);
+            _gameApi = new GameApi(_kodeService.Object,
+                _lagService.Object,
+                _koordinatVerifier.Object,
+                _gameStateService.Object);
         }
 
         [Test]
-        public async void HentSistePifPositionForLag_ReturnererNyligstePif()
+        public void ErLagPifInnenInfeksjonssone_ErInnenInfeksjonssone_ReturnsTrue()
         {
-            var lag = new Lag();
-            var tidligsteTid = new DateTime(2000, 1, 1);
+            var gamestate = new GameState { InfisertPolygon = new InfisertPolygon()};
+            var pif = new PifPosisjon();
 
-            lag.PifPosisjoner = new List<PifPosisjon>
-            {
-                new PifPosisjon {Tid = new DateTime(2001, 1, 1)},
-                new PifPosisjon {Tid = tidligsteTid},
-                new PifPosisjon {Tid = new DateTime(2002, 1, 1)},
-                new PifPosisjon {Tid = new DateTime(2003, 1, 1)},
-            };
+            _lagService.Setup(x => x.HentSistePifPosisjon(It.IsAny<string>())).Returns(() => pif);
+            _gameStateService.Setup(x => x.HentGameState()).Returns(() => gamestate);
+            _koordinatVerifier.Setup(
+                x => x.KoordinatErInnenforPolygonet(pif.Posisjon, gamestate.InfisertPolygon.Koordinater)).Returns(true);
 
-            _lagService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
+            var result = _gameApi.ErLagPifInnenInfeksjonssone(String.Empty);
 
-            var resultat = _gameApi.HentSistePifPositionForLag(String.Empty);
-
-            Assert.AreEqual(tidligsteTid, resultat.Tid);
+            Assert.IsTrue(result);
         }
     }
 }

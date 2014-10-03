@@ -25,8 +25,6 @@ namespace BouvetCodeCamp.DomeneTjenester
             var dist = this.distance(first.Y, first.X, second.Y, second.X, 'K');
 
             return dist*1000 <= RadianceThreshold;
-//            return Math.Abs(firstLong - secondLong) <= LongProximityThreshold
-//                   && Math.Abs(firstLat - secondLat) <= LatProximityThreshold;
         }
 
         // algoritme tatt fra

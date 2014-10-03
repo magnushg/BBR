@@ -25,6 +25,7 @@ namespace BouvetCodeCamp.UnitTest.Felles
 
             Assert.IsTrue(koordinatVerifier.KoordinaterErNærHverandre(koordinat1, koordinat2));
         }
+
         [Test]
         public void KoordinaterErNærHverandre_EkteKoordinater_RadiusOver100()
         {

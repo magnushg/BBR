@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
-    using BouvetCodeCamp.Domene.Entiteter;
-
     public interface IRepository<T>
     {
         String CollectionId { get; }

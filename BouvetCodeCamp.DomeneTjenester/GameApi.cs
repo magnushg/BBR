@@ -16,16 +16,22 @@ namespace BouvetCodeCamp.DomeneTjenester
     {
         private readonly IPostService _postService;
         private readonly ILagService _lagService;
+        private readonly IGameStateService _gameStateService;
+        private readonly IKoordinatVerifier _koordinatVerifier;
 
         public GameApi(
             IPostService postService,
-            ILagService lagService)
+            ILagService lagService,
+            IKoordinatVerifier koordinatVerifier,
+            IGameStateService gameStateService)
         {
             _postService = postService;
             _lagService = lagService;
+            _koordinatVerifier = koordinatVerifier;
+            _gameStateService = gameStateService;
         }
-        
-        public async Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonInputModell inputModell)
+
+        public async Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell)
         {
             var pifPosisjon = new PifPosisjon
             {
@@ -53,10 +59,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public PifPosisjonOutputModell HentSistePifPositionForLag(string lagId)
         {
-            var lag = _lagService.HentLagMedLagId(lagId);
-
-            var sortertListe = lag.PifPosisjoner.OrderBy(x => x.Tid);
-            var nyeste = sortertListe.FirstOrDefault();
+            var nyeste = _lagService.HentSistePifPosisjon(lagId);
 
             if (nyeste == null)
                 return new PifPosisjonOutputModell();
@@ -142,6 +145,14 @@ namespace BouvetCodeCamp.DomeneTjenester
                 });
 
             await _lagService.Oppdater(lag);
+        }
+
+        public bool ErLagPifInnenInfeksjonssone(string lagId)
+        {
+            var pifPosisjon = _lagService.HentSistePifPosisjon(lagId);
+            var gameState = _gameStateService.HentGameState();
+
+            return _koordinatVerifier.KoordinatErInnenforPolygonet(pifPosisjon.Posisjon, gameState.InfisertPolygon.Koordinater);
         }
 
         private PostOutputModell OpprettPostOutput(LagPost post)

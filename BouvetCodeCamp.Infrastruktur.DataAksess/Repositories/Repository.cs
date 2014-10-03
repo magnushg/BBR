@@ -103,7 +103,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public IEnumerable<T> Søk(Func<T, bool> predicate)
         {
-            return this.Context.Client.CreateDocumentQuery<T>(this.Collection.DocumentsLink)
+            return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                     .Where(predicate)
                     .AsEnumerable();
         }

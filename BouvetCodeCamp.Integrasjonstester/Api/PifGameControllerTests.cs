@@ -7,9 +7,9 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Domene.InputModels;
+    using Domene;
+    using Domene.Entiteter;
+    using Domene.InputModels;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -24,7 +24,7 @@
         [TestCleanup]
         public void RyddOppEtterTest()
         {
-            this.SlettLag(TestLagId);
+            SlettLag(TestLagId);
         }
 
         [TestMethod]
@@ -110,7 +110,7 @@
                                     }
                             };
 
-            this.SørgForAtEtLagMedLagPostKoderFinnes(koder);
+            SørgForAtEtLagMedLagPostKoderFinnes(koder);
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpostkode";
             bool isSuccessStatusCode;
@@ -168,6 +168,13 @@
             // Assert
             isSuccessStatusCode.ShouldBeFalse();
             responseCode.ShouldEqual(HttpStatusCode.BadRequest);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public void ErInfisert_IngenPifErRegistrert_ReturnsFalse()
+        {
+
         }
     }
 }
