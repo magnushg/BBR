@@ -46,11 +46,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         ///   3 - tilstanden ikke allerede er satt til oppdaget
         /// </summary>
         /// <returns>true hvis alle kriterier er oppfylt</returns>
-        public bool SettKodeTilstandTilOppdaget(string lagId, string kode, Koordinat koordinat)
+        public bool SettKodeTilstandTilOppdaget(string lagId, int postnummer, string kode, Koordinat koordinat)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
-            var kandidater = lag.Poster.Where(k => k.Kode.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
+            var kandidater = lag.Poster.Where(k => k.Kode.Equals(kode, StringComparison.CurrentCultureIgnoreCase) 
+                && k.Nummer == postnummer
                 && this.koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat)
                 && k.PostTilstand.Equals(PostTilstand.Ukjent)).ToList();
 

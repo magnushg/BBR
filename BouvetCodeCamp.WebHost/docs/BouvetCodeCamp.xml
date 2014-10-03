@@ -71,11 +71,11 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.GameApi.PifGameController.SendPostKode(BouvetCodeCamp.Domene.InputModels.KodeInputModell)">
+        <member name="M:BouvetCodeCamp.GameApi.PifGameController.SendPostKode(BouvetCodeCamp.Domene.InputModels.PostInputModell)">
             <summary>
             Registrerer en kode på en post for et lag.
             </summary>
-            <param name="inputModell">KodeInputModell inputModell</param>
+            <param name="inputModell">PostInputModell inputModell</param>
             <remarks>POST api/game/pif/sendpostkode</remarks>
             <response code="200">Ok</response>
             <response code="400">Bad request</response>

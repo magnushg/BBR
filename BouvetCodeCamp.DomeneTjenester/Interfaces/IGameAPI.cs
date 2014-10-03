@@ -13,7 +13,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
         PifPosisjonOutputModell HentSistePifPositionForLag(string lagId);
         
-        Task<bool> RegistrerKode(KodeInputModell inputModell);
+        Task<bool> RegistrerKode(PostInputModell inputModell);
 
         Task SendMelding(MeldingInputModell inputModell);
 

@@ -120,7 +120,7 @@
             {
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var modell = new KodeInputModell {
+                var modell = new PostInputModell {
                     Kode = PostKode,
                     Koordinat = new Koordinat("12", "12"),
                     LagId = TestLagId

@@ -70,9 +70,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             };
         }
 
-        public async Task<bool> RegistrerKode(KodeInputModell inputModell)
+        public async Task<bool> RegistrerKode(PostInputModell inputModell)
         {
-            var resultat = _postService.SettKodeTilstandTilOppdaget(inputModell.LagId, inputModell.Kode, inputModell.Koordinat);
+            var resultat = _postService.SettKodeTilstandTilOppdaget(inputModell.LagId, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
 
             await LoggHendelse(inputModell.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
 
