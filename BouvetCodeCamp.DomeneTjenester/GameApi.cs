@@ -74,7 +74,19 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var resultat = _postService.SettKodeTilstandTilOppdaget(inputModell.LagId, inputModell.Kode, inputModell.Koordinat);
 
-            await LoggHendelse(inputModell.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
+            //TODO: Tildel poeng via egen modul. Returnerer lag fra modulen. Input er hendelse.
+            // TODO: husk å ta bort lagservice.hent() fra postservice.
+
+            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
+
+            lag.LoggHendelser.Add(
+                new LoggHendelse
+                {
+                    HendelseType = resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket,
+                    Tid = DateTime.Now
+                });
+
+            await _lagService.Oppdater(lag);
 
             return resultat;
         }

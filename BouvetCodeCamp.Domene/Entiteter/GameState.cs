@@ -12,5 +12,10 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "infisertPolygon")]
         [DisplayName("InfisertPolygon")]
         public InfisertPolygon InfisertPolygon { get; set; }
+
+        public GameState()
+        {
+            InfisertPolygon = new InfisertPolygon();
+        }
     }
 }

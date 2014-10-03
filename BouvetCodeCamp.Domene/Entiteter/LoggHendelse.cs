@@ -11,10 +11,13 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "tid")]
         public DateTime Tid { get; set; }
 
+        public string Kommentar { get; set; }
+
         public LoggHendelse()
         {
             HendelseType = HendelseType.Ukjent;
             Tid = DateTime.MinValue;
+            Kommentar = string.Empty;
         }
     }
 }
