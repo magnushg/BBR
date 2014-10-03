@@ -24,6 +24,10 @@ namespace BouvetCodeCamp.Domene.Entiteter
         {
         }
 
+        public Koordinat(string enStreng) : this(enStreng.Split(',')[0], enStreng.Split(',')[1])
+        {
+        }
+
         public Koordinat(string longitude, string latitude)
         {
             Longitude = longitude;

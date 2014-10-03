@@ -16,6 +16,55 @@ namespace BouvetCodeCamp.UnitTest.Felles
             this.koordinatVerifier = new KoordinatVerifier();
         }
 
+        [Test]
+        public void KoordinaterErNærHverandre_EkteKoordinater_Nær1()
+        {
+            //59.676242, 10.604637
+            var koordinat1 = new Koordinat("59.676242, 10.604637");
+            var koordinat2 = new Koordinat("59.675767, 10.604851");
+
+            Assert.IsTrue(koordinatVerifier.KoordinaterErNærHverandre(koordinat1, koordinat2));
+        }
+        [Test]
+        public void KoordinaterErNærHverandre_EkteKoordinater_RadiusOver100()
+        {
+            //59.676242, 10.604637
+            var koordinat1 = new Koordinat("59.675372, 10.606590");
+            var koordinat2 = new Koordinat("59.674711, 10.605179");
+
+            Assert.IsFalse(koordinatVerifier.KoordinaterErNærHverandre(koordinat1, koordinat2));
+        }
+
+        [Test]
+        public void KoordinaterErNærHverandre_EkteKoordinater_LangtLongitude()
+        {
+            //59.676242, 10.604637
+            var koordinat1 = new Koordinat("59.676325, 10.604862");
+            var koordinat2 = new Koordinat("59.675632, 10.599541");
+
+            Assert.IsFalse(koordinatVerifier.KoordinaterErNærHverandre(koordinat1, koordinat2));
+        }
+
+        [Test]
+        public void KoordinaterErNærHverandre_EkteKoordinater_SemiLatitude()
+        {
+            //59.676242, 10.604637
+            var koordinat1 = new Koordinat("59.675849, 10.606193");
+            var koordinat2 = new Koordinat("59.676878, 10.606579");
+
+            Assert.IsFalse(koordinatVerifier.KoordinaterErNærHverandre(koordinat1, koordinat2));
+        }
+
+        [Test]
+        public void KoordinaterErNærHverandre_EkteKoordinater_SemiLongitude()
+        {
+            //59.676242, 10.604637
+            var koordinat1 = new Koordinat("59.675849, 10.606193");
+            var koordinat2 = new Koordinat("59.675800, 10.604289");
+
+            Assert.IsFalse(koordinatVerifier.KoordinaterErNærHverandre(koordinat1, koordinat2));
+        }
+
         ///
         /// KoordinatErInnenforPolygonet
         ///
@@ -239,21 +288,6 @@ namespace BouvetCodeCamp.UnitTest.Felles
         {
             Koordinat first = new Koordinat("45.45", "45.45"),
                 second = new Koordinat("45.45", "45.45");
-
-            Assert.IsTrue(this.koordinatVerifier.KoordinaterErNærHverandre(first, second));
-        }
-
-        [Test]
-        public void KoordinaterErNærHverandre_JustWithinThreshold_ReturnsTrue()
-        {
-            Koordinat first = new Koordinat("10", "10");
-            var latThreshold = KoordinatVerifier.LatProximityThreshold;
-            var longThreshold = KoordinatVerifier.LongProximityThreshold;
-
-            var lngd =  (10 + longThreshold);
-            var latd =  (10 + latThreshold);
-
-            var second = new Koordinat(lngd.ToString(), latd.ToString());
 
             Assert.IsTrue(this.koordinatVerifier.KoordinaterErNærHverandre(first, second));
         }
