@@ -30,7 +30,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [DisplayName("Poster")]
         public List<LagPost> Poster { get; set; }
 
-        [JsonProperty(PropertyName = "meldig")]
+        [JsonProperty(PropertyName = "meldinger")]
         [DisplayName("Meldinger")]
         public List<Melding> Meldinger { get; set; }
 

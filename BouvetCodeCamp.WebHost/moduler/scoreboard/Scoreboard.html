@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Bouvet Battle Royale - Scoreboard</title>
-        
+
         <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
         <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         
@@ -18,14 +18,14 @@
             }
              #map {
                  width: 500px;
-                 height: 55em;
-             }
+                height: 55em;
+            }
         </style>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
         <script src="http://bouvetcodecamp/signalr/hubs"></script>
-        
+    
         <!-- Owl Carousel -->
         <script src="owl-carousel/owl.carousel.min.js"></script>
 
@@ -38,7 +38,7 @@
         <script src="../bower_components/underscore/underscore.js"></script>
         
         <script>
-            var baseApiAddress = "bouvetcodecamp";
+            var baseApiAddress = "localhost:2014";
             var map;
             var MaksAntallLoggHendelser = 20;
 
@@ -183,7 +183,7 @@
             //    // Add the circle for this city to the map.
             //    infectedZone = new google.maps.Circle(options);
             //}
-
+                
             //redZone(0, 0, 2);
         </script>
 
@@ -208,7 +208,7 @@
                     } catch (e) {
                         console.log('no data');
                     }
-                }
+            }
 
                 function mapToLeafletModel(koordianter) {
                     var modelArray = [];
@@ -238,7 +238,7 @@
                     if (zone.latitude == 0 && zone.longitude == 0) {
                         infectedZone.setMap(null);
                     } else {                   
-                        var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);
+                        var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);                  
 
                         var options = {
                             fillColor: '#00FF00',
@@ -303,7 +303,7 @@
                 });
             });
         </script>
-        
+
         <style type="text/css">
         
             .stillingstabell, .hendelsestabell { width: 100%; }

@@ -9,11 +9,11 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
     public interface IGameApi
     {
-        Task RegistrerPifPosisjon(Domene.InputModels.PifPosisjonInputModell inputModell);
+        Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell);
 
         PifPosisjonOutputModell HentSistePifPositionForLag(string lagId);
         
-        Task<bool> RegistrerKode(KodeInputModell inputModell);
+        Task<bool> RegistrerKode(PostInputModell inputModell);
 
         Task SendMelding(MeldingInputModell inputModell);
 
@@ -22,5 +22,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         PostOutputModell HentGjeldendePost(string lagId);
 
         Task TildelPoeng(PoengInputModell inputModell);
+
+        bool ErLagPifInnenInfeksjonssone(string lagId);
     }
 }
