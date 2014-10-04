@@ -69,6 +69,7 @@
     <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdminApi\GameStateController.cs" />
     <Compile Include="AdminApi\InfisertController.cs" />
     <Compile Include="AdminApi\LagController.cs" />
     <Compile Include="AdminApi\PostController.cs" />

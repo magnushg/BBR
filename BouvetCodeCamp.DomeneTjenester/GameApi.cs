@@ -76,8 +76,20 @@ namespace BouvetCodeCamp.DomeneTjenester
         public async Task<bool> RegistrerKode(PostInputModell inputModell)
         {
             var resultat = _postService.SettKodeTilstandTilOppdaget(inputModell.LagId, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
+            //TODO: Tildel poeng via egen modul. Returnerer lag fra modulen. Input er hendelse.
+            // TODO: husk å ta bort lagservice.hent() fra postservice.
 
-            await LoggHendelse(inputModell.LagId, resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket);
+
+            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
+
+            lag.LoggHendelser.Add(
+                new LoggHendelse
+                {
+                    HendelseType = resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket,
+                    Tid = DateTime.Now
+                });
+
+            await _lagService.Oppdater(lag);
 
             return resultat;
         }
@@ -163,19 +175,6 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Nummer = post.Nummer,
                 Posisjon = post.Posisjon
             };
-        }
-
-        private async Task LoggHendelse(string lagId, HendelseType hendelseType)
-        {
-            var lag = _lagService.HentLagMedLagId(lagId);
-
-            lag.LoggHendelser.Add(new LoggHendelse
-            {
-                HendelseType = hendelseType,
-                Tid = DateTime.Now
-            });
-
-            await _lagService.Oppdater(lag);
         }
     }
 }

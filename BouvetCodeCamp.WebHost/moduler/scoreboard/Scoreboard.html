@@ -3,24 +3,40 @@
     <head>
         <title>Bouvet Battle Royale - Scoreboard</title>
 
+        <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Owl Carousel -->
+        <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="owl-carousel/owl.theme.css">
+        
         <style>
-            #map_canvas {
+            body {
+                height: 100%;
                 width: 100%;
+                margin: 0;
+            }
+             #map {
+                 width: 500px;
                 height: 55em;
             }
         </style>
 
-        <script src="https://maps.googleapis.com/maps/api/js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
-        <script src="http://localhost:2014/signalr/hubs"></script>
-        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <script src="http://bouvetcodecamp/signalr/hubs"></script>
     
         <!-- Owl Carousel -->
-        <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
-        <link rel="stylesheet" href="owl-carousel/owl.theme.css">
         <script src="owl-carousel/owl.carousel.min.js"></script>
 
+        <script src="../bower_components/d3/d3.min.js"></script>
+        <script src="../bower_components/hammerjs/hammer.min.js"></script>
+        <script src="../bower_components/evispa-timo-jsclipper/clipper.js"></script>
+        <script src="../bower_components/concavehull/dist/concavehull.js"></script>
+        <script src="../bower_components/leaflet/dist/leaflet.js"></script>
+        <script src="../bower_components/leaflet.freedraw/dist/leaflet.freedraw.js"></script>
+        <script src="../bower_components/underscore/underscore.js"></script>
+        
         <script>
             var baseApiAddress = "localhost:2014";
             var map;
@@ -30,29 +46,29 @@
             SCOREBOARD.Lag = [];
             SCOREBOARD.LoggHendelser = [];
 
-            function initialize() {
-                var mapCanvas = document.getElementById('map_canvas');
-                var mapOptions = {
-                    center: new google.maps.LatLng(59.676403, 10.606424),
-                    zoom: 16,
-                    disableDefaultUI: true,
-                    mapTypeId: google.maps.MapTypeId.SATELLITE
-                }
-                map = new google.maps.Map(mapCanvas, mapOptions);
-                google.maps.event.addListener(map, 'rightclick', function(event) {
-                    var lat = event.latLng.lat();
-                    var lng = event.latLng.lng();
-                    $("#lat").val(lat);
-                    $("#long").val(lng);
-                });
-                google.maps.event.addDomListener(window, "resize", function() {
-                    var center = map.getCenter();
-                    google.maps.event.trigger(map, "resize");
-                    map.setCenter(center);
-                });
-            }
+            //function initialize() {
+            //    var mapCanvas = document.getElementById('map_canvas');
+            //    var mapOptions = {
+            //        center: new google.maps.LatLng(59.676403, 10.606424),
+            //        zoom: 16,
+            //        disableDefaultUI: true,
+            //        mapTypeId: google.maps.MapTypeId.SATELLITE
+            //    }
+            //    map = new google.maps.Map(mapCanvas, mapOptions);
+            //    google.maps.event.addListener(map, 'rightclick', function(event) {
+            //        var lat = event.latLng.lat();
+            //        var lng = event.latLng.lng();
+            //        $("#lat").val(lat);
+            //        $("#long").val(lng);
+            //    });
+            //    google.maps.event.addDomListener(window, "resize", function() {
+            //        var center = map.getCenter();
+            //        google.maps.event.trigger(map, "resize");
+            //        map.setCenter(center);
+            //    });
+            //}
 
-            google.maps.event.addDomListener(window, 'load', initialize);
+            //google.maps.event.addDomListener(window, 'load', initialize);
             
             function sendAutentisertRequest(url, type, successCallback) {
                 $.ajax({
@@ -72,7 +88,7 @@
                 //TODO: hwm 30.09. Plukk ut siste pif-posisjon pr lag og rendre på kart
                 $.each(SCOREBOARD.Lag, function (key, val) {
                     //dummy
-                    SCOREBOARD.Lag[key].Marker = createMarker(0, 0, 0);
+                    //SCOREBOARD.Lag[key].Marker = createMarker(0, 0, 0);
                 });
             }
             
@@ -113,6 +129,10 @@
                 settLagPaaKartet();
             }
 
+            function lastInnInfisertSone(data) {
+                
+            }
+
             function oppdaterStillingstabell() {
                 $('.stillingstabell > tbody').html("");
 
@@ -134,53 +154,79 @@
                 // 1. Hent og rendre alle lag
                 sendAutentisertRequest("http://" + baseApiAddress + "/api/lag/get", "GET", lastInnLagene);
                 
-                // 2. Hent og rendre alle hendelser
-                // TODO: Sett sammen fra alle lag
-                
-                // #################################################################
-                //TODO: Disse må refakt, sende request med successcallback
-                //$("#makeRedZone").click(function () {
-                //    $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + $("#lat").val() + "&longitude=" + $("#long").val());
-                //});
-
-                //$("#moveTeam").click(function () {
-                //    $.getJSON("http://" + baseApiAddress + "/api/game/pif/put?Latitude=" + $("#lat").val() + "&Longitude=" + $("#long").val() + "&LagId=" + $("#lag").val());
-                //});
-
-                //$("#removeRedZone").click(function () {
-                //    $.getJSON("http://" + baseApiAddress + "/api/game/setRedZone?latitude=" + "0" + "&longitude=" + "0");
-                //});
+                // 2. Hent og rendre infisert sone
+                //sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
             });
 
 
-            function createMarker(latitude, longitude, lagid) {
-                return new google.maps.Marker({
-                    position: new google.maps.LatLng(latitude, longitude),
-                    map: map,
-                    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + lagid + '|FE6256|000000'
-                });
-            }
+            //function createMarker(latitude, longitude, lagid) {
+            //    return new google.maps.Marker({
+            //        position: new google.maps.LatLng(latitude, longitude),
+            //        map: map,
+            //        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + lagid + '|FE6256|000000'
+            //    });
+            //}
 
-            var infectedZone;
+            //var infectedZone;
 
-            function redZone(lat, long, size) {
-                var options = {
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: '#FF0000',
-                    fillOpacity: 0.35,
-                    map: map,
-                    center: new google.maps.LatLng(lat, long),
-                    radius: Math.sqrt(size) * 100
-                };
-                // Add the circle for this city to the map.
-                infectedZone = new google.maps.Circle(options);
-            }
-
-            redZone(0, 0, 2);
+            //function redZone(lat, long, size) {
+            //    var options = {
+            //        strokeColor: '#FF0000',
+            //        strokeOpacity: 0.8,
+            //        strokeWeight: 2,
+            //        fillColor: '#FF0000',
+            //        fillOpacity: 0.35,
+            //        map: map,
+            //        center: new google.maps.LatLng(lat, long),
+            //        radius: Math.sqrt(size) * 100
+            //    };
+            //    // Add the circle for this city to the map.
+            //    infectedZone = new google.maps.Circle(options);
+            //}
+                
+            //redZone(0, 0, 2);
         </script>
+
         <script type="text/javascript">
+            $(function() {
+                var mapElement = document.getElementById("map")
+                , latlng = [59.676403, 10.606424];
+
+                var map = L.map(mapElement).setView(latlng, 16);
+
+                L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    id: 'jorgenbs.jl9j4hbj'
+                }).addTo(map);
+
+                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", leggTilInfisertPolygonTilKartet);
+
+                function leggTilInfisertPolygonTilKartet(data) {
+                    try {
+                        var polygons = mapToLeafletModel(data.koordinater);
+                        L.polygon(polygons).addTo(map);
+                    } catch (e) {
+                        console.log('no data');
+                    }
+            }
+
+                function mapToLeafletModel(koordianter) {
+                    var modelArray = [];
+                    _.each(koordianter, function (latlng) {
+
+                        var obj = {
+                            "lat": latlng.latitude,
+                            "lng": latlng.longitude
+                        };
+
+                        modelArray.push(obj);
+
+                    });
+
+                    return modelArray;
+                };
+            });
+
             $(function () {
                 //Set the hubs URL for the connection
                 $.connection.hub.url = "http://" + baseApiAddress + "/signalr";
@@ -193,13 +239,15 @@
                         infectedZone.setMap(null);
                     } else {                   
                         var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);                  
-                        var options = {
 
+                        var options = {
                             fillColor: '#00FF00',
                             center: newPosition,
                             map: map
                         };
+
                         infectedZone.setOptions(options);
+
                         setTimeout(function() {
                             var options = {
                                 fillColor: '#FF0000'
@@ -287,7 +335,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-1"></div>
-                <div class="col-md-5"><div id="map_canvas"></div></div>
+                <div class="col-md-5"><div id="map"></div></div>
                 <div class="col-md-5">
                     <div class="karusellwrapper">
                         <div class="owl-carousel">

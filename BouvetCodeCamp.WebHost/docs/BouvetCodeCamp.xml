@@ -9,18 +9,6 @@
             Sett og Hent infiserte soner
             </summary>
         </member>
-        <member name="M:BouvetCodeCamp.AdminApi.InfisertController.HentSone">
-            <summary>
-            Hent infisert sone
-            </summary>
-            <returns>Polygon</returns>
-        </member>
-        <member name="M:BouvetCodeCamp.AdminApi.InfisertController.Post(BouvetCodeCamp.Domene.Entiteter.InfisertPolygon)">
-            <summary>
-            Setter infisert sone
-            </summary>
-            <param name="modell"></param>
-        </member>
         <member name="M:BouvetCodeCamp.GameApi.BaseGameController.HentRegistrerteKoder(System.String)">
             <summary>
             Henter alle kodene som et lag har registrert ute på postene.

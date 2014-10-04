@@ -66,6 +66,25 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             }
         }
 
+        protected async Task<bool> OpprettGameStateViaApi(GameState gameState)
+        {
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/gamestate/post";
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var modellSomJson = JsonConvert.SerializeObject(gameState);
+
+                var httpResponseMessage = await httpClient.PostAsync(
+                    ApiEndPointAddress,
+                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
+
+                return httpResponseMessage.IsSuccessStatusCode;
+            }
+        }
+
         protected bool SlettLag(string lagId)
         {
             var ApiEndPointAddress = ApiBaseAddress + "/api/lag/deletebylagid/" + lagId;
@@ -133,6 +152,24 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var lagOpprettet = this.OpprettLagViaApi(lagMedKoder).Result;
 
             if (!lagOpprettet)
+                Assert.Fail();
+        }
+
+        protected void SørgForAtEtInfisertPolygonFinnes()
+        {
+            var gameState = Builder<GameState>.CreateNew()
+                .With(o => o.InfisertPolygon = new InfisertPolygon
+                                                   {
+                                                       Koordinater = new[]
+                                                                         {
+                                                                             new Koordinat("12", "32")
+                                                                         }
+                                                   })
+                .Build();
+
+            var gameStateOpprettet = OpprettGameStateViaApi(gameState).Result;
+
+            if (!gameStateOpprettet)
                 Assert.Fail();
         }
 

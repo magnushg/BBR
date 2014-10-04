@@ -9,11 +9,13 @@ namespace BouvetCodeCamp.AdminApi
 {
     using System;
 
+    using BouvetCodeCamp.Domene.OutputModels;
+
     /// <summary>
     /// Sett og Hent infiserte soner
     /// </summary>
     [RoutePrefix("api/admin/infisert")]
-//    [Authorize]
+    [Authorize]
     public class InfisertController : ApiController
     {
         private readonly IGameStateService _gameStateService;
@@ -23,25 +25,30 @@ namespace BouvetCodeCamp.AdminApi
             _gameStateService = gameStateService;
         }
 
-        // GET api/infisert
-        /// <summary>
-        /// Hent infisert sone
-        /// </summary>
-        /// <returns>Polygon</returns>
+        // GET api/admin/infisert/get
         [HttpGet]
-        [Route("")]
-        [Obsolete]
-        public HttpResponseMessage HentSone()
+        [Route("get")]
+        [Obsolete] // Skjule for Swagger-apidoc
+        public HttpResponseMessage GetSone()
         {
             var gameState = _gameStateService.HentGameState();
-            return Request.CreateResponse(HttpStatusCode.OK, gameState.InfisertPolygon);
+
+            try
+            {
+                var infisertPolygonOutputModell = new InfisertPolygonOutputModell
+                {
+                    Koordinater = gameState.InfisertPolygon.Koordinater
+                };
+
+                return Request.CreateResponse(HttpStatusCode.OK, infisertPolygonOutputModell);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
         }
 
         // POST api/infisert
-        /// <summary>
-        /// Setter infisert sone
-        /// </summary>
-        /// <param name="modell"></param>
         [HttpPost]
         [Route("")]
         [Obsolete] // Skjule for Swagger-apidoc
