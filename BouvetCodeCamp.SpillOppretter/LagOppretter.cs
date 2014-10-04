@@ -42,34 +42,6 @@ namespace BouvetCodeCamp.SpillOppretter
 
         }
 
-        private IEnumerable<Lag> TilordneSekvensNummerTilPostListe()
-        {
-           return _lagListeMedPoster.Select(lag => new Lag
-            {
-                LagId = lag.LagId,
-                LagNavn = lag.LagNavn,
-                LagNummer = lag.LagNummer,
-                LoggHendelser = lag.LoggHendelser,
-                Meldinger = lag.Meldinger,
-                PifPosisjoner = lag.PifPosisjoner,
-                Poeng = lag.Poeng,
-                Poster = lag.Poster.Select((post, index) => new LagPost
-                {
-                    Altitude = post.Altitude,
-                    Beskrivelse = post.Beskrivelse,
-                    Bilde = post.Bilde,
-                    Kilde = post.Kilde,
-                    Kode = post.Kode,
-                    Navn = post.Navn,
-                    Nummer = post.Nummer,
-                    Posisjon = post.Posisjon,
-                    PostTilstand = post.PostTilstand,
-                    Sekvensnummer = index
-
-                }).ToList()
-            });
-        }
-
         private IEnumerable<Lag> OpprettLagListeMedTommeLag()
         {
             return Enumerable.Range(1, _antallLag).Select(index => new Lag
@@ -124,6 +96,34 @@ namespace BouvetCodeCamp.SpillOppretter
                 PostTilstand = PostTilstand.Ukjent,
                 Kode = posterMedKoder.FirstOrDefault(p => p.Postnr == post.Nummer).Koder[lagNummer-1]
             };
+        }
+
+        private IEnumerable<Lag> TilordneSekvensNummerTilPostListe()
+        {
+            return _lagListeMedPoster.Select(lag => new Lag
+            {
+                LagId = lag.LagId,
+                LagNavn = lag.LagNavn,
+                LagNummer = lag.LagNummer,
+                LoggHendelser = lag.LoggHendelser,
+                Meldinger = lag.Meldinger,
+                PifPosisjoner = lag.PifPosisjoner,
+                Poeng = lag.Poeng,
+                Poster = lag.Poster.Select((post, index) => new LagPost
+                {
+                    Altitude = post.Altitude,
+                    Beskrivelse = post.Beskrivelse,
+                    Bilde = post.Bilde,
+                    Kilde = post.Kilde,
+                    Kode = post.Kode,
+                    Navn = post.Navn,
+                    Nummer = post.Nummer,
+                    Posisjon = post.Posisjon,
+                    PostTilstand = post.PostTilstand,
+                    Sekvensnummer = index
+
+                }).ToList()
+            });
         }
 
         public async void LagreLagliste(IEnumerable<Lag> lagListe)

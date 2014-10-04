@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.DomeneTjenes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.SpillOppretter", "BouvetCodeCamp.SpillOppretter\BouvetCodeCamp.SpillOppretter.csproj", "{17A89190-399A-48E5-BF75-7BF816E066ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.SpillSimulator", "BouvetCodeCamp.SpillSimulator\BouvetCodeCamp.SpillSimulator.csproj", "{E1D85B38-DAD2-4C9C-B4D8-B9264D191907}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{17A89190-399A-48E5-BF75-7BF816E066ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17A89190-399A-48E5-BF75-7BF816E066ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17A89190-399A-48E5-BF75-7BF816E066ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1D85B38-DAD2-4C9C-B4D8-B9264D191907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1D85B38-DAD2-4C9C-B4D8-B9264D191907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1D85B38-DAD2-4C9C-B4D8-B9264D191907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1D85B38-DAD2-4C9C-B4D8-B9264D191907}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +85,6 @@ Global
 		{7DE8731C-5369-461E-AF95-602969ACAC4E} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
 		{17A89190-399A-48E5-BF75-7BF816E066ED} = {578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}
+		{E1D85B38-DAD2-4C9C-B4D8-B9264D191907} = {578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}
 	EndGlobalSection
 EndGlobal
