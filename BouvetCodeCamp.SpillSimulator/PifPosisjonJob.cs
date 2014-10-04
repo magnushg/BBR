@@ -31,7 +31,6 @@ namespace BouvetCodeCamp.SpillSimulator
                     new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
 
                 Console.WriteLine(string.Format("Moved team to lat: {0}, lon: {1}", modell.Posisjon.Latitude, modell.Posisjon.Longitude));
-
             }
             
         }

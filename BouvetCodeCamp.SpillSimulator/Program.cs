@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Quartz;
+using Quartz.Impl;
 
 namespace BouvetCodeCamp.SpillSimulator
 {
@@ -15,11 +17,16 @@ namespace BouvetCodeCamp.SpillSimulator
             Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter { Level = Common.Logging.LogLevel.Info };
             try
             {
-                using (var pifScheduler = new PifScheduler())
-                {
-                    pifScheduler.SchedulePifMoveJobs();
-                }
+                var scheduler = StdSchedulerFactory.GetDefaultScheduler();
+                scheduler.Start();
+                var pifScheduler = new PifScheduler(scheduler);
 
+                pifScheduler.SchedulePifMoveJobs();
+
+                // Sov for å la oppgavene utføres
+                Thread.Sleep(TimeSpan.FromSeconds(60));
+
+                scheduler.Shutdown();
             }
             catch (SchedulerException se)
             {
