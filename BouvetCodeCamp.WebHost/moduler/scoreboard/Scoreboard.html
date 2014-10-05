@@ -37,13 +37,66 @@
         <script src="../bower_components/leaflet.freedraw/dist/leaflet.freedraw.js"></script>
         <script src="../bower_components/underscore/underscore.js"></script>
         
+        <script type="text/javascript">
+            var map = null;
+            var redMarkerIcon = null;
+
+            $(function () {
+                var mapElement = document.getElementById("map")
+                    , latlng = [59.676403, 10.606424];
+
+                map = L.map(mapElement).setView(latlng, 16);
+
+                L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    id: 'jorgenbs.jl9j4hbj'
+                }).addTo(map);
+
+                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", leggTilInfisertPolygonTilKartet);
+
+                function leggTilInfisertPolygonTilKartet(data) {
+                    try {
+                        var polygons = mapToLeafletModel(data.koordinater);
+                        L.polygon(polygons).addTo(map);
+                    } catch (e) {
+                        console.log('no data');
+                    }
+                }
+
+                function mapToLeafletModel(koordianter) {
+                    var modelArray = [];
+                    _.each(koordianter, function (latlng) {
+
+                        var obj = {
+                            "lat": latlng.latitude,
+                            "lng": latlng.longitude
+                        };
+
+                        modelArray.push(obj);
+
+                    });
+
+                    return modelArray;
+                };
+
+                //Extend the Default marker class
+                var redIcon = L.Icon.Default.extend({
+                    options: {
+                        iconUrl: 'leaflet/custommarkers/marker-icon-red.png'
+                    }
+                });
+                redMarkerIcon = new redIcon();
+            });
+        </script>
+
         <script>
-            var baseApiAddress = "localhost:2014";
+            var baseApiAddress = "bouvetcodecamp";
             var map;
             var MaksAntallLoggHendelser = 20;
 
             var SCOREBOARD = SCOREBOARD || {};
             SCOREBOARD.Lag = [];
+            SCOREBOARD.Poster = [];
             SCOREBOARD.LoggHendelser = [];
 
             //function initialize() {
@@ -84,14 +137,30 @@
                 xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
             }
 
+            // LAG
             function settLagPaaKartet() {
-                //TODO: hwm 30.09. Plukk ut siste pif-posisjon pr lag og rendre på kart
                 $.each(SCOREBOARD.Lag, function (key, val) {
-                    //dummy
-                    //SCOREBOARD.Lag[key].Marker = createMarker(0, 0, 0);
+                    var sistePifPosisjonForLag = hentSistePifPosisjonForLag(val);
+
+                    if (sistePifPosisjonForLag != null) {
+                        // Temp fake gps-pos for å teste pif-markør
+                        sistePifPosisjonForLag.gps.latitude = "59.67832";
+                        sistePifPosisjonForLag.gps.longitude = "10.60559";
+
+                        SCOREBOARD.Lag[key].Marker = L.marker(
+                            [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
+                            { icon: redMarkerIcon }).addTo(map);
+                    }
                 });
             }
-            
+            function hentSistePifPosisjonForLag(lag) {
+                if (typeof lag == "undefined" || typeof lag.pifPosisjoner == "undefined")
+                    return null;
+
+                lag.pifPosisjoner.sortBy(function (o) { return new Date(o.tid.substr(6)); });
+
+                return $(lag.pifPosisjoner).last()[0];
+            }
             function sorterLagEtterPoeng(a, b) {
                 var aPoeng = a.poeng;
                 var bPoeng = b.poeng;
@@ -115,7 +184,6 @@
                     }
                 }
             }
-            
             function lastInnLagene(data) {
                 $.each(data, function (key, val) {
                     SCOREBOARD.Lag.push(val);
@@ -128,9 +196,49 @@
 
                 settLagPaaKartet();
             }
+            //http://stackoverflow.com/questions/10123953/sort-javascript-object-array-by-date
+            (function () {
+                if (typeof Object.defineProperty === 'function') {
+                    try { Object.defineProperty(Array.prototype, 'sortBy', { value: sb }); } catch (e) { }
+                }
+                if (!Array.prototype.sortBy) Array.prototype.sortBy = sb;
 
+                function sb(f) {
+                    for (var i = this.length; i;) {
+                        var o = this[--i];
+                        this[i] = [].concat(f.call(o, o, i), o);
+                    }
+                    this.sort(function (a, b) {
+                        for (var i = 0, len = a.length; i < len; ++i) {
+                            if (a[i] != b[i]) return a[i] < b[i] ? -1 : 1;
+                        }
+                        return 0;
+                    });
+                    for (var i = this.length; i;) {
+                        this[--i] = this[i][this[i].length - 1];
+                    }
+                    return this;
+                }
+            })();
+
+            // INFISERT SONE
             function lastInnInfisertSone(data) {
                 
+            }
+
+            // POSTER
+            function lastInnPoster(data) {
+                $.each(data, function (key, val) {
+                    SCOREBOARD.Poster.push(val);
+                    SCOREBOARD.Poster[key].Marker = {};
+                });
+
+                settPosterPaaKartet();
+            }
+            function settPosterPaaKartet() {
+                $.each(SCOREBOARD.Poster, function (key, val) {
+                    //SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).addTo(map);
+                });
             }
 
             function oppdaterStillingstabell() {
@@ -154,6 +262,9 @@
                 // 1. Hent og rendre alle lag
                 sendAutentisertRequest("http://" + baseApiAddress + "/api/lag/get", "GET", lastInnLagene);
                 
+                // 2. Hent og rendre alle poster
+                sendAutentisertRequest("http://" + baseApiAddress + "/api/post/get", "GET", lastInnPoster);
+
                 // 2. Hent og rendre infisert sone
                 //sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
             });
@@ -188,44 +299,7 @@
         </script>
 
         <script type="text/javascript">
-            $(function() {
-                var mapElement = document.getElementById("map")
-                , latlng = [59.676403, 10.606424];
-
-                var map = L.map(mapElement).setView(latlng, 16);
-
-                L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-                    maxZoom: 18,
-                    id: 'jorgenbs.jl9j4hbj'
-                }).addTo(map);
-
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", leggTilInfisertPolygonTilKartet);
-
-                function leggTilInfisertPolygonTilKartet(data) {
-                    try {
-                        var polygons = mapToLeafletModel(data.koordinater);
-                        L.polygon(polygons).addTo(map);
-                    } catch (e) {
-                        console.log('no data');
-                    }
-            }
-
-                function mapToLeafletModel(koordianter) {
-                    var modelArray = [];
-                    _.each(koordianter, function (latlng) {
-
-                        var obj = {
-                            "lat": latlng.latitude,
-                            "lng": latlng.longitude
-                        };
-
-                        modelArray.push(obj);
-
-                    });
-
-                    return modelArray;
-                };
-            });
+            
 
             $(function () {
                 //Set the hubs URL for the connection
