@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.Domene.OutputModels;
 
 namespace BouvetCodeCamp.SpillSimulator
 {
@@ -18,5 +19,9 @@ namespace BouvetCodeCamp.SpillSimulator
         public const string TestLagId = "141c5e87-951f-49a3-bb14-b044a6205662";
 
         public static List<Koordinat> Koordinater;
+
+        public static PostOutputModell GjeldendePost;
+
+        public static Dictionary<int, string> PostKoder;
     }
 }

@@ -1,36 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BouvetCodeCamp.Domene.Entiteter;
-using Quartz;
-using Quartz.Impl;
 
 namespace BouvetCodeCamp.SpillSimulator
 {
-    public class PifScheduler
+    public class SpillTilstandOppretter
     {
-        private readonly IScheduler _scheduler;
-
-        public PifScheduler(IScheduler scheduler)
+        public SpillTilstandOppretter()
         {
-            _scheduler = scheduler;
             OpprettKoordinater();
-        }
-
-        public void SchedulePifMoveJobs()
-        {
-            IJobDetail job = JobBuilder.Create<PifPosisjonJob>()
-                .WithIdentity("flyttPif", "pifGruppe")
-                .Build();
-
-            ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("trigger", "pifGruppe")
-                .StartNow()
-                .WithSimpleSchedule(x => x.WithIntervalInSeconds(5)
-                    .RepeatForever())
-                .Build();
-
-            _scheduler.ScheduleJob(job, trigger);
+            OpprettPostKoder();
         }
 
         private static void OpprettKoordinater()
@@ -57,6 +39,19 @@ namespace BouvetCodeCamp.SpillSimulator
                     Latitude = "59.6804558114",
                     Longitude = "10.60457",
                 }
+            };
+        }
+
+        private void OpprettPostKoder()
+        {
+            SpillKonfig.PostKoder = new Dictionary<int, string>
+            {
+                {24, "dxg19"},
+                {21, "exr16"},
+                {23, "rxp18"},
+                {1, "oxx2"},
+                {8, "lxr9"},
+                {2, "fxo3"}
             };
         }
     }

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Text;
-using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.Domene.InputModels;
 using Newtonsoft.Json;
 using Quartz;
 
-namespace BouvetCodeCamp.SpillSimulator
+namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
     public class PifPosisjonJob : IJob
     {
@@ -30,7 +28,7 @@ namespace BouvetCodeCamp.SpillSimulator
                     ApiEndPointAddress,
                     new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
 
-                Console.WriteLine(string.Format("Moved team to lat: {0}, lon: {1}", modell.Posisjon.Latitude, modell.Posisjon.Longitude));
+                Console.WriteLine(string.Format("PIF flyttet til posisjon lat: {0}, lon: {1}", modell.Posisjon.Latitude, modell.Posisjon.Longitude));
             }
             
         }
