@@ -20,12 +20,16 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public Lag HentLagMedLagId(string lagId)
         {
-            var lag = _lagRepository.Søk(o => o.LagId == lagId).First();
+            try
+            {
+                var lag = _lagRepository.Søk(o => o.LagId == lagId).First();
 
-            if (lag == null)
-                throw new Exception("Fant ikke lag med lagId: " + lagId);
-
-            return lag;
+                return lag;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Fant ikke lag med lagId: " + lagId, e);
+            }
         }
 
         public IEnumerable<Lag> HentAlleLag()

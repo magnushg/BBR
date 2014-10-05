@@ -44,8 +44,8 @@ namespace BouvetCodeCamp.Domene.Entiteter
             Poeng = 0;
             PifPosisjoner = new List<PifPosisjon>();
             Poster = new List<LagPost>();
-            this.Meldinger = new List<Melding>();
-            this.LoggHendelser = new List<LoggHendelse>();
+            Meldinger = new List<Melding>();
+            LoggHendelser = new List<LoggHendelse>();
         }
     }
 }

@@ -3,31 +3,103 @@
     <head>
         <title>Bouvet Battle Royale - Scoreboard</title>
 
-        <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
-        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-        
         <!-- Owl Carousel -->
         <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
         <link rel="stylesheet" href="owl-carousel/owl.theme.css">
-        
-        <style>
+
+        <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
+
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+        <style type="text/css">
             body {
                 height: 100%;
                 width: 100%;
                 margin: 0;
             }
-             #map {
-                 width: 500px;
+
+            #map {
+                width: 100%;
                 height: 55em;
+            }
+
+            .stillingstabell,
+            .hendelsestabell {
+                width: 100%;
+            }
+
+            .stillingstabell th,
+            .hendelsestabell th {
+                background-color: lightgrey;
+            }
+
+            .stillingstabell th,
+            .stillingstabell td,
+            .hendelsestabell th,
+            .hendelsestabell td {
+                text-align: left;
+                padding: 5px;
+            }
+
+            /* Carousel */
+            .carousel-play:hover, .carousel-stop:hover {
+                cursor: pointer;
             }
         </style>
 
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11"><img src="http://www.bouvet.no/Global/img/header_logo.png"></div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5"><div id="map"></div></div>
+                <div class="col-md-5">
+                    <div class="karusellwrapper">
+                        <div class="owl-carousel">
+                            <div class="stillingsvisning">
+                                <section>
+                                    <table class="stillingstabell">
+                                        <caption>Stilling</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Lag</th>
+                                                <th>Poeng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </section>
+                            </div>
+                            <div class="hendelservisning">
+                                <section>
+                                    <table class="hendelsestabell">
+                                        <caption>Hendelser</caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Lag</th>
+                                                <th>Hendelse</th>
+                                                <th>Tid</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
-        <script src="http://bouvetcodecamp/signalr/hubs"></script>
-    
-        <!-- Owl Carousel -->
-        <script src="owl-carousel/owl.carousel.min.js"></script>
 
         <script src="../bower_components/d3/d3.min.js"></script>
         <script src="../bower_components/hammerjs/hammer.min.js"></script>
@@ -36,8 +108,16 @@
         <script src="../bower_components/leaflet/dist/leaflet.js"></script>
         <script src="../bower_components/leaflet.freedraw/dist/leaflet.freedraw.js"></script>
         <script src="../bower_components/underscore/underscore.js"></script>
+
+        <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
+        
+        <script src="http://bouvetcodecamp/signalr/hubs"></script>
+
+        <!-- Owl Carousel -->
+        <script src="owl-carousel/owl.carousel.js"></script>
         
         <script type="text/javascript">
+
             var map = null;
             var redMarkerIcon = null;
 
@@ -87,9 +167,7 @@
                 });
                 redMarkerIcon = new redIcon();
             });
-        </script>
 
-        <script>
             var baseApiAddress = "bouvetcodecamp";
             var map;
             var MaksAntallLoggHendelser = 20;
@@ -120,9 +198,8 @@
             //        map.setCenter(center);
             //    });
             //}
-
             //google.maps.event.addDomListener(window, 'load', initialize);
-            
+
             function sendAutentisertRequest(url, type, successCallback) {
                 $.ajax({
                     url: url,
@@ -143,13 +220,10 @@
                     var sistePifPosisjonForLag = hentSistePifPosisjonForLag(val);
 
                     if (sistePifPosisjonForLag != null) {
-                        // Temp fake gps-pos for å teste pif-markør
-                        sistePifPosisjonForLag.gps.latitude = "59.67832";
-                        sistePifPosisjonForLag.gps.longitude = "10.60559";
-
                         SCOREBOARD.Lag[key].Marker = L.marker(
                             [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
-                            { icon: redMarkerIcon }).addTo(map);
+                            { icon: redMarkerIcon })
+                            .addTo(map);
                     }
                 });
             }
@@ -157,7 +231,7 @@
                 if (typeof lag == "undefined" || typeof lag.pifPosisjoner == "undefined")
                     return null;
 
-                lag.pifPosisjoner.sortBy(function (o) { return new Date(o.tid.substr(6)); });
+                lag.pifPosisjoner.sortBy(function (o) { return new Date(Date.parse(o.tid)); });
 
                 return $(lag.pifPosisjoner).last()[0];
             }
@@ -191,7 +265,7 @@
                 });
 
                 SCOREBOARD.Lag.sort(sorterLagEtterPoeng);
-                
+
                 oppdaterStillingstabell();
 
                 settLagPaaKartet();
@@ -223,7 +297,7 @@
 
             // INFISERT SONE
             function lastInnInfisertSone(data) {
-                
+
             }
 
             // POSTER
@@ -237,7 +311,7 @@
             }
             function settPosterPaaKartet() {
                 $.each(SCOREBOARD.Poster, function (key, val) {
-                    //SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).addTo(map);
+                    SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).addTo(map);
                 });
             }
 
@@ -257,26 +331,27 @@
                 });
             }
 
-            $(document).ready(function() {
-                
+            $(document).ready(function () {
+
                 // 1. Hent og rendre alle lag
                 sendAutentisertRequest("http://" + baseApiAddress + "/api/lag/get", "GET", lastInnLagene);
-                
+
                 // 2. Hent og rendre alle poster
                 sendAutentisertRequest("http://" + baseApiAddress + "/api/post/get", "GET", lastInnPoster);
 
                 // 2. Hent og rendre infisert sone
                 //sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
+                
+                $(".owl-carousel").owlCarousel({
+                    autoPlay: true,
+                    loop: true,
+                    slideSpeed : 300,
+                    paginationSpeed : 400,
+                    singleItem: true,
+                    autoplayHoverPause: true,
+                    margin: 10
+                });
             });
-
-
-            //function createMarker(latitude, longitude, lagid) {
-            //    return new google.maps.Marker({
-            //        position: new google.maps.LatLng(latitude, longitude),
-            //        map: map,
-            //        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + lagid + '|FE6256|000000'
-            //    });
-            //}
 
             //var infectedZone;
 
@@ -294,12 +369,7 @@
             //    // Add the circle for this city to the map.
             //    infectedZone = new google.maps.Circle(options);
             //}
-                
             //redZone(0, 0, 2);
-        </script>
-
-        <script type="text/javascript">
-            
 
             $(function () {
                 //Set the hubs URL for the connection
@@ -309,33 +379,44 @@
                 var hub = $.connection.gameHub;
 
                 hub.client.setRedZone = function (zone) {
-                    if (zone.latitude == 0 && zone.longitude == 0) {
-                        infectedZone.setMap(null);
-                    } else {                   
-                        var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);                  
+                    //if (zone.latitude == 0 && zone.longitude == 0) {
+                    //    infectedZone.setMap(null);
+                    //} else {
+                    //    var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);
 
-                        var options = {
-                            fillColor: '#00FF00',
-                            center: newPosition,
-                            map: map
-                        };
+                    //    var options = {
+                    //        fillColor: '#00FF00',
+                    //        center: newPosition,
+                    //        map: map
+                    //    };
 
-                        infectedZone.setOptions(options);
+                    //    infectedZone.setOptions(options);
 
-                        setTimeout(function() {
-                            var options = {
-                                fillColor: '#FF0000'
-                            };
-                            infectedZone.setOptions(options);
-                        }, 30000);
-                    }
+                    //    setTimeout(function() {
+                    //        var options = {
+                    //            fillColor: '#FF0000'
+                    //        };
+                    //        infectedZone.setOptions(options);
+                    //    }, 30000);
+                    //}
                 };
 
                 // Create a function that the hub can call to broadcast messages.
                 hub.client.nyPifPosisjon = function (msg) {
                     var lag = hentLagEtterLagId(msg.lagId);
-                   
-                    lag[0].Marker.setPosition(new google.maps.LatLng(msg.latitude, msg.longitude));
+
+                    var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
+
+                    if (typeof lag[0].Marker == "undefined"
+                        || lag[0].Marker == null
+                        || $.isEmptyObject(lag[0].Marker)) {
+                        lag[0].Marker = L.marker(
+                            [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
+                            { icon: redMarkerIcon })
+                            .addTo(map);
+                    } else {
+                        lag[0].Marker.setLatLng(nyLeafletLatLon);
+                    }
                 };
 
                 // Ny logghendelse
@@ -354,6 +435,10 @@
             }
 
             function LeggTilNyLoggHendelse(elem) {
+
+                if (elem.hendelsetype == "RegistrertPifPosisjon")
+                    return;
+
                 SCOREBOARD.LoggHendelser.unshift(elem);
 
                 if (SCOREBOARD.LoggHendelser.length > MaksAntallLoggHendelser)
@@ -362,93 +447,7 @@
                 oppdaterHendelsestabell();
             }
 
-            $(document).ready(function() {
-
-                // Init carousel
-                var owl = $('.owl-carousel');
-                owl.owlCarousel({
-                    items: 1,
-                    loop: true,
-                    margin: 10,
-                    autoplay: true,
-                    autoplayTimeout: 8000,
-                    autoplayHoverPause: true,
-                    autoHeight: true
-                });
-            });
         </script>
 
-        <style type="text/css">
-        
-            .stillingstabell, .hendelsestabell { width: 100%; }
-
-            .stillingstabell th, .hendelsestabell th { background-color: lightgrey; }
-
-            .stillingstabell th,
-            .stillingstabell td,
-            .hendelsestabell th,
-            .hendelsestabell td {
-                text-align: left;
-                padding: 5px;
-            }
-
-            /* Carousel */
-
-            .carousel-play:hover, .carousel-stop:hover { cursor: pointer; }
-        
-        </style>
-
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-11"><img src="http://www.bouvet.no/Global/img/header_logo.png"></div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-5"><div id="map"></div></div>
-                <div class="col-md-5">
-                    <div class="karusellwrapper">
-                        <div class="owl-carousel">
-                            <div class="stillingsvisning">
-                                <section>
-                                    <table class="stillingstabell">
-                                        <caption>Stilling</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Lag</th>
-                                                <th>Poeng</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </section>
-                            </div>
-                            <div class="hendelservisning">
-                                <section>
-                                    <table class="hendelsestabell">
-                                        <caption>Hendelser</caption>
-                                        <thead>
-                                            <tr>
-                                                <th>Lag</th>
-                                                <th>Hendelse</th>
-                                                <th>Tid</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1"></div>
-            </div>
-        </div>
-</body>
+    </body>
 </html>

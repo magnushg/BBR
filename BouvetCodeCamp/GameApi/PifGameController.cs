@@ -61,6 +61,7 @@ namespace BouvetCodeCamp.GameApi
                     {
                         LagId = inputModell.LagId,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
+                        HendelseType = HendelseType.RegistrertPifPosisjon.ToString(),
                         Tid = DateTime.Now.ToShortTimeString()
                     });
 
