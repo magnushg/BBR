@@ -21,7 +21,10 @@ namespace BouvetCodeCamp.SpillSimulator.Schedulers
 
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("firstBase", "baseGruppe")
-                .StartAt(DateBuilder.FutureDate(15, IntervalUnit.Second))
+                .StartAt(DateBuilder.FutureDate(10, IntervalUnit.Second))
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(10)
+                    .WithRepeatCount(5))
                 .Build();
 
             _scheduler.ScheduleJob(job, trigger);

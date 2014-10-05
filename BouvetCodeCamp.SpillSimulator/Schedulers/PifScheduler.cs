@@ -38,7 +38,10 @@ namespace BouvetCodeCamp.SpillSimulator.Schedulers
 
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("finnTrigger", "pifGruppe")
-                .StartAt(DateBuilder.FutureDate(30, IntervalUnit.Second))
+                .StartAt(DateBuilder.FutureDate(20, IntervalUnit.Second))
+                 .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(10)
+                    .WithRepeatCount(5))
                 .Build();
 
             _scheduler.ScheduleJob(job, trigger);
