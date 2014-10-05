@@ -55,12 +55,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseScheduler.cs" />
-    <Compile Include="PifScheduler.cs" />
+    <Compile Include="Jobs\PifFinnPostJob.cs" />
+    <Compile Include="Schedulers\BaseScheduler.cs" />
+    <Compile Include="Jobs\BaseGjeldendePostJob.cs" />
+    <Compile Include="Schedulers\PifScheduler.cs" />
     <Compile Include="SpillKonfig.cs" />
-    <Compile Include="PifPosisjonJob.cs" />
+    <Compile Include="Jobs\PifPosisjonJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpillTilstandOppretter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
