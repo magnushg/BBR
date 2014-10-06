@@ -40,6 +40,10 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -47,6 +51,15 @@
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,22 +74,28 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Felles\CoordinateVerifierTest.cs" />
+    <Compile Include="Felles\KoordinatVerifierTest.cs" />
     <Compile Include="Service\KodeServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GameApiTest.cs" />
+    <Compile Include="Service\LagServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.Felles\BouvetCodeCamp.Felles.csproj">
-      <Project>{0A78BCCD-AF06-47AD-9658-845B82BAA9B5}</Project>
-      <Name>BouvetCodeCamp.Felles</Name>
+    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
+      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
+      <Name>BouvetCodeCamp.DomeneTjenester</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Service\BouvetCodeCamp.Service.csproj">
-      <Project>{BEE34957-2178-4CDA-BAAB-9B8E10D36642}</Project>
-      <Name>BouvetCodeCamp.Service</Name>
+    <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">
+      <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
+      <Name>BouvetCodeCamp.Domene</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BouvetCodeCamp\BouvetCodeCamp.csproj">
+      <Project>{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}</Project>
+      <Name>BouvetCodeCamp</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
-using BouvetCodeCamp.Dataaksess;
-using BouvetCodeCamp.Dataaksess.Repositories;
-using BouvetCodeCamp.Felles.Entiteter;
-using BouvetCodeCamp.Felles.Konfigurasjon;
+using BouvetCodeCamp.Domene.Entiteter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
-    using System;
+    using BouvetCodeCamp.Infrastruktur.DataAksess;
+    using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
+
+    using FizzWare.NBuilder;
 
     [TestClass]
     public class PostRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest
@@ -21,23 +21,47 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             var postSomSkalLagres = new Post
             {
-                GpsPunktId = Guid.NewGuid().ToString(),
-                Latitude = "59.666",
-                Longitude = "23.555",
-                Kommentar = "Blabla", 
-                OpprettetDato = DateTime.Now
+                Posisjon = new Koordinat
+                {
+                    Latitude = "59.666",
+                    Longitude = "23.555"
+                },
+                Beskrivelse = "Blabla", 
+                Navn = "Testepost",
+                Kilde = "Nokia 3110",
             };
 
-            var document = await repo.Opprett(postSomSkalLagres);
+            var documentId = repo.Opprett(postSomSkalLagres).Result;
 
-            var lagretPost = await repo.Hent(document.Id);
+            var lagretPost = repo.Hent(documentId);
 
-            var alle = await repo.HentAlle();
+            var alle = repo.HentAlle();
 
             lagretPost.DocumentId.ShouldNotBeEmpty();
-            lagretPost.Latitude.ShouldEqual(postSomSkalLagres.Latitude);
-            lagretPost.Longitude.ShouldEqual(postSomSkalLagres.Longitude);
-            lagretPost.Kommentar.ShouldEqual(postSomSkalLagres.Kommentar);
+            lagretPost.Posisjon.Latitude.ShouldEqual(postSomSkalLagres.Posisjon.Latitude);
+            lagretPost.Posisjon.Longitude.ShouldEqual(postSomSkalLagres.Posisjon.Longitude);
+            lagretPost.Beskrivelse.ShouldEqual(postSomSkalLagres.Beskrivelse);
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task SlettAlle_HarEnPost_HarIngenPoster()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+
+            var post = Builder<Post>.CreateNew()
+                .Build();
+
+            await repository.Opprett(post);
+
+            // Act
+            await repository.SlettAlle();
+
+            // Assert
+            var allePoster = repository.HentAlle();
+
+            allePoster.ShouldBeEmpty();
         }
 
         private PostRepository OpprettRepository()
@@ -45,6 +69,4 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             return new PostRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
         }
     }
-
-    
 }
