@@ -89,15 +89,12 @@
 
             if (typeof eventData != "undefined") {
                 console.log(L.FreeDraw.Utilities.getMySQLMultiPolygon(eventData.latLngs));
-
-                //var model = mapToPostModel(eventData.latLngs);
+                
                 var latlngs = _.last(eventData.latLngs);
                 var postModel = {
                     "koordinater": mapToApiModel(latlngs)
                 };
-
-                //{ "Koordinater" : [ {"longitude" : "12", "latitude" : "11" }] }
-                console.log("Post infisertpolygon: " + JSON.stringify(postModel));
+                
                 sendAutentisertRequest(apiResouce + "/post", "POST", null, postModel);
             }
         });

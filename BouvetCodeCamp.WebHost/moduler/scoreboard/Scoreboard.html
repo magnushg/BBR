@@ -12,6 +12,23 @@
         <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         
         <link rel="stylesheet" href="css/scoreboard.css" />
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+        <script src="../bower_components/d3/d3.min.js"></script>
+        <script src="../bower_components/hammerjs/hammer.min.js"></script>
+        <script src="../bower_components/evispa-timo-jsclipper/clipper.js"></script>
+        <script src="../bower_components/concavehull/dist/concavehull.js"></script>
+        <script src="../bower_components/leaflet/dist/leaflet.js"></script>
+        <script src="../bower_components/leaflet.freedraw/dist/leaflet.freedraw.js"></script>
+        <script src="../bower_components/underscore/underscore.js"></script>
+
+        <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
+
+        <script src="http://bouvetcodecamp/signalr/hubs"></script>
+
+        <!-- Owl Carousel -->
+        <script src="js/owl-carousel/owl.carousel.js"></script>
     </head>
 
     <body>
@@ -64,23 +81,6 @@
             </div>
         </div>
         
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-        <script src="../bower_components/d3/d3.min.js"></script>
-        <script src="../bower_components/hammerjs/hammer.min.js"></script>
-        <script src="../bower_components/evispa-timo-jsclipper/clipper.js"></script>
-        <script src="../bower_components/concavehull/dist/concavehull.js"></script>
-        <script src="../bower_components/leaflet/dist/leaflet.js"></script>
-        <script src="../bower_components/leaflet.freedraw/dist/leaflet.freedraw.js"></script>
-        <script src="../bower_components/underscore/underscore.js"></script>
-
-        <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
-        
-        <script src="http://bouvetcodecamp/signalr/hubs"></script>
-
-        <!-- Owl Carousel -->
-        <script src="owl-carousel/owl.carousel.js"></script>
-        
         <script type="text/javascript">
 
             var map = null;
@@ -97,16 +97,7 @@
                     id: 'jorgenbs.jl9j4hbj'
                 }).addTo(map);
 
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", leggTilInfisertPolygonTilKartet);
-
-                function leggTilInfisertPolygonTilKartet(data) {
-                    try {
-                        var polygons = mapToLeafletModel(data.koordinater);
-                        L.polygon(polygons).addTo(map);
-                    } catch (e) {
-                        console.log('no data');
-                    }
-                }
+                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
 
                 function mapToLeafletModel(koordianter) {
                     var modelArray = [];
@@ -141,6 +132,8 @@
             SCOREBOARD.Lag = [];
             SCOREBOARD.Poster = [];
             SCOREBOARD.LoggHendelser = [];
+            SCOREBOARD.InfisertSone = {};
+
 
             //function initialize() {
             //    var mapCanvas = document.getElementById('map_canvas');
@@ -263,10 +256,21 @@
             // INFISERT SONE
             function lastInnInfisertSone(data) {
                 try {
-                    var polygons = mapToLeafletModel(data.koordinater);
-                    L.polygon(polygons).addTo(map);
+
+                    if ($.isEmptyObject(SCOREBOARD.InfisertSone)) {
+                        //SCOREBOARD.InfisertSone = data;
+                    }
+                    else {
+                        if (typeof SCOREBOARD.InfisertSone != "undefined") {
+                            map.removeLayer(SCOREBOARD.InfisertSone);
+                        }
+                    }
+
+                    SCOREBOARD.InfisertSone = new L.Polygon(mapToLeafletModel(data.koordinater));
+                    
+                    map.addLayer(SCOREBOARD.InfisertSone);
                 } catch (e) {
-                    console.log('no data');
+                    console.log('Laste inn infisert sone feilet: ' + e.Message);
                 }
             }
             function mapToLeafletModel(koordianter) {
@@ -364,7 +368,10 @@
                 // Declare a proxy to reference the hub.
                 var hub = $.connection.gameHub;
 
-                hub.client.setRedZone = function (zone) {
+                hub.client.settInfisertSone = function (infisertSone) {
+
+                    lastInnInfisertSone(infisertSone);
+
                     //if (zone.latitude == 0 && zone.longitude == 0) {
                     //    infectedZone.setMap(null);
                     //} else {

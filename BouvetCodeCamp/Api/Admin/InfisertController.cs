@@ -10,6 +10,9 @@
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.SignalR;
+
+    using Microsoft.AspNet.SignalR;
 
     /// <summary>
     /// Sett og Hent infiserte soner
@@ -20,9 +23,13 @@
     {
         private readonly IGameStateService _gameStateService;
 
-        public InfisertController(IGameStateService gameStateService)
+        private readonly Lazy<IHubContext<IGameHub>> _gameHub;
+
+        public InfisertController(IGameStateService gameStateService,
+            Lazy<IHubContext<IGameHub>> gameHub)
         {
             _gameStateService = gameStateService;
+            _gameHub = gameHub;
         }
 
         // GET api/admin/infisert/get
@@ -62,6 +69,12 @@
 
             try
             {
+                _gameHub.Value.Clients.All.SettInfisertSone(
+                    new InfisertPolygonOutputModell
+                    {
+                        Koordinater = modell.Koordinater
+                    });
+
                 await _gameStateService.OppdaterGameState(gameState);
             }
             catch (Exception e)
