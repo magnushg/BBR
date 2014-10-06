@@ -30,7 +30,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             SørgForAtEtInfisertPolygonFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/infisert/hentsone";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/infisert/get";
 
             InfisertPolygonOutputModell infisertPolygonOutputModell;
 

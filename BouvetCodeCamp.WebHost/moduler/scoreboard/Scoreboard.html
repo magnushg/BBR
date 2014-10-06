@@ -4,49 +4,14 @@
         <title>Bouvet Battle Royale - Scoreboard</title>
 
         <!-- Owl Carousel -->
-        <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
-        <link rel="stylesheet" href="owl-carousel/owl.theme.css">
+        <link rel="stylesheet" href="js/owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="js/owl-carousel/owl.theme.css">
 
         <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
 
         <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
-        <style type="text/css">
-            body {
-                height: 100%;
-                width: 100%;
-                margin: 0;
-            }
-
-            #map {
-                width: 100%;
-                height: 55em;
-            }
-
-            .stillingstabell,
-            .hendelsestabell {
-                width: 100%;
-            }
-
-            .stillingstabell th,
-            .hendelsestabell th {
-                background-color: lightgrey;
-            }
-
-            .stillingstabell th,
-            .stillingstabell td,
-            .hendelsestabell th,
-            .hendelsestabell td {
-                text-align: left;
-                padding: 5px;
-            }
-
-            /* Carousel */
-            .carousel-play:hover, .carousel-stop:hover {
-                cursor: pointer;
-            }
-        </style>
-
+        
+        <link rel="stylesheet" href="css/scoreboard.css" />
     </head>
 
     <body>
@@ -162,7 +127,7 @@
                 //Extend the Default marker class
                 var redIcon = L.Icon.Default.extend({
                     options: {
-                        iconUrl: 'leaflet/custommarkers/marker-icon-red.png'
+                        iconUrl: 'js/leaflet/custommarkers/marker-icon-red.png'
                     }
                 });
                 redMarkerIcon = new redIcon();
@@ -297,8 +262,28 @@
 
             // INFISERT SONE
             function lastInnInfisertSone(data) {
-
+                try {
+                    var polygons = mapToLeafletModel(data.koordinater);
+                    L.polygon(polygons).addTo(map);
+                } catch (e) {
+                    console.log('no data');
+                }
             }
+            function mapToLeafletModel(koordianter) {
+                var modelArray = [];
+                _.each(koordianter, function (latlng) {
+
+                    var obj = {
+                        "lat": latlng.latitude,
+                        "lng": latlng.longitude
+                    };
+
+                    modelArray.push(obj);
+
+                });
+
+                return modelArray;
+            };
 
             // POSTER
             function lastInnPoster(data) {
@@ -340,16 +325,17 @@
                 sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/post/get", "GET", lastInnPoster);
 
                 // 2. Hent og rendre infisert sone
-                //sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
-                
+                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
+
                 $(".owl-carousel").owlCarousel({
                     autoPlay: true,
                     loop: true,
-                    slideSpeed : 300,
-                    paginationSpeed : 400,
+                    slideSpeed: 300,
+                    paginationSpeed: 400,
                     singleItem: true,
                     autoplayHoverPause: true,
-                    margin: 10
+                    margin: 10,
+                    autoHeight: true
                 });
             });
 

@@ -1,33 +1,35 @@
 <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
 
 <style>
-  body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-  }
-  #map {
-    width: 100%;
-    height: 100%;
-    float: left;
-  }
-  #map.mode-create {
-    cursor: crosshair;
-  }
+    body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
 
-  #controls {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 2em;
-    z-index: 10000;
-  }
+    #map {
+        width: 100%;
+        height: 100%;
+        float: left;
+    }
+
+        #map.mode-create {
+            cursor: crosshair;
+        }
+
+    #controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 2em;
+        z-index: 10000;
+    }
 </style>
 
 <div id="map"></div>
 <div id="controls">
-  <button id="create">CREATE</button><br/>
-  <button id="delete">DELETE</button>
+    <button id="create">CREATE</button><br />
+    <button id="delete">DELETE</button>
 </div>
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -40,100 +42,135 @@
 <script src="../bower_components/underscore/underscore.js"></script>
 
 <script>
-
-  $(function() {
-
-    var el = document.getElementById("map")
-      , apiResouce = "http://localhost:2014/api/admin/infisert"
-      , latlng = [59.676403, 10.606424];
-
-    var map = L.map(el).setView(latlng, 16);
-
-    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      id: 'jorgenbs.jl9j4hbj'
-    }).addTo(map);
-
-    var freeDraw = new L.FreeDraw();
-    freeDraw.setMode(L.FreeDraw.MODES.CREATE);
-    freeDraw.options.setBoundariesAfterEdit(false);
-    freeDraw.options.exitModeAfterCreate(false);
-
-    freeDraw.on('markers', function getMarkers(eventData) {
-      console.log(L.FreeDraw.Utilities.getMySQLMultiPolygon(eventData.latLngs));
-      //var model = mapToPostModel(eventData.latLngs);
-      var latlngs = _.last(eventData.latLngs);
-      var postModel = {
-        "koordinater": mapToApiModel(latlngs)
-      };
-      $.post(apiResouce, postModel);
-    });
-
-    map.addLayer(freeDraw);
-
-    $("#create").click(function() { 
-      freeDraw.setMode(L.FreeDraw.MODES.CREATE);
-    });
-    $("#delete").click(function() { 
-      freeDraw.setMode(L.FreeDraw.MODES.DELETE);
-    });
-
-    $.get(apiResouce).done(function (data) {
-        try {
-            var polygons = mapToLeafletModel(data.koordinater);
-            L.polygon(polygons).addTo(map);
-        } catch (e) {
-            console.log('no data');
-        }
-    });
-
-    function mapToLeafletModel(koordianter) {
-        var modelArray = [];
-        _.each(koordianter, function (latlng) {
-            
-            var obj = {
-                "lat": latlng.latitude,
-                "lng": latlng.longitude  
-            };
-            
-            modelArray.push(obj);
-            
+    function sendAutentisertRequest(url, type, successCallback) {
+        $.ajax({
+            url: url,
+            type: type,
+            dataType: 'json',
+            success: successCallback,
+            beforeSend: setAuthorizationHeader
         });
-        
-        return modelArray;
-    };
-    function mapToApiModel(koordianter) {
-        var modelArray = [];
-        _.each(koordianter, function (latlng) {
-            
-            var obj = {
-                "latitude": latlng.lat,
-                "longitude": latlng.lng  
-            };
-            
-            modelArray.push(obj);
-            
-        });
-        
-        return modelArray;
-    };
+    }
 
-    //stygg som juling
-    function mapToPostModel(latlngsArray) {
-      
-      return {
-        "koordinater": _.map(latlngsArray, function(obj) { 
-          console.log(obj);
-          return _.map(obj, function (latling) { 
-            return {
-              "latitude": latling.lat, 
-              "longitude": latling.lng 
+    function sendAutentisertRequest(url, type, successCallback, data) {
+        $.ajax({
+            url: url,
+            type: type,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: successCallback,
+            beforeSend: setAuthorizationHeader
+        });
+    }
+
+    function setAuthorizationHeader(xhr) {
+        xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
+    }
+
+    $(function () {
+
+        var el = document.getElementById("map")
+          , apiResouce = "http://bouvetcodecamp/api/admin/infisert"
+          , latlng = [59.676403, 10.606424];
+
+        var map = L.map(el).setView(latlng, 16);
+
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            id: 'jorgenbs.jl9j4hbj'
+        }).addTo(map);
+
+        var freeDraw = new L.FreeDraw();
+        freeDraw.setMode(L.FreeDraw.MODES.CREATE);
+        freeDraw.options.setBoundariesAfterEdit(false);
+        freeDraw.options.exitModeAfterCreate(false);
+
+        freeDraw.on('markers', function getMarkers(eventData) {
+
+            if (typeof eventData != "undefined") {
+                console.log(L.FreeDraw.Utilities.getMySQLMultiPolygon(eventData.latLngs));
+
+                //var model = mapToPostModel(eventData.latLngs);
+                var latlngs = _.last(eventData.latLngs);
+                var postModel = {
+                    "koordinater": mapToApiModel(latlngs)
+                };
+
+                //{ "Koordinater" : [ {"longitude" : "12", "latitude" : "11" }] }
+                console.log("Post infisertpolygon: " + JSON.stringify(postModel));
+                sendAutentisertRequest(apiResouce + "/post", "POST", null, postModel);
             }
-          });
+        });
 
-        })[0]
-      };
-    };
+        map.addLayer(freeDraw);
 
-  });
+        $("#create").click(function () {
+            freeDraw.setMode(L.FreeDraw.MODES.CREATE);
+        });
+        $("#delete").click(function () {
+            freeDraw.setMode(L.FreeDraw.MODES.DELETE);
+        });
+
+        sendAutentisertRequest(apiResouce + "/get", "GET", leggTilKoordinaterPaaKart);
+
+        function leggTilKoordinaterPaaKart(data) {
+            try {
+                if (typeof data != "undefined" && data.koordinater != null) {
+                    var polygons = mapToLeafletModel(data.koordinater);
+                    L.polygon(polygons).addTo(map);
+                }
+            } catch (e) {
+                console.log('no data');
+            }
+        }
+
+        function mapToLeafletModel(koordianter) {
+            var modelArray = [];
+            _.each(koordianter, function (latlng) {
+
+                var obj = {
+                    "lat": latlng.latitude,
+                    "lng": latlng.longitude
+                };
+
+                modelArray.push(obj);
+
+            });
+
+            return modelArray;
+        };
+        function mapToApiModel(koordianter) {
+            var modelArray = [];
+            _.each(koordianter, function (latlng) {
+
+                var obj = {
+                    "latitude": new String(latlng.lat),
+                    "longitude": new String(latlng.lng)
+                };
+
+                modelArray.push(obj);
+
+            });
+
+            return modelArray;
+        };
+
+        //stygg som juling
+        function mapToPostModel(latlngsArray) {
+
+            return {
+                "koordinater": _.map(latlngsArray, function (obj) {
+                    console.log(obj);
+                    return _.map(obj, function (latling) {
+                        return {
+                            "latitude": latling.lat,
+                            "longitude": latling.lng
+                        }
+                    });
+
+                })[0]
+            };
+        };
+
+    });
 </script>

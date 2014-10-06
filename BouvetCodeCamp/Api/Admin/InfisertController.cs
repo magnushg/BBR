@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
@@ -14,8 +15,8 @@
     /// Sett og Hent infiserte soner
     /// </summary>
     [RoutePrefix("api/admin/infisert")]
-    [Authorize]
-    public class InfisertController : ApiController
+    //[Authorize]
+    public class InfisertController : BaseApiController
     {
         private readonly IGameStateService _gameStateService;
 
@@ -47,12 +48,15 @@
             }
         }
 
-        // POST api/admin/infisert/infisert
+        // POST api/admin/infisert/post
         [HttpPost]
-        [Route("")]
+        [Route("post")]
         [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> Post([FromBody] InfisertPolygon modell)
         {
+            if (modell == null || modell.Koordinater == null) 
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modell er ugyldig.");
+
             var gameState = _gameStateService.HentGameState();
             gameState.InfisertPolygon = modell;
 
