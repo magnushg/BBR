@@ -7,6 +7,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Text;
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.Domene.InputModels;
 
@@ -237,6 +238,42 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                                      LagId = TestLagId,
                                      Poeng = 10
                                  };
+
+                var modellSomJson = JsonConvert.SerializeObject(modell);
+
+                var httpResponseMessage = await httpClient.PostAsync(
+                    ApiEndPointAddress,
+                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
+
+                isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+            }
+
+            // Assert
+            isSuccessStatusCode.ShouldBeTrue();
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task OpprettHendelse_GyldigModell_FårHttpStatusKodeOk()
+        {
+            // Arrange
+            SørgForAtEtLagFinnes();
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/oppretthendelse";
+
+            bool isSuccessStatusCode;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var modell = new LoggHendelseInputModell {
+                    LagId = TestLagId,
+                    Kommentar = "Testkommentar",
+                    HendelseType = HendelseType.Achievement
+                };
 
                 var modellSomJson = JsonConvert.SerializeObject(modell);
 

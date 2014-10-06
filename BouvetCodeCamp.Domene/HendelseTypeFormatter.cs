@@ -35,6 +35,10 @@
                 case HendelseType.Ukjent:
                     beskrivelse = "Ukjent";
                     break;
+
+                case HendelseType.Achievement:
+                    beskrivelse = "Achievement nådd";
+                    break;
             }
 
             return beskrivelse;

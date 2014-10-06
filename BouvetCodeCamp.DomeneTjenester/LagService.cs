@@ -9,6 +9,8 @@ namespace BouvetCodeCamp.DomeneTjenester
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.Domene.InputModels;
+
     public class LagService : ILagService
     {
         private readonly IRepository<Lag> _lagRepository;

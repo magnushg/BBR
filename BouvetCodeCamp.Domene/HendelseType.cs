@@ -8,6 +8,8 @@
         RegistrertKodeMislykket,
         HentetPifPosisjon,
         SendtMelding,
-        TildeltPoeng
+        TildeltPoeng,
+
+        Achievement
     }
 }

@@ -11,6 +11,7 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "tid")]
         public DateTime Tid { get; set; }
 
+        [JsonProperty(PropertyName = "kommentar")]
         public string Kommentar { get; set; }
 
         public LoggHendelse()

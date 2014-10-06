@@ -6,6 +6,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
     using System;
 
+    using BouvetCodeCamp.Domene.InputModels;
+
     public interface ILagService
     {
         Lag HentLagMedLagId(string lagId);

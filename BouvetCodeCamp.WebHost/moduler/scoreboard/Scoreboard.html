@@ -67,6 +67,7 @@
                                             <tr>
                                                 <th>Lag</th>
                                                 <th>Hendelse</th>
+                                                <th>Kommentar</th>
                                                 <th>Tid</th>
                                             </tr>
                                         </thead>
@@ -316,7 +317,12 @@
                 $('.hendelsestabell > tbody').html("");
 
                 $.each(SCOREBOARD.LoggHendelser, function (index, value) {
-                    $('.hendelsestabell').find('tbody:last').append('<tr><td>' + value.lagId + '</td><td>' + value.hendelse + '</td><td>' + value.tid + '</td></tr>');
+                    $('.hendelsestabell').find('tbody:last').append(
+                        '<tr><td>' + value.lagId +
+                        '</td><td>' + value.hendelse +
+                        '</td><td>' + value.tid +
+                        '</td><td>' + value.kommentar +
+                        '</td></tr>');
                 });
             }
 

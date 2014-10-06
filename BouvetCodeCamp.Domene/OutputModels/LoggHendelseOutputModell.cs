@@ -13,7 +13,7 @@
         [JsonProperty(PropertyName = "hendelse")]
         public string Hendelse { get; set; }
         
-        [JsonProperty(PropertyName = "hendelsetype")]
-        public string HendelseType { get; set; }
+        [JsonProperty(PropertyName = "kommentar")]
+        public string Kommentar { get; set; }
     }
 }

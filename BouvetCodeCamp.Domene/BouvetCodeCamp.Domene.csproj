@@ -59,6 +59,7 @@
     <Compile Include="Entiteter\Post.cs" />
     <Compile Include="ErrorResponseType.cs" />
     <Compile Include="HendelseType.cs" />
+    <Compile Include="InputModels\LoggHendelseInputModell.cs" />
     <Compile Include="InputModels\PifPosisjonInputModell.cs" />
     <Compile Include="InputModels\PostInputModell.cs" />
     <Compile Include="InputModels\MeldingInputModell.cs" />
