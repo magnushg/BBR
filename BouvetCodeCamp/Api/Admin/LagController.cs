@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.AdminApi
+namespace BouvetCodeCamp.Api.Admin
 {
     using System;
     using System.Net;
@@ -7,12 +7,11 @@ namespace BouvetCodeCamp.AdminApi
     using System.Web.Http;
 
     using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.Domene.InputModels;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
-    using Domene.Entiteter;
-    using DomeneTjenester.Interfaces;
-
-    [RoutePrefix("api/lag")]
+    [RoutePrefix("api/admin/lag")]
     [Authorize]
     public class LagController : BaseApiController
     {
@@ -26,7 +25,7 @@ namespace BouvetCodeCamp.AdminApi
             this.gameApi = gameApi;
         }
 
-        // GET api/lag/get
+        // GET api/admin/lag/get
         [Route("get")]
         [HttpGet]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -37,7 +36,7 @@ namespace BouvetCodeCamp.AdminApi
             return Request.CreateResponse(HttpStatusCode.OK, alleLag);
         }
 
-        // GET api/lag/get/a-b-c-d
+        // GET api/admin/lag/get/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -49,14 +48,14 @@ namespace BouvetCodeCamp.AdminApi
             var lag = lagService.Hent(id);
 
             if (lag == null)
-                return this.OpprettErrorResponse(
+                return OpprettErrorResponse(
                     ErrorResponseType.FantIkkeObjekt,
                     string.Format("Lag med id = '{0}' fantes ikke.", id));
 
             return Request.CreateResponse(HttpStatusCode.OK, lag);
         }
 
-        // POST api/lag/post
+        // POST api/admin/lag/post
         [Route("post")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -70,7 +69,7 @@ namespace BouvetCodeCamp.AdminApi
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // PUT api/lag/put
+        // PUT api/admin/lag/put
         [Route("put")]
         [HttpPut]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -84,7 +83,7 @@ namespace BouvetCodeCamp.AdminApi
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // DELETE api/lag/delete
+        // DELETE api/admin/lag/delete
         [Route("delete")]
         [HttpDelete]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -95,7 +94,7 @@ namespace BouvetCodeCamp.AdminApi
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // DELETE api/lag/delete/a-b-c-d
+        // DELETE api/admin/lag/delete/a-b-c-d
         [Route("delete/{id}")]
         [HttpDelete]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -107,7 +106,7 @@ namespace BouvetCodeCamp.AdminApi
             var lag = lagService.Hent(id);
 
             if (lag == null)
-                return this.OpprettErrorResponse(
+                return OpprettErrorResponse(
                     ErrorResponseType.FantIkkeObjekt, 
                     string.Format("Lag med id = '{0}' fantes ikke.", id));
             
@@ -116,7 +115,7 @@ namespace BouvetCodeCamp.AdminApi
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // DELETE api/lag/deletebylagid/a-b-c-d
+        // DELETE api/admin/lag/deletebylagid/a-b-c-d
         [Route("deletebylagid/{lagId}")]
         [HttpDelete]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -134,8 +133,8 @@ namespace BouvetCodeCamp.AdminApi
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
-        
-        // POST api/lag/tildelpoeng
+
+        // POST api/admin/lag/tildelpoeng
         [Route("tildelpoeng")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc

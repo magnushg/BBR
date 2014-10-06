@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.AdminApi
+namespace BouvetCodeCamp.Api.Admin
 {
     using System;
     using System.Net;
@@ -9,7 +9,7 @@ namespace BouvetCodeCamp.AdminApi
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
-    [RoutePrefix("api/gamestate")]
+    [RoutePrefix("api/admin/gamestate")]
     [Authorize]
     public class GameStateController : BaseApiController
     {
@@ -20,7 +20,7 @@ namespace BouvetCodeCamp.AdminApi
             this.gameStateService = gameStateService;
         }
 
-        // POST api/gamestate/post
+        // POST api/admin/gamestate/post
         [Route("post")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc

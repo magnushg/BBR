@@ -1,6 +1,4 @@
-using BouvetCodeCamp.Domene.OutputModels;
-
-namespace BouvetCodeCamp.GameApi
+namespace BouvetCodeCamp.Api.Game
 {
     using System;
     using System.Net;
@@ -9,10 +7,11 @@ namespace BouvetCodeCamp.GameApi
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using Domene;
-    using Domene.InputModels;
-    using DomeneTjenester.Interfaces;
-    using SignalR;
+    using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.Domene.InputModels;
+    using BouvetCodeCamp.Domene.OutputModels;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.SignalR;
 
     using Microsoft.AspNet.SignalR;
 

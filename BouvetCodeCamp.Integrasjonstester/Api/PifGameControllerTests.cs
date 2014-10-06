@@ -106,7 +106,8 @@
                                 new LagPost {
                                         Kode = PostKode,
                                         Posisjon = new Koordinat("12", "12"),
-                                        PostTilstand = PostTilstand.Ukjent
+                                        PostTilstand = PostTilstand.Ukjent,
+                                        Nummer = 1
                                     }
                             };
 
@@ -123,7 +124,8 @@
                 var modell = new PostInputModell {
                     Kode = PostKode,
                     Koordinat = new Koordinat("12", "12"),
-                    LagId = TestLagId
+                    LagId = TestLagId,
+                    Postnummer = 1
                 };
 
                 var modellSomJson = JsonConvert.SerializeObject(modell);

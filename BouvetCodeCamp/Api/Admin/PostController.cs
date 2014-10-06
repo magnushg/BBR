@@ -1,19 +1,16 @@
-namespace BouvetCodeCamp.AdminApi
+namespace BouvetCodeCamp.Api.Admin
 {
     using System;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
 
     using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.GameApi;
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
-    using Domene.Entiteter;
-    using DomeneTjenester.Interfaces;
-
-    [RoutePrefix("api/post")]
+    [RoutePrefix("api/admin/post")]
     [Authorize]
     public class PostController : BaseApiController
     {
@@ -24,7 +21,7 @@ namespace BouvetCodeCamp.AdminApi
             this.postService = postService;
         }
 
-        // GET api/post/get
+        // GET api/admin/post/get
         [Route("get")]
         [HttpGet]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -32,10 +29,10 @@ namespace BouvetCodeCamp.AdminApi
         {
             var poster = postService.HentAlle();
             
-            return this.Request.CreateResponse(HttpStatusCode.OK, poster);
+            return Request.CreateResponse(HttpStatusCode.OK, poster);
         }
 
-        // GET api/post/get/a-b-c-d
+        // GET api/admin/post/a-b-c-d
         [Route("get/{id}")]
         [HttpGet]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -47,42 +44,42 @@ namespace BouvetCodeCamp.AdminApi
             var post = postService.Hent(id);
 
             if (post == null)
-                return this.OpprettErrorResponse(
+                return OpprettErrorResponse(
                     ErrorResponseType.FantIkkeObjekt,
                     string.Format("Post med id = '{0}' fantes ikke.", id));
 
-            return this.Request.CreateResponse(HttpStatusCode.OK, post);
+            return Request.CreateResponse(HttpStatusCode.OK, post);
         }
 
-        // POST api/post/post
+        // POST api/admin/post/post
         [Route("post")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> PostPost([FromBody]Post modell)
         {
             if (modell == null)
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await this.postService.Opprett(modell);
+            await postService.Opprett(modell);
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // PUT api/post/put
+        // PUT api/admin/post/put
         [Route("put")]
         [HttpPut]
         [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> PutPost([FromBody]Post model)
         {
             if (model == null)
-                return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await this.postService.Oppdater(model);
+            await postService.Oppdater(model);
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // DELETE api/post/delete
+        // DELETE api/admin/post/delete
         [Route("delete")]
         [HttpDelete]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -90,10 +87,10 @@ namespace BouvetCodeCamp.AdminApi
         {
             await postService.SlettAlle();
             
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        // DELETE api/post/delete/a-b-c-d
+        // DELETE api/admin/post/delete/a-b-c-d
         [Route("delete/{id}")]
         [HttpDelete]
         [Obsolete] // Skjule for Swagger-apidoc
@@ -105,13 +102,13 @@ namespace BouvetCodeCamp.AdminApi
             var post = postService.Hent(id);
 
             if (post == null)
-                return this.OpprettErrorResponse(
+                return OpprettErrorResponse(
                     ErrorResponseType.FantIkkeObjekt,
                     string.Format("Post med id = '{0}' fantes ikke.", id));
             
             await postService.Slett(post);
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

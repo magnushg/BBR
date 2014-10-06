@@ -287,8 +287,20 @@ namespace BouvetCodeCamp.UnitTest.Felles
         [Test]
         public void KoordinaterErNærHverandre_PerfectMatch_ReturnsTrue()
         {
-            Koordinat first = new Koordinat("45.45", "45.45"),
-                second = new Koordinat("45.45", "45.45");
+            Koordinat first = new Koordinat("12", "12"),
+                second = new Koordinat("12", "12");
+
+            Assert.IsTrue(this.koordinatVerifier.KoordinaterErNærHverandre(first, second));
+        }
+
+        ///
+        /// KoordinaterErNærHverandre
+        ///
+        [Test]
+        public void KoordinaterErNærHverandre_PerfectMatchWithNoDecimals_ReturnsTrue()
+        {
+            Koordinat first = new Koordinat("12", "12"),
+                second = new Koordinat("12", "12");
 
             Assert.IsTrue(this.koordinatVerifier.KoordinaterErNærHverandre(first, second));
         }

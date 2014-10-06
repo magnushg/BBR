@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.GameApi
+﻿namespace BouvetCodeCamp.Api.Game
 {
     using System;
     using System.Net;
@@ -7,9 +7,9 @@
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using Domene;
-    using Domene.InputModels;
-    using DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.Domene.InputModels;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/game/base")]
     public class BaseGameController : BaseApiController

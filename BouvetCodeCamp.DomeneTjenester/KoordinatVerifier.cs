@@ -11,9 +11,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         public static double LongProximityThreshold = 10;
         public static double LatProximityThreshold = 10;
         public static double RadianceThreshold = 100; //meter
-
+        
         public bool KoordinaterErNærHverandre(Koordinat first, Koordinat second)
         {
+            if (KoordinaterErLike(first, second)) 
+                return true;
+
             double firstLong, firstLat,
                 secondLong, secondLat;
 
@@ -101,6 +104,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         private double rad2deg(double rad) {
           return (rad / Math.PI * 180.0);
+        }
+
+        private bool KoordinaterErLike(Koordinat first, Koordinat second)
+        {
+            return first.Latitude.Equals(second.Latitude) &&
+                first.Longitude.Equals(second.Longitude);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             SørgForAtEnPostFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/post/get";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/post/get";
 
             IEnumerable<Post> poster;
 
@@ -60,7 +60,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var alleTestPoster = this.HentAlleTestPoster();
             var testPostDocumentId = alleTestPoster.FirstOrDefault().DocumentId;
 
-            string apiEndPointAddress = ApiBaseAddress + "/api/post/get/" + testPostDocumentId;
+            string apiEndPointAddress = ApiBaseAddress + "/api/admin/post/get/" + testPostDocumentId;
 
             Post post;
 
@@ -84,7 +84,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         public async Task PostPost_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/post/post";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/post/post";
 
             bool isSuccessStatusCode;
 
@@ -119,7 +119,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var alleTestPoster = this.HentAlleTestPoster();
             var testPost = alleTestPoster.FirstOrDefault();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/post/put";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/post/put";
 
             bool isSuccessStatusCode;
 
@@ -149,7 +149,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             this.SørgForAtEnPostFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/post/delete";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/post/delete";
 
             // Act
             using (var httpClient = new HttpClient())
@@ -174,7 +174,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var alleTestPoster = this.HentAlleTestPoster();
             var testPostDocumentId = alleTestPoster.FirstOrDefault().DocumentId;
 
-            string apiEndPointAddress = ApiBaseAddress + "/api/post/delete/" + testPostDocumentId;
+            string apiEndPointAddress = ApiBaseAddress + "/api/admin/post/delete/" + testPostDocumentId;
 
             // Act
             using (var httpClient = new HttpClient())

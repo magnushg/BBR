@@ -52,7 +52,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             var kandidater = lag.Poster.Where(k => k.Kode.Equals(kode, StringComparison.CurrentCultureIgnoreCase) 
                 && k.Nummer == postnummer
-                && this.koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat)
+                && koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat)
                 && k.PostTilstand.Equals(PostTilstand.Ukjent)).ToList();
 
             switch (kandidater.Count())

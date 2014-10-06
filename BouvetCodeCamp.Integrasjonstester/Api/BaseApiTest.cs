@@ -30,7 +30,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         
         protected async Task<bool> OpprettLagViaApi(Lag lag)
         {
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/post";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/post";
 
             using (var httpClient = new HttpClient())
             {
@@ -49,7 +49,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         protected async Task<bool> OpprettPostViaApi(Post post)
         {
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/post/post";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/post/post";
 
             using (var httpClient = new HttpClient())
             {
@@ -68,7 +68,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         protected async Task<bool> OpprettGameStateViaApi(GameState gameState)
         {
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/gamestate/post";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/gamestate/post";
 
             using (var httpClient = new HttpClient())
             {
@@ -87,7 +87,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         protected bool SlettLag(string lagId)
         {
-            var ApiEndPointAddress = ApiBaseAddress + "/api/lag/deletebylagid/" + lagId;
+            var ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/deletebylagid/" + lagId;
 
             using (var httpClient = new HttpClient())
             {
@@ -106,7 +106,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
             foreach (var post in testPoster)
             {
-                var apiEndPointAddress = ApiBaseAddress + "/api/post/delete/" + post.DocumentId;
+                var apiEndPointAddress = ApiBaseAddress + "/api/admin/post/delete/" + post.DocumentId;
 
                 using (var httpClient = new HttpClient())
                 {
@@ -124,7 +124,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 .With(o => o.LagId = TestLagId)
                 .Build();
 
-            var lagOpprettet = this.OpprettLagViaApi(lag).Result;
+            var lagOpprettet = OpprettLagViaApi(lag).Result;
 
             if (!lagOpprettet)
                 Assert.Fail();
@@ -136,7 +136,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 .With(o => o.Navn = TestPostNavn)
                 .Build();
 
-            var postOpprettet = this.OpprettPostViaApi(post).Result;
+            var postOpprettet = OpprettPostViaApi(post).Result;
 
             if (!postOpprettet)
                 Assert.Fail();
@@ -149,7 +149,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 .With(o => o.Poster = koder)
                 .Build();
 
-            var lagOpprettet = this.OpprettLagViaApi(lagMedKoder).Result;
+            var lagOpprettet = OpprettLagViaApi(lagMedKoder).Result;
 
             if (!lagOpprettet)
                 Assert.Fail();
@@ -175,7 +175,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         protected async Task<IEnumerable<Lag>> HentAlleTestLag()
         {
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/get";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/get";
 
             IEnumerable<Lag> lag;
 
@@ -195,7 +195,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         protected IEnumerable<Post> HentAlleTestPoster()
         {
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/post/get";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/post/get";
 
             IEnumerable<Post> poster;
 

@@ -33,7 +33,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             SørgForAtEtLagFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/get";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/get";
             
             IEnumerable<Lag> lag;
 
@@ -61,7 +61,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var alleTestLag = await this.HentAlleTestLag();
             var testLagDocumentId = alleTestLag.FirstOrDefault().DocumentId;
 
-            string apiEndPointAddress = ApiBaseAddress + "/api/lag/get/" + testLagDocumentId;
+            string apiEndPointAddress = ApiBaseAddress + "/api/admin/lag/get/" + testLagDocumentId;
 
             Lag lag;
 
@@ -85,7 +85,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         public async Task PostLag_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/post";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/post";
 
             bool isSuccessStatusCode;
 
@@ -120,7 +120,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var alleTestLag = await this.HentAlleTestLag();
             var testLag = alleTestLag.FirstOrDefault();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/put";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/put";
 
             bool isSuccessStatusCode;
 
@@ -150,7 +150,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Arrange
             SørgForAtEtLagFinnes();
 
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/delete";
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/delete";
 
             // Act
             using (var httpClient = new HttpClient())
@@ -175,7 +175,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var alleTestLag = await this.HentAlleTestLag();
             var testLagDocumentId = alleTestLag.FirstOrDefault().DocumentId;
 
-            string apiEndPointAddress = ApiBaseAddress + "/api/lag/delete/" + testLagDocumentId;
+            string apiEndPointAddress = ApiBaseAddress + "/api/admin/lag/delete/" + testLagDocumentId;
 
             // Act
             using (var httpClient = new HttpClient())
@@ -200,7 +200,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var alleTestLag = await this.HentAlleTestLag();
             var testLagLagId = alleTestLag.FirstOrDefault().LagId;
 
-            string apiEndPointAddress = ApiBaseAddress + "/api/lag/deletebylagid/" + testLagLagId;
+            string apiEndPointAddress = ApiBaseAddress + "/api/admin/lag/deletebylagid/" + testLagLagId;
 
             // Act
             using (var httpClient = new HttpClient())
@@ -221,8 +221,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         {
             // Arrange
             SørgForAtEtLagFinnes();
-            
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/lag/tildelpoeng";
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/tildelpoeng";
 
             bool isSuccessStatusCode;
 

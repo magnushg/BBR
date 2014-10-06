@@ -334,10 +334,10 @@
             $(document).ready(function () {
 
                 // 1. Hent og rendre alle lag
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/lag/get", "GET", lastInnLagene);
+                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/lag/get", "GET", lastInnLagene);
 
                 // 2. Hent og rendre alle poster
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/post/get", "GET", lastInnPoster);
+                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/post/get", "GET", lastInnPoster);
 
                 // 2. Hent og rendre infisert sone
                 //sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
