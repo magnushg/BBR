@@ -1,11 +1,15 @@
 ﻿namespace BouvetCodeCamp.Integrasjonstester.Api
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
     using System.Threading.Tasks;
+
+    using BouvetCodeCamp.Domene.OutputModels;
 
     using Domene;
     using Domene.Entiteter;
@@ -176,7 +180,41 @@
         [TestCategory(Testkategorier.Api)]
         public void ErInfisert_IngenPifErRegistrert_ReturnsFalse()
         {
+            //TODO
+        }
 
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task HentMeldinger_LagetHarMeldinger_GirMeldinger()
+        {
+            // Arrange
+            var meldinger = new List<Melding>
+                                {
+                                    new Melding {
+                                            LagId = string.Empty,
+                                            Tekst = "heihei",
+                                            Type = MeldingType.Fritekst,
+                                            Tid = DateTime.Now
+                                        }
+                                };
+
+            SørgForAtEtLagMedMeldingerFinnes(meldinger);
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/hentmeldinger/" + TestLagId;
+
+            IEnumerable<MeldingOutputModell> lagMeldinger;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                lagMeldinger = JsonConvert.DeserializeObject<IEnumerable<MeldingOutputModell>>(content);
+            }
+
+            // Assert
+            lagMeldinger.ShouldNotBeEmpty();
         }
     }
 }

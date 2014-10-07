@@ -167,6 +167,13 @@ namespace BouvetCodeCamp.DomeneTjenester
             return _koordinatVerifier.KoordinatErInnenforPolygonet(pifPosisjon.Posisjon, gameState.InfisertPolygon.Koordinater);
         }
 
+        public IEnumerable<Melding> HentMeldinger(string lagId)
+        {
+            var lag = _lagService.HentLagMedLagId(lagId);
+
+            return lag.Meldinger;
+        }
+
         private PostOutputModell OpprettPostOutput(LagPost post)
         {
             return new PostOutputModell

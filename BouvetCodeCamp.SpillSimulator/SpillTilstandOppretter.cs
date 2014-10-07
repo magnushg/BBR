@@ -38,7 +38,28 @@ namespace BouvetCodeCamp.SpillSimulator
                 {
                     Latitude = "59.6804558114",
                     Longitude = "10.60457",
+                },
+                new Koordinat
+                {
+                    Latitude = "59.6735388134",
+                    Longitude = "10.6051534508",
+                },
+                 new Koordinat
+                {
+                    Latitude = "59.67616",
+                    Longitude = "10.60672",
+                },
+                 new Koordinat
+                {
+                    Latitude = "59.67775",
+                    Longitude = "10.60778",
+                },
+                 new Koordinat
+                {
+                    Latitude = "59.67865",
+                    Longitude = "10.60835",
                 }
+
             };
         }
 
@@ -51,7 +72,8 @@ namespace BouvetCodeCamp.SpillSimulator
                 {23, "rxp18"},
                 {1, "oxx2"},
                 {8, "lxr9"},
-                {2, "fxo3"}
+                {13, "axne"},
+                {2, "fxo3" }
             };
         }
     }
