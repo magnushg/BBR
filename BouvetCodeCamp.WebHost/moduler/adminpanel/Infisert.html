@@ -1,29 +1,108 @@
 <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
 
 <style>
-    body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-    }
-
-    #map {
-        width: 100%;
-        height: 100%;
-        float: left;
-    }
-
-        #map.mode-create {
-            cursor: crosshair;
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
         }
 
-    #controls {
+        #map {
+            width: 100%;
+            height: 100%;
+            float: left;
+        }
+
+            #map.mode-create {
+                cursor: crosshair;
+            }
+
+        #controls {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 2em;
+            z-index: 10000;
+        }
+
+        /*#map {
         position: absolute;
+        left: 0;
         top: 0;
-        right: 0;
-        padding: 2em;
-        z-index: 10000;
-    }
+        width: 50%;
+        overflow: visible;
+        height: 100%;
+    }*/
+
+        #map section.overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            box-shadow: inset -100px 0 100px -100px rgba(0, 0, 0, .25);
+            width: 100%;
+            height: 100%;
+            z-index: 2001;
+        }
+
+        #map.mode-create {
+            cursor: crosshair !important;
+        }
+
+        #map g path {
+            transition: all 0.25s;
+            stroke-width: 4px;
+            stroke-opacity: 1;
+            stroke: #D7217E;
+            position: absolute;
+            z-index: 1001;
+            fill: #D7217E;
+            fill-opacity: .75;
+            -webkit-filter: none;
+        }
+
+        #map.mode-delete path {
+            cursor: no-drop !important;
+        }
+
+            #map.mode-delete path:hover {
+                fill: #4d4d4d !important;
+            }
+
+        #map div.polygon-elbow {
+            -webkit-transition: opacity .25s;
+            box-shadow: 0 0 0 2px white, 0 0 10px rgba(0, 0, 0, .35);
+            border: 5px solid #D7217E;
+            border-radius: 10px;
+            transition: opacity 0.25s;
+            cursor: move;
+            opacity: 0;
+            pointer-events: none;
+            box-sizing: border-box;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+            #map div.polygon-elbow.non-polygon {
+                opacity: 0 !important;
+                pointer-events: none !important;
+                border: 5px solid darkgray;
+            }
+
+        #map.mode-edit div.polygon-elbow {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #map svg.tracer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2001;
+            pointer-events: none;
+        }
 </style>
 
 <div id="map"></div>
@@ -80,41 +159,47 @@
             id: 'jorgenbs.jl9j4hbj'
         }).addTo(map);
 
-        var freeDraw = new L.FreeDraw();
-        freeDraw.setMode(L.FreeDraw.MODES.CREATE);
-        freeDraw.options.setBoundariesAfterEdit(false);
+        var freeDraw = new L.FreeDraw({
+            mode: L.FreeDraw.MODES.DELETE |  L.FreeDraw.MODES.CREATE
+        });
         freeDraw.options.exitModeAfterCreate(false);
 
         freeDraw.on('markers', function getMarkers(eventData) {
 
             if (typeof eventData != "undefined") {
                 console.log(L.FreeDraw.Utilities.getMySQLMultiPolygon(eventData.latLngs));
-                
+
                 var latlngs = _.last(eventData.latLngs);
                 var postModel = {
                     "koordinater": mapToApiModel(latlngs)
                 };
-                
+
+
+                //if (latlngs == "" || latlngs == undefined) {
+                //    freeDraw.setMode(L.FreeDraw.MODES.CREATE);
+                //    console.log(L.FreeDraw.MODES.CREATE);
+                //}
+                //else {
+                //    freeDraw.setMode(L.FreeDraw.MODES.DELETE);
+                //    console.log(L.FreeDraw.MODES.DELETE);
+                //}
+
                 sendAutentisertRequest(apiResouce + "/post", "POST", null, postModel);
             }
         });
 
         map.addLayer(freeDraw);
 
-        $("#create").click(function () {
-            freeDraw.setMode(L.FreeDraw.MODES.CREATE);
-        });
-        $("#delete").click(function () {
-            freeDraw.setMode(L.FreeDraw.MODES.DELETE);
-        });
+       
 
-        sendAutentisertRequest(apiResouce + "/get", "GET", leggTilKoordinaterPaaKart);
-
+       sendAutentisertRequest(apiResouce + "/get", "GET", leggTilKoordinaterPaaKart);
+       
         function leggTilKoordinaterPaaKart(data) {
             try {
                 if (typeof data != "undefined" && data.koordinater != null) {
                     var polygons = mapToLeafletModel(data.koordinater);
                     L.polygon(polygons).addTo(map);
+                   
                 }
             } catch (e) {
                 console.log('no data');
@@ -152,22 +237,7 @@
             return modelArray;
         };
 
-        //stygg som juling
-        function mapToPostModel(latlngsArray) {
 
-            return {
-                "koordinater": _.map(latlngsArray, function (obj) {
-                    console.log(obj);
-                    return _.map(obj, function (latling) {
-                        return {
-                            "latitude": latling.lat,
-                            "longitude": latling.lng
-                        }
-                    });
-
-                })[0]
-            };
-        };
 
     });
 </script>
