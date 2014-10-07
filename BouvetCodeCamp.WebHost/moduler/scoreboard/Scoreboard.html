@@ -25,7 +25,7 @@
 
         <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
 
-        <script src="http://bouvet-code-camp.azurewebsites.net/signalr/hubs"></script>
+        <script src="/signalr/hubs"></script>
 
         <!-- Owl Carousel -->
         <script src="js/owl-carousel/owl.carousel.js"></script>
@@ -83,6 +83,7 @@
         </div>
         
         <script type="text/javascript">
+            'use strict';
 
             var map = null;
             var redMarkerIcon = null;
@@ -98,24 +99,8 @@
                     id: 'jorgenbs.jl9j4hbj'
                 }).addTo(map);
 
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
-
-                function mapToLeafletModel(koordianter) {
-                    var modelArray = [];
-                    _.each(koordianter, function (latlng) {
-
-                        var obj = {
-                            "lat": latlng.latitude,
-                            "lng": latlng.longitude
-                        };
-
-                        modelArray.push(obj);
-
-                    });
-
-                    return modelArray;
-                };
-
+                sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
+            
                 //Extend the Default marker class
                 var redIcon = L.Icon.Default.extend({
                     options: {
@@ -125,7 +110,6 @@
                 redMarkerIcon = new redIcon();
             });
 
-            var baseApiAddress = "bouvet-code-camp.azurewebsites.net";
             var map;
             var MaksAntallLoggHendelser = 20;
 
@@ -329,13 +313,13 @@
             $(document).ready(function () {
 
                 // 1. Hent og rendre alle lag
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/lag/get", "GET", lastInnLagene);
+                sendAutentisertRequest("/api/admin/lag/get", "GET", lastInnLagene);
 
                 // 2. Hent og rendre alle poster
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/post/get", "GET", lastInnPoster);
+                sendAutentisertRequest("/api/admin/post/get", "GET", lastInnPoster);
 
                 // 2. Hent og rendre infisert sone
-                sendAutentisertRequest("http://" + baseApiAddress + "/api/admin/infisert/get", "GET", lastInnInfisertSone);
+                sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
 
                 $(".owl-carousel").owlCarousel({
                     autoPlay: true,
@@ -369,7 +353,7 @@
 
             $(function () {
                 //Set the hubs URL for the connection
-                $.connection.hub.url = "http://" + baseApiAddress + "/signalr";
+                $.connection.hub.url = "/signalr";
 
                 // Declare a proxy to reference the hub.
                 var hub = $.connection.gameHub;
@@ -378,26 +362,6 @@
 
                     lastInnInfisertSone(infisertSone);
 
-                    //if (zone.latitude == 0 && zone.longitude == 0) {
-                    //    infectedZone.setMap(null);
-                    //} else {
-                    //    var newPosition = new google.maps.LatLng(zone.latitude, zone.longitude);
-
-                    //    var options = {
-                    //        fillColor: '#00FF00',
-                    //        center: newPosition,
-                    //        map: map
-                    //    };
-
-                    //    infectedZone.setOptions(options);
-
-                    //    setTimeout(function() {
-                    //        var options = {
-                    //            fillColor: '#FF0000'
-                    //        };
-                    //        infectedZone.setOptions(options);
-                    //    }, 30000);
-                    //}
                 };
 
                 // Create a function that the hub can call to broadcast messages.

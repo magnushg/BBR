@@ -18,7 +18,7 @@
     /// Sett og Hent infiserte soner
     /// </summary>
     [RoutePrefix("api/admin/infisert")]
-    //[Authorize]
+    [System.Web.Http.Authorize]
     public class InfisertController : BaseApiController
     {
         private readonly IGameStateService _gameStateService;

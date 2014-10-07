@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net.Http;
+
 using Microsoft.Owin.Hosting;
 
 namespace BouvetCodeCamp
@@ -8,11 +8,11 @@ namespace BouvetCodeCamp
     {
         static void Main(string[] args)
         {
-            string baseAddress = "http://bouvet-code-camp.azurewebsites.net";
+            const string BaseAddress = "http://bouvet-code-camp.azurewebsites.net";
 
-            using (WebApp.Start<Startup>(baseAddress))
+            using (WebApp.Start<Startup>(BaseAddress))
             {
-                Console.WriteLine("Server running at {0}", baseAddress);
+                Console.WriteLine("Server running at {0}", BaseAddress);
                 Console.WriteLine("\r\nPress any key to stop server...");
                 Console.ReadLine();
             }

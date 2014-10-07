@@ -57,7 +57,7 @@ namespace BouvetCodeCamp
             // Services
             builder.RegisterType<LagService>().As<ILagService>();
             builder.RegisterType<PostService>().As<IPostService>();
-            builder.RegisterType<DomeneTjenester.GameApi>().As<IGameApi>();
+            builder.RegisterType<GameApi>().As<IGameApi>();
             builder.RegisterType<GameStateService>().As<IGameStateService>();
 
             // Repositories
@@ -66,13 +66,11 @@ namespace BouvetCodeCamp
             builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>();
 
             builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
-
-
+            
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>().SingleInstance();
            
-
-
             var container = builder.Build();
+
              // Create an assign a dependency resolver for Web API to use.
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
@@ -88,7 +86,7 @@ namespace BouvetCodeCamp
 
             appBuilder.MapSignalR(hubConfig);
         }
-
+        
         private void SetGlobalizationCulture(string cultureLanguage)
         {
             var culture = CultureInfo.CreateSpecificCulture(cultureLanguage);
