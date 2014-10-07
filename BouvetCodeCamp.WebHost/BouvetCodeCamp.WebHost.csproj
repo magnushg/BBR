@@ -22,6 +22,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <ApplicationInsightsResourceId>/subscriptions/78846242-9c0e-47b5-b157-e9727c7599c7/resourcegroups/BouvetCodeCamp.WebHost/providers/microsoft.insights/components/BouvetCodeCamp.WebHost</ApplicationInsightsResourceId>
+    <NuGetPackageImportStamp>55a48caa</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,7 +42,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="docs\BouvetCodeCamp.xml" />
+    <Content Include="docs\BouvetCodeCamp.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="moduler\adminpanel\Infisert.html" />
     <Content Include="moduler\bower_components\angular\angular-csp.css" />
     <Content Include="moduler\bower_components\angular\angular.js" />
@@ -387,8 +390,9 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.Web.0.10.0-build17704\lib\net45\Microsoft.ApplicationInsights.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.24\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.0.26.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -448,17 +452,14 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets')" />
   <Target Name="EnsureApplicationInsightsImported" BeforeTargets="BeforeBuild" Condition="'$(ApplicationInsightsImported)' == ''">
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
     <Error Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
   </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

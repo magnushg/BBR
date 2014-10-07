@@ -16,6 +16,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Newtonsoft.Json;
+    using Microsoft.Owin.Hosting;
 
     [TestClass]
     public class BaseApiTest
@@ -24,12 +25,32 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         protected const string Brukernavn = "bouvet";
 
-        protected const string ApiBaseAddress = "http://bouvetcodecamp";
+        protected const string ApiBaseAddress = "http://localhost:52501";
 
         protected const string TestLagId = "testlag1";
 
         protected const string TestPostNavn = "testpost1";
-        
+        IDisposable webServer;
+        [TestInitialize]
+        public void Setup()
+        {
+           webServer= WebApp.Start<Startup>(ApiBaseAddress);
+            //using ()
+            //{
+            //    //http://localhost:2014/api/game/pif/getAll
+            //    ///http://localhost:2014/api/game/pif/put?Latitude=59.674976&Longitude=10.606908&LagId=3
+            //    //http://localhost:2014/api/game/setRedZone?Latitude=59.674976&Longitude=10.606908
+            //    //http://localhost:2014/api/game/setRedZone?Latitude=0&Longitude=0
+            //    Console.WriteLine("Server running at {0}", ApiBaseAddress);
+            //    Console.WriteLine("\r\nPress any key to stop server...");
+            //    Console.ReadLine();
+            //}
+        }
+        [TestCleanup]
+        public void Cleanup()
+        {
+            webServer.Dispose();
+        }
         protected async Task<bool> OpprettLagViaApi(Lag lag)
         {
             const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/post";
