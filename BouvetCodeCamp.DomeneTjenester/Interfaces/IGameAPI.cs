@@ -7,6 +7,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.Domene.Entiteter;
+
     public interface IGameApi
     {
         Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell);
@@ -24,5 +26,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task TildelPoeng(PoengInputModell inputModell);
 
         bool ErLagPifInnenInfeksjonssone(string lagId);
+
+        IEnumerable<Melding> HentMeldinger(string lagId);
     }
 }

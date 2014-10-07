@@ -1,5 +1,6 @@
 namespace BouvetCodeCamp.Integrasjonstester.Api
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
@@ -7,6 +8,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Text;
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
 
     using FizzWare.NBuilder;
@@ -155,6 +157,19 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 Assert.Fail();
         }
 
+        protected void SørgForAtEtLagMedMeldingerFinnes(List<Melding> meldinger)
+        {
+            var lagMedKoder = Builder<Lag>.CreateNew()
+                .With(o => o.LagId = TestLagId)
+                .With(o => o.Meldinger = meldinger)
+                .Build();
+
+            var lagOpprettet = OpprettLagViaApi(lagMedKoder).Result;
+
+            if (!lagOpprettet)
+                Assert.Fail();
+        }
+
         protected void SørgForAtEtInfisertPolygonFinnes()
         {
             var gameState = Builder<GameState>.CreateNew()
@@ -211,6 +226,70 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             }
 
             return poster.Where(o => o.Navn == TestPostNavn);
+        }
+
+        protected void SørgForAtEtLagMedEnPifPosisjonFinnes()
+        {
+            var pifPosisjoner = new List<PifPosisjon>
+                                    {
+                                                        new PifPosisjon {
+                                                            LagId = TestLagId,
+                                                            Posisjon = new Koordinat
+                                                            {
+                                                              Latitude = "12.1",
+                                                              Longitude = "12.1"
+                                                            },
+                                                            Tid = DateTime.Now
+                                                        }
+                                    };
+
+            var lag = Builder<Lag>.CreateNew()
+                .With(o => o.LagId = TestLagId)
+                .With(o => o.PifPosisjoner = pifPosisjoner)
+                .Build();
+
+            var lagOpprettet = this.OpprettLagViaApi(lag).Result;
+
+            if (!lagOpprettet)
+                Assert.Fail();
+        }
+
+        protected void SørgForAtEtLagMedUtenPifPosisjonFinnes()
+        {
+            var pifPosisjoner = new List<PifPosisjon>();
+
+            var lag = Builder<Lag>.CreateNew()
+                .With(o => o.LagId = TestLagId)
+                .With(o => o.PifPosisjoner = pifPosisjoner)
+                .Build();
+
+            var lagOpprettet = this.OpprettLagViaApi(lag).Result;
+
+            if (!lagOpprettet)
+                Assert.Fail();
+        }
+
+        protected void SørgForAtEtLagMedRegistrerteKoderFinnes()
+        {
+            var registrerteKoder = new List<LagPost>
+                                       {
+                                           new LagPost()
+                                               {
+                                                   Kode = "akje",
+                                                   Posisjon = new Koordinat("12", "12"),
+                                                   PostTilstand = PostTilstand.Oppdaget
+                                               }
+                                       };
+
+            var lag = Builder<Lag>.CreateNew()
+                .With(o => o.LagId = TestLagId)
+                .With(o => o.Poster = registrerteKoder)
+                .Build();
+
+            var lagOpprettet = this.OpprettLagViaApi(lag).Result;
+
+            if (!lagOpprettet)
+                Assert.Fail();
         }
     }
 }

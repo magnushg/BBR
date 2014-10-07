@@ -67,6 +67,7 @@
     <Compile Include="MeldingType.cs" />
     <Compile Include="OutputModels\KodeOutputModel.cs" />
     <Compile Include="OutputModels\LoggHendelseOutputModell.cs" />
+    <Compile Include="OutputModels\MeldingOutputModell.cs" />
     <Compile Include="OutputModels\PifPosisjonOutputModell.cs" />
     <Compile Include="OutputModels\InfisertPolygonOutputModell.cs" />
     <Compile Include="OutputModels\PostOutputModell.cs" />

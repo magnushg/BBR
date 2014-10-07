@@ -1,6 +1,8 @@
 namespace BouvetCodeCamp.Api.Game
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -124,6 +126,42 @@ namespace BouvetCodeCamp.Api.Game
                 var result = _gameApi.ErLagPifInnenInfeksjonssone(lagId);
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+        }
+
+        /// <summary>
+        /// Henter meldinger som er sendt til PIF.
+        /// </summary>
+        /// <param name="lagId">string lagId</param>
+        /// <remarks>GET api/game/pif/hentmeldinger/a-b-c-d</remarks>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
+        [Route("hentmeldinger/{lagId}")]
+        [ResponseType(typeof(HttpResponseMessage))]
+        [HttpGet]
+        public HttpResponseMessage HentMeldinger(string lagId)
+        {
+            if (string.IsNullOrEmpty(lagId))
+                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
+
+            try
+            {
+                var meldinger = _gameApi.HentMeldinger(lagId);
+
+                var modell = meldinger.Select(melding => new MeldingOutputModell
+                                                             {
+                                                                 LagId = melding.LagId, 
+                                                                 Tekst = melding.Tekst, 
+                                                                 Type = melding.Type, 
+                                                                 Tid = melding.Tid
+                                                             }).ToList();
+
+                return Request.CreateResponse(HttpStatusCode.OK, modell);
             }
             catch (Exception e)
             {
