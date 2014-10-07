@@ -106,10 +106,7 @@
 </style>
 
 <div id="map"></div>
-<div id="controls">
-    <button id="create">CREATE</button><br />
-    <button id="delete">DELETE</button>
-</div>
+
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/d3/d3.min.js"></script>
@@ -165,7 +162,7 @@
         freeDraw.options.exitModeAfterCreate(false);
 
         freeDraw.on('markers', function getMarkers(eventData) {
-
+           
             if (typeof eventData != "undefined") {
                 console.log(L.FreeDraw.Utilities.getMySQLMultiPolygon(eventData.latLngs));
 
@@ -173,17 +170,6 @@
                 var postModel = {
                     "koordinater": mapToApiModel(latlngs)
                 };
-
-
-                //if (latlngs == "" || latlngs == undefined) {
-                //    freeDraw.setMode(L.FreeDraw.MODES.CREATE);
-                //    console.log(L.FreeDraw.MODES.CREATE);
-                //}
-                //else {
-                //    freeDraw.setMode(L.FreeDraw.MODES.DELETE);
-                //    console.log(L.FreeDraw.MODES.DELETE);
-                //}
-
                 sendAutentisertRequest(apiResouce + "/post", "POST", null, postModel);
             }
         });
