@@ -8,5 +8,10 @@
     {
         [JsonProperty(PropertyName = "koordinater")]
         public Koordinat[] Koordinater { get; set; }
+
+        public InfisertPolygonOutputModell()
+        {
+            Koordinater = new Koordinat[0];
+        }
     }
 }
