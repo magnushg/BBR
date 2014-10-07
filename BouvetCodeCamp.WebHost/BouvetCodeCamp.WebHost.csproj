@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="docs\BouvetCodeCamp.xml" />
-    <Content Include="moduler\adminpanel\Adminpanel.html" />
     <Content Include="moduler\adminpanel\Infisert.html" />
     <Content Include="moduler\bower_components\angular\angular-csp.css" />
     <Content Include="moduler\bower_components\angular\angular.js" />
