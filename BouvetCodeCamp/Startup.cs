@@ -67,7 +67,10 @@ namespace BouvetCodeCamp
 
             builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
 
-            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>();
+
+            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>().SingleInstance();
+           
+
 
             var container = builder.Build();
              // Create an assign a dependency resolver for Web API to use.
