@@ -16,7 +16,9 @@ using BouvetCodeCamp.SignalR;
 namespace BouvetCodeCamp
 {
     using System;
+    using System.Globalization;
     using System.IO;
+    using System.Threading;
 
     using BouvetCodeCamp.Authentication;
     using BouvetCodeCamp.Filters;
@@ -39,6 +41,8 @@ namespace BouvetCodeCamp
             config.MapHttpAttributeRoutes();
             config.EnableSystemDiagnosticsTracing();
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+
+            SetGlobalizationCulture("nb-NO");
 
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
@@ -80,6 +84,13 @@ namespace BouvetCodeCamp
             var hubConfig = new HubConfiguration { EnableJSONP = true };
 
             appBuilder.MapSignalR(hubConfig);
+        }
+
+        private void SetGlobalizationCulture(string cultureLanguage)
+        {
+            var culture = CultureInfo.CreateSpecificCulture(cultureLanguage);
+
+            Thread.CurrentThread.CurrentCulture = culture;
         }
 
         private static void KonfigurerApiDokumentasjon(IAppBuilder appBuilder, HttpConfiguration config)
