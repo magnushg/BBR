@@ -4,8 +4,8 @@
         <title>Bouvet Battle Royale - Scoreboard</title>
 
         <!-- Owl Carousel -->
-        <link rel="stylesheet" href="js/owl-carousel/owl.carousel.css">
-        <link rel="stylesheet" href="js/owl-carousel/owl.theme.css">
+        <link rel="stylesheet" href="js/vendors/owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="js/vendors/owl-carousel/owl.theme.css">
 
         <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
 
@@ -26,9 +26,11 @@
         <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"></script>
 
         <script src="/signalr/hubs"></script>
+        
+        <script src="/moduler/scoreboard/js/scoreboard.infrastruktur.js"></script>
 
         <!-- Owl Carousel -->
-        <script src="js/owl-carousel/owl.carousel.js"></script>
+        <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
     </head>
 
     <body>
@@ -87,7 +89,7 @@
 
             var map = null;
             var redMarkerIcon = null;
-
+            
             $(function () {
                 var mapElement = document.getElementById("map")
                     , latlng = [59.676403, 10.606424];
@@ -99,7 +101,7 @@
                     id: 'jorgenbs.jl9j4hbj'
                 }).addTo(map);
 
-                sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
+                infrastruktur.sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
             
                 //Extend the Default marker class
                 var redIcon = L.Icon.Default.extend({
@@ -119,43 +121,19 @@
             SCOREBOARD.LoggHendelser = [];
             SCOREBOARD.InfisertSone = {};
 
-
-            //function initialize() {
-            //    var mapCanvas = document.getElementById('map_canvas');
-            //    var mapOptions = {
-            //        center: new google.maps.LatLng(59.676403, 10.606424),
-            //        zoom: 16,
-            //        disableDefaultUI: true,
-            //        mapTypeId: google.maps.MapTypeId.SATELLITE
-            //    }
-            //    map = new google.maps.Map(mapCanvas, mapOptions);
-            //    google.maps.event.addListener(map, 'rightclick', function(event) {
-            //        var lat = event.latLng.lat();
-            //        var lng = event.latLng.lng();
-            //        $("#lat").val(lat);
-            //        $("#long").val(lng);
-            //    });
-            //    google.maps.event.addDomListener(window, "resize", function() {
-            //        var center = map.getCenter();
-            //        google.maps.event.trigger(map, "resize");
-            //        map.setCenter(center);
+            //function sendAutentisertRequest(url, type, successCallback) {
+            //    $.ajax({
+            //        url: url,
+            //        type: type,
+            //        dataType: 'json',
+            //        success: successCallback,
+            //        beforeSend: setAuthorizationHeader
             //    });
             //}
-            //google.maps.event.addDomListener(window, 'load', initialize);
 
-            function sendAutentisertRequest(url, type, successCallback) {
-                $.ajax({
-                    url: url,
-                    type: type,
-                    dataType: 'json',
-                    success: successCallback,
-                    beforeSend: setAuthorizationHeader
-                });
-            }
-
-            function setAuthorizationHeader(xhr) {
-                xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
-            }
+            //function setAuthorizationHeader(xhr) {
+            //    xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
+            //}
 
             // LAG
             function settLagPaaKartet() {
@@ -313,13 +291,13 @@
             $(document).ready(function () {
 
                 // 1. Hent og rendre alle lag
-                sendAutentisertRequest("/api/admin/lag/get", "GET", lastInnLagene);
+                infrastruktur.sendAutentisertRequest("/api/admin/lag/get", "GET", lastInnLagene);
 
                 // 2. Hent og rendre alle poster
-                sendAutentisertRequest("/api/admin/post/get", "GET", lastInnPoster);
+                infrastruktur.sendAutentisertRequest("/api/admin/post/get", "GET", lastInnPoster);
 
                 // 2. Hent og rendre infisert sone
-                sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
+                infrastruktur.sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
 
                 $(".owl-carousel").owlCarousel({
                     autoPlay: true,
