@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.Domene.OutputModels;
 
@@ -28,5 +29,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         bool ErLagPifInnenInfeksjonssone(string lagId);
 
         IEnumerable<Melding> HentMeldinger(string lagId);
+        
+        Task OpprettHendelse(string lagId, HendelseType hendelseType, string kommentar);
     }
 }

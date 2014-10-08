@@ -13,9 +13,9 @@ namespace BouvetCodeCamp.Api.Admin
     [Authorize]
     public class GameStateController : BaseApiController
     {
-        private readonly IGameStateService gameStateService;
+        private readonly IService<GameState> gameStateService;
 
-        public GameStateController(IGameStateService gameStateService)
+        public GameStateController(IService<GameState> gameStateService)
         {
             this.gameStateService = gameStateService;
         }
@@ -29,11 +29,11 @@ namespace BouvetCodeCamp.Api.Admin
             if (modell == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            var gameState = gameStateService.HentGameState();
+            var gameState = gameStateService.Hent(string.Empty);
 
             gameState.InfisertPolygon = modell.InfisertPolygon;
 
-            await gameStateService.OppdaterGameState(gameState);
+            await gameStateService.Oppdater(gameState);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
