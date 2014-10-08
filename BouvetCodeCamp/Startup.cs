@@ -33,6 +33,7 @@ namespace BouvetCodeCamp
     using Microsoft.Owin.Extensions;
 
     using Swashbuckle.Application;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     public class Startup
     {

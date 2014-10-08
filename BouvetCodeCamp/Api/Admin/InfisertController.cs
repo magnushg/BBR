@@ -16,6 +16,7 @@ namespace BouvetCodeCamp.Api.Admin
     using BouvetCodeCamp.SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     /// <summary>
     /// Sett og Hent infiserte soner
