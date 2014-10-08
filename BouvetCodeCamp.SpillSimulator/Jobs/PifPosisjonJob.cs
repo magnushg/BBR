@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
             {
                 var modell = new PifPosisjonInputModell
                 {
-                    LagId = SpillKonfig.TestLagId,
+                    LagId = SpillKonfig.LagId,
                     Posisjon = SpillKonfig.Koordinater[SpillKonfig.KoordinatIndex]
                 };
 

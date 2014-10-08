@@ -21,13 +21,14 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
             {
                 const string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/pif/sendpostkode/";
                 var gjeldendePostNummer = SpillKonfig.GjeldendePost.Nummer;
+                var postKoder = SpillKonfig.LagMedPostkoder[SpillKonfig.LagId];
                 var modell = new PostInputModell
                 {
-                    Kode = SpillKonfig.PostKoder.ContainsKey(gjeldendePostNummer) ? SpillKonfig.PostKoder[gjeldendePostNummer] : "nogame",
+                    Kode = postKoder.ContainsKey(gjeldendePostNummer) ? postKoder[gjeldendePostNummer] : "nogame",
                     Postnummer = SpillKonfig.GjeldendePost.Nummer,
                     Koordinat =
                         new Koordinat(SpillKonfig.GjeldendePost.Posisjon.Longitude, SpillKonfig.GjeldendePost.Posisjon.Latitude),
-                    LagId = SpillKonfig.TestLagId
+                    LagId = SpillKonfig.LagId
                 };
 
                 var modellSomJson = JsonConvert.SerializeObject(modell);

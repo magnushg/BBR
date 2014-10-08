@@ -24,7 +24,7 @@ namespace BouvetCodeCamp.SpillSimulator.Schedulers
                 .StartAt(DateBuilder.FutureDate(10, IntervalUnit.Second))
                 .WithSimpleSchedule(x => x
                     .WithIntervalInSeconds(10)
-                    .WithRepeatCount(5))
+                    .WithRepeatCount(10))
                 .Build();
 
             _scheduler.ScheduleJob(job, trigger);

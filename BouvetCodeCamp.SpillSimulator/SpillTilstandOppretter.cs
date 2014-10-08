@@ -65,16 +65,36 @@ namespace BouvetCodeCamp.SpillSimulator
 
         private void OpprettPostKoder()
         {
-            SpillKonfig.PostKoder = new Dictionary<int, string>
+            SpillKonfig.LagMedPostkoder = new Dictionary<string, Dictionary<int, string>>
             {
-                {24, "dxg19"},
-                {21, "exr16"},
-                {23, "rxp18"},
-                {1, "oxx2"},
-                {8, "lxr9"},
-                {13, "axne"},
-                {2, "fxo3" }
+                {"175", new Dictionary<int, string> {
+                                                    {24, "dxg19"},
+                                                    {21, "exr16"},
+                                                    {23, "rxp18"},
+                                                    {1, "oxx2"},
+                                                    {8, "lxr9"},
+                                                    {13, "axne"},
+                                                    {2, "fxo3" }
+                                                }},
+                {"126", new Dictionary<int, string>
+                                                {
+                                                    {13, "nxn11" },
+                                                    {2, "gxn6" },
+                                                    {28, "exy20" },
+                                                    {24, "hxc1c" },
+                                                    {19, "llxk17" },
+                                                    {5, "fxf1a" },
+                                                    {6, "uxff" }
+                                                }},
+               {"35", new Dictionary<int, string> {
+                                                    {30, "kxv20"},
+                                                    {19, "axx15"},
+                                                    {20, "exw16"},
+                                                    {29, "axo1f"},
+                                                    {13, "dxdf"},
+                                                    {9, "bxwb"},
+                                                    {4, "lxc6" }
+                                                }},
             };
-        }
-    }
+        }}
 }

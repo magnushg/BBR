@@ -16,7 +16,7 @@ namespace BouvetCodeCamp.SpillSimulator
 
         public const string ApiBaseAddress = "http://bouvet-code-camp.azurewebsites.net/";
 
-        public const string TestLagId = "175";
+        public static string LagId;
 
         public static List<Koordinat> Koordinater;
 
@@ -24,6 +24,6 @@ namespace BouvetCodeCamp.SpillSimulator
 
         public static PostOutputModell GjeldendePost;
 
-        public static Dictionary<int, string> PostKoder;
+        public static Dictionary<string, Dictionary<int, string>> LagMedPostkoder;
     }
 }
