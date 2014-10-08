@@ -1,29 +1,29 @@
 ﻿var loader = (function ($, infrastruktur) {
     'use strict';
 
-    function lastInnLag(onSuccessCallback) {
+    function hentLag(onSuccessCallback) {
         infrastruktur.sendAutentisertRequest("/api/admin/lag/get", "GET", onSuccessCallback);
     }
 
-    function lastInnPoster(onSuccessCallback) {
+    function hentPoster(onSuccessCallback) {
         infrastruktur.sendAutentisertRequest("/api/admin/post/get", "GET", onSuccessCallback);
     } 
 
-    function lastInnInfisertSone(onSuccessCallback) {
+    function hentInfisertSone(onSuccessCallback) {
         infrastruktur.sendAutentisertRequest("/api/admin/infisert/get", "GET", onSuccessCallback);
     }
 
     return {
-        lastInnLag: function (onSuccessCallback) {
-            lastInnLag(onSuccessCallback);
+        hentLag: function (onSuccessCallback) {
+            hentLag(onSuccessCallback);
         },
 
-        lastInnPoster: function (onSuccessCallback) {
-            lastInnPoster(onSuccessCallback);
+        hentPoster: function (onSuccessCallback) {
+            hentPoster(onSuccessCallback);
         },
 
-        lastInnInfisertSone: function (onSuccessCallback) {
-            lastInnInfisertSone(onSuccessCallback);
+        hentInfisertSone: function (onSuccessCallback) {
+            hentInfisertSone(onSuccessCallback);
         }
     }
 

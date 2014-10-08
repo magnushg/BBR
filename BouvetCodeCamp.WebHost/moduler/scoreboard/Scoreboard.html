@@ -29,6 +29,7 @@
         
         <script src="/moduler/scoreboard/js/scoreboard.infrastruktur.js"></script>
         <script src="/moduler/scoreboard/js/scoreboard.loader.js"></script>
+        <script src="/moduler/scoreboard/js/scoreboard.lag.js"></script>
 
         <!-- Owl Carousel -->
         <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
@@ -123,20 +124,8 @@
             SCOREBOARD.Poster = [];
             SCOREBOARD.LoggHendelser = [];
             SCOREBOARD.InfisertSone = {};
-            
-            // LAG
-            function settLagPaaKartet() {
-                $.each(SCOREBOARD.Lag, function (key, val) {
-                    var sistePifPosisjonForLag = hentSistePifPosisjonForLag(val);
-
-                    if (sistePifPosisjonForLag != null) {
-                        SCOREBOARD.Lag[key].Marker = L.marker(
-                            [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
-                            { icon: redMarkerIcon })
-                            .addTo(map);
-                    }
-                });
-            }
+           
+            //LAG
             function hentSistePifPosisjonForLag(lag) {
                 if (typeof lag == "undefined" || typeof lag.pifPosisjoner == "undefined")
                     return null;
@@ -145,9 +134,18 @@
 
                 return $(lag.pifPosisjoner).last()[0];
             }
-            function sorterLagEtterPoeng() {
-                return _.map(_.sortBy(SCOREBOARD.Lag, 'poeng'), _.values).reverse();
+
+            function sorterLag() {
+                var lagMedHoyestPoeng = _.max(SCOREBOARD.Lag, 'poeng');
+
+                if (lagMedHoyestPoeng.poeng == 0) {
+                    return _.map(_.sortBy(SCOREBOARD.Lag, ['lagnummer']), _.values);
+                }
+                else {
+                    return _.map(_.sortBy(SCOREBOARD.Lag, ['poeng']), _.values).reverse();
+                }
             }
+
             function lastInnLagene(data) {
                 var a = 1;
                 $.each(data, function (key, val) {
@@ -156,11 +154,28 @@
                     SCOREBOARD.Lag[key].Marker = {};
                     a++;
                 });
-                
-                oppdaterStillingstabell();
 
-                settLagPaaKartet();
+                oppdaterStillingstabell();
             }
+
+            function hentLagEtterLagId(lagId) {
+                return $.grep(SCOREBOARD.Lag, function (n, i) {
+                    return n.lagId == lagId;
+                });
+            }
+
+            function oppdaterStillingstabell() {
+                $('.stillingstabell > tbody').html("");
+
+                var sortertLagListe = sorterLag();
+
+                $.each(sortertLagListe, function (index) {
+                    var lag = hentLagEtterLagId(sortertLagListe[index][0])[0];
+
+                    $('.stillingstabell').find('tbody:last').append('<tr><td>' + lag.lagnummer + '</td><td>' + lag.poeng + '</td></tr>');
+                });
+            }
+
             //http://stackoverflow.com/questions/10123953/sort-javascript-object-array-by-date
             (function () {
                 if (typeof Object.defineProperty === 'function') {
@@ -185,6 +200,19 @@
                     return this;
                 }
             })();
+
+            function settLagPaaKartet() {
+                $.each(SCOREBOARD.Lag, function (key, val) {
+                    var sistePifPosisjonForLag = hentSistePifPosisjonForLag(val);
+
+                    if (sistePifPosisjonForLag != null) {
+                        SCOREBOARD.Lag[key].Marker = L.marker(
+                            [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
+                            { icon: redMarkerIcon })
+                            .addTo(map);
+                    }
+                });
+            }
 
             // INFISERT SONE
             function lastInnInfisertSone(data) {
@@ -236,19 +264,7 @@
                     SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).addTo(map);
                 });
             }
-
-            function oppdaterStillingstabell() {
-                $('.stillingstabell > tbody').html("");
-
-                var sortertLagListe = sorterLagEtterPoeng();
-
-                $.each(sortertLagListe, function (index) {
-                    var lag = hentLagEtterLagId(sortertLagListe[index][0])[0];
-
-                    $('.stillingstabell').find('tbody:last').append('<tr><td>' + lag.lagnummer + '</td><td>' + lag.poeng + '</td></tr>');
-                });
-            }
-
+            
             function oppdaterHendelsestabell() {
                 $('.hendelsestabell > tbody').html("");
 
@@ -264,11 +280,13 @@
 
             $(document).ready(function () {
 
-                loader.lastInnLag(lastInnLagene);
+                loader.hentLag(lastInnLagene);
+                
+                settLagPaaKartet();
 
-                loader.lastInnPoster(lastInnPoster);
+                loader.hentPoster(lastInnPoster);
 
-                loader.lastInnInfisertSone(lastInnInfisertSone);
+                loader.hentInfisertSone(lastInnInfisertSone);
 
                 $(".owl-carousel").owlCarousel({
                     autoPlay: true,
@@ -322,11 +340,6 @@
                 $.connection.hub.start({ jsonp: true });
             });
 
-            function hentLagEtterLagId(lagId) {
-                return $.grep(SCOREBOARD.Lag, function (n, i) {
-                    return n.lagId == lagId;
-                });
-            }
 
             function LeggTilNyLoggHendelse(elem) {
 
