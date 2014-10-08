@@ -15,6 +15,7 @@ namespace BouvetCodeCamp.Api.Game
     using SignalR;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController

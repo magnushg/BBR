@@ -14,6 +14,7 @@ namespace BouvetCodeCamp.Api.Admin
     using SignalR;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/admin/lag")]
     [System.Web.Http.Authorize]

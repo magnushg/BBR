@@ -13,6 +13,7 @@
     using BouvetCodeCamp.SignalR;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     /// <summary>
     /// Sett og Hent infiserte soner
