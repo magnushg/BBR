@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-
-namespace BouvetCodeCamp.DomeneTjenester
+namespace BouvetCodeCamp.DomeneTjenester.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
     public abstract class Service<T> : IService<T> where T : BaseDocument
     {
         private readonly IRepository<T> _repository;

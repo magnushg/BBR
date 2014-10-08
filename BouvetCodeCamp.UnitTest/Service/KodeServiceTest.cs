@@ -9,21 +9,18 @@ using Should;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
+    using BouvetCodeCamp.DomeneTjenester.Services;
+
     [TestFixture]
     class PostGameServiceTest
     {
         private IPostGameService _postGameService;
-        private readonly Mock<IService<Lag>> _lagServiceMock = new Mock<IService<Lag>>();
-        private readonly Mock<ILagGameService> _lagGameServiceMock = new Mock<ILagGameService>();
         private readonly Mock<IKoordinatVerifier> _coordinatMock = new Mock<IKoordinatVerifier>();
 
         [SetUp]
         public void Setup()
         {
-            _postGameService = new PostGameService(
-                _lagGameServiceMock.Object,
-                _lagServiceMock.Object, 
-                _coordinatMock.Object);
+            _postGameService = new PostGameService(_coordinatMock.Object);
         }
 
         [Test]
@@ -34,11 +31,10 @@ namespace BouvetCodeCamp.UnitTest.Service
             var innsendtKode = new LagPost {Kode = "a", Nummer = 5, Posisjon = koordinat, PostTilstand = PostTilstand.Ukjent};
             var lag = new Lag() { Poster = new List<LagPost> { innsendtKode }};
 
-            _lagGameServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act
-            var resultat = _postGameService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
+            var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
             resultat.ShouldBeTrue();
@@ -53,11 +49,10 @@ namespace BouvetCodeCamp.UnitTest.Service
             var innsendtKode = new LagPost { Kode = "a", Nummer = 5, Posisjon = koordinat, PostTilstand = PostTilstand.Oppdaget };
             var lag = new Lag() { Poster = new List<LagPost> { innsendtKode }};
 
-            _lagGameServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act
-            var resultat = _postGameService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
+            var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
             resultat.ShouldBeFalse();
@@ -72,11 +67,10 @@ namespace BouvetCodeCamp.UnitTest.Service
 
             var lag = new Lag() { Poster = new List<LagPost> { innsendtKode }};
 
-            _lagGameServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act
-            var resultat = _postGameService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
+            var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
             resultat.ShouldBeTrue();
@@ -91,11 +85,10 @@ namespace BouvetCodeCamp.UnitTest.Service
 
             var lag = new Lag { Poster = new List<LagPost> { innsendtKode }};
 
-            _lagGameServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(false);
 
             // Act
-            var resultat = _postGameService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
+            var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
             resultat.ShouldBeFalse();
@@ -112,11 +105,10 @@ namespace BouvetCodeCamp.UnitTest.Service
 
             var lag = new Lag() { Poster = new List<LagPost> { innsendtKode, identiskKode } };
 
-            _lagGameServiceMock.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(lag);
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
 
             // Act
-            var resultat = _postGameService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
+            var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
         }
     }
 }

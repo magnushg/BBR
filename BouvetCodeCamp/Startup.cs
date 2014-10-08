@@ -21,6 +21,7 @@ namespace BouvetCodeCamp
     using System.Threading;
 
     using BouvetCodeCamp.Authentication;
+    using BouvetCodeCamp.DomeneTjenester.Services;
     using BouvetCodeCamp.Filters;
 
     using Infrastruktur.DataAksess;

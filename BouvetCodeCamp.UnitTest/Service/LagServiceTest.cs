@@ -8,6 +8,8 @@ using NUnit.Framework;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
+    using BouvetCodeCamp.DomeneTjenester.Services;
+
     [TestFixture]
     class LagGameServiceTest
     {

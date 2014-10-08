@@ -78,13 +78,11 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task<bool> RegistrerKode(PostInputModell inputModell)
         {
-            var resultat = _postGameService.SettKodeTilstandTilOppdaget(inputModell.LagId, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
-            //TODO: Tildel poeng via egen modul. Returnerer lag fra modulen. Input er hendelse.
-            // TODO: husk å ta bort lagservice.hent() fra postservice.
-
-
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
+            var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
+            //TODO: Tildel poeng via egen modul. Returnerer lag fra modulen. Input er hendelse.
+            
             lag.LoggHendelser.Add(
                 new LoggHendelse
                 {

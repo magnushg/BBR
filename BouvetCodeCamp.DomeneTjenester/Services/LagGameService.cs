@@ -1,10 +1,11 @@
-using System;
-using System.Linq;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-
-namespace BouvetCodeCamp.DomeneTjenester
+namespace BouvetCodeCamp.DomeneTjenester.Services
 {
+    using System;
+    using System.Linq;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
     public class LagGameService : ILagGameService
     {
         private readonly IRepository<Lag> _lagRepository;

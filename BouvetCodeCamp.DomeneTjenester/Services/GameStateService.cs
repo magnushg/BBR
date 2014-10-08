@@ -1,13 +1,13 @@
-ï»¿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-
-namespace BouvetCodeCamp.DomeneTjenester
+namespace BouvetCodeCamp.DomeneTjenester.Services
 {
+    using System;
+    using System.Linq;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
     /// <summary>
-    /// Tanken med denne servicen er for Ã¥ abstrahere bort gamestaterepository
+    /// Tanken med denne servicen er for å abstrahere bort gamestaterepository
     /// siden det kun skal eksistere 1 gamestate om gangen.
     /// </summary>
     public class GameStateService : Service<GameState>
@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public override GameState Hent(string id)
         {
-            // Henter kun en gamestate, ignorerer id pÃ¥ gamestateobjektet
+            // Henter kun en gamestate, ignorerer id på gamestateobjektet
             var gameStates = _gameStateRepository.HentAlle().ToList();
 
             switch (gameStates.Count())
