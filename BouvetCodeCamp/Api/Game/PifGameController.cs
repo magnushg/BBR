@@ -52,13 +52,20 @@ namespace BouvetCodeCamp.Api.Game
 
             try
             {
+                var erInfisert = false;
+                try
+                {
+                    erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
+                }
+                catch (Exception){}
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
                         {
-                            LagId = inputModell.LagId, 
-                            Latitude = inputModell.Posisjon.Latitude, 
-                            Longitude = inputModell.Posisjon.Longitude, 
-                            Tid = DateTime.Now
+                            LagId = inputModell.LagId,
+                            Latitude = inputModell.Posisjon.Latitude,
+                            Longitude = inputModell.Posisjon.Longitude,
+                            Tid = DateTime.Now,
+                            ErInfisert = erInfisert
                         });
 
                 _gameHub.Value.Clients.All.NyLoggHendelse(
@@ -66,7 +73,7 @@ namespace BouvetCodeCamp.Api.Game
                     {
                         LagId = inputModell.LagId,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
-                        Kommentar = string.Empty,
+                        Kommentar = erInfisert?"ER I INFISERT SONE":string.Empty,
                         Tid = DateTime.Now.ToShortTimeString()
                     });
 
@@ -159,9 +166,9 @@ namespace BouvetCodeCamp.Api.Game
 
                 var modell = meldinger.Select(melding => new MeldingOutputModell
                                                              {
-                                                                 LagId = melding.LagId, 
-                                                                 Tekst = melding.Tekst, 
-                                                                 Type = melding.Type, 
+                                                                 LagId = melding.LagId,
+                                                                 Tekst = melding.Tekst,
+                                                                 Type = melding.Type,
                                                                  Tid = melding.Tid
                                                              }).ToList();
 

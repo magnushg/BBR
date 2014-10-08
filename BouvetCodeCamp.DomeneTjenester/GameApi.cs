@@ -66,13 +66,21 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             if (nyeste == null)
                 return new PifPosisjonOutputModell();
-
+            var erInfisert = false;
+            try
+            {
+                erInfisert = ErLagPifInnenInfeksjonssone(lagId);
+            }
+            catch (Exception)
+            {                
+            }
             return new PifPosisjonOutputModell
             {
                 Latitude = nyeste.Posisjon.Latitude,
                 Longitude = nyeste.Posisjon.Longitude,
                 LagId = nyeste.LagId,
-                Tid = nyeste.Tid
+                Tid = nyeste.Tid,
+                ErInfisert = erInfisert
             };
         }
 
