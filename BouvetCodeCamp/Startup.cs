@@ -24,6 +24,7 @@ namespace BouvetCodeCamp
     using BouvetCodeCamp.Authentication;
     using BouvetCodeCamp.DomeneTjenester.Services;
     using BouvetCodeCamp.Filters;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;
@@ -32,6 +33,7 @@ namespace BouvetCodeCamp
     using Microsoft.Owin.Extensions;
 
     using Swashbuckle.Application;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     public class Startup
     {

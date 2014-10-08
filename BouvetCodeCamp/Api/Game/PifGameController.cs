@@ -10,6 +10,8 @@ namespace BouvetCodeCamp.Api.Game
     using System.Web.Http;
     using System.Web.Http.Description;
 
+    using BouvetCodeCamp.SignalR.Hubs;
+
     using Domene;
     using Domene.InputModels;
     using Domene.OutputModels;
@@ -17,6 +19,7 @@ namespace BouvetCodeCamp.Api.Game
     using SignalR;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController

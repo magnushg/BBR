@@ -13,8 +13,10 @@ namespace BouvetCodeCamp.Api.Admin
     using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     /// <summary>
     /// Sett og Hent infiserte soner

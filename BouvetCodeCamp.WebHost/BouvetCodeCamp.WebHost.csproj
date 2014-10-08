@@ -185,6 +185,7 @@
     <Content Include="moduler\scoreboard\js\scoreboard.loader.js" />
     <Content Include="moduler\scoreboard\js\scoreboard.post.js" />
     <Content Include="moduler\scoreboard\js\vendors\leaflet\custommarkers\marker-icon-red.png" />
+    <Content Include="moduler\scoreboard\js\vendors\lodash-2.4.1\lodash.min.js" />
     <Content Include="moduler\scoreboard\js\vendors\owl-carousel\AjaxLoader.gif" />
     <Content Include="moduler\scoreboard\js\vendors\owl-carousel\grabbing.png" />
     <Content Include="moduler\scoreboard\js\vendors\owl-carousel\owl.carousel.css" />
