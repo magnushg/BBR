@@ -6,6 +6,8 @@ namespace BouvetCodeCamp.Api.Admin
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using BouvetCodeCamp.SignalR.Hubs;
+
     using Domene;
     using Domene.Entiteter;
     using Domene.InputModels;

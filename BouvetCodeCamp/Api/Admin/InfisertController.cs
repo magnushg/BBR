@@ -11,6 +11,7 @@
     using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
 

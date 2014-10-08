@@ -23,6 +23,7 @@ namespace BouvetCodeCamp
     using BouvetCodeCamp.Authentication;
     using BouvetCodeCamp.DomeneTjenester.Services;
     using BouvetCodeCamp.Filters;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;

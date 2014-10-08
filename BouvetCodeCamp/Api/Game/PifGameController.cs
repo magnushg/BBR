@@ -8,6 +8,8 @@ namespace BouvetCodeCamp.Api.Game
     using System.Web.Http;
     using System.Web.Http.Description;
 
+    using BouvetCodeCamp.SignalR.Hubs;
+
     using Domene;
     using Domene.InputModels;
     using Domene.OutputModels;
