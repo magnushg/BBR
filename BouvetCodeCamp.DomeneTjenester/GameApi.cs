@@ -161,11 +161,13 @@ namespace BouvetCodeCamp.DomeneTjenester
             await _lagService.Oppdater(lag);
         }
 
-
-
         public bool ErLagPifInnenInfeksjonssone(string lagId)
         {
             var pifPosisjon = _lagGameService.HentSistePifPosisjon(lagId);
+
+            if (pifPosisjon == null) 
+                return false;
+
             var gameState = _gameStateService.Hent(string.Empty);
 
             return _koordinatVerifier.KoordinatErInnenforPolygonet(pifPosisjon.Posisjon, gameState.InfisertPolygon.Koordinater);
