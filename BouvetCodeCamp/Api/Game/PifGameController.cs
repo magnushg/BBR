@@ -1,3 +1,5 @@
+using BouvetCodeCamp.SignalR.Hubs;
+
 namespace BouvetCodeCamp.Api.Game
 {
     using System;
@@ -7,6 +9,8 @@ namespace BouvetCodeCamp.Api.Game
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Description;
+
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Domene;
     using Domene.InputModels;

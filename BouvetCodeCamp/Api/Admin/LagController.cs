@@ -1,3 +1,5 @@
+using BouvetCodeCamp.SignalR.Hubs;
+
 namespace BouvetCodeCamp.Api.Admin
 {
     using System;
@@ -5,6 +7,8 @@ namespace BouvetCodeCamp.Api.Admin
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
+
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Domene;
     using Domene.Entiteter;

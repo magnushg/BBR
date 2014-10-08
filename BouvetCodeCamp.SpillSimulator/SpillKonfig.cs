@@ -14,9 +14,9 @@ namespace BouvetCodeCamp.SpillSimulator
 
         public const string Brukernavn = "bouvet";
 
-        public const string ApiBaseAddress = "http://localhost:52504";
+        public const string ApiBaseAddress = "http://bouvet-code-camp.azurewebsites.net/";
 
-        public const string TestLagId = "686faa78-4815-4b99-bc24-4cda325d8785";
+        public const string TestLagId = "175";
 
         public static List<Koordinat> Koordinater;
 
