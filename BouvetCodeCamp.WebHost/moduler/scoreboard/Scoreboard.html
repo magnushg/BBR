@@ -28,6 +28,7 @@
         <script src="/signalr/hubs"></script>
         
         <script src="/moduler/scoreboard/js/scoreboard.infrastruktur.js"></script>
+        <script src="/moduler/scoreboard/js/scoreboard.loader.js"></script>
 
         <!-- Owl Carousel -->
         <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
@@ -122,21 +123,7 @@
             SCOREBOARD.Poster = [];
             SCOREBOARD.LoggHendelser = [];
             SCOREBOARD.InfisertSone = {};
-
-            //function sendAutentisertRequest(url, type, successCallback) {
-            //    $.ajax({
-            //        url: url,
-            //        type: type,
-            //        dataType: 'json',
-            //        success: successCallback,
-            //        beforeSend: setAuthorizationHeader
-            //    });
-            //}
-
-            //function setAuthorizationHeader(xhr) {
-            //    xhr.setRequestHeader('Authorization', 'Basic Ym91dmV0Om15c2VjcmV0');
-            //}
-
+            
             // LAG
             function settLagPaaKartet() {
                 $.each(SCOREBOARD.Lag, function (key, val) {
@@ -159,16 +146,17 @@
                 return $(lag.pifPosisjoner).last()[0];
             }
             function sorterLagEtterPoeng() {
-                SCOREBOARD.Lag = _.map(_.sortBy(SCOREBOARD.Lag, 'poeng'), _.values);
+                return _.map(_.sortBy(SCOREBOARD.Lag, 'poeng'), _.values).reverse();
             }
             function lastInnLagene(data) {
+                var a = 1;
                 $.each(data, function (key, val) {
+                    val.poeng = a;
                     SCOREBOARD.Lag.push(val);
                     SCOREBOARD.Lag[key].Marker = {};
+                    a++;
                 });
-
-                sorterLagEtterPoeng();
-
+                
                 oppdaterStillingstabell();
 
                 settLagPaaKartet();
@@ -252,8 +240,12 @@
             function oppdaterStillingstabell() {
                 $('.stillingstabell > tbody').html("");
 
-                $.each(SCOREBOARD.Lag, function (index, value) {
-                    $('.stillingstabell').find('tbody:last').append('<tr><td>' + value.lagnummer + '</td><td>' + value.poeng + '</td></tr>');
+                var sortertLagListe = sorterLagEtterPoeng();
+
+                $.each(sortertLagListe, function (index) {
+                    var lag = hentLagEtterLagId(sortertLagListe[index][0])[0];
+
+                    $('.stillingstabell').find('tbody:last').append('<tr><td>' + lag.lagnummer + '</td><td>' + lag.poeng + '</td></tr>');
                 });
             }
 
@@ -272,14 +264,11 @@
 
             $(document).ready(function () {
 
-                // 1. Hent og rendre alle lag
-                infrastruktur.sendAutentisertRequest("/api/admin/lag/get", "GET", lastInnLagene);
+                loader.lastInnLag(lastInnLagene);
 
-                // 2. Hent og rendre alle poster
-                infrastruktur.sendAutentisertRequest("/api/admin/post/get", "GET", lastInnPoster);
+                loader.lastInnPoster(lastInnPoster);
 
-                // 2. Hent og rendre infisert sone
-                infrastruktur.sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
+                loader.lastInnInfisertSone(lastInnInfisertSone);
 
                 $(".owl-carousel").owlCarousel({
                     autoPlay: true,
@@ -292,25 +281,7 @@
                     autoHeight: true
                 });
             });
-
-            //var infectedZone;
-
-            //function redZone(lat, long, size) {
-            //    var options = {
-            //        strokeColor: '#FF0000',
-            //        strokeOpacity: 0.8,
-            //        strokeWeight: 2,
-            //        fillColor: '#FF0000',
-            //        fillOpacity: 0.35,
-            //        map: map,
-            //        center: new google.maps.LatLng(lat, long),
-            //        radius: Math.sqrt(size) * 100
-            //    };
-            //    // Add the circle for this city to the map.
-            //    infectedZone = new google.maps.Circle(options);
-            //}
-            //redZone(0, 0, 2);
-
+            
             $(function () {
                 //Set the hubs URL for the connection
                 $.connection.hub.url = "/signalr";
