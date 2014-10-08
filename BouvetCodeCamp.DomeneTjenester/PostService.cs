@@ -61,6 +61,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                     return false;
                 case 1:
                     kandidater.First().PostTilstand = PostTilstand.Oppdaget;
+                    lag.Poeng += 300000;
                     _lagService.Oppdater(lag);
                     return true;
                 default:
