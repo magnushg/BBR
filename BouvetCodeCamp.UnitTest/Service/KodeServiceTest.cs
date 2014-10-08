@@ -16,11 +16,14 @@ namespace BouvetCodeCamp.UnitTest.Service
     {
         private IPostGameService _postGameService;
         private readonly Mock<IKoordinatVerifier> _coordinatMock = new Mock<IKoordinatVerifier>();
+        private readonly Mock<IService<Lag>> _lagServiceMock = new Mock<IService<Lag>>();
 
         [SetUp]
         public void Setup()
         {
-            _postGameService = new PostGameService(_coordinatMock.Object);
+            _postGameService = new PostGameService(
+                _coordinatMock.Object,
+                _lagServiceMock.Object);
         }
 
         [Test]
@@ -32,6 +35,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var lag = new Lag() { Poster = new List<LagPost> { innsendtKode }};
 
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
+            _lagServiceMock.Setup(x => x.Oppdater(It.IsAny<Lag>()));
 
             // Act
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
@@ -68,6 +72,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var lag = new Lag() { Poster = new List<LagPost> { innsendtKode }};
 
             _coordinatMock.Setup(x => x.KoordinaterErNærHverandre(It.IsAny<Koordinat>(), It.IsAny<Koordinat>())).Returns(true);
+            _lagServiceMock.Setup(x => x.Oppdater(It.IsAny<Lag>()));
 
             // Act
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);

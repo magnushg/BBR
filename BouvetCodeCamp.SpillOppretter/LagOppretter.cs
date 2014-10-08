@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Domene;
@@ -46,7 +48,7 @@ namespace BouvetCodeCamp.SpillOppretter
         {
             return Enumerable.Range(1, _antallLag).Select(index => new Lag
             {
-                LagId = Guid.NewGuid().ToString(),
+                LagId = ShaChecksum("Lag " + index + 1, index),
                 LagNavn = "BouvetBBR L" + index,
                 LagNummer = index,
                 LoggHendelser = new List<LoggHendelse>(),
@@ -56,6 +58,17 @@ namespace BouvetCodeCamp.SpillOppretter
                 Poeng = 0
             }).ToList();
         }
+
+        private string ShaChecksum(string input, int index)
+        {
+            var sha = SHA256.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hash = sha.ComputeHash(inputBytes);
+            return index <= hash.Length - 1?
+                hash[index].ToString(CultureInfo.InvariantCulture) 
+                : hash.Last().ToString(CultureInfo.InvariantCulture);
+        }
+
 
         private IEnumerable<Lag> TilordnePosterTilLagListe()
         {

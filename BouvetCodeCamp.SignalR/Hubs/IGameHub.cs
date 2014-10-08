@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.SignalR
+﻿namespace BouvetCodeCamp.SignalR.Hubs
 {
     using BouvetCodeCamp.Domene.OutputModels;
 

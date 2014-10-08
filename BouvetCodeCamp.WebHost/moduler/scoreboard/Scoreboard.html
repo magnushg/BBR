@@ -161,9 +161,9 @@
                 var bPoeng = b.poeng;
 
                 // Sorter først på poeng
-                if (aPoeng > bPoeng) {
+                if (aPoeng < bPoeng) {
                     return 1;
-                } else if (aPoeng < bPoeng) {
+                } else if (aPoeng > bPoeng) {
                     return -1;
                 } else {
                     // Hvis likt, sorter etter lagnummer
@@ -282,8 +282,8 @@
                     $('.hendelsestabell').find('tbody:last').append(
                         '<tr><td>' + value.lagId +
                         '</td><td>' + value.hendelse +
-                        '</td><td>' + value.tid +
                         '</td><td>' + value.kommentar +
+                        '</td><td>' + value.tid +
                         '</td></tr>');
                 });
             }

@@ -1,21 +1,26 @@
 namespace BouvetCodeCamp.DomeneTjenester.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+using BouvetCodeCamp.Domene;
+using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     public class PostGameService : IPostGameService
-    {
+{
         private readonly IKoordinatVerifier _koordinatVerifier;
 
-        public PostGameService(IKoordinatVerifier koordinatVerifier)
+        private readonly IService<Lag> lagService;
+
+        public PostGameService(
+            IKoordinatVerifier koordinatVerifier,
+            IService<Lag> lagService)
         {
             _koordinatVerifier = koordinatVerifier;
+            this.lagService = lagService;
         }
 
         public IEnumerable<LagPost> HentOppdagedePoster(Lag lag)
@@ -37,10 +42,13 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
         /// <returns>true hvis alle kriterier er oppfylt</returns>
         public bool SettKodeTilstandTilOppdaget(Lag lag, int postnummer, string kode, Koordinat koordinat)
         {
-            var kandidater = lag.Poster.Where(k => k.Kode.Equals(kode, StringComparison.CurrentCultureIgnoreCase)
-                                                   && k.Nummer == postnummer
-                                                   && _koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat)
-                                                   && k.PostTilstand.Equals(PostTilstand.Ukjent)).ToList();
+            var kandidater = 
+                lag.Poster.Where(
+                        k => k.Kode.Equals(kode, StringComparison.CurrentCultureIgnoreCase) && 
+                        k.Nummer == postnummer && 
+                        _koordinatVerifier.KoordinaterErNærHverandre(k.Posisjon, koordinat) && 
+                        k.PostTilstand.Equals(PostTilstand.Ukjent))
+                .ToList();
 
             switch (kandidater.Count())
             {
@@ -48,6 +56,11 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
                     return false;
                 case 1:
                     kandidater.First().PostTilstand = PostTilstand.Oppdaget;
+
+                    lag.Poeng += 300000;
+
+                    lagService.Oppdater(lag);
+
                     return true;
                 default:
                     throw new AmbiguousMatchException("Flere koder funnet basert på kriteriene gitt");
