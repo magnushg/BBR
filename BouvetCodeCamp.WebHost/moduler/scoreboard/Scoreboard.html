@@ -134,6 +134,20 @@
 
                 return $(lag.pifPosisjoner).last()[0];
             }
+            
+            function lastInnLagene(data) {
+                $.each(data, function (key, val) {
+                    SCOREBOARD.Lag.push(val);
+                    SCOREBOARD.Lag[key].Marker = {};
+                });
+
+                oppdaterStillingstabell();
+            }
+            function hentLagEtterLagId(lagId) {
+                return $.grep(SCOREBOARD.Lag, function (n, i) {
+                    return n.lagId == lagId;
+                });
+            }
 
             function sorterLag() {
                 var lagMedHoyestPoeng = _.max(SCOREBOARD.Lag, 'poeng');
@@ -144,24 +158,6 @@
                 else {
                     return _.map(_.sortBy(SCOREBOARD.Lag, ['poeng']), _.values).reverse();
                 }
-            }
-
-            function lastInnLagene(data) {
-                var a = 1;
-                $.each(data, function (key, val) {
-                    val.poeng = a;
-                    SCOREBOARD.Lag.push(val);
-                    SCOREBOARD.Lag[key].Marker = {};
-                    a++;
-                });
-
-                oppdaterStillingstabell();
-            }
-
-            function hentLagEtterLagId(lagId) {
-                return $.grep(SCOREBOARD.Lag, function (n, i) {
-                    return n.lagId == lagId;
-                });
             }
 
             function oppdaterStillingstabell() {
@@ -315,7 +311,7 @@
 
                 // Create a function that the hub can call to broadcast messages.
                 hub.client.nyPifPosisjon = function (msg) {
-                    var lag = hentLagEtterLagId(msg.lagId);
+                    var lag = lagManager.hentLagEtterLagId(msg.lagId);
 
                     var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
 
