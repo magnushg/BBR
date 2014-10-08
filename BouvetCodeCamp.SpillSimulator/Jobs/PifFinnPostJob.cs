@@ -19,28 +19,35 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
 
             using (var httpClient = new HttpClient())
             {
-                const string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/pif/sendpostkode/";
-                var gjeldendePostNummer = SpillKonfig.GjeldendePost.Nummer;
-                var postKoder = SpillKonfig.LagMedPostkoder[SpillKonfig.LagId];
-                var modell = new PostInputModell
+                if (SpillKonfig.GjeldendePost != null)
                 {
-                    Kode = postKoder.ContainsKey(gjeldendePostNummer) ? postKoder[gjeldendePostNummer] : "nogame",
-                    Postnummer = SpillKonfig.GjeldendePost.Nummer,
-                    Koordinat =
-                        new Koordinat(SpillKonfig.GjeldendePost.Posisjon.Longitude, SpillKonfig.GjeldendePost.Posisjon.Latitude),
-                    LagId = SpillKonfig.LagId
-                };
+                    const string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/pif/sendpostkode/";
+                    var gjeldendePostNummer = SpillKonfig.GjeldendePost.Nummer;
+                    var postKoder = SpillKonfig.LagMedPostkoder[SpillKonfig.LagId];
+                    var modell = new PostInputModell
+                    {
+                        Kode = postKoder.ContainsKey(gjeldendePostNummer) ? postKoder[gjeldendePostNummer] : "nogame",
+                        Postnummer = SpillKonfig.GjeldendePost.Nummer,
+                        Koordinat =
+                            new Koordinat(SpillKonfig.GjeldendePost.Posisjon.Longitude, SpillKonfig.GjeldendePost.Posisjon.Latitude),
+                        LagId = SpillKonfig.LagId
+                    };
 
-                var modellSomJson = JsonConvert.SerializeObject(modell);
+                    var modellSomJson = JsonConvert.SerializeObject(modell);
 
-                var httpResponseMessage = await httpClient.PostAsync(
-                    ApiEndPointAddress,
-                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
+                    var httpResponseMessage = await httpClient.PostAsync(
+                        ApiEndPointAddress,
+                        new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
 
-                Console.WriteLine(
-                    httpResponseMessage.StatusCode == HttpStatusCode.OK
-                        ? "PIF validerte post {0}"
-                        : "PIF Validering av post {0} mislyktes", modell.Postnummer);
+                    Console.WriteLine(
+                        httpResponseMessage.StatusCode == HttpStatusCode.OK
+                            ? "PIF validerte post {0}"
+                            : "PIF Validering av post {0} mislyktes", modell.Postnummer);
+                }
+                else
+                {
+                    Console.WriteLine("PIF har funnet alle poster");
+                }
             }
         }
     }
