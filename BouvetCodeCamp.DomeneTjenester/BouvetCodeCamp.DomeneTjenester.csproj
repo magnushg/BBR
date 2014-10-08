@@ -45,18 +45,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ILagGameService.cs" />
+    <Compile Include="Interfaces\IService.cs" />
     <Compile Include="KoordinatVerifier.cs" />
     <Compile Include="GameApi.cs" />
     <Compile Include="GameStateService.cs" />
     <Compile Include="Interfaces\IKoordinatVerifier.cs" />
     <Compile Include="Interfaces\IGameAPI.cs" />
-    <Compile Include="Interfaces\IGameStateService.cs" />
-    <Compile Include="Interfaces\IPostService.cs" />
-    <Compile Include="Interfaces\ILagService.cs" />
+    <Compile Include="Interfaces\IPostGameService.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="LagGameService.cs" />
+    <Compile Include="PostGameService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="LagService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">

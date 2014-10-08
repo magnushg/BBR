@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
@@ -12,15 +9,15 @@ using NUnit.Framework;
 namespace BouvetCodeCamp.UnitTest.Service
 {
     [TestFixture]
-    class LagServiceTest
+    class LagGameServiceTest
     {
-        private ILagService _lagService;
+        private LagGameService _lagGameService;
         private readonly Mock<IRepository<Lag>> _lagRepository = new Mock<IRepository<Lag>>();
 
         [SetUp]
         public void Setup()
         {
-            _lagService = new LagService(_lagRepository.Object);
+            _lagGameService = new LagGameService(_lagRepository.Object);
         }
 
         [Test]
@@ -43,7 +40,7 @@ namespace BouvetCodeCamp.UnitTest.Service
                 lag
             });
 
-            var sistePifPosisjon = _lagService.HentSistePifPosisjon(String.Empty);
+            var sistePifPosisjon = _lagGameService.HentSistePifPosisjon(String.Empty);
 
             Assert.AreEqual(senesteTid, sistePifPosisjon.Tid);
         }
