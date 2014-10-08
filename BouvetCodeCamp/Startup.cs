@@ -5,6 +5,7 @@ using System.Web.Http.Cors;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
+using BouvetCodeCamp.SignalR.Hubs;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Autofac;

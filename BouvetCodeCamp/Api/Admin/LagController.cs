@@ -1,3 +1,5 @@
+using BouvetCodeCamp.SignalR.Hubs;
+
 namespace BouvetCodeCamp.Api.Admin
 {
     using System;

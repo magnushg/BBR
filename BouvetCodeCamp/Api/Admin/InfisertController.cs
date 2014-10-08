@@ -1,4 +1,6 @@
-﻿namespace BouvetCodeCamp.Api.Admin
+﻿using BouvetCodeCamp.SignalR.Hubs;
+
+namespace BouvetCodeCamp.Api.Admin
 {
     using System;
     using System.Net;
