@@ -21,6 +21,7 @@ namespace BouvetCodeCamp
     using System.Threading;
 
     using BouvetCodeCamp.Authentication;
+    using BouvetCodeCamp.DomeneTjenester.Services;
     using BouvetCodeCamp.Filters;
 
     using Infrastruktur.DataAksess;
@@ -55,10 +56,12 @@ namespace BouvetCodeCamp
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
 
             // Services
-            builder.RegisterType<LagService>().As<ILagService>();
-            builder.RegisterType<PostService>().As<IPostService>();
+            builder.RegisterType<LagService>().As<IService<Lag>>();
+            builder.RegisterType<LagGameService>().As<ILagGameService>();
+            builder.RegisterType<PostService>().As<IService<Post>>();
+            builder.RegisterType<PostGameService>().As<IPostGameService>();
+            builder.RegisterType<GameStateService>().As<IService<GameState>>();
             builder.RegisterType<GameApi>().As<IGameApi>();
-            builder.RegisterType<GameStateService>().As<IGameStateService>();
 
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();

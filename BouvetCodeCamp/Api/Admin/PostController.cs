@@ -6,19 +6,19 @@ namespace BouvetCodeCamp.Api.Admin
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene;
+    using Domene.Entiteter;
+    using DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/admin/post")]
     [Authorize]
     public class PostController : BaseApiController
     {
-        private readonly IPostService postService;
+        private readonly IService<Post> _postService;
 
-        public PostController(IPostService postService)
+        public PostController(IService<Post> postService)
         {
-            this.postService = postService;
+            _postService = postService;
         }
 
         // GET api/admin/post/get
@@ -27,7 +27,7 @@ namespace BouvetCodeCamp.Api.Admin
         [Obsolete] // Skjule for Swagger-apidoc
         public HttpResponseMessage Get()
         {
-            var poster = postService.HentAlle();
+            var poster = _postService.HentAlle();
             
             return Request.CreateResponse(HttpStatusCode.OK, poster);
         }
@@ -41,7 +41,7 @@ namespace BouvetCodeCamp.Api.Admin
             if (string.IsNullOrEmpty(id))
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler id");
 
-            var post = postService.Hent(id);
+            var post = _postService.Hent(id);
 
             if (post == null)
                 return OpprettErrorResponse(
@@ -60,7 +60,7 @@ namespace BouvetCodeCamp.Api.Admin
             if (modell == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await postService.Opprett(modell);
+            await _postService.Opprett(modell);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -74,7 +74,7 @@ namespace BouvetCodeCamp.Api.Admin
             if (model == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await postService.Oppdater(model);
+            await _postService.Oppdater(model);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -85,7 +85,7 @@ namespace BouvetCodeCamp.Api.Admin
         [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> Delete()
         {
-            await postService.SlettAlle();
+            await _postService.SlettAlle();
             
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -98,15 +98,15 @@ namespace BouvetCodeCamp.Api.Admin
         {
             if (string.IsNullOrEmpty(id))
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler id");
-            
-            var post = postService.Hent(id);
+
+            var post = _postService.Hent(id);
 
             if (post == null)
                 return OpprettErrorResponse(
                     ErrorResponseType.FantIkkeObjekt,
                     string.Format("Post med id = '{0}' fantes ikke.", id));
-            
-            await postService.Slett(post);
+
+            await _postService.Slett(post);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

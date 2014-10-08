@@ -6,12 +6,12 @@ namespace BouvetCodeCamp.Api.Admin
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.Domene.OutputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR;
+    using Domene;
+    using Domene.Entiteter;
+    using Domene.InputModels;
+    using Domene.OutputModels;
+    using DomeneTjenester.Interfaces;
+    using SignalR;
 
     using Microsoft.AspNet.SignalR;
 
@@ -19,13 +19,14 @@ namespace BouvetCodeCamp.Api.Admin
     [System.Web.Http.Authorize]
     public class LagController : BaseApiController
     {
-        private readonly ILagService lagService;
+        private readonly IService<Lag> lagService;
 
         private readonly IGameApi gameApi;
 
         private readonly Lazy<IHubContext<IGameHub>> gameHub;
 
-        public LagController(ILagService lagService, 
+        public LagController(
+            IService<Lag> lagService,
             IGameApi gameApi,
             Lazy<IHubContext<IGameHub>> gameHub)
         {
@@ -40,7 +41,7 @@ namespace BouvetCodeCamp.Api.Admin
         [Obsolete] // Skjule for Swagger-apidoc
         public HttpResponseMessage Get()
         {
-            var alleLag = lagService.HentAlleLag();
+            var alleLag = lagService.HentAlle();
 
             return Request.CreateResponse(HttpStatusCode.OK, alleLag);
         }
@@ -172,16 +173,8 @@ namespace BouvetCodeCamp.Api.Admin
             if (string.IsNullOrEmpty(inputModell.LagId))
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
-            var lag = lagService.HentLagMedLagId(inputModell.LagId);
-
-            lag.LoggHendelser.Add(new LoggHendelse {
-                                          HendelseType = inputModell.HendelseType,
-                                          Kommentar = inputModell.Kommentar,
-                                          Tid = DateTime.Now
-                                      });
-
-            await lagService.Oppdater(lag);
-            
+            await gameApi.OpprettHendelse(inputModell.LagId, inputModell.HendelseType, inputModell.Kommentar);
+           
             gameHub.Value.Clients.All.NyLoggHendelse(
                 new LoggHendelseOutputModell
                 {

@@ -1,26 +1,27 @@
-ï»¿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-
-namespace BouvetCodeCamp.DomeneTjenester
+namespace BouvetCodeCamp.DomeneTjenester.Services
 {
+    using System;
+    using System.Linq;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
     /// <summary>
-    /// Tanken med denne servicen er for Ã¥ abstrahere bort gamestaterepository
+    /// Tanken med denne servicen er for å abstrahere bort gamestaterepository
     /// siden det kun skal eksistere 1 gamestate om gangen.
     /// </summary>
-    public class GameStateService : IGameStateService
+    public class GameStateService : Service<GameState>
     {
         private readonly IRepository<GameState> _gameStateRepository;
 
-        public GameStateService(IRepository<GameState> gameStateRepository)
+        public GameStateService(IRepository<GameState> gameStateRepository) : base(gameStateRepository)
         {
             _gameStateRepository = gameStateRepository;
         }
 
-        public GameState HentGameState()
+        public override GameState Hent(string id)
         {
+            // Henter kun en gamestate, ignorerer id på gamestateobjektet
             var gameStates = _gameStateRepository.HentAlle().ToList();
 
             switch (gameStates.Count())
@@ -34,11 +35,6 @@ namespace BouvetCodeCamp.DomeneTjenester
                 default:
                     throw new Exception("Multiple gamestates found");
             }
-        }
-
-        public async Task OppdaterGameState(GameState gameState)
-        {
-            await _gameStateRepository.Oppdater(gameState);
         }
     }
 }

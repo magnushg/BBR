@@ -13,15 +13,18 @@ namespace BouvetCodeCamp.UnitTest
     public class GameApiTest
     {
         private IGameApi _gameApi;
-        private readonly Mock<IPostService> _kodeService = new Mock<IPostService>();
-        private readonly Mock<ILagService> _lagService = new Mock<ILagService>();
-        private readonly Mock<IGameStateService> _gameStateService = new Mock<IGameStateService>();
+        private readonly Mock<IPostGameService> _postGameService = new Mock<IPostGameService>();
+        private readonly Mock<ILagGameService> _lagGameService = new Mock<ILagGameService>();
+        private readonly Mock<IService<Lag>> _lagService = new Mock<IService<Lag>>();
+        private readonly Mock<IService<GameState>> _gameStateService = new Mock<IService<GameState>>();
         private readonly Mock<IKoordinatVerifier> _koordinatVerifier = new Mock<IKoordinatVerifier>();
 
         [SetUp]
         public void Setup()
         {
-            _gameApi = new GameApi(_kodeService.Object,
+            _gameApi = new GameApi(
+                _postGameService.Object,
+                _lagGameService.Object,
                 _lagService.Object,
                 _koordinatVerifier.Object,
                 _gameStateService.Object);
@@ -33,8 +36,8 @@ namespace BouvetCodeCamp.UnitTest
             var gamestate = new GameState { InfisertPolygon = new InfisertPolygon()};
             var pif = new PifPosisjon();
 
-            _lagService.Setup(x => x.HentSistePifPosisjon(It.IsAny<string>())).Returns(() => pif);
-            _gameStateService.Setup(x => x.HentGameState()).Returns(() => gamestate);
+            _lagGameService.Setup(x => x.HentSistePifPosisjon(It.IsAny<string>())).Returns(() => pif);
+            _gameStateService.Setup(x => x.Hent(string.Empty)).Returns(() => gamestate);
             _koordinatVerifier.Setup(
                 x => x.KoordinatErInnenforPolygonet(pif.Posisjon, gamestate.InfisertPolygon.Koordinater)).Returns(true);
 
