@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>Bouvet Battle Royale - Scoreboard</title>
@@ -35,6 +35,29 @@
         <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
         
         <script src="js/vendors/lodash-2.4.1/lodash.min.js"></script>
+      <style>
+         .marquee {
+    white-space:nowrap;
+    overflow:hidden;
+    background-color:red;
+    height:100px;
+    color:  rgba(255,255,255,1);
+     font-size:70px;
+       text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+}
+.marquee-text {
+    white-space:nowrap;
+    display:inline;
+    width:auto;
+    background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;   
+   
+  
+}
+      </style>
     </head>
 
     <body>
@@ -87,7 +110,11 @@
                 <div class="col-md-1"></div>
             </div>
         </div>
-        
+        <div class='marquee'>
+            <div class='marquee-text'>
+               
+            </div>
+        </div>
         <script type="text/javascript">
             'use strict';
 
@@ -118,7 +145,7 @@
                 //Extend the Default marker class
                 var infectedIcon = L.Icon.Default.extend({
                     options: {
-                        iconUrl: 'images/sick.gif'
+                        iconUrl: 'images/sick.png'
                     }
             });
                 infectedMarkerIcon = new infectedIcon();
@@ -132,7 +159,9 @@
             SCOREBOARD.Poster = [];
             SCOREBOARD.LoggHendelser = [];
             SCOREBOARD.InfisertSone = {};
-
+            SCOREBOARD.Marquee = [];
+            SCOREBOARD.Marquee.push("");
+            SCOREBOARD.Marquee.push("FJERN DETTE FØR PROD; KUN FOR Å TESTE EFFEKTEN");
             //LAG
             function hentSistePifPosisjonForLag(lag) {
                 if (typeof lag == "undefined" || typeof lag.pifPosisjoner == "undefined")
@@ -302,6 +331,25 @@
                     margin: 10,
                     autoHeight: true
                 });
+
+
+                var marquee = $('div.marquee');
+                var nextText = SCOREBOARD.Marquee.pop();
+                marquee.text(nextText);
+                marquee.each(function () {
+                    var mar = $(this), indent = mar.width();
+                    mar.marquee = function () {
+                        indent--;
+                        mar.css('text-indent', indent);
+
+                        if (indent < -mar.width() || marquee.text() == "") {
+                            var nextText = SCOREBOARD.Marquee.pop();
+                            marquee.text(nextText);
+                            indent = mar.width();
+                        }
+                    };
+                    mar.data('interval', setInterval(mar.marquee, 1000 / 360));
+                });
             });
 
             $(function () {
@@ -319,10 +367,12 @@
 
                 // Create a function that the hub can call to broadcast messages.
                 hub.client.nyPifPosisjon = function (msg) {
-                    var lag = lagManager.hentLagEtterLagId(msg.lagId);
+                    var lag = hentLagEtterLagId(msg.lagId);
 
                     var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
-
+                    if (msg.erinfisert) {
+                        SCOREBOARD.Marquee.push(lag[0].lagNavn + " ER INFISERT: -1000 POENG");
+                    }
                     if (typeof lag[0].Marker == "undefined"
                         || lag[0].Marker == null
                         || $.isEmptyObject(lag[0].Marker)) {
@@ -361,6 +411,7 @@
             }
 
         </script>
+       
 
     </body>
 </html>
