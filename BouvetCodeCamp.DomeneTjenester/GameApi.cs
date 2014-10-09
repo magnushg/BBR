@@ -138,11 +138,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagGameService.HentLagMedLagId(lagId);
 
             return
-                OpprettPostOutput(
-                    lag.Poster.OrderBy(post => post.Sekvensnummer)
+                OpprettPostOutput(lag.Poster
+                        .OrderBy(post => post.Sekvensnummer)
                         .First(post => post.PostTilstand == PostTilstand.Ukjent));
-
-
         }
 
         public async Task TildelPoeng(PoengInputModell inputModell)
@@ -196,6 +194,9 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         private PostOutputModell OpprettPostOutput(LagPost post)
         {
+            if (post == null) 
+                return null;
+
             return new PostOutputModell
             {
                 Navn = post.Navn,
