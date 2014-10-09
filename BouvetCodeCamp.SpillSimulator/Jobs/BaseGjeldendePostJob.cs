@@ -12,7 +12,7 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
     {
         public async void Execute(IJobExecutionContext context)
         {
-            string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/base/hentgjeldendepost/" + SpillKonfig.TestLagId;
+            string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/base/hentgjeldendepost/" + SpillKonfig.LagId;
 
             PostOutputModell gjeldendePost;
 

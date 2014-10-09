@@ -178,7 +178,38 @@
 
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
-        public void ErInfisert_IngenPifErRegistrert_ReturnsFalse()
+        public async Task ErInfisert_FinnesIngenPifPosisjonerForLag_GirFalse()
+        {
+            // Arrange
+            SørgForAtEtLagFinnes();
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/erinfisert/" + TestLagId;
+
+            bool erInfisert;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                erInfisert = JsonConvert.DeserializeObject<bool>(content);
+            }
+
+            // Assert
+            erInfisert.ShouldBeFalse();
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task ErInfisert_PifErInnenforInfisertSone_GirTrue()
+        {
+            //TODO
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task ErInfisert_PifErIkkeInnenforInfisertSone_GirFalse()
         {
             //TODO
         }

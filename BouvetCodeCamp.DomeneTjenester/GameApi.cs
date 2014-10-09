@@ -146,11 +146,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagGameService.HentLagMedLagId(lagId);
 
             return
-                OpprettPostOutput(
-                    lag.Poster.OrderBy(post => post.Sekvensnummer)
+                OpprettPostOutput(lag.Poster
+                        .OrderBy(post => post.Sekvensnummer)
                         .First(post => post.PostTilstand == PostTilstand.Ukjent));
-
-
         }
 
         public async Task TildelPoeng(PoengInputModell inputModell)
@@ -169,11 +167,13 @@ namespace BouvetCodeCamp.DomeneTjenester
             await _lagService.Oppdater(lag);
         }
 
-
-
         public bool ErLagPifInnenInfeksjonssone(string lagId)
         {
             var pifPosisjon = _lagGameService.HentSistePifPosisjon(lagId);
+
+            if (pifPosisjon == null) 
+                return false;
+
             var gameState = _gameStateService.Hent(string.Empty);
 
             return _koordinatVerifier.KoordinatErInnenforPolygonet(pifPosisjon.Posisjon, gameState.InfisertPolygon.Koordinater);
@@ -202,6 +202,9 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         private PostOutputModell OpprettPostOutput(LagPost post)
         {
+            if (post == null) 
+                return null;
+
             return new PostOutputModell
             {
                 Navn = post.Navn,
