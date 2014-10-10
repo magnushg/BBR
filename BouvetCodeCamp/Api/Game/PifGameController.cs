@@ -1,5 +1,3 @@
-using BouvetCodeCamp.SignalR.Hubs;
-
 namespace BouvetCodeCamp.Api.Game
 {
     using System;
@@ -16,10 +14,7 @@ namespace BouvetCodeCamp.Api.Game
     using Domene.InputModels;
     using Domene.OutputModels;
     using DomeneTjenester.Interfaces;
-    using SignalR;
-
     using Microsoft.AspNet.SignalR;
-    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController
@@ -58,12 +53,13 @@ namespace BouvetCodeCamp.Api.Game
                     erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
                 }
                 catch (Exception){}
+                await _gameApi.RegistrerPifPosisjon(inputModell);
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
                         {
-                            LagId = inputModell.LagId,
-                            Latitude = inputModell.Posisjon.Latitude,
-                            Longitude = inputModell.Posisjon.Longitude,
+                            LagId = inputModell.LagId, 
+                            Latitude = inputModell.Posisjon.Latitude, 
+                            Longitude = inputModell.Posisjon.Longitude, 
                             Tid = DateTime.Now,
                             ErInfisert = erInfisert
                         });
@@ -87,7 +83,7 @@ namespace BouvetCodeCamp.Api.Game
         }
 
         /// <summary>
-        /// Registrerer en kode på en post for et lag.
+        /// Registrerer en kode pï¿¥ en post for et lag.
         /// </summary>
         /// <param name="inputModell">PostInputModell inputModell</param>
         /// <remarks>POST api/game/pif/sendpostkode</remarks>
@@ -166,9 +162,9 @@ namespace BouvetCodeCamp.Api.Game
 
                 var modell = meldinger.Select(melding => new MeldingOutputModell
                                                              {
-                                                                 LagId = melding.LagId,
-                                                                 Tekst = melding.Tekst,
-                                                                 Type = melding.Type,
+                                                                 LagId = melding.LagId, 
+                                                                 Tekst = melding.Tekst, 
+                                                                 Type = melding.Type, 
                                                                  Tid = melding.Tid
                                                              }).ToList();
 

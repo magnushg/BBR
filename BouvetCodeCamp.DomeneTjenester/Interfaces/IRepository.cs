@@ -7,7 +7,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     public interface IRepository<T>
     {
         String CollectionId { get; }
-        
+
         Task<string> Opprett(T document);
 
         IEnumerable<T> HentAlle();

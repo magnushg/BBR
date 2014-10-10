@@ -1,6 +1,4 @@
-﻿using BouvetCodeCamp.SignalR.Hubs;
-
-namespace BouvetCodeCamp.Api.Admin
+﻿namespace BouvetCodeCamp.Api.Admin
 {
     using System;
     using System.Net;
@@ -8,15 +6,13 @@ namespace BouvetCodeCamp.Api.Admin
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Domene.OutputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR;
-    using BouvetCodeCamp.SignalR.Hubs;
+    using Domene;
+    using Domene.Entiteter;
+    using Domene.OutputModels;
+    using DomeneTjenester.Interfaces;
+    using SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
-    using BouvetCodeCamp.SignalR.Hubs;
 
     /// <summary>
     /// Sett og Hent infiserte soner
@@ -79,7 +75,7 @@ namespace BouvetCodeCamp.Api.Admin
                     {
                         Koordinater = modell.Koordinater
                     });
-                
+
                 await _gameStateService.Oppdater(gameState);
             }
             catch (Exception e)

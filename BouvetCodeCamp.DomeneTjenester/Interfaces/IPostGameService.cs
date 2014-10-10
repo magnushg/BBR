@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
@@ -10,6 +10,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
         IEnumerable<LagPost> HentAllePosterForLag(Lag lag);
 
-        bool SettKodeTilstandTilOppdaget(Lag lag, int postnummer, string kode, Koordinat koordinat);
+        HendelseType SettKodeTilstandTilOppdaget(Lag lag, int postnummer, string kode, Koordinat koordinat);
     }
 }

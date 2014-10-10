@@ -3,8 +3,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
     using System;
     using System.Linq;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene.Entiteter;
+    using Interfaces;
 
     public class LagGameService : ILagGameService
     {

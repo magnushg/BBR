@@ -75,10 +75,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Felles\KoordinatVerifierTest.cs" />
+    <Compile Include="Service\GameStateServiceTest.cs" />
     <Compile Include="Service\KodeServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameApiTest.cs" />
     <Compile Include="Service\LagServiceTest.cs" />
+    <Compile Include="Service\PoengServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
