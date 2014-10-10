@@ -28,7 +28,7 @@ namespace BouvetCodeCamp.UnitTest.Service
         {
             _poengTildeling = new PoengTildeling();
 
-            _poengService = new PoengService(_poengTildeling, _gameHubMock.Object);
+            _poengService = new PoengService(_gameHubMock.Object);
 
             _poengTildeling.InfisertTickStraff = 1;
             _poengTildeling.InfisertTidssfrist = 1;

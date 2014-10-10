@@ -6,8 +6,8 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
-    using BouvetCodeCamp.Domene.OutputModels;
-    using BouvetCodeCamp.SignalR.Hubs;
+    using Domene.OutputModels;
+    using SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
 
@@ -17,9 +17,9 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         private readonly Lazy<IHubContext<IGameHub>> gameHub;
 
-        public PoengService(PoengTildeling poengTildeling, Lazy<IHubContext<IGameHub>> gameHub)
+        public PoengService(Lazy<IHubContext<IGameHub>> gameHub)
         {
-            _poengTildeling = poengTildeling;
+            _poengTildeling = new PoengTildeling();
             this.gameHub = gameHub;
         }
 
