@@ -13,7 +13,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell);
 
         PifPosisjonOutputModell HentSistePifPositionForLag(string lagId);
-
+        
         Task<bool> RegistrerKode(PostInputModell inputModell);
 
         Task SendMelding(MeldingInputModell inputModell);
@@ -27,5 +27,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         bool ErLagPifInnenInfeksjonssone(string lagId);
 
         IEnumerable<Melding> HentMeldinger(string lagId);
+        
+        Task OpprettHendelse(string lagId, HendelseType hendelseType, string kommentar);
     }
 }

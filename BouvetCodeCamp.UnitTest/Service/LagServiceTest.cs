@@ -8,16 +8,18 @@ using NUnit.Framework;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
+    using BouvetCodeCamp.DomeneTjenester.Services;
+
     [TestFixture]
-    class LagServiceTest
+    class LagGameServiceTest
     {
-        private ILagService _lagService;
+        private LagGameService _lagGameService;
         private readonly Mock<IRepository<Lag>> _lagRepository = new Mock<IRepository<Lag>>();
 
         [SetUp]
         public void Setup()
         {
-            _lagService = new LagService(_lagRepository.Object);
+            _lagGameService = new LagGameService(_lagRepository.Object);
         }
 
         [Test]
@@ -40,7 +42,7 @@ namespace BouvetCodeCamp.UnitTest.Service
                 lag
             });
 
-            var sistePifPosisjon = _lagService.HentSistePifPosisjon(String.Empty);
+            var sistePifPosisjon = _lagGameService.HentSistePifPosisjon(String.Empty);
 
             Assert.AreEqual(senesteTid, sistePifPosisjon.Tid);
         }

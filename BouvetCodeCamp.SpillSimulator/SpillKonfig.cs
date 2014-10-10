@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.Domene.OutputModels;
 
@@ -14,9 +11,9 @@ namespace BouvetCodeCamp.SpillSimulator
 
         public const string Brukernavn = "bouvet";
 
-        public const string ApiBaseAddress = "http://localhost:2014";
+        public const string ApiBaseAddress = "http://bouvet-code-camp.azurewebsites.net/";
 
-        public const string TestLagId = "d1879d23-6907-4039-9b1f-774dbd2b1b8d";
+        public static string LagId;
 
         public static List<Koordinat> Koordinater;
 
@@ -24,6 +21,6 @@ namespace BouvetCodeCamp.SpillSimulator
 
         public static PostOutputModell GjeldendePost;
 
-        public static Dictionary<int, string> PostKoder;
+        public static Dictionary<string, Dictionary<int, string>> LagMedPostkoder;
     }
 }

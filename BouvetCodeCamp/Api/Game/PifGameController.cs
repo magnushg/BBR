@@ -1,12 +1,15 @@
 namespace BouvetCodeCamp.Api.Game
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Description;
+
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Domene;
     using Domene.InputModels;
@@ -15,6 +18,7 @@ namespace BouvetCodeCamp.Api.Game
     using SignalR;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController
@@ -47,13 +51,21 @@ namespace BouvetCodeCamp.Api.Game
 
             try
             {
+                var erInfisert = false;
+                try
+                {
+                    erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
+                }
+                catch (Exception){}
+                await _gameApi.RegistrerPifPosisjon(inputModell);
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
                         {
-                            LagId = inputModell.LagId,
-                            Latitude = inputModell.Posisjon.Latitude,
-                            Longitude = inputModell.Posisjon.Longitude,
-                            Tid = DateTime.Now
+                            LagId = inputModell.LagId, 
+                            Latitude = inputModell.Posisjon.Latitude, 
+                            Longitude = inputModell.Posisjon.Longitude, 
+                            Tid = DateTime.Now,
+                            ErInfisert = erInfisert
                         });
 
                 _gameHub.Value.Clients.All.NyLoggHendelse(
@@ -61,7 +73,7 @@ namespace BouvetCodeCamp.Api.Game
                     {
                         LagId = inputModell.LagId,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
-                        Kommentar = string.Empty,
+                        Kommentar = erInfisert?"ER I INFISERT SONE":string.Empty,
                         Tid = DateTime.Now.ToShortTimeString()
                     });
 
@@ -75,7 +87,7 @@ namespace BouvetCodeCamp.Api.Game
         }
 
         /// <summary>
-        /// Registrerer en kode på en post for et lag.
+        /// Registrerer en kode pï¿¥ en post for et lag.
         /// </summary>
         /// <param name="inputModell">PostInputModell inputModell</param>
         /// <remarks>POST api/game/pif/sendpostkode</remarks>

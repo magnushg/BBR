@@ -14,20 +14,23 @@ namespace BouvetCodeCamp.DomeneTjenester
 
     public class GameApi : IGameApi
     {
-        private readonly IPostService _postService;
-        private readonly ILagService _lagService;
-        private readonly IGameStateService _gameStateService;
+        private readonly IPostGameService _postGameService;
+        private readonly ILagGameService _lagGameService;
+        private readonly IService<Lag> _lagService;
+        private readonly IService<GameState> _gameStateService;
         private readonly IKoordinatVerifier _koordinatVerifier;
         private readonly IPoengService _poengService;
 
         public GameApi(
-            IPostService postService,
-            ILagService lagService,
+            IPostGameService postGameService,
+            ILagGameService lagGameService,
+            IService<Lag> lagService,
             IKoordinatVerifier koordinatVerifier,
             IGameStateService gameStateService,
             IPoengService poengService)
         {
-            _postService = postService;
+            _postGameService = postGameService;
+            _lagGameService = lagGameService;
             _lagService = lagService;
             _koordinatVerifier = koordinatVerifier;
             _gameStateService = gameStateService;
@@ -47,7 +50,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                     Longitude = inputModell.Posisjon.Longitude
                 },
                 LagId = inputModell.LagId,
-                Tid = DateTime.Now,
+                Tid = DateTime.Now
             };
 
             pifPosisjon.Infisert = ErPifPosisjonInfisert(pifPosisjon, gameState);
@@ -86,14 +89,16 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task<bool> RegistrerKode(PostInputModell inputModell)
         {
-            var resultat = _postService.SettKodeTilstandTilOppdaget(inputModell.LagId, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
+            //TODO: Tildel poeng via egen modul. Returnerer lag fra modulen. Input er hendelse.
 
-            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
+            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
+
+            var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
 
             lag.LoggHendelser.Add(
                 new LoggHendelse
                 {
-                    HendelseType = resultat,
+                    HendelseType = resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket,
                     Tid = DateTime.Now
                 });
 
@@ -101,7 +106,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             await _lagService.Oppdater(lag);
 
-            return resultat.Equals(HendelseType.RegistrertKodeSuksess);
+            return resultat;
         }
 
         public async Task SendMelding(MeldingInputModell inputModell)
@@ -109,11 +114,11 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagService.HentLagMedLagId(inputModell.LagId);
 
             var melding = new Melding
-            {
-                LagId = inputModell.LagId,
-                Tekst = inputModell.Tekst,
-                Tid = DateTime.Now,
-                Type = inputModell.Type
+                {
+                    LagId = inputModell.LagId,
+                    Tekst = inputModell.Tekst,
+                    Tid = DateTime.Now,
+                    Type = inputModell.Type
             };
 
             lag.Meldinger.Add(melding);
@@ -146,20 +151,18 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public PostOutputModell HentGjeldendePost(string lagId)
         {
-            var lag = _lagService.HentLagMedLagId(lagId);
+            var lag = _lagGameService.HentLagMedLagId(lagId);
 
             return
-                OpprettPostOutput(
-                    lag.Poster.OrderBy(post => post.Sekvensnummer)
+                OpprettPostOutput(lag.Poster
+                        .OrderBy(post => post.Sekvensnummer)
                         .First(post => post.PostTilstand == PostTilstand.Ukjent));
-
-
         }
 
         [Obsolete]
         public async Task TildelPoeng(PoengInputModell inputModell)
         {
-            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
+            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             lag.Poeng += inputModell.Poeng;
 
@@ -175,27 +178,42 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public bool ErLagPifInnenInfeksjonssone(string lagId)
         {
-            var pifPosisjon = _lagService.HentSistePifPosisjon(lagId);
-            var gameState = _gameStateService.HentGameState();
+            var pifPosisjon = _lagGameService.HentSistePifPosisjon(lagId);
 
-            return ErPifPosisjonInfisert(pifPosisjon, gameState);
-        }
+            if (pifPosisjon == null) 
+                return false;
 
-        [Obsolete("PifPosisjon har parameter infisert allerede")]
-        private bool ErPifPosisjonInfisert(PifPosisjon posisjon, GameState gameState)
-        {
-            return _koordinatVerifier.KoordinatErInnenforPolygonet(posisjon.Posisjon, gameState.InfisertPolygon.Koordinater);
+            var gameState = _gameStateService.Hent(string.Empty);
+
+            return _koordinatVerifier.KoordinatErInnenforPolygonet(pifPosisjon.Posisjon, gameState.InfisertPolygon.Koordinater);
         }
 
         public IEnumerable<Melding> HentMeldinger(string lagId)
         {
-            var lag = _lagService.HentLagMedLagId(lagId);
+            var lag = _lagGameService.HentLagMedLagId(lagId);
 
             return lag.Meldinger;
         }
 
+        public async Task OpprettHendelse(string lagId, HendelseType hendelseType, string kommentar)
+        {
+            var lag = _lagGameService.HentLagMedLagId(lagId);
+
+            lag.LoggHendelser.Add(new LoggHendelse
+            {
+                HendelseType = hendelseType,
+                Kommentar = kommentar,
+                Tid = DateTime.Now
+            });
+
+            await _lagService.Oppdater(lag);
+        }
+
         private PostOutputModell OpprettPostOutput(LagPost post)
         {
+            if (post == null) 
+                return null;
+
             return new PostOutputModell
             {
                 Navn = post.Navn,

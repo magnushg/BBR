@@ -20,5 +20,8 @@ namespace BouvetCodeCamp.Domene.OutputModels
 
         [JsonProperty(PropertyName = "tid")]
         public DateTime? Tid { get; set; }
+
+         [JsonProperty(PropertyName = "erinfisert")]
+        public bool ErInfisert { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Web.Http.Cors;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
+using BouvetCodeCamp.SignalR.Hubs;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Autofac;
@@ -21,8 +22,8 @@ namespace BouvetCodeCamp
     using System.IO;
     using System.Threading;
 
-    using Authentication;
-    using Filters;
+    using BouvetCodeCamp.Authentication;
+    using BouvetCodeCamp.Filters;
 
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;
@@ -48,7 +49,7 @@ namespace BouvetCodeCamp
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
             KonfigurerApiDokumentasjon(appBuilder, config);
-
+            
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
@@ -56,8 +57,11 @@ namespace BouvetCodeCamp
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
 
             // Services
-            builder.RegisterType<LagService>().As<ILagService>();
-            builder.RegisterType<PostService>().As<IPostService>();
+            builder.RegisterType<LagService>().As<IService<Lag>>();
+            builder.RegisterType<LagGameService>().As<ILagGameService>();
+            builder.RegisterType<PostService>().As<IService<Post>>();
+            builder.RegisterType<PostGameService>().As<IPostGameService>();
+            builder.RegisterType<GameStateService>().As<IService<GameState>>();
             builder.RegisterType<GameApi>().As<IGameApi>();
             builder.RegisterType<GameStateService>().As<IGameStateService>();
             builder.RegisterType<PoengService>().As<IPoengService>();
@@ -100,7 +104,7 @@ namespace BouvetCodeCamp
         {
             appBuilder.UseStageMarker(PipelineStage.MapHandler);
 
-            Bootstrapper.Init(config);
+            Swashbuckle.Bootstrapper.Init(config);
 
             SwaggerSpecConfig.Customize(c =>
             {
@@ -114,7 +118,7 @@ namespace BouvetCodeCamp
         {
             try
             {
-                return String.Format(@"{0}\docs\BouvetCodeCamp.XML", AppDomain.CurrentDomain.BaseDirectory);
+                return String.Format(@"{0}\docs\BouvetCodeCamp.XML", System.AppDomain.CurrentDomain.BaseDirectory);
             }
             catch (FileNotFoundException fileNotFoundException)
             {

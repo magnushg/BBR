@@ -17,6 +17,8 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "infisert")]
         public bool Infisert { get; set; }
 
+
+
         public PifPosisjon()
         {
             LagId = string.Empty;

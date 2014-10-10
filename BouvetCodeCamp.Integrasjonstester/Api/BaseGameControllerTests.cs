@@ -225,5 +225,19 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Assert
             kodeModeller.ShouldBeEmpty();
         }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task HentGjeldendePost_AllePosterErRegistrert_FårNull()
+        {
+            //TODO
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task HentGjeldendePost_LagHarPosterSomIkkeErRegistrert_FårNull()
+        {
+            //TODO
+        }
     }
 }

@@ -11,8 +11,10 @@
     using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.SignalR.Hubs;
 
     /// <summary>
     /// Sett og Hent infiserte soner
@@ -21,11 +23,12 @@
     [System.Web.Http.Authorize]
     public class InfisertController : BaseApiController
     {
-        private readonly IGameStateService _gameStateService;
+        private readonly IService<GameState> _gameStateService;
 
         private readonly Lazy<IHubContext<IGameHub>> _gameHub;
 
-        public InfisertController(IGameStateService gameStateService,
+        public InfisertController(
+            IService<GameState> gameStateService,
             Lazy<IHubContext<IGameHub>> gameHub)
         {
             _gameStateService = gameStateService;
@@ -38,7 +41,7 @@
         [Obsolete] // Skjule for Swagger-apidoc
         public HttpResponseMessage GetSone()
         {
-            var gameState = _gameStateService.HentGameState();
+            var gameState = _gameStateService.Hent(string.Empty);
 
             try
             {
@@ -64,7 +67,7 @@
             if (modell == null || modell.Koordinater == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modell er ugyldig.");
 
-            var gameState = _gameStateService.HentGameState();
+            var gameState = _gameStateService.Hent(string.Empty);
             gameState.InfisertPolygon = modell;
 
             try
@@ -74,8 +77,8 @@
                     {
                         Koordinater = modell.Koordinater
                     });
-
-                await _gameStateService.OppdaterGameState(gameState);
+                
+                await _gameStateService.Oppdater(gameState);
             }
             catch (Exception e)
             {
