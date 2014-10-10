@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 
 namespace BouvetCodeCamp.SpillOppretter
@@ -7,11 +9,14 @@ namespace BouvetCodeCamp.SpillOppretter
     {
         static void Main(string[] args)
         {
-            var mapdataConverter = new JSONKartdataConverter();
+            var filePath = string.Format("importData/{0}", ConfigurationManager.AppSettings["location"]);
+
+            var mapdataConverter = new JSONKartdataConverter(filePath + "/poster.json");
 
             Console.WriteLine("Initializing Document Db");
+            
             var kartdataLagring = new KartdataLagring();
-            var lagoppretter = new LagOppretter(15);
+            var lagoppretter = new LagOppretter(Convert.ToInt32(ConfigurationManager.AppSettings["numberOfTeams"]), filePath + "/lagPoster.json", filePath + "/koder.json");
 
             Console.WriteLine("Converting data and saving to database");
 

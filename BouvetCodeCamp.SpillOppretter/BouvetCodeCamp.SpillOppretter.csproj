@@ -48,6 +48,7 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSVKartdataConverter.cs" />
     <Compile Include="JSONKartdataConverter.cs" />
     <Compile Include="KartdataLagring.cs" />
     <Compile Include="LagOppretter.cs" />
@@ -67,10 +67,7 @@
     <None Include="App.config">
       <TransformOnBuild>true</TransformOnBuild>
     </None>
-    <Content Include="ImportData\oscarsborg.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\poster.json">
+    <Content Include="ImportData\Oscarsborg\poster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.Debug.config">
@@ -81,10 +78,19 @@
       <DependentUpon>App.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <Content Include="ImportData\lagPoster.json">
+    <Content Include="ImportData\Oscarsborg\lagPoster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ImportData\koder.json">
+    <Content Include="ImportData\Oscarsborg\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Myrens\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Myrens\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Myrens\poster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
