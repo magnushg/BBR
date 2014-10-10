@@ -7,9 +7,9 @@
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene;
+    using Domene.InputModels;
+    using DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/game/base")]
     public class BaseGameController : BaseApiController
