@@ -46,7 +46,7 @@ namespace BouvetCodeCamp.DomeneTjenester
         ///   3 - tilstanden ikke allerede er satt til oppdaget
         /// </summary>
         /// <returns>true hvis alle kriterier er oppfylt</returns>
-        public bool SettKodeTilstandTilOppdaget(string lagId, int postnummer, string kode, Koordinat koordinat)
+        public HendelseType SettKodeTilstandTilOppdaget(string lagId, int postnummer, string kode, Koordinat koordinat)
         {
             var lag = _lagService.HentLagMedLagId(lagId);
 
@@ -58,11 +58,11 @@ namespace BouvetCodeCamp.DomeneTjenester
             switch (kandidater.Count())
             {
                 case 0:
-                    return false;
+                    return HendelseType.RegistrertKodeMislykket;
                 case 1:
                     kandidater.First().PostTilstand = PostTilstand.Oppdaget;
                     _lagService.Oppdater(lag);
-                    return true;
+                    return HendelseType.RegistrertKodeSuksess;
                 default:
                     throw new AmbiguousMatchException("Flere koder funnet basert på kriteriene gitt");
             }

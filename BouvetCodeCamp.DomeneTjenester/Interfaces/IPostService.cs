@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
@@ -8,7 +9,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     {
         IEnumerable<LagPost> HentOppdagedePoster(string lagId);
         IEnumerable<LagPost> HentAllePosterForLag(string lagId);
-        bool SettKodeTilstandTilOppdaget(string lagId, int postnummer, string kode, Koordinat koordinat);
+        HendelseType SettKodeTilstandTilOppdaget(string lagId, int postnummer, string kode, Koordinat koordinat);
 
         IEnumerable<Post> HentAlle();
 

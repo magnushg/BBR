@@ -15,6 +15,9 @@ namespace BouvetCodeCamp.Domene.OutputModels
         [JsonProperty(PropertyName = "lagId")]
         public string LagId { get; set; }
 
+        [JsonProperty(PropertyName = "infisert")]
+        public bool Infisert { get; set; }
+
         [JsonProperty(PropertyName = "tid")]
         public DateTime? Tid { get; set; }
     }

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IPoengService.cs" />
     <Compile Include="KoordinatVerifier.cs" />
     <Compile Include="GameApi.cs" />
     <Compile Include="GameStateService.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Interfaces\IPostService.cs" />
     <Compile Include="Interfaces\ILagService.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="PoengService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="LagService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

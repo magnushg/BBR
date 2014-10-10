@@ -74,7 +74,7 @@
                     {
                         Koordinater = modell.Koordinater
                     });
-                
+
                 await _gameStateService.OppdaterGameState(gameState);
             }
             catch (Exception e)

@@ -14,6 +14,9 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "tid")]
         public DateTime Tid { get; set; }
 
+        [JsonProperty(PropertyName = "infisert")]
+        public bool Infisert { get; set; }
+
         public PifPosisjon()
         {
             LagId = string.Empty;

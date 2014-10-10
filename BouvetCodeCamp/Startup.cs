@@ -12,6 +12,7 @@ using System.Reflection;
 using Autofac.Integration.WebApi;
 using Microsoft.AspNet.SignalR;
 using BouvetCodeCamp.SignalR;
+using Swashbuckle;
 
 namespace BouvetCodeCamp
 {
@@ -20,8 +21,8 @@ namespace BouvetCodeCamp
     using System.IO;
     using System.Threading;
 
-    using BouvetCodeCamp.Authentication;
-    using BouvetCodeCamp.Filters;
+    using Authentication;
+    using Filters;
 
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;
@@ -47,7 +48,7 @@ namespace BouvetCodeCamp
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
             KonfigurerApiDokumentasjon(appBuilder, config);
-            
+
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
@@ -59,6 +60,7 @@ namespace BouvetCodeCamp
             builder.RegisterType<PostService>().As<IPostService>();
             builder.RegisterType<GameApi>().As<IGameApi>();
             builder.RegisterType<GameStateService>().As<IGameStateService>();
+            builder.RegisterType<PoengService>().As<IPoengService>();
 
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
@@ -98,7 +100,7 @@ namespace BouvetCodeCamp
         {
             appBuilder.UseStageMarker(PipelineStage.MapHandler);
 
-            Swashbuckle.Bootstrapper.Init(config);
+            Bootstrapper.Init(config);
 
             SwaggerSpecConfig.Customize(c =>
             {
@@ -112,7 +114,7 @@ namespace BouvetCodeCamp
         {
             try
             {
-                return String.Format(@"{0}\docs\BouvetCodeCamp.XML", System.AppDomain.CurrentDomain.BaseDirectory);
+                return String.Format(@"{0}\docs\BouvetCodeCamp.XML", AppDomain.CurrentDomain.BaseDirectory);
             }
             catch (FileNotFoundException fileNotFoundException)
             {

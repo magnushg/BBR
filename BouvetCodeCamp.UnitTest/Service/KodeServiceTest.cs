@@ -38,7 +38,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeTrue();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeSuksess);
             innsendtKode.PostTilstand.ShouldEqual(PostTilstand.Oppdaget);
         }
 
@@ -57,7 +57,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeFalse();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeMislykket);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeTrue();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeSuksess);
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postService.SettKodeTilstandTilOppdaget("1", innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeFalse();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeMislykket);
         }
 
         [Test]

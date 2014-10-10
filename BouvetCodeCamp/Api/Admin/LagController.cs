@@ -6,12 +6,12 @@ namespace BouvetCodeCamp.Api.Admin
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.Domene.OutputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR;
+    using Domene;
+    using Domene.Entiteter;
+    using Domene.InputModels;
+    using Domene.OutputModels;
+    using DomeneTjenester.Interfaces;
+    using SignalR;
 
     using Microsoft.AspNet.SignalR;
 
@@ -156,7 +156,7 @@ namespace BouvetCodeCamp.Api.Admin
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
             await gameApi.TildelPoeng(inputModell);
-            
+
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 

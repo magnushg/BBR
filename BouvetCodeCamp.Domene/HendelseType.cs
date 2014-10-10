@@ -9,7 +9,8 @@
         HentetPifPosisjon,
         SendtMelding,
         TildeltPoeng,
-
+        InfisertPoentTap,
+        PingPoengTap,
         Achievement
     }
 }
