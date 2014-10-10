@@ -9,17 +9,26 @@ using Should;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
+    using BouvetCodeCamp.SignalR.Hubs;
+
+    using Microsoft.AspNet.SignalR;
+
+    using Moq;
+
     [TestFixture]
     class PoengServiceTest
     {
         private IPoengService _poengService;
         private PoengTildeling _poengTildeling;
+        private readonly Mock<IKoordinatVerifier> _coordinatMock = new Mock<IKoordinatVerifier>();
+        private readonly Mock<Lazy<IHubContext<IGameHub>>> _gameHubMock = new Mock<Lazy<IHubContext<IGameHub>>>();
 
         [SetUp]
         public void Startup()
         {
             _poengTildeling = new PoengTildeling();
-            _poengService = new PoengService(_poengTildeling);
+
+            _poengService = new PoengService(_poengTildeling, _gameHubMock.Object);
 
             _poengTildeling.InfisertTickStraff = 1;
             _poengTildeling.InfisertTidssfrist = 1;
