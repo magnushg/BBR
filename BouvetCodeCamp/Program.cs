@@ -8,7 +8,7 @@ namespace BouvetCodeCamp
     {
         static void Main(string[] args)
         {
-            const string BaseAddress = "http://bouvet-code-camp.azurewebsites.net";
+            const string BaseAddress = "http://bouvetcodecamp";// "http://bouvet-code-camp.azurewebsites.net";
 
             using (WebApp.Start<Startup>(BaseAddress))
             {

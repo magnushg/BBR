@@ -157,21 +157,13 @@ namespace BouvetCodeCamp.DomeneTjenester
                         .First(post => post.PostTilstand == PostTilstand.Ukjent));
         }
 
-        [Obsolete]
         public async Task TildelPoeng(PoengInputModell inputModell)
         {
-            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
+            var lag = _lagService.Hent(inputModell.LagId);
 
-            lag.Poeng += inputModell.Poeng;
+            var lagMedPoeng = _poengService.SettPoengForLag(lag, inputModell.Poeng, inputModell.Kommentar);
 
-            lag.LoggHendelser.Add(
-                new LoggHendelse
-                {
-                    HendelseType = HendelseType.TildeltPoeng,
-                    Tid = DateTime.Now
-                });
-
-            await _lagService.Oppdater(lag);
+            await _lagService.Oppdater(lagMedPoeng);
         }
 
         public bool ErLagPifInnenInfeksjonssone(string lagId)

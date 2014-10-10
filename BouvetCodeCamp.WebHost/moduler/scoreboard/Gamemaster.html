@@ -8,38 +8,59 @@
     <script src="/moduler/scoreboard/js/scoreboard.infrastruktur.js"></script>
 
     <script src="/moduler/scoreboard/js/scoreboard.loader.js"></script>
-
 </head>
 
 <body>
     <script type="text/javascript">
+        $(function () {
 
-        var GAMEMASTER = GAMEMASTER || {};
-        GAMEMASTER.Lag = [];
+            var GAMEMASTER = GAMEMASTER || {};
+            GAMEMASTER.Lag = [];
 
-        function lastInnLagene(data) {
-            $.each(data, function (key, val) {
-                GAMEMASTER.Lag.push(val);
-                GAMEMASTER.Lag[key].Marker = {};
+            function lastInnLagene(data) {
+                $.each(data, function (key, val) {
+                    GAMEMASTER.Lag.push(val);
+                    GAMEMASTER.Lag[key].Marker = {};
+                });
+
+                FyllLagSelectMedLag();
+            }
+
+            function FyllLagSelectMedLag() {
+                var lagListe = $("#lagListe");
+
+                $.each(GAMEMASTER.Lag, function (key, val) {
+                    lagListe.append("<option value='" + val.lagId + "'>" + val.lagNavn + "</option>");
+                });
+            }
+
+            function skjulHandlingstyper() {
+                $("#poengTildeling").hide();
+            }
+
+            function onTildelPoengSuccess(data) {
+                alert("Poeng ble tildelt!");
+            }
+
+            $('#handlingstyper').on('change', function () {
+                skjulHandlingstyper();
+
+                if (this.value == 1) {
+                    $("#poengTildeling").show();
+                }
             });
 
-            FyllLagSelectMedLag();
-        }
+            $("#btnTildelPoeng").click(function () {
+                var modell = { LagId: $("#lagListe").val(), Poeng: $("#poeng").val(), Kommentar: $("#kommentar").val() };
 
-        function FyllLagSelectMedLag() {
-            var lagListe = $("#lagListe");
-
-            $.each(GAMEMASTER.Lag, function (key, val) {
-                lagListe.append("<option value='" + val.lagnummer + "'>" + val.lagNavn + "</option>");
+                infrastruktur.sendAutentisertPost("/api/admin/lag/tildelpoeng", onTildelPoengSuccess, modell);
             });
-        }
 
-        $(document).ready(function () {
+            skjulHandlingstyper();
 
             loader.hentLag(lastInnLagene);
 
         });
-
     </script>
 
     <div>
@@ -47,7 +68,33 @@
         <select id="lagListe"></select>
     </div>
 
-    <div>Gjør noe annet..</div>
+    <br />
+
+    <div>
+        <p>Velg handling:</p>
+
+        <select id="handlingstyper">
+            <option value="0" selected>- Velg -</option>
+            <option value="1">Tildel poeng</option>
+            <option value="2">Tildel achievement</option>
+        </select>
+    </div>
+
+    <br />
+
+    <div id="poengTildeling">
+        <p>Poeng:</p>
+        <input type="number" id="poeng" />
+
+        <br />
+
+        <p>Kommentar (valgfritt):</p>
+        <input type="text" id="kommentar" />
+
+        <br />
+
+        <input type="button" id="btnTildelPoeng" value="Tildel poeng" />
+    </div>
 
 </body>
 </html>
