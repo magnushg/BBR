@@ -58,6 +58,7 @@ namespace BouvetCodeCamp.Api.Game
                     erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
                 }
                 catch (Exception){}
+                await _gameApi.RegistrerPifPosisjon(inputModell);
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
                         {
@@ -77,7 +78,7 @@ namespace BouvetCodeCamp.Api.Game
                         Tid = DateTime.Now.ToShortTimeString()
                     });
 
-                await _gameApi.RegistrerPifPosisjon(inputModell);
+                
             }
             catch (Exception e)
             {
