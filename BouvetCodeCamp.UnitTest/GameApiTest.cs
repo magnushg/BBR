@@ -18,6 +18,7 @@ namespace BouvetCodeCamp.UnitTest
         private readonly Mock<IService<Lag>> _lagService = new Mock<IService<Lag>>();
         private readonly Mock<IService<GameState>> _gameStateService = new Mock<IService<GameState>>();
         private readonly Mock<IKoordinatVerifier> _koordinatVerifier = new Mock<IKoordinatVerifier>();
+        private readonly Mock<IPoengService> _poengServiceMock = new Mock<IPoengService>();
 
         [SetUp]
         public void Setup()
@@ -27,7 +28,9 @@ namespace BouvetCodeCamp.UnitTest
                 _lagGameService.Object,
                 _lagService.Object,
                 _koordinatVerifier.Object,
-                _gameStateService.Object);
+                _gameStateService.Object,
+                _poengServiceMock.Object
+                );
         }
 
         [Test]

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.Domene.OutputModels;
@@ -8,14 +7,14 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Domene.Entiteter;
+    using Domene.Entiteter;
 
     public interface IGameApi
     {
         Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell);
 
         PifPosisjonOutputModell HentSistePifPositionForLag(string lagId);
-        
+
         Task<bool> RegistrerKode(PostInputModell inputModell);
 
         Task SendMelding(MeldingInputModell inputModell);
@@ -29,7 +28,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         bool ErLagPifInnenInfeksjonssone(string lagId);
 
         IEnumerable<Melding> HentMeldinger(string lagId);
-        
+
         Task OpprettHendelse(string lagId, HendelseType hendelseType, string kommentar);
     }
 }

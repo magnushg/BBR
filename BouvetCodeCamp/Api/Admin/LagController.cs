@@ -1,5 +1,3 @@
-using BouvetCodeCamp.SignalR.Hubs;
-
 namespace BouvetCodeCamp.Api.Admin
 {
     using System;
@@ -15,10 +13,8 @@ namespace BouvetCodeCamp.Api.Admin
     using Domene.InputModels;
     using Domene.OutputModels;
     using DomeneTjenester.Interfaces;
-    using SignalR;
 
     using Microsoft.AspNet.SignalR;
-    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/admin/lag")]
     [System.Web.Http.Authorize]
@@ -139,7 +135,7 @@ namespace BouvetCodeCamp.Api.Admin
             if (string.IsNullOrEmpty(lagId))
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
-            var lagTilSletting = lagService.Søk(o => o.LagId == lagId);
+            var lagTilSletting = lagService.Sok(o => o.LagId == lagId);
             
             foreach (var lag in lagTilSletting)
             {
@@ -179,7 +175,7 @@ namespace BouvetCodeCamp.Api.Admin
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
             await gameApi.OpprettHendelse(inputModell.LagId, inputModell.HendelseType, inputModell.Kommentar);
-           
+            
             gameHub.Value.Clients.All.NyLoggHendelse(
                 new LoggHendelseOutputModell
                 {

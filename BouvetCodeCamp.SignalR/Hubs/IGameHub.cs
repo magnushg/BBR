@@ -1,6 +1,6 @@
 ﻿namespace BouvetCodeCamp.SignalR.Hubs
 {
-    using BouvetCodeCamp.Domene.OutputModels;
+    using Domene.OutputModels;
 
     public interface IGameHub
     {

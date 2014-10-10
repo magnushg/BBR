@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Moq;
 using NUnit.Framework;
@@ -9,7 +8,7 @@ using Should;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
-    using BouvetCodeCamp.DomeneTjenester.Services;
+    using DomeneTjenester.Services;
 
     [TestFixture]
     class PostGameServiceTest
@@ -41,7 +40,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeTrue();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeSuksess);
             innsendtKode.PostTilstand.ShouldEqual(PostTilstand.Oppdaget);
         }
 
@@ -59,7 +58,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeFalse();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeMislykket);
         }
 
         [Test]
@@ -78,7 +77,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeTrue();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeSuksess);
         }
 
         [Test]
@@ -96,7 +95,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, innsendtKode.Nummer, innsendtKode.Kode, innsendtKode.Posisjon);
 
             // Assert
-            resultat.ShouldBeFalse();
+            resultat.ShouldEqual(HendelseType.RegistrertKodeMislykket);
         }
 
         [Test]

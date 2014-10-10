@@ -18,6 +18,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
         Task Opprett(T entitet);
 
-        IEnumerable<T> Søk(Func<T, bool> predicate);
+        IEnumerable<T> Sok(Func<T, bool> predicate);
     }
 }

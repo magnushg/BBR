@@ -5,5 +5,7 @@
         public string LagId { get; set; }
 
         public int Poeng { get; set; }
+
+        public string Kommentar { get; set; }
     }
 }
