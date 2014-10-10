@@ -15,5 +15,13 @@
         
         [JsonProperty(PropertyName = "kommentar")]
         public string Kommentar { get; set; }
+
+        public LoggHendelseOutputModell()
+        {
+            LagId = string.Empty;
+            Tid = string.Empty;
+            Hendelse = string.Empty;
+            Kommentar = string.Empty;
+        }
     }
 }

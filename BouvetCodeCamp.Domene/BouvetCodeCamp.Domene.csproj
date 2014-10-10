@@ -70,6 +70,7 @@
     <Compile Include="OutputModels\MeldingOutputModell.cs" />
     <Compile Include="OutputModels\PifPosisjonOutputModell.cs" />
     <Compile Include="OutputModels\InfisertPolygonOutputModell.cs" />
+    <Compile Include="OutputModels\PoengOutputModell.cs" />
     <Compile Include="OutputModels\PostOutputModell.cs" />
     <Compile Include="PoengTildeling.cs" />
     <Compile Include="PostTilstand.cs" />

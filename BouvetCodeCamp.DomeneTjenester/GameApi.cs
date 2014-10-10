@@ -159,7 +159,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task TildelPoeng(PoengInputModell inputModell)
         {
-            var lag = _lagService.Hent(inputModell.LagId);
+            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             var lagMedPoeng = _poengService.SettPoengForLag(lag, inputModell.Poeng, inputModell.Kommentar);
 

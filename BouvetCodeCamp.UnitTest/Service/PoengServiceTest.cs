@@ -9,6 +9,7 @@ using Should;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
+    using BouvetCodeCamp.Domene.OutputModels;
     using BouvetCodeCamp.SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
@@ -19,30 +20,27 @@ namespace BouvetCodeCamp.UnitTest.Service
     class PoengServiceTest
     {
         private IPoengService _poengService;
-        private PoengTildeling _poengTildeling;
         private readonly Mock<IKoordinatVerifier> _coordinatMock = new Mock<IKoordinatVerifier>();
         private readonly Mock<Lazy<IHubContext<IGameHub>>> _gameHubMock = new Mock<Lazy<IHubContext<IGameHub>>>();
-
+        
         [SetUp]
         public void Startup()
         {
-            _poengTildeling = new PoengTildeling();
-
             _poengService = new PoengService(_gameHubMock.Object);
 
-            _poengTildeling.InfisertTickStraff = 1;
-            _poengTildeling.InfisertTidssfrist = 1;
-            _poengTildeling.KodeOppdaget = 1;
-            _poengTildeling.MeldingsStraff = 1;
-            _poengTildeling.PingTimeoutStraff = 1;
-            _poengTildeling.PingTimeout = 1;
+            PoengTildeling.InfisertTickStraff = 1;
+            PoengTildeling.InfisertTidssfrist = 1;
+            PoengTildeling.KodeOppdaget = 1;
+            PoengTildeling.MeldingsStraff = 1;
+            PoengTildeling.PingTimeoutStraff = 1;
+            PoengTildeling.PingTimeout = 1;
         }
 
         [Test]
         public void SjekkOgSettPifPingStraff_Timeout1Sekund_1PingStraff()
         {
-            _poengTildeling.PingTimeout = 1;
-            _poengTildeling.PingTimeoutStraff = -1;
+            PoengTildeling.PingTimeout = 1;
+            PoengTildeling.PingTimeoutStraff = -1;
             const int startPoeng = 10;
 
             var lag = new Lag
@@ -62,8 +60,8 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Test]
         public void SjekkOgSettPifPingStraff_TimeoutMed5Sekund_1PingStraff()
         {
-            _poengTildeling.PingTimeout = 1;
-            _poengTildeling.PingTimeoutStraff = -10;
+            PoengTildeling.PingTimeout = 1;
+            PoengTildeling.PingTimeoutStraff = -10;
 
             const int startPoeng = 10;
             var lag = new Lag
@@ -84,8 +82,8 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Test]
         public void SjekkOgSettPifPingStraff_2TimeOuts_2PingStraff()
         {
-            _poengTildeling.PingTimeout = 1;
-            _poengTildeling.PingTimeoutStraff = -1;
+            PoengTildeling.PingTimeout = 1;
+            PoengTildeling.PingTimeoutStraff = -1;
 
             const int startPoeng = 10;
             var lag = new Lag
@@ -113,7 +111,7 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Test]
         public void SjekkOgSettPifPingStraff_NoTimeout_IngenStraff()
         {
-            _poengTildeling.PingTimeout = 10;
+            PoengTildeling.PingTimeout = 10;
 
             var startPoeng = 10;
             var lag = new Lag
@@ -133,7 +131,7 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Test]
         public void SjekkOgSettPifPingStraff_NoTimeout_IngenStraff2()
         {
-            _poengTildeling.PingTimeout = 10;
+            PoengTildeling.PingTimeout = 10;
 
             var startPoeng = 10;
             var lag = new Lag
@@ -154,8 +152,8 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Ignore]
         public void SjekkOgSettInfisertSoneStraff_TidIkkeUtgatt_IngenStraff1()
         {
-            _poengTildeling.InfisertTickStraff = 10;
-            _poengTildeling.InfisertTidssfrist = 5;
+            PoengTildeling.InfisertTickStraff = 10;
+            PoengTildeling.InfisertTidssfrist = 5;
 
             var startPoeng = 10;
             var lag = new Lag
@@ -181,8 +179,8 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Ignore]
         public void SjekkOgSettInfisertSoneStraff_TidIkkeUtgatt_IngenStraff2()
         {
-            _poengTildeling.InfisertTidssfrist = 5;
-            _poengTildeling.InfisertTickStraff = -1;
+            PoengTildeling.InfisertTidssfrist = 5;
+            PoengTildeling.InfisertTickStraff = -1;
 
             var startPoeng = 10;
             var lag = new Lag
@@ -207,7 +205,7 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Test]
         public void SjekkOgSettInfisertSoneStraff_InfisertI3Sekund_3TickStraff()
         {
-            _poengTildeling.InfisertTickStraff = -1;
+            PoengTildeling.InfisertTickStraff = -1;
             var tid = 3;
             var startPoeng = 10;
             var lag = new Lag
@@ -231,8 +229,8 @@ namespace BouvetCodeCamp.UnitTest.Service
         [Ignore]
         public void SjekkOgSettInfisertSoneStraff_TidUtgattMed1Sekund_1TickStraff()
         {
-            _poengTildeling.InfisertTickStraff = -10;
-            _poengTildeling.InfisertTidssfrist = 5;
+            PoengTildeling.InfisertTickStraff = -10;
+            PoengTildeling.InfisertTidssfrist = 5;
 
             var startPoeng = 10;
             var lag = new Lag
@@ -240,22 +238,22 @@ namespace BouvetCodeCamp.UnitTest.Service
                 PifPosisjoner = new List<PifPosisjon>
                 {
                     new PifPosisjon { Tid = new DateTime(2000, 1, 1, 1, 1, 1), Infisert = true },
-                    new PifPosisjon { Tid = new DateTime(2000, 1, 1, 1, 1, 1 + _poengTildeling.InfisertTidssfrist + 1), Infisert = true },
+                    new PifPosisjon { Tid = new DateTime(2000, 1, 1, 1, 1, 1 + PoengTildeling.InfisertTidssfrist + 1), Infisert = true },
                 },
                 Poeng = startPoeng
             };
 
             lag = _poengService.SjekkOgSettInfisertSoneStraff(lag);
 
-            lag.Poeng.ShouldEqual(startPoeng + (int)_poengTildeling.InfisertTickStraff);
+            lag.Poeng.ShouldEqual(startPoeng + (int)PoengTildeling.InfisertTickStraff);
         }
 
         [Test]
         [Ignore]
         public void SjekkOgSettInfisertSoneStraff_TidUtgattMed3Sekund_3TickStraff()
         {
-            _poengTildeling.InfisertTickStraff = 10;
-            _poengTildeling.InfisertTidssfrist = 5;
+            PoengTildeling.InfisertTickStraff = 10;
+            PoengTildeling.InfisertTidssfrist = 5;
 
             var startPoeng = 10;
             var lag = new Lag
@@ -264,14 +262,14 @@ namespace BouvetCodeCamp.UnitTest.Service
                 {
                     new PifPosisjon { Tid = new DateTime(2000, 1, 1, 1, 1, 6), Infisert = true },
                     new PifPosisjon { Tid = new DateTime(2000, 1, 1, 1, 1, 5), Infisert = false },
-                    new PifPosisjon { Tid = new DateTime(2000, 1, 1, 1, 1, 6 + _poengTildeling.InfisertTidssfrist + 3), Infisert = true },
+                    new PifPosisjon { Tid = new DateTime(2000, 1, 1, 1, 1, 6 + PoengTildeling.InfisertTidssfrist + 3), Infisert = true },
                 },
                 Poeng = 10
             };
 
             lag = _poengService.SjekkOgSettInfisertSoneStraff(lag);
 
-            lag.Poeng.ShouldEqual(startPoeng - (int)_poengTildeling.InfisertTickStraff * 3);
+            lag.Poeng.ShouldEqual(startPoeng - (int)PoengTildeling.InfisertTickStraff * 3);
         }
 
     }

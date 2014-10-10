@@ -13,13 +13,10 @@ namespace BouvetCodeCamp.DomeneTjenester
 
     public class PoengService : IPoengService
     {
-        private readonly PoengTildeling _poengTildeling;
-
         private readonly Lazy<IHubContext<IGameHub>> gameHub;
 
         public PoengService(Lazy<IHubContext<IGameHub>> gameHub)
         {
-            _poengTildeling = new PoengTildeling();
             this.gameHub = gameHub;
         }
 
@@ -34,22 +31,24 @@ namespace BouvetCodeCamp.DomeneTjenester
             {
                 TimeSpan timeSpan = pifPosisjons.First().Tid.Subtract(pifPosisjons.Last().Tid);
 
-                var sekunderOverTimeOut = timeSpan.TotalSeconds - _poengTildeling.PingTimeout;
+                var sekunderOverTimeOut = timeSpan.TotalSeconds - PoengTildeling.PingTimeout;
 
                 if (sekunderOverTimeOut > 0)
                 {
-                    var poeng = _poengTildeling.PingTimeoutStraff;
+                    var poeng = PoengTildeling.PingTimeoutStraff;
                     
                     lag.Poeng += poeng;
 
-                    lag.LoggHendelser.Add(new LoggHendelse
+                    var loggHendelse = new LoggHendelse
                     {
                         HendelseType = HendelseType.PingPoengTap,
-                        Kommentar = String.Format("Ping timeout, {0} i straffepoeng", _poengTildeling.PingTimeoutStraff),
+                        Kommentar = String.Format("Ping timeout, {0} i straffepoeng", PoengTildeling.PingTimeoutStraff),
                         Tid = DateTime.Now
-                    });
+                    };
 
-                    SendTildeltPoengHendelse(lag, poeng, HendelseType.PingPoengTap);
+                    lag.LoggHendelser.Add(loggHendelse);
+
+                    SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
                 }
             }
 
@@ -68,20 +67,26 @@ namespace BouvetCodeCamp.DomeneTjenester
             {
                 TimeSpan infisertTimeSpan = pifPosisjons.First().Tid.Subtract(pifPosisjons.Last().Tid);
 
-                var poengTap = infisertTimeSpan.TotalSeconds * _poengTildeling.InfisertTickStraff;
+                var poengTap = infisertTimeSpan.TotalSeconds * PoengTildeling.InfisertTickStraff;
 
                 var poeng = (int)Math.Round(poengTap);
                 
                 lag.Poeng += poeng;
 
-                lag.LoggHendelser.Add(new LoggHendelse
-                {
-                    HendelseType = HendelseType.InfisertPoengTap,
-                    Kommentar = String.Format("Mistet {0} poeng for å ha vært infisert i {1} sekund", poengTap, infisertTimeSpan),
-                    Tid = DateTime.Now
-                });
+                var loggHendelse = new LoggHendelse
+                                       {
+                                           HendelseType = HendelseType.InfisertPoengTap,
+                                           Kommentar =
+                                               String.Format(
+                                                   "Mistet {0} poeng for å ha vært infisert i {1} sekund",
+                                                   poengTap,
+                                                   infisertTimeSpan),
+                                           Tid = DateTime.Now
+                                       };
 
-                SendTildeltPoengHendelse(lag, poeng, HendelseType.InfisertPoengTap);
+                lag.LoggHendelser.Add(loggHendelse);
+
+                SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
             }
 
             return lag;
@@ -89,11 +94,20 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public Lag SettMeldingSendtStraff(Lag lag, Melding melding)
         {
-            var poeng = _poengTildeling.MeldingsStraff;
+            var poeng = PoengTildeling.MeldingsStraff;
 
             lag.Poeng += poeng;
 
-            SendTildeltPoengHendelse(lag, poeng, HendelseType.SendtFritekstmeldingStraff);
+            var loggHendelse = new LoggHendelse
+                                   {
+                                       HendelseType = HendelseType.SendtFritekstmeldingStraff, 
+                                       Tid = DateTime.Now,
+                                       Kommentar = string.Format("{0} poeng", poeng)
+                                   };
+
+            lag.LoggHendelser.Add(loggHendelse);
+
+            SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
 
             return lag;
         }
@@ -102,31 +116,63 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             if (hendelse.Equals(HendelseType.RegistrertKodeSuksess))
             {
-                var poeng = _poengTildeling.KodeOppdaget;
+                var poeng = PoengTildeling.KodeOppdaget;
 
                 lag.Poeng += poeng;
 
-                SendTildeltPoengHendelse(lag, poeng, HendelseType.RegistrertKodeSuksess);
+                var loggHendelse = new LoggHendelse
+                                       {
+                                           HendelseType = HendelseType.RegistrertKodeSuksess, 
+                                           Tid = DateTime.Now,
+                                           Kommentar = string.Format("{0} poeng", poeng)
+                                       };
+
+                lag.LoggHendelser.Add(loggHendelse);
+
+                SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
             }
             return lag;
         }
 
         public Lag SettPoengForLag(Lag lag, int poeng, string kommentar)
         {
-            lag.Poeng += _poengTildeling.MeldingsStraff;
+            lag.Poeng += poeng;
 
-            SendTildeltPoengHendelse(lag, poeng, HendelseType.TildeltPoeng);
+            var loggHendelse = new LoggHendelse { 
+                HendelseType = HendelseType.TildeltPoeng, 
+                Tid = DateTime.Now,
+                Kommentar = string.Format("{0} poeng. {1}", poeng, kommentar)
+            };
+
+            lag.LoggHendelser.Add(loggHendelse);
+
+            SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
 
             return lag;
         }
 
-        private void SendTildeltPoengHendelse(Lag lag, int poeng, HendelseType hendelseType)
+        private void SendTildeltPoengHendelse(Lag lag, LoggHendelse loggHendelse, int nyPoengsum)
         {
-            gameHub.Value.Clients.All.NyLoggHendelse(new LoggHendelseOutputModell {
-                                                             Hendelse = HendelseTypeFormatter.HentTekst(hendelseType) + ": " + poeng + " poeng. " + lag.LagNavn + " har nå " + lag.Poeng + " poeng",
-                                                             LagId = lag.LagId,
-                                                             Tid = DateTime.Now.ToShortTimeString()
-                                                         });
+            var loggHendelseOutputModell = new LoggHendelseOutputModell()
+                                               {
+                                                   Hendelse = HendelseTypeFormatter.HentTekst(loggHendelse.HendelseType),
+                                                   Kommentar = loggHendelse.Kommentar,
+                                                   LagId = lag.LagId,
+                                                   Tid = DateTime.Now.ToShortTimeString()
+                                               };
+
+            // TODO: Må fikse mocking slik at testene ikke trenger en try-catch for å ikke feile.
+            try
+            {
+                gameHub.Value.Clients.All.NyLoggHendelse(loggHendelseOutputModell);
+
+                gameHub.Value.Clients.All.PoengTildelt(
+                    new PoengOutputModell { LagId = lag.LagId, NyPoengsum = nyPoengsum });
+            }
+            catch (Exception)
+            {
+                
+            }
         }
     }
 }

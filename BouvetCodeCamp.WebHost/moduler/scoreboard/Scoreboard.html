@@ -27,9 +27,9 @@
 
     <script src="/signalr/hubs"></script>
 
-    <script src="/moduler/scoreboard/js/scoreboard.infrastruktur.js"></script>
-    <script src="/moduler/scoreboard/js/scoreboard.loader.js"></script>
-    <script src="/moduler/scoreboard/js/scoreboard.lag.js"></script>
+    <script src="/js/scoreboard.infrastruktur.js"></script>
+    <script src="/js/scoreboard.loader.js"></script>
+    <script src="js/scoreboard.lag.js"></script>
 
     <!-- Owl Carousel -->
     <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
@@ -177,6 +177,8 @@
                 SCOREBOARD.Lag[key].Marker = {};
             });
 
+            settLagPaaKartet();
+
             oppdaterStillingstabell();
         }
         function hentLagEtterLagId(lagId) {
@@ -313,9 +315,7 @@
         $(document).ready(function () {
 
             loader.hentLag(lastInnLagene);
-
-            settLagPaaKartet();
-
+            
             loader.hentPoster(lastInnPoster);
 
             loader.hentInfisertSone(lastInnInfisertSone);
@@ -392,6 +392,14 @@
             // Ny logghendelse
             hub.client.nyLoggHendelse = function (msg) {
                 LeggTilNyLoggHendelse(msg);
+            }
+
+            // Poeng tildelt
+            hub.clientHeight.PoengTildelt = function (msg) {
+                //TODO:
+                // parse poeng + lagid
+                // hent lag og sett ny poeng
+                // oppdater og resorter lagtabellen
             }
 
             // Start the connection.
