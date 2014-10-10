@@ -4,8 +4,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene.Entiteter;
+    using Interfaces;
 
     public abstract class Service<T> : IService<T> where T : BaseDocument
     {
@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
             return _repository.HentAlle();
         }
 
-        public async Task Oppdater(T entitet)
+        public virtual async Task Oppdater(T entitet)
         {
             await _repository.Oppdater(entitet);
         }

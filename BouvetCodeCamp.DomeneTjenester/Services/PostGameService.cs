@@ -42,7 +42,7 @@ using Interfaces;
         /// <returns>true hvis alle kriterier er oppfylt</returns>
         public HendelseType SettKodeTilstandTilOppdaget(Lag lag, int postnummer, string kode, Koordinat koordinat)
         {
-            var kandidater = 
+            List<LagPost> postMatch = 
                 lag.Poster.Where(
                         k => k.Kode.Equals(kode, StringComparison.CurrentCultureIgnoreCase) && 
                         k.Nummer == postnummer && 
@@ -50,11 +50,12 @@ using Interfaces;
                         k.PostTilstand.Equals(PostTilstand.Ukjent))
                 .ToList();
 
-            switch (kandidater.Count())
+            switch (postMatch.Count())
             {
                 case 0:
                     return HendelseType.RegistrertKodeMislykket;
                 case 1:
+                    postMatch.Single().PostTilstand = PostTilstand.Oppdaget;
                     return HendelseType.RegistrertKodeSuksess;
                 default:
                     throw new AmbiguousMatchException("Flere koder funnet basert på kriteriene gitt");

@@ -6,11 +6,11 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Domene.OutputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.SignalR.Hubs;
+    using Domene;
+    using Domene.Entiteter;
+    using Domene.OutputModels;
+    using DomeneTjenester.Interfaces;
+    using SignalR.Hubs;
 
     using Microsoft.AspNet.SignalR;
 
@@ -75,7 +75,7 @@
                     {
                         Koordinater = modell.Koordinater
                     });
-                
+
                 await _gameStateService.Oppdater(gameState);
             }
             catch (Exception e)

@@ -49,12 +49,15 @@ namespace BouvetCodeCamp
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
             KonfigurerApiDokumentasjon(appBuilder, config);
-            
+
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
+
+            //singleton memory instance
+            builder.RegisterType<GameState>().SingleInstance();
 
             // Services
             builder.RegisterType<LagService>().As<IService<Lag>>();
@@ -72,9 +75,9 @@ namespace BouvetCodeCamp
             builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>();
 
             builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
-            
+
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>().SingleInstance();
-           
+
             var container = builder.Build();
 
              // Create an assign a dependency resolver for Web API to use.
