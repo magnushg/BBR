@@ -18,10 +18,12 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
         private static GameState _gameState;
 
         public GameStateService(
-            IRepository<GameState> gameStateRepository)
+            IRepository<GameState> gameStateRepository,
+            GameState gameState)
             : base(gameStateRepository)
         {
             _gameStateRepository = gameStateRepository;
+            _gameState = gameState;
 
             var gameStates = _gameStateRepository.HentAlle().ToList();
 
@@ -29,7 +31,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
             {
                 case 0:
                     //ingen gamestate i db, sett til tom instans.
-                    _gameStateRepository.Oppdater(_gameState);
+                    _gameStateRepository.Opprett(_gameState);
                     break;
                 case 1:
                     _gameState = gameStates.Single();
