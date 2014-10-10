@@ -26,7 +26,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             ILagGameService lagGameService,
             IService<Lag> lagService,
             IKoordinatVerifier koordinatVerifier,
-            IGameStateService gameStateService,
+            IService<GameState> gameStateService,
             IPoengService poengService)
         {
             _postGameService = postGameService;
@@ -40,8 +40,8 @@ namespace BouvetCodeCamp.DomeneTjenester
         public async Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell)
         {
             //bemerkning: blir det tungt å hente gamestate for hver pif-ping?
-            var gameState = _gameStateService.HentGameState();
-            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
+            var gameState = _gameStateService.Hent(String.Empty);
+            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
             var pifPosisjon = new PifPosisjon
             {
                 Posisjon = new Koordinat
@@ -53,7 +53,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Tid = DateTime.Now
             };
 
-            pifPosisjon.Infisert = ErPifPosisjonInfisert(pifPosisjon, gameState);
+            pifPosisjon.Infisert = ErLagPifInnenInfeksjonssone(lag.LagId);
 
             lag.PifPosisjoner.Add(pifPosisjon);
 
@@ -72,7 +72,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public PifPosisjonOutputModell HentSistePifPositionForLag(string lagId)
         {
-            var nyeste = _lagService.HentSistePifPosisjon(lagId);
+            var nyeste = _lagGameService.HentSistePifPosisjon(lagId);
 
             if (nyeste == null)
                 return new PifPosisjonOutputModell();
@@ -89,8 +89,6 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task<bool> RegistrerKode(PostInputModell inputModell)
         {
-            //TODO: Tildel poeng via egen modul. Returnerer lag fra modulen. Input er hendelse.
-
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
@@ -98,7 +96,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             lag.LoggHendelser.Add(
                 new LoggHendelse
                 {
-                    HendelseType = resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket,
+                    HendelseType = resultat,
                     Tid = DateTime.Now
                 });
 
@@ -106,12 +104,12 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             await _lagService.Oppdater(lag);
 
-            return resultat;
+            return resultat.Equals(HendelseType.RegistrertKodeSuksess);
         }
 
         public async Task SendMelding(MeldingInputModell inputModell)
         {
-            var lag = _lagService.HentLagMedLagId(inputModell.LagId);
+            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             var melding = new Melding
                 {
@@ -137,7 +135,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId)
         {
-            var lag = _lagService.HentLagMedLagId(lagId);
+            var lag = _lagGameService.HentLagMedLagId(lagId);
 
             var registrerteKoderForLag = lag.Poster.Where(o => o.PostTilstand == PostTilstand.Oppdaget);
 

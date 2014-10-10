@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Moq;
 using NUnit.Framework;
@@ -9,7 +8,7 @@ using Should;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
-    using BouvetCodeCamp.DomeneTjenester.Services;
+    using DomeneTjenester.Services;
 
     [TestFixture]
     class PostGameServiceTest

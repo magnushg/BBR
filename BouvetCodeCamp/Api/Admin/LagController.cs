@@ -13,7 +13,6 @@ namespace BouvetCodeCamp.Api.Admin
     using Domene.InputModels;
     using Domene.OutputModels;
     using DomeneTjenester.Interfaces;
-    using SignalR;
 
     using Microsoft.AspNet.SignalR;
 
@@ -136,7 +135,7 @@ namespace BouvetCodeCamp.Api.Admin
             if (string.IsNullOrEmpty(lagId))
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
-            var lagTilSletting = lagService.S￸k(o => o.LagId == lagId);
+            var lagTilSletting = lagService.Sok(o => o.LagId == lagId);
             
             foreach (var lag in lagTilSletting)
             {

@@ -46,7 +46,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
             return _repository.Opprett(entitet);
         }
 
-        public IEnumerable<T> Søk(Func<T, bool> predicate)
+        public IEnumerable<T> Sok(Func<T, bool> predicate)
         {
             return _repository.Søk(predicate);
         }

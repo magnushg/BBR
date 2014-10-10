@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
+using Domene;
+using Domene.Entiteter;
+using Interfaces;
 
     public class PostGameService : IPostGameService
 {
@@ -40,7 +40,7 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
         ///   3 - tilstanden ikke allerede er satt til oppdaget
         /// </summary>
         /// <returns>true hvis alle kriterier er oppfylt</returns>
-        public bool SettKodeTilstandTilOppdaget(Lag lag, int postnummer, string kode, Koordinat koordinat)
+        public HendelseType SettKodeTilstandTilOppdaget(Lag lag, int postnummer, string kode, Koordinat koordinat)
         {
             var kandidater = 
                 lag.Poster.Where(
@@ -53,15 +53,9 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
             switch (kandidater.Count())
             {
                 case 0:
-                    return false;
+                    return HendelseType.RegistrertKodeMislykket;
                 case 1:
-                    kandidater.First().PostTilstand = PostTilstand.Oppdaget;
-
-                    lag.Poeng += 300000;
-
-                    lagService.Oppdater(lag);
-
-                    return true;
+                    return HendelseType.RegistrertKodeSuksess;
                 default:
                     throw new AmbiguousMatchException("Flere koder funnet basert på kriteriene gitt");
             }
