@@ -1,6 +1,7 @@
 namespace BouvetCodeCamp.Api.Game
 {
     using System;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -50,9 +51,15 @@ namespace BouvetCodeCamp.Api.Game
                 var erInfisert = false;
                 try
                 {
+                    await _gameApi.RegistrerPifPosisjon(inputModell);
+
                     erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
                 }
-                catch (Exception){}
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+
                 await _gameApi.RegistrerPifPosisjon(inputModell);
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
@@ -72,8 +79,6 @@ namespace BouvetCodeCamp.Api.Game
                         Kommentar = erInfisert?"ER I INFISERT SONE":string.Empty,
                         Tid = DateTime.Now.ToShortTimeString()
                     });
-
-                await _gameApi.RegistrerPifPosisjon(inputModell);
             }
             catch (Exception e)
             {

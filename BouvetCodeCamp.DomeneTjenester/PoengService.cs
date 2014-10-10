@@ -6,8 +6,17 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
+    
     public class PoengService : IPoengService
     {
+            //TODO: sett inn signalr event på poengtildeling    
+            //lag.LoggHendelser.Add(
+            //    new LoggHendelse
+            //    {
+            //        HendelseType = HendelseType.TildeltPoeng,
+            //        Tid = DateTime.Now,
+            //        Kommentar = inputModell.Kommentar
+            //    });
         private readonly PoengTildeling _poengTildeling;
 
         public PoengService(PoengTildeling poengTildeling)
@@ -80,6 +89,21 @@ namespace BouvetCodeCamp.DomeneTjenester
         public Lag SettPoengForKodeRegistrert(Lag lag, HendelseType hendelse)
         {
             if (hendelse.Equals(HendelseType.RegistrertKodeSuksess)) lag.Poeng += _poengTildeling.KodeOppdaget;
+            return lag;
+        }
+
+        public Lag SettPoengForLag(Lag lag, int poeng, string kommentar)
+        {
+            lag.Poeng += _poengTildeling.MeldingsStraff;
+
+            lag.Poeng += _poengTildeling.PingTimeoutStraff;
+            lag.LoggHendelser.Add(new LoggHendelse
+            {
+                HendelseType = HendelseType.TildeltPoeng,
+                Kommentar = kommentar,
+                Tid = DateTime.Now
+            });
+
             return lag;
         }
     }

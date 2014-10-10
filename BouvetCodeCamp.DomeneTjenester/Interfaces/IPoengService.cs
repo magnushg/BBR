@@ -13,5 +13,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
         //Poengtildeling
         Lag SettPoengForKodeRegistrert(Lag lag, HendelseType hendelse);
+
+        Lag SettPoengForLag(Lag lag, int poeng, string kommentar);
     }
 }

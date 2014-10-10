@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,16 @@ namespace BouvetCodeCamp.SpillOppretter
 {
     public class JSONKartdataConverter
     {
+        private readonly string _path;
+
+        public JSONKartdataConverter(string path)
+        {
+            _path = path;
+        }
+
         public IEnumerable<Post> KonverterKartdata()
         {
-            var data = LesTekstFraFil("importData/poster.json");
+            var data = LesTekstFraFil(_path);
 
             var deserialisert = JsonConvert.DeserializeObject<IEnumerable<JPost>>(data);
 
