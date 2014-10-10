@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Bouvet Battle Royale - Gamemaster</title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="/moduler/scoreboard/js/scoreboard.infrastruktur.js"></script>
+
+    <script src="/moduler/scoreboard/js/scoreboard.loader.js"></script>
+
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        var GAMEMASTER = GAMEMASTER || {};
+        GAMEMASTER.Lag = [];
+
+        function lastInnLagene(data) {
+            $.each(data, function (key, val) {
+                GAMEMASTER.Lag.push(val);
+                GAMEMASTER.Lag[key].Marker = {};
+            });
+
+            FyllLagSelectMedLag();
+        }
+
+        function FyllLagSelectMedLag() {
+            var lagListe = $("#lagListe");
+
+            $.each(GAMEMASTER.Lag, function (key, val) {
+                lagListe.append("<option value='" + val.lagnummer + "'>" + val.lagNavn + "</option>");
+            });
+        }
+
+        $(document).ready(function () {
+
+            loader.hentLag(lastInnLagene);
+
+        });
+
+    </script>
+
+    <div>
+        <p>Lag:</p>
+        <select id="lagListe"></select>
+    </div>
+
+    <div>Gjør noe annet..</div>
+
+</body>
+</html>
