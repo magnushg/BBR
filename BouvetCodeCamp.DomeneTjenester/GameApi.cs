@@ -100,7 +100,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                     Tid = DateTime.Now
                 });
 
-            lag = _poengService.SettPoengForKodeRegistrert(lag, resultat);
+            lag = _poengService.SettPoengForKodeRegistrert(lag, resultat, inputModell.Postnummer);
 
             await _lagService.Oppdater(lag);
 

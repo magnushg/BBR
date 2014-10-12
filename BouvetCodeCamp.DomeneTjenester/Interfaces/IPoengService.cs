@@ -12,7 +12,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Lag SettMeldingSendtStraff(Lag lag, Melding melding);
 
         //Poengtildeling
-        Lag SettPoengForKodeRegistrert(Lag lag, HendelseType hendelse);
+        Lag SettPoengForKodeRegistrert(Lag lag, HendelseType hendelse, int postnummer);
 
         Lag SettPoengForLag(Lag lag, int poeng, string kommentar);
     }

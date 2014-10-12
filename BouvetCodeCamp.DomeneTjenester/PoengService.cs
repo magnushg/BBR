@@ -112,7 +112,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             return lag;
         }
 
-        public Lag SettPoengForKodeRegistrert(Lag lag, HendelseType hendelse)
+        public Lag SettPoengForKodeRegistrert(Lag lag, HendelseType hendelse, int postnummer)
         {
             if (hendelse.Equals(HendelseType.RegistrertKodeSuksess))
             {
@@ -124,7 +124,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                                        {
                                            HendelseType = HendelseType.RegistrertKodeSuksess, 
                                            Tid = DateTime.Now,
-                                           Kommentar = string.Format("{0} poeng", poeng)
+                                           Kommentar = string.Format("{0} poeng for post {1}", poeng, postnummer)
                                        };
 
                 lag.LoggHendelser.Add(loggHendelse);

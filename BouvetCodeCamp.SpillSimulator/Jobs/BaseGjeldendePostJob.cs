@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
-using System.Text;
-using BouvetCodeCamp.Domene.InputModels;
+
 using BouvetCodeCamp.Domene.OutputModels;
 using Newtonsoft.Json;
 using Quartz;
@@ -22,6 +21,9 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
                 SpillKonfig.GjeldendePost = JsonConvert.DeserializeObject<PostOutputModell>(content);
+
+                if (SpillKonfig.GjeldendePost == null)
+                    Console.WriteLine("BASE Ingen flere poster å hente.");
 
                 Console.WriteLine("BASE Hentet ny gjeldende post med nummer {0}", SpillKonfig.GjeldendePost.Nummer);
             }
