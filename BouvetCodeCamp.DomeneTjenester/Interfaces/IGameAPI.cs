@@ -11,7 +11,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
     public interface IGameApi
     {
-        Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell);
+        Task RegistrerPifPosisjon(Lag modell, PifPosisjonInputModell inputModell);
 
         PifPosisjonOutputModell HentSistePifPositionForLag(string lagId);
 

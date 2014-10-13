@@ -37,11 +37,10 @@ namespace BouvetCodeCamp.DomeneTjenester
             _poengService = poengService;
         }
 
-        public async Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell)
+        public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell)
         {
             //bemerkning: blir det tungt å hente gamestate for hver pif-ping?
             var gameState = _gameStateService.Hent(String.Empty);
-            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
             var pifPosisjon = new PifPosisjon
             {
                 Posisjon = new Koordinat

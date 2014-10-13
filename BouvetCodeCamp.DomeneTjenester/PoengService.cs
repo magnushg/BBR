@@ -157,8 +157,8 @@ namespace BouvetCodeCamp.DomeneTjenester
                                                {
                                                    Hendelse = HendelseTypeFormatter.HentTekst(loggHendelse.HendelseType),
                                                    Kommentar = loggHendelse.Kommentar,
-                                                   LagId = lag.LagId,
-                                                   Tid = DateTime.Now.ToShortTimeString()
+                                                   LagNummer = lag.LagNummer,
+                                                   Tid = DateTime.Now.ToLongTimeString()
                                                };
 
             // TODO: Må fikse mocking slik at testene ikke trenger en try-catch for å ikke feile.

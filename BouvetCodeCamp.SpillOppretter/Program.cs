@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace BouvetCodeCamp.SpillOppretter
 {
+    using System.Threading;
+
     class Program
     {
         static void Main(string[] args)
@@ -27,9 +29,16 @@ namespace BouvetCodeCamp.SpillOppretter
 
             Console.WriteLine("Done processing {0} map data points", mapdata.Count);
 
-            Console.WriteLine("Oppretter lag");
+            Console.WriteLine("Oppretter lag...");
             lagoppretter.OpprettLag(poster);
 
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var antallLagOpprettet = lagoppretter.HentAlleLag();
+            var ønsketAntallLag = ConfigurationManager.AppSettings["numberOfTeams"];
+
+            Console.WriteLine("{0} av {1} lag opprettet", antallLagOpprettet.Count(), ønsketAntallLag);
+            
             Console.WriteLine("\r\nPress any key to exit...");
             Console.ReadLine();
         }

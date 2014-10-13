@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Jobs\Job.cs" />
     <Compile Include="Jobs\PifFinnPostJob.cs" />
     <Compile Include="Schedulers\BaseScheduler.cs" />
     <Compile Include="Jobs\BaseGjeldendePostJob.cs" />

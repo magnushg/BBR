@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.SpillOppretter
 {
+    using System.Threading;
+
     public class LagOppretter
     {
         private readonly int _antallLag;
@@ -45,7 +47,6 @@ namespace BouvetCodeCamp.SpillOppretter
             LagreLagliste(lagListeMedPosterOgSekvensNummer);
 
             return _lagListe;
-
         }
 
         private IEnumerable<Lag> OpprettLagListeMedTommeLag()
@@ -150,6 +151,11 @@ namespace BouvetCodeCamp.SpillOppretter
             {
                 await _lagRepository.Opprett(x);
             });
+        }
+
+        public IEnumerable<Lag> HentAlleLag()
+        {
+            return _lagRepository.HentAlle();
         }
     }
 

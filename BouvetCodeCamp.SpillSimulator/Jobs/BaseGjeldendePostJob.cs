@@ -7,7 +7,7 @@ using Quartz;
 
 namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
-    public class BaseGjeldendePostJob : IJob
+    public class BaseGjeldendePostJob : Job, IJob
     {
         public async void Execute(IJobExecutionContext context)
         {
@@ -25,7 +25,7 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
                 if (SpillKonfig.GjeldendePost == null)
                     Console.WriteLine("BASE Ingen flere poster å hente.");
 
-                Console.WriteLine("BASE Hentet ny gjeldende post med nummer {0}", SpillKonfig.GjeldendePost.Nummer);
+                Console.WriteLine("{0}: BASE Hentet ny gjeldende post med nummer {1}", SkrivTidsstempel(), SpillKonfig.GjeldendePost.Nummer);
             }
         }
     }

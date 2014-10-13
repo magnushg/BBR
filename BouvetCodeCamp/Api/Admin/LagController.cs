@@ -26,14 +26,18 @@ namespace BouvetCodeCamp.Api.Admin
 
         private readonly Lazy<IHubContext<IGameHub>> gameHub;
 
+        private readonly ILagGameService lagGameService;
+
         public LagController(
             IService<Lag> lagService,
             IGameApi gameApi,
-            Lazy<IHubContext<IGameHub>> gameHub)
+            Lazy<IHubContext<IGameHub>> gameHub,
+            ILagGameService lagGameService)
         {
             this.lagService = lagService;
             this.gameApi = gameApi;
             this.gameHub = gameHub;
+            this.lagGameService = lagGameService;
         }
 
         // GET api/admin/lag/get
@@ -175,14 +179,16 @@ namespace BouvetCodeCamp.Api.Admin
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
             await gameApi.OpprettHendelse(inputModell.LagId, inputModell.HendelseType, inputModell.Kommentar);
-            
+
+            var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
+
             gameHub.Value.Clients.All.NyLoggHendelse(
                 new LoggHendelseOutputModell
                 {
-                    LagId = inputModell.LagId,
+                    LagNummer = lag.LagNummer,
                     Hendelse = HendelseTypeFormatter.HentTekst(inputModell.HendelseType),
                     Kommentar = inputModell.Kommentar,
-                    Tid = DateTime.Now.ToShortTimeString()
+                    Tid = DateTime.Now.ToLongTimeString()
                 });
 
             return Request.CreateResponse(HttpStatusCode.OK);

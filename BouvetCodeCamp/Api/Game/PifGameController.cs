@@ -2,12 +2,15 @@ namespace BouvetCodeCamp.Api.Game
 {
     using System;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Description;
+
+    using BouvetCodeCamp.Domene.Entiteter;
 
     using SignalR.Hubs;
 
@@ -24,10 +27,16 @@ namespace BouvetCodeCamp.Api.Game
 
         readonly Lazy<IHubContext<IGameHub>> _gameHub;
 
-        public PifGameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
+        private readonly ILagGameService lagGameService;
+
+        public PifGameController(
+            IGameApi gameApi, 
+            Lazy<IHubContext<IGameHub>> gameHub,
+            ILagGameService lagGameService)
         {
             _gameApi = gameApi;
             _gameHub = gameHub;
+            this.lagGameService = lagGameService;
         }
 
         /// <summary>
@@ -49,18 +58,12 @@ namespace BouvetCodeCamp.Api.Game
             try
             {
                 var erInfisert = false;
-                try
-                {
-                    await _gameApi.RegistrerPifPosisjon(inputModell);
+                var lag = lagGameService.HentLagMedLagId(inputModell.LagId);   
+                
+                await _gameApi.RegistrerPifPosisjon(lag, inputModell);
 
-                    erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-
-                await _gameApi.RegistrerPifPosisjon(inputModell);
+                erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
+                
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
                         {
@@ -74,10 +77,10 @@ namespace BouvetCodeCamp.Api.Game
                 _gameHub.Value.Clients.All.NyLoggHendelse(
                     new LoggHendelseOutputModell
                     {
-                        LagId = inputModell.LagId,
+                        LagNummer = lag.LagNummer,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
                         Kommentar = erInfisert?"ER I INFISERT SONE":string.Empty,
-                        Tid = DateTime.Now.ToShortTimeString()
+                        Tid = DateTime.Now.ToLongTimeString()
                     });
             }
             catch (Exception e)

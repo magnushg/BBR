@@ -19,9 +19,12 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
         {
             try
             {
-                var lag = _lagRepository.Søk(o => o.LagId == lagId).First();
+                var lag = _lagRepository.Søk(o => o.LagId == lagId);
 
-                return lag;
+                if (lag.Count() > 1)
+                    throw new Exception("Fant flere lag med lagId: " + lagId);
+
+                return lag.First();
             }
             catch (Exception e)
             {
