@@ -174,9 +174,15 @@ namespace BouvetCodeCamp.DomeneTjenester
             if (pifPosisjon == null) 
                 return false;
 
-            var gameState = _gameStateService.Hent(string.Empty);
 
-            return _koordinatVerifier.KoordinatErInnenforPolygonet(pifPosisjon.Posisjon, gameState.InfisertPolygon.Koordinater);
+            return ErInfisiert(pifPosisjon.Posisjon);
+
+        }
+
+        public bool ErInfisiert(Koordinat koordinat)
+        {
+            var gameState = _gameStateService.Hent(string.Empty);
+            return  _koordinatVerifier.KoordinatErInnenforPolygonet(koordinat, gameState.InfisertPolygon.Koordinater);
         }
 
         public IEnumerable<Melding> HentMeldinger(string lagId)
