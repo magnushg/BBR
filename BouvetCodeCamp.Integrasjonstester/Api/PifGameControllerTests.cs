@@ -141,8 +141,12 @@
                 isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
             }
 
+            var alleTestLag = await HentAlleTestLag();
+            var testLag = alleTestLag.FirstOrDefault();
+
             // Assert
             isSuccessStatusCode.ShouldBeTrue();
+            testLag.Poeng.ShouldEqual(PoengTildeling.KodeOppdaget);
         }
 
         [TestMethod]

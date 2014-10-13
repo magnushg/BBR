@@ -92,14 +92,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
-
-            lag.LoggHendelser.Add(
-                new LoggHendelse
-                {
-                    HendelseType = resultat,
-                    Tid = DateTime.Now
-                });
-
+            
             lag = _poengService.SettPoengForKodeRegistrert(lag, resultat, inputModell.Postnummer);
 
             await _lagService.Oppdater(lag);

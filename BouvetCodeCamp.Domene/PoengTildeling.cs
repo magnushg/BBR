@@ -2,7 +2,7 @@
 {
     public class PoengTildeling
     {
-        public static int KodeOppdaget = 0;
+        public static int KodeOppdaget = 1000;
         public static int MeldingsStraff = 0;
 
         //alle konstanter er målt i sekund
