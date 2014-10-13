@@ -19,23 +19,28 @@ namespace BouvetCodeCamp.DomeneTjenester
         private readonly IService<Lag> _lagService;
         private readonly IService<GameState> _gameStateService;
         private readonly IKoordinatVerifier _koordinatVerifier;
+        private readonly IPoengService _poengService;
 
         public GameApi(
             IPostGameService postGameService,
             ILagGameService lagGameService,
             IService<Lag> lagService,
             IKoordinatVerifier koordinatVerifier,
-            IService<GameState> gameStateService)
+            IService<GameState> gameStateService,
+            IPoengService poengService)
         {
             _postGameService = postGameService;
             _lagGameService = lagGameService;
             _lagService = lagService;
             _koordinatVerifier = koordinatVerifier;
             _gameStateService = gameStateService;
+            _poengService = poengService;
         }
 
-        public async Task RegistrerPifPosisjon(PifPosisjonInputModell inputModell)
+        public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell)
         {
+            //bemerkning: blir det tungt å hente gamestate for hver pif-ping?
+            var gameState = _gameStateService.Hent(String.Empty);
             var pifPosisjon = new PifPosisjon
             {
                 Posisjon = new Koordinat
@@ -47,7 +52,8 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Tid = DateTime.Now
             };
 
-            var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
+            pifPosisjon.Infisert = ErLagPifInnenInfeksjonssone(lag.LagId);
+
             lag.PifPosisjoner.Add(pifPosisjon);
 
             lag.LoggHendelser.Add(
@@ -56,6 +62,9 @@ namespace BouvetCodeCamp.DomeneTjenester
                     HendelseType = HendelseType.RegistrertPifPosisjon,
                     Tid = DateTime.Now
                 });
+
+            lag = _poengService.SjekkOgSettPifPingStraff(lag);
+            lag = _poengService.SjekkOgSettInfisertSoneStraff(lag);
 
             await _lagService.Oppdater(lag);
         }
@@ -66,56 +75,43 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             if (nyeste == null)
                 return new PifPosisjonOutputModell();
-            var erInfisert = false;
-            try
-            {
-                erInfisert = ErLagPifInnenInfeksjonssone(lagId);
-            }
-            catch (Exception)
-            {                
-            }
+
             return new PifPosisjonOutputModell
             {
                 Latitude = nyeste.Posisjon.Latitude,
                 Longitude = nyeste.Posisjon.Longitude,
                 LagId = nyeste.LagId,
                 Tid = nyeste.Tid,
-                ErInfisert = erInfisert
+                Infisert = nyeste.Infisert
             };
         }
 
         public async Task<bool> RegistrerKode(PostInputModell inputModell)
         {
-            //TODO: Tildel poeng via egen modul. Returnerer lag fra modulen. Input er hendelse.
-            
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
             
-            lag.LoggHendelser.Add(
-                new LoggHendelse
-                {
-                    HendelseType = resultat ? HendelseType.RegistrertKodeSuksess : HendelseType.RegistrertKodeMislykket,
-                    Tid = DateTime.Now
-                });
+            lag = _poengService.SettPoengForKodeRegistrert(lag, resultat, inputModell.Postnummer);
 
             await _lagService.Oppdater(lag);
 
-            return resultat;
+            return resultat.Equals(HendelseType.RegistrertKodeSuksess);
         }
 
         public async Task SendMelding(MeldingInputModell inputModell)
         {
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
-            lag.Meldinger.Add(
-                new Melding
+            var melding = new Melding
                 {
                     LagId = inputModell.LagId,
                     Tekst = inputModell.Tekst,
                     Tid = DateTime.Now,
                     Type = inputModell.Type
-                });
+            };
+
+            lag.Meldinger.Add(melding);
 
             lag.LoggHendelser.Add(
                 new LoggHendelse
@@ -123,6 +119,8 @@ namespace BouvetCodeCamp.DomeneTjenester
                     HendelseType = HendelseType.SendtMelding,
                     Tid = DateTime.Now
                 });
+
+            lag = _poengService.SettMeldingSendtStraff(lag, melding);
 
             await _lagService.Oppdater(lag);
         }
@@ -145,26 +143,18 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var lag = _lagGameService.HentLagMedLagId(lagId);
 
-            return
-                OpprettPostOutput(lag.Poster
+            return OpprettPostOutput(lag.Poster
                         .OrderBy(post => post.Sekvensnummer)
-                        .First(post => post.PostTilstand == PostTilstand.Ukjent));
+                        .FirstOrDefault(post => post.PostTilstand == PostTilstand.Ukjent));
         }
 
         public async Task TildelPoeng(PoengInputModell inputModell)
         {
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
-            lag.Poeng += inputModell.Poeng;
+            var lagMedPoeng = _poengService.SettPoengForLag(lag, inputModell.Poeng, inputModell.Kommentar);
 
-            lag.LoggHendelser.Add(
-                new LoggHendelse
-                {
-                    HendelseType = HendelseType.TildeltPoeng,
-                    Tid = DateTime.Now
-                });
-
-            await _lagService.Oppdater(lag);
+            await _lagService.Oppdater(lagMedPoeng);
         }
 
         public bool ErLagPifInnenInfeksjonssone(string lagId)

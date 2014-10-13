@@ -1,5 +1,3 @@
-using BouvetCodeCamp.SignalR.Hubs;
-
 namespace BouvetCodeCamp.Api.Admin
 {
     using System;
@@ -15,10 +13,8 @@ namespace BouvetCodeCamp.Api.Admin
     using Domene.InputModels;
     using Domene.OutputModels;
     using DomeneTjenester.Interfaces;
-    using SignalR;
 
     using Microsoft.AspNet.SignalR;
-    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/admin/lag")]
     [System.Web.Http.Authorize]
@@ -30,14 +26,18 @@ namespace BouvetCodeCamp.Api.Admin
 
         private readonly Lazy<IHubContext<IGameHub>> gameHub;
 
+        private readonly ILagGameService lagGameService;
+
         public LagController(
             IService<Lag> lagService,
             IGameApi gameApi,
-            Lazy<IHubContext<IGameHub>> gameHub)
+            Lazy<IHubContext<IGameHub>> gameHub,
+            ILagGameService lagGameService)
         {
             this.lagService = lagService;
             this.gameApi = gameApi;
             this.gameHub = gameHub;
+            this.lagGameService = lagGameService;
         }
 
         // GET api/admin/lag/get
@@ -139,7 +139,7 @@ namespace BouvetCodeCamp.Api.Admin
             if (string.IsNullOrEmpty(lagId))
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
-            var lagTilSletting = lagService.Søk(o => o.LagId == lagId);
+            var lagTilSletting = lagService.Sok(o => o.LagId == lagId);
             
             foreach (var lag in lagTilSletting)
             {
@@ -179,14 +179,16 @@ namespace BouvetCodeCamp.Api.Admin
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler LagId");
 
             await gameApi.OpprettHendelse(inputModell.LagId, inputModell.HendelseType, inputModell.Kommentar);
-           
+
+            var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
+
             gameHub.Value.Clients.All.NyLoggHendelse(
                 new LoggHendelseOutputModell
                 {
-                    LagId = inputModell.LagId,
+                    LagNummer = lag.LagNummer,
                     Hendelse = HendelseTypeFormatter.HentTekst(inputModell.HendelseType),
                     Kommentar = inputModell.Kommentar,
-                    Tid = DateTime.Now.ToShortTimeString()
+                    Tid = DateTime.Now.ToLongTimeString()
                 });
 
             return Request.CreateResponse(HttpStatusCode.OK);

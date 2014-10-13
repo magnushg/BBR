@@ -1,8 +1,8 @@
-using BouvetCodeCamp.SignalR.Hubs;
-
 namespace BouvetCodeCamp.Api.Game
 {
     using System;
+    using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -10,16 +10,15 @@ namespace BouvetCodeCamp.Api.Game
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using BouvetCodeCamp.SignalR.Hubs;
+    using BouvetCodeCamp.Domene.Entiteter;
+
+    using SignalR.Hubs;
 
     using Domene;
     using Domene.InputModels;
     using Domene.OutputModels;
     using DomeneTjenester.Interfaces;
-    using SignalR;
-
     using Microsoft.AspNet.SignalR;
-    using BouvetCodeCamp.SignalR.Hubs;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController
@@ -28,10 +27,16 @@ namespace BouvetCodeCamp.Api.Game
 
         readonly Lazy<IHubContext<IGameHub>> _gameHub;
 
-        public PifGameController(IGameApi gameApi, Lazy<IHubContext<IGameHub>> gameHub)
+        private readonly ILagGameService lagGameService;
+
+        public PifGameController(
+            IGameApi gameApi, 
+            Lazy<IHubContext<IGameHub>> gameHub,
+            ILagGameService lagGameService)
         {
             _gameApi = gameApi;
             _gameHub = gameHub;
+            this.lagGameService = lagGameService;
         }
 
         /// <summary>
@@ -54,12 +59,13 @@ namespace BouvetCodeCamp.Api.Game
             {
 
                 
-                 var erInfisert = false;
-                try
-                {
-                    erInfisert = _gameApi.ErInfisiert(inputModell.Posisjon);
-                }
-                catch (Exception){}
+                var erInfisert = false;
+                var lag = lagGameService.HentLagMedLagId(inputModell.LagId);   
+                
+                await _gameApi.RegistrerPifPosisjon(lag, inputModell);
+
+                erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
+                
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
                         {
@@ -73,23 +79,23 @@ namespace BouvetCodeCamp.Api.Game
                 _gameHub.Value.Clients.All.NyLoggHendelse(
                     new LoggHendelseOutputModell
                     {
-                        LagId = inputModell.LagId,
+                        LagNummer = lag.LagNummer,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
                         Kommentar = erInfisert?"ER I INFISERT SONE":string.Empty,
-                        Tid = DateTime.Now.ToShortTimeString()
+                        Tid = DateTime.Now.ToLongTimeString()
                     });
-                await _gameApi.RegistrerPifPosisjon(inputModell);
+
                 
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         /// <summary>
-        /// Registrerer en kode på en post for et lag.
+        /// Registrerer en kode pï¿¥ en post for et lag.
         /// </summary>
         /// <param name="inputModell">PostInputModell inputModell</param>
         /// <remarks>POST api/game/pif/sendpostkode</remarks>
@@ -114,7 +120,7 @@ namespace BouvetCodeCamp.Api.Game
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
 
@@ -142,7 +148,7 @@ namespace BouvetCodeCamp.Api.Game
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
 
@@ -178,7 +184,7 @@ namespace BouvetCodeCamp.Api.Game
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
     }

@@ -13,5 +13,12 @@ namespace BouvetCodeCamp.Domene.OutputModels
 
         [JsonProperty(PropertyName = "postNummer")]
         public int Nummer { get; set; }
+
+        public PostOutputModell()
+        {
+            Navn = string.Empty;
+            Posisjon = Koordinat.Empty;
+            Nummer = 0;
+        }
     }
 }

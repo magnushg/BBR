@@ -34,6 +34,9 @@ namespace BouvetCodeCamp.DomeneTjenester
         // http://stackoverflow.com/a/14998816/1770699
         public bool KoordinatErInnenforPolygonet(Koordinat koordinat, Koordinat[] polygon)
         {
+            if (polygon == null)
+                return false;
+
             bool result = false;
             int j = polygon.Count() - 1;
             for (int i = 0; i < polygon.Count(); i++)

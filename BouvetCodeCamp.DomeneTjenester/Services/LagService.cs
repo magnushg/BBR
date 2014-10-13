@@ -1,7 +1,7 @@
 ﻿namespace BouvetCodeCamp.DomeneTjenester.Services
 {
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene.Entiteter;
+    using Interfaces;
 
     public class LagService : Service<Lag>
     {

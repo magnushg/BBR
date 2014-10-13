@@ -11,7 +11,7 @@ namespace BouvetCodeCamp.SpillSimulator
 
         public const string Brukernavn = "bouvet";
 
-        public const string ApiBaseAddress = "http://bouvet-code-camp.azurewebsites.net/";
+        public static string ApiBaseAddress = string.Empty;
 
         public static string LagId;
 

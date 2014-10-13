@@ -2,6 +2,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -63,15 +64,28 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public async Task Oppdater(T document)
         {
-            var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
-                .Where(d => d.Id == document.DocumentId)
-                .AsEnumerable()
-                .FirstOrDefault();
+            try
+            {
+                var oppdaterStart = DateTime.Now;
 
-            if (entitet == null)
-                throw new Exception("Fant ikke entiteten som skulle oppdateres.");
+                var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
+                    .Where(d => d.Id == document.DocumentId)
+                    .AsEnumerable()
+                    .FirstOrDefault();
 
-            await Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
+                if (entitet == null)
+                    throw new Exception("Fant ikke entiteten som skulle oppdateres.");
+
+                await Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
+
+                var oppdaterEnd = DateTime.Now;
+
+                Debug.WriteLine("Oppdatering tok..." + oppdaterStart.Subtract(oppdaterEnd));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
 
         public async Task Slett(T document)

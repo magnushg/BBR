@@ -179,12 +179,13 @@
     <Content Include="moduler\bower_components\underscore\.gitignore" />
     <Content Include="moduler\bower_components\underscore\underscore.js" />
     <Content Include="moduler\scoreboard\css\scoreboard.css" />
+    <Content Include="moduler\scoreboard\Gamemaster.html" />
     <Content Include="moduler\scoreboard\images\sick.gif" />
     <Content Include="moduler\scoreboard\images\sick.png" />
-    <Content Include="moduler\scoreboard\js\scoreboard.infrastruktur.js" />
+    <Content Include="js\scoreboard.infrastruktur.js" />
     <Content Include="moduler\scoreboard\js\scoreboard.infisertsone.js" />
     <Content Include="moduler\scoreboard\js\scoreboard.kart.js" />
-    <Content Include="moduler\scoreboard\js\scoreboard.loader.js" />
+    <Content Include="js\scoreboard.loader.js" />
     <Content Include="moduler\scoreboard\js\scoreboard.post.js" />
     <Content Include="moduler\scoreboard\js\vendors\leaflet\custommarkers\marker-icon-red.png" />
     <Content Include="moduler\scoreboard\js\vendors\lodash-2.4.1\lodash.min.js" />

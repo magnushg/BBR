@@ -170,6 +170,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var lagMedKoder = Builder<Lag>.CreateNew()
                 .With(o => o.LagId = TestLagId)
                 .With(o => o.Poster = koder)
+                .With(o => o.Poeng = 0)
                 .Build();
 
             var lagOpprettet = OpprettLagViaApi(lagMedKoder).Result;

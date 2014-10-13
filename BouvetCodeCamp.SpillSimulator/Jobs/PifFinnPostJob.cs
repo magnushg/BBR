@@ -12,7 +12,7 @@ using Quartz;
 
 namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
-    public class PifFinnPostJob : IJob
+    public class PifFinnPostJob : Job, IJob
     {
         public async void Execute(IJobExecutionContext context)
         {
@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
             {
                 if (SpillKonfig.GjeldendePost != null)
                 {
-                    const string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/pif/sendpostkode/";
+                    string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/pif/sendpostkode/";
                     var gjeldendePostNummer = SpillKonfig.GjeldendePost.Nummer;
                     var postKoder = SpillKonfig.LagMedPostkoder[SpillKonfig.LagId];
                     var modell = new PostInputModell
@@ -39,14 +39,15 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
                         ApiEndPointAddress,
                         new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
 
-                    Console.WriteLine(
-                        httpResponseMessage.StatusCode == HttpStatusCode.OK
+                    var output = string.Format(httpResponseMessage.StatusCode == HttpStatusCode.OK
                             ? "PIF validerte post {0}"
                             : "PIF Validering av post {0} mislyktes", modell.Postnummer);
+
+                    Console.WriteLine("{0}: {1}", SkrivTidsstempel(), output);
                 }
                 else
                 {
-                    Console.WriteLine("PIF har funnet alle poster");
+                    Console.WriteLine("{0}: PIF har funnet alle poster", SkrivTidsstempel());
                 }
             }
         }

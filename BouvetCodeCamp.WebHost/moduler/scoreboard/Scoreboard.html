@@ -27,9 +27,9 @@
 
     <script src="/signalr/hubs"></script>
 
-    <script src="/moduler/scoreboard/js/scoreboard.infrastruktur.js"></script>
-    <script src="/moduler/scoreboard/js/scoreboard.loader.js"></script>
-    <script src="/moduler/scoreboard/js/scoreboard.lag.js"></script>
+    <script src="/js/scoreboard.infrastruktur.js"></script>
+    <script src="/js/scoreboard.loader.js"></script>
+    <script src="js/scoreboard.lag.js"></script>
 
     <!-- Owl Carousel -->
     <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
@@ -122,8 +122,9 @@
         var infectedMarkerIcon = null;
 
         $(function () {
-            var mapElement = document.getElementById("map")
-                , latlng = [59.676403, 10.606424];
+            var mapElement = document.getElementById("map"), latlng = [59.676403, 10.606424];
+            // Myrens [59.9361, 10.75728]
+            // Oscarsborg [59.676403, 10.606424];
 
             map = L.map(mapElement).setView(latlng, 16);
 
@@ -151,7 +152,7 @@
         });
 
         var map;
-        var MaksAntallLoggHendelser = 20;
+        var MaksAntallLoggHendelser = 30;
 
         var SCOREBOARD = SCOREBOARD || {};
         SCOREBOARD.Lag = [];
@@ -159,8 +160,11 @@
         SCOREBOARD.LoggHendelser = [];
         SCOREBOARD.InfisertSone = {};
         SCOREBOARD.Marquee = [];
-   
+
         //LAG
+        function initLag() {
+            SCOREBOARD.Lag = [];
+        }
         function hentSistePifPosisjonForLag(lag) {
             if (typeof lag == "undefined" || typeof lag.pifPosisjoner == "undefined")
                 return null;
@@ -171,10 +175,14 @@
         }
 
         function lastInnLagene(data) {
+            initLag();
+
             $.each(data, function (key, val) {
                 SCOREBOARD.Lag.push(val);
                 SCOREBOARD.Lag[key].Marker = {};
             });
+
+            settLagPaaKartet();
 
             oppdaterStillingstabell();
         }
@@ -301,7 +309,7 @@
 
             $.each(SCOREBOARD.LoggHendelser, function (index, value) {
                 $('.hendelsestabell').find('tbody:last').append(
-                    '<tr><td>' + value.lagId +
+                    '<tr><td>' + value.lagnummer +
                     '</td><td>' + value.hendelse +
                     '</td><td>' + value.kommentar +
                     '</td><td>' + value.tid +
@@ -313,16 +321,14 @@
 
             loader.hentLag(lastInnLagene);
 
-            settLagPaaKartet();
-
             loader.hentPoster(lastInnPoster);
 
             loader.hentInfisertSone(lastInnInfisertSone);
 
             $(".owl-carousel").owlCarousel({
-                autoPlay: true,
+                autoPlay: 8000,
                 loop: true,
-                slideSpeed: 300,
+                slideSpeed: 200,
                 paginationSpeed: 400,
                 singleItem: true,
                 autoplayHoverPause: true,
@@ -340,7 +346,7 @@
                     indent--;
                     mar.css('text-indent', indent);
 
-                    if (indent < -mar.width() || marquee.text() == "" ) {
+                    if (indent < -mar.width() || marquee.text() == "") {
                         var nextText = SCOREBOARD.Marquee.pop();
                         if (typeof nextText == "undefined")
                             marquee.text("");
@@ -370,27 +376,42 @@
             hub.client.nyPifPosisjon = function (msg) {
                 var lag = hentLagEtterLagId(msg.lagId);
 
-                var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
-                if (msg.erinfisert) {
-                    SCOREBOARD.Marquee.push(lag[0].lagNavn + " ER INFISERT: -1000 POENG");
-                }
-                if (typeof lag[0].Marker == "undefined"
-                    || lag[0].Marker == null
-                    || $.isEmptyObject(lag[0].Marker)) {
+                if (typeof lag[0] != "undefined" && lag[0] != null) {
+                    
+                    var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
 
-                    lag[0].Marker = L.marker(
-                        [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
-                        { icon: msg.erinfisert ? infectedMarkerIcon : redMarkerIcon })
-                        .addTo(map);
-                } else {
-                    lag[0].Marker.setLatLng(nyLeafletLatLon);
-                    lag[0].Marker.setIcon(msg.erinfisert ? infectedMarkerIcon : redMarkerIcon);
+                    if (msg.erinfisert) {
+                        SCOREBOARD.Marquee.push(lag[0].lagNavn + " ER INFISERT: -1000 POENG");
+                    }
+
+                    if (typeof lag[0].Marker == "undefined"
+                        || lag[0].Marker == null
+                        || $.isEmptyObject(lag[0].Marker)) {
+
+                        lag[0].Marker = L.marker(
+                            [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
+                            { icon: msg.erinfisert ? infectedMarkerIcon : redMarkerIcon })
+                            .addTo(map);
+                    } else {
+                        lag[0].Marker.setLatLng(nyLeafletLatLon);
+                        lag[0].Marker.setIcon(msg.erinfisert ? infectedMarkerIcon : redMarkerIcon);
+                    }
                 }
             };
 
             // Ny logghendelse
             hub.client.nyLoggHendelse = function (msg) {
                 LeggTilNyLoggHendelse(msg);
+            }
+
+            // Poeng tildelt
+            hub.client.poengTildelt = function (msg) {
+                //TODO:
+                // parse poeng + lagid
+                // hent lag og sett ny poeng
+                // oppdater og resorter lagtabellen
+                // husk å bevare infected state for laget
+                
             }
 
             // Start the connection.

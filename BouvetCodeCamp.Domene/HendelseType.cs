@@ -8,8 +8,10 @@
         RegistrertKodeMislykket,
         HentetPifPosisjon,
         SendtMelding,
+        SendtFritekstmeldingStraff,
         TildeltPoeng,
-
+        InfisertPoengTap,
+        PingPoengTap,
         Achievement
     }
 }

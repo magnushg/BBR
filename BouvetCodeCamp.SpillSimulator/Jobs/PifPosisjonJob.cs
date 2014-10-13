@@ -7,7 +7,7 @@ using Quartz;
 
 namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
-    public class PifPosisjonJob : IJob
+    public class PifPosisjonJob : Job, IJob
     {
         public async void Execute(IJobExecutionContext context)
         {
@@ -31,7 +31,7 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
                     ApiEndPointAddress,
                     new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
 
-                Console.WriteLine(string.Format("PIF flyttet til posisjon lat: {0}, lon: {1}", modell.Posisjon.Latitude, modell.Posisjon.Longitude));
+                Console.WriteLine(string.Format("{0}: PIF flyttet til posisjon lat: {1}, lon: {2}", SkrivTidsstempel(), modell.Posisjon.Latitude, modell.Posisjon.Longitude));
                 SpillKonfig.KoordinatIndex++;
             }
             

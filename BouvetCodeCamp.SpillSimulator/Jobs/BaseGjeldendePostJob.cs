@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Net.Http;
-using System.Text;
-using BouvetCodeCamp.Domene.InputModels;
+
 using BouvetCodeCamp.Domene.OutputModels;
 using Newtonsoft.Json;
 using Quartz;
 
 namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
-    public class BaseGjeldendePostJob : IJob
+    public class BaseGjeldendePostJob : Job, IJob
     {
         public async void Execute(IJobExecutionContext context)
         {
@@ -23,7 +22,10 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
 
                 SpillKonfig.GjeldendePost = JsonConvert.DeserializeObject<PostOutputModell>(content);
 
-                Console.WriteLine("BASE Hentet ny gjeldende post med nummer {0}", SpillKonfig.GjeldendePost.Nummer);
+                if (SpillKonfig.GjeldendePost == null)
+                    Console.WriteLine("BASE Ingen flere poster å hente.");
+
+                Console.WriteLine("{0}: BASE Hentet ny gjeldende post med nummer {1}", SkrivTidsstempel(), SpillKonfig.GjeldendePost.Nummer);
             }
         }
     }

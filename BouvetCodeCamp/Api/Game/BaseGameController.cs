@@ -7,9 +7,9 @@
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.InputModels;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Domene;
+    using Domene.InputModels;
+    using DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/game/base")]
     public class BaseGameController : BaseApiController
@@ -45,7 +45,7 @@
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
         
@@ -73,7 +73,7 @@
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
         
@@ -99,7 +99,7 @@
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
         
@@ -125,7 +125,7 @@
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }

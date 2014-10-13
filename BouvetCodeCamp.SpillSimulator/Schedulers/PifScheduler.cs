@@ -40,7 +40,7 @@ namespace BouvetCodeCamp.SpillSimulator.Schedulers
                 .WithIdentity("finnTrigger", "pifGruppe")
                 .StartAt(DateBuilder.FutureDate(20, IntervalUnit.Second))
                  .WithSimpleSchedule(x => x
-                    .WithIntervalInSeconds(10)
+                    .WithIntervalInSeconds(30)
                     .WithRepeatCount(10))
                 .Build();
 

@@ -15,17 +15,23 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.SpillOppretter
 {
+    using System.Threading;
+
     public class LagOppretter
     {
         private readonly int _antallLag;
+        private readonly string _lagPosterPath;
+        private readonly string _posterPath;
         private readonly LagRepository _lagRepository;
         private IEnumerable<Lag> _lagListe;
         private IEnumerable<Post> _poster;
         private IEnumerable<Lag> _lagListeMedPoster;
 
-        public LagOppretter(int antallLag)
+        public LagOppretter(int antallLag, string lagPosterPath, string posterPath)
         {
             _antallLag = antallLag;
+            _lagPosterPath = lagPosterPath;
+            _posterPath = posterPath;
             _lagRepository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
             _lagListe = new List<Lag>();
         }
@@ -41,7 +47,6 @@ namespace BouvetCodeCamp.SpillOppretter
             LagreLagliste(lagListeMedPosterOgSekvensNummer);
 
             return _lagListe;
-
         }
 
         private IEnumerable<Lag> OpprettLagListeMedTommeLag()
@@ -72,10 +77,10 @@ namespace BouvetCodeCamp.SpillOppretter
 
         private IEnumerable<Lag> TilordnePosterTilLagListe()
         {
-            var lagPosterJson = File.ReadAllText("importData/lagPoster.json", Encoding.UTF8);
+            var lagPosterJson = File.ReadAllText(_lagPosterPath, Encoding.UTF8);
             var lagPoster = JsonConvert.DeserializeObject<IEnumerable<LagPoster>>(lagPosterJson);
 
-            var posterMedKoderJson = File.ReadAllText("importData/koder.json", Encoding.UTF8);
+            var posterMedKoderJson = File.ReadAllText(_posterPath, Encoding.UTF8);
             var posterMedKoder = JsonConvert.DeserializeObject<IEnumerable<PosterMedKoder>>(posterMedKoderJson);
 
 
@@ -146,6 +151,11 @@ namespace BouvetCodeCamp.SpillOppretter
             {
                 await _lagRepository.Opprett(x);
             });
+        }
+
+        public IEnumerable<Lag> HentAlleLag()
+        {
+            return _lagRepository.HentAlle();
         }
     }
 
