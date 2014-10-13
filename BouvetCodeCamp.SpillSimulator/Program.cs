@@ -11,6 +11,8 @@ using Quartz.Impl;
 
 namespace BouvetCodeCamp.SpillSimulator
 {
+    using System.Configuration;
+
     public class Program
     {
         static void Main(string[] args)
@@ -33,8 +35,10 @@ namespace BouvetCodeCamp.SpillSimulator
                 }
 
                 SpillKonfig.LagId = lagId;
+                SpillKonfig.ApiBaseAddress = ConfigurationManager.AppSettings["ApiBaseAddress"];
 
-                Console.WriteLine("Kjører simulator for lag ID {0}\r\n", lagId);
+                Console.WriteLine("Kjører simulator for lag ID {0}", lagId);
+                Console.WriteLine("mot apibaseadresse '{0}' \r\n", SpillKonfig.ApiBaseAddress);
 
                 var scheduler = StdSchedulerFactory.GetDefaultScheduler();
                 scheduler.Start();

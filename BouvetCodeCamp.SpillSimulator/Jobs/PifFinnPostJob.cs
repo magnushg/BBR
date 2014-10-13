@@ -21,7 +21,7 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
             {
                 if (SpillKonfig.GjeldendePost != null)
                 {
-                    const string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/pif/sendpostkode/";
+                    string ApiEndPointAddress = SpillKonfig.ApiBaseAddress + "/api/game/pif/sendpostkode/";
                     var gjeldendePostNummer = SpillKonfig.GjeldendePost.Nummer;
                     var postKoder = SpillKonfig.LagMedPostkoder[SpillKonfig.LagId];
                     var modell = new PostInputModell
