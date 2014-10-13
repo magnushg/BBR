@@ -59,12 +59,12 @@ namespace BouvetCodeCamp.Api.Game
             {
 
                 
-                var erInfisert = false;
-                var lag = lagGameService.HentLagMedLagId(inputModell.LagId);   
+              
+                var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
                 
                 await _gameApi.RegistrerPifPosisjon(lag, inputModell);
 
-                erInfisert = _gameApi.ErLagPifInnenInfeksjonssone(inputModell.LagId);
+                var erInfisert = _gameApi.ErInfisiert(inputModell.Posisjon);
                 
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
@@ -81,7 +81,7 @@ namespace BouvetCodeCamp.Api.Game
                     {
                         LagNummer = lag.LagNummer,
                         Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
-                        Kommentar = erInfisert?"ER I INFISERT SONE":string.Empty,
+                        Kommentar = erInfisert ? "ER I INFISERT SONE" : string.Empty,
                         Tid = DateTime.Now.ToLongTimeString()
                     });
 

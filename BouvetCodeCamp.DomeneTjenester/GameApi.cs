@@ -52,7 +52,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Tid = DateTime.Now
             };
 
-            pifPosisjon.Infisert = ErLagPifInnenInfeksjonssone(lag.LagId);
+            pifPosisjon.Infisert = ErInfisiert(pifPosisjon.Posisjon);
 
             lag.PifPosisjoner.Add(pifPosisjon);
 
