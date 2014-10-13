@@ -187,6 +187,10 @@
     <Content Include="moduler\scoreboard\js\scoreboard.kart.js" />
     <Content Include="js\scoreboard.loader.js" />
     <Content Include="moduler\scoreboard\js\scoreboard.post.js" />
+    <Content Include="moduler\scoreboard\js\vendors\leaflet-label\images\death.png" />
+    <Content Include="moduler\scoreboard\js\vendors\leaflet-label\leaflet.label-src.js" />
+    <Content Include="moduler\scoreboard\js\vendors\leaflet-label\leaflet.label.css" />
+    <Content Include="moduler\scoreboard\js\vendors\leaflet-label\leaflet.label.js" />
     <Content Include="moduler\scoreboard\js\vendors\leaflet\custommarkers\marker-icon-red.png" />
     <Content Include="moduler\scoreboard\js\vendors\lodash-2.4.1\lodash.min.js" />
     <Content Include="moduler\scoreboard\js\vendors\owl-carousel\AjaxLoader.gif" />

@@ -35,6 +35,11 @@
     <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
 
     <script src="js/vendors/lodash-2.4.1/lodash.min.js"></script>
+    
+    <link rel="stylesheet" href="js/vendors/leaflet-label/leaflet.label.css" />
+
+   
+    <script src="js/vendors/leaflet-label/leaflet.label.js"></script>
     <style>
         .marquee {
             white-space: nowrap;
@@ -247,7 +252,7 @@
                 if (sistePifPosisjonForLag != null) {
                     SCOREBOARD.Lag[key].Marker = L.marker(
                         [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
-                        { icon: redMarkerIcon })
+                        { icon: redMarkerIcon }).bindLabel(val.lagNavn, { noHide: true })
                         .addTo(map);
                 }
             });
