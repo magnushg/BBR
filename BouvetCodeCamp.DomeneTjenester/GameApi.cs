@@ -143,10 +143,9 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var lag = _lagGameService.HentLagMedLagId(lagId);
 
-            return
-                OpprettPostOutput(lag.Poster
+            return OpprettPostOutput(lag.Poster
                         .OrderBy(post => post.Sekvensnummer)
-                        .First(post => post.PostTilstand == PostTilstand.Ukjent));
+                        .FirstOrDefault(post => post.PostTilstand == PostTilstand.Ukjent));
         }
 
         public async Task TildelPoeng(PoengInputModell inputModell)

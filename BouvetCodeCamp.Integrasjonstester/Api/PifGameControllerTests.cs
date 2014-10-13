@@ -146,7 +146,83 @@
 
             // Assert
             isSuccessStatusCode.ShouldBeTrue();
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task SendPostKode_GodkjentKodeOgDetteVarSistePost_GirNullSomNestePost()
+        {
+            // Arrange
+            const string PostKode = "asflææø12";
+            var koder = new List<LagPost>
+                            {
+                                new LagPost {
+                                        Kode = PostKode,
+                                        Posisjon = new Koordinat("12", "12"),
+                                        PostTilstand = PostTilstand.Ukjent,
+                                        Nummer = 1
+                                    }
+                            };
+
+            SørgForAtEtLagMedLagPostKoderFinnes(koder);
+
+            var gjeldendePost = await HentGjeldendePost(TestLagId);
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpostkode";
+            bool isSuccessStatusCode;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var modell = new PostInputModell
+                {
+                    Kode = PostKode,
+                    Koordinat = new Koordinat("12", "12"),
+                    LagId = TestLagId,
+                    Postnummer = 1
+                };
+
+                var modellSomJson = JsonConvert.SerializeObject(modell);
+
+                var httpResponseMessage = await httpClient.PostAsync(
+                    ApiEndPointAddress,
+                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
+
+                isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+            }
+            
+            var alleTestLag = await HentAlleTestLag();
+            var testLag = alleTestLag.FirstOrDefault();
+            var nyGjeldendePost = await HentGjeldendePost(TestLagId);
+
+            // Assert
+            isSuccessStatusCode.ShouldBeTrue();
+            gjeldendePost.ShouldNotEqual(nyGjeldendePost);
+            nyGjeldendePost.ShouldBeNull();
             testLag.Poeng.ShouldEqual(PoengTildeling.KodeOppdaget);
+        }
+
+        private async Task<int?> HentGjeldendePost(string lagId)
+        {
+            PostOutputModell postOutputModell;
+
+            var ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentgjeldendepost/" + lagId;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                postOutputModell = JsonConvert.DeserializeObject<PostOutputModell>(content);
+            }
+
+            if (postOutputModell == null) 
+                return null;
+
+            return postOutputModell.Nummer;
         }
 
         [TestMethod]
