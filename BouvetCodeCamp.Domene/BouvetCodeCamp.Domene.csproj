@@ -64,6 +64,7 @@
     <Compile Include="InputModels\PostInputModell.cs" />
     <Compile Include="InputModels\MeldingInputModell.cs" />
     <Compile Include="InputModels\PoengInputModell.cs" />
+    <Compile Include="MeldingException.cs" />
     <Compile Include="MeldingType.cs" />
     <Compile Include="OutputModels\KodeOutputModel.cs" />
     <Compile Include="OutputModels\LoggHendelseOutputModell.cs" />

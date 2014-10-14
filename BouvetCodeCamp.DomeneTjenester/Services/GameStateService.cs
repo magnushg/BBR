@@ -37,6 +37,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
                     _gameState = gameStates.Single();
                     break;
                 default:
+                    _gameState = gameStates.First();
                     throw new Exception("Multiple gamestates found in db");
             }
         }

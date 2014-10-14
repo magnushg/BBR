@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
+using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using Moq;
 using NUnit.Framework;
@@ -32,6 +35,163 @@ namespace BouvetCodeCamp.UnitTest
                 _poengServiceMock.Object
                 );
         }
+
+        [Test]
+        [ExpectedException(typeof(MeldingException))]
+        public async void SendMelding_Lengde_IkkeInt_Exception()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Lengde,
+                Tekst = "juks"
+            };
+            await _gameApi.SendMelding(melding);
+        }
+
+        [Test]
+        [ExpectedException(typeof(MeldingException))]
+        public async void SendMelding_Fritekst_TekstOver256_Exception()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Fritekst,
+                Tekst = "UTiBm8m3wOvmBLrwO26NRPHI2o7pwPUSuxPcjn1A6ybVZ88OBwsWO9Z0FAfLtowUjwJGJLIg4BNXS8GozxBqZjKgE3WUcfNhbBUxgJVEty4LJwpCvTjkSux1njsA6pG0TDmrE04v62kHmwE0zip2gP5XG0Ew43G3hg4KhjYWDtQ5bTmKB15qkXqU0gYTZUTR10ZGIzoeaYuvVDOoc1CHvwSApqkMUoNRycnv1QzH62pk7SPY8n5HxlfMnsF8eJSfI"
+            };
+            Assert.IsTrue(melding.Tekst.Length > 256);
+            await _gameApi.SendMelding(melding);
+        }
+
+        [Test]
+        public async void SendMelding_Fritekst_ErUnder256_Gyldig()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Fritekst,
+                Tekst = "UTiBm8m3wOvmBLrwO26NRPHI2o7pwPUSuxPcjn1A6ybVZ88OBwsWO9Z0FAfLtowUjwJGJLIg4BNXS8GozxBqZjKgE3WUcfNhbBUxgJVEty4LJwpCvTjkSux1njsA6pG0TDmrE04v62kHmwE0zip2gP5XG0Ew43G3hg4KhjYWDtQ5bTmKB15qkXqU0gYTZUTR10ZGIzeaYuvVDOoc1CHvwSApqkMUoNRycnv1QzH62pk7SPY8n5HxlfMnsF8eJSfI"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+
+            Assert.IsTrue(melding.Tekst.Length <= 256);
+            Assert.IsTrue(true);
+        }
+
+
+        [Test]
+        [ExpectedException(typeof(MeldingException))]
+        public async void SendMelding_Stopp_NotBool_Exception()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Stopp,
+                Tekst = "juks"
+            };
+
+            await _gameApi.SendMelding(melding);
+        }
+
+        [Test]
+        public async void SendMelding_Stopp_Bool_Success()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Stopp,
+                Tekst = "false"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+            Assert.IsTrue(true);
+        }
+
+        [Test]
+        [ExpectedException(typeof(MeldingException))]
+        public async void SendMelding_Himmelretning_Invalid_Exception()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Himmelretning,
+                Tekst = "ikke en himmelretning"
+            };
+
+            await _gameApi.SendMelding(melding);
+        }
+
+        [Test]
+        public async void SendMelding_Himmelretning_North_Success()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Himmelretning,
+                Tekst = "North"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+            Assert.IsTrue(true);
+        }
+
+        [Test]
+        public async void SendMelding_Himmelretning_East_Success()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Himmelretning,
+                Tekst = "East"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+            Assert.IsTrue(true);
+        }
+
+        [Test]
+        public async void SendMelding_Himmelretning_West_Success()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Himmelretning,
+                Tekst = "West"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+            Assert.IsTrue(true);
+        }
+
+        [Test]
+        public async void SendMelding_Himmelretning_South_Success()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Himmelretning,
+                Tekst = "South"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+            Assert.IsTrue(true);
+        }
+
 
         [Test]
         public void ErLagPifInnenInfeksjonssone_ErInnenInfeksjonssone_ReturnsTrue()

@@ -91,7 +91,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             var resultat = _postGameService.SettKodeTilstandTilOppdaget(lag, inputModell.Postnummer, inputModell.Kode, inputModell.Koordinat);
-            
+
             lag = _poengService.SettPoengForKodeRegistrert(lag, resultat, inputModell.Postnummer);
 
             await _lagService.Oppdater(lag);
@@ -101,14 +101,16 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         public async Task SendMelding(MeldingInputModell inputModell)
         {
+            MeldingInputModelIsValid(inputModell);
+
             var lag = _lagGameService.HentLagMedLagId(inputModell.LagId);
 
             var melding = new Melding
-                {
-                    LagId = inputModell.LagId,
-                    Tekst = inputModell.Tekst,
-                    Tid = DateTime.Now,
-                    Type = inputModell.Type
+            {
+                LagId = inputModell.LagId,
+                Tekst = inputModell.Tekst,
+                Tid = DateTime.Now,
+                Type = inputModell.Type
             };
 
             lag.Meldinger.Add(melding);
@@ -123,6 +125,48 @@ namespace BouvetCodeCamp.DomeneTjenester
             lag = _poengService.SettMeldingSendtStraff(lag, melding);
 
             await _lagService.Oppdater(lag);
+        }
+
+        private void MeldingInputModelIsValid(MeldingInputModell model)
+        {
+            switch (model.Type)
+            {
+                case (MeldingType.Fritekst):
+
+                    if (model.Tekst.Length > 256)
+                        throw new MeldingException("Fritekst er over 256 karakterer");
+                    break;
+
+                case (MeldingType.Himmelretning):
+
+                    Himmelretning cast;
+
+                    if (!Enum.IsDefined(typeof (Himmelretning), model.Tekst))
+                    {
+                        throw new MeldingException(
+                            model.Tekst + " er ikke gyldig himmelretning-verdi (husk den er case-sensitive)");
+                    }
+                    break;
+
+                case (MeldingType.Lengde):
+                    try
+                    {
+                        int.Parse(model.Tekst);
+                    }
+                    catch (Exception)
+                    {
+                        throw new MeldingException("Meldingstype Lengde må være integer");
+                    }
+                    break;
+
+                case (MeldingType.Stopp):
+                    var boolskVerdi = model.Tekst.ToLower();
+                    if (!(boolskVerdi.Equals("true") || boolskVerdi.Equals("false")))
+                    {
+                        throw new MeldingException("Meldingstype Stopp må være boolsk verdi");
+                    }
+                    break;
+            }
         }
 
         public IEnumerable<KodeOutputModel> HentRegistrerteKoder(string lagId)
