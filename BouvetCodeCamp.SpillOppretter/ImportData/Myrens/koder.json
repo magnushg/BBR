@@ -2,65 +2,161 @@
     {
         "postnr": 1,
         "koder": [
-            "oxx2",
-            "bxa1",
-            "bxq1"
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst6",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst",
+            "txtst"
         ]
     },
-    {
-        "postnr": 2,
-        "koder": [
-            "fxo3",
-            "hxf2",
-            "dxf2"
+        {
+            "postnr": 2,
+            "koder": [
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg",
+                "axfgg0",
+                "axfgg"
+            ]
+        },
+        {
+            "postnr": 3,
+            "koder": [
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg",
+                "rdxfg2"
+            ]
+        },
+        {
+            "postnr": 4,
+            "koder": [
+                "dxfgt",
+                "dxfgt",
+                "dxfgt",
+                "dxfgt",
+                "dxfgt",
+                "dxfgt",
+                "dxfgt",
+                "dxfgt",
+                "dxfgtd",
+                "dxfgt",
+                "dxfgt",
+                "dxfgt0",
+                "dxfgt",
+                "dxfgt",
+                "dxfgt"
+            ]
+        },
+        {
+            "postnr": 5,
+            "koder": [
+                "jxdf",
+                "jxdf",
+                "jxdf",
+                "jxdf",
+                "jxdf",
+                "jxdfb",
+                "jxdf",
+                "jxdf",
+                "jxdf",
+                "jxdf",
+                "jxdf0",
+                "jxdf",
+                "jxdf",
+                "jxdf",
+                "jxdf"
+            ]
+        },
+        {
+            "postnr": 6,
+            "koder": [
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh0",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh",
+                "txdgh"
+            ]
+        },
+        {
+            "postnr": 7,
+            "koder": [
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg",
+                "sxcg"
+            ]
+        },
+        {
+            "postnr": 8,
+            "koder": [
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg",
+                "ixfg4",
+                "ixfg5",
+                "ixfg",
+                "ixfg"
+            ]
+        }
         ]
-    },
-    {
-        "postnr": 3,
-        "koder": [
-            "rxn3",
-            "exk3",
-            "nxy6"
-        ]
-    },
-    {
-        "postnr": 4,
-        "koder": [
-            "rxo4",
-            "lxc6",
-            "axx4"
-        ]
-    },
-    {
-        "postnr": 5,
-        "koder": [
-            "fxo5",
-            "gxp5",
-            "fxb5"
-        ]
-    },
-    {
-        "postnr": 6,
-        "koder": [
-            "exk6",
-            "exm6",
-            "rxp6"
-        ]
-    },
-    {
-        "postnr": 7,
-        "koder": [
-            "gxk7",
-            "gxe7",
-            "nxpa"
-        ]
-    },
-    {
-        "postnr": 8,
-        "koder": [
-            "lxr9",
-            "exb8",
-            "rxd8"
-        ]
-    },
-]
