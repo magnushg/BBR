@@ -10,6 +10,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
     using DomeneTjenester.Interfaces;
     using Interfaces;
 
+    using log4net;
+
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Azure.Documents.Linq;
@@ -22,6 +24,9 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
         protected readonly IDocumentDbContext Context;
 
         private DocumentCollection _collection;
+
+        private ILog log;
+
         public DocumentCollection Collection
         {
             get
@@ -39,6 +44,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
         {
             _konfigurasjon = konfigurasjon;
             Context = context;
+            
+            log = LogManager.GetLogger(typeof(Repository<T>));
         }
 
         public async Task<string> Opprett(T document)
@@ -68,6 +75,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             {
                 var oppdaterStart = DateTime.Now;
 
+                log.Info("Oppdaterer " + document.DocumentId);
+
                 var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                     .Where(d => d.Id == document.DocumentId)
                     .AsEnumerable()
@@ -80,16 +89,20 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
                 var oppdaterEnd = DateTime.Now;
 
-                Debug.WriteLine("Oppdatering tok..." + oppdaterStart.Subtract(oppdaterEnd));
+                log.Info("Oppdatering på " + document.DocumentId + " tok..." + oppdaterStart.Subtract(oppdaterEnd));
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                log.Error("Feil skjedde under oppdatering: " + e.Message);
+                throw;
             }
         }
 
         public async Task Slett(T document)
         {
+            var slettStart = DateTime.Now;
+            log.Info("Sletter " + document.DocumentId);
+
             var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
                 .Where(d => d.Id == document.DocumentId)
                 .AsEnumerable()
@@ -99,6 +112,10 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                 throw new Exception("Fant ikke entiteten som skulle slettes.");
 
             await Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
+
+            var slettEnd = DateTime.Now;
+            log.Info("Sletting av " + document.DocumentId + " tok..." + slettStart.Subtract(slettEnd));
+
         }
 
         public async Task SlettAlle()

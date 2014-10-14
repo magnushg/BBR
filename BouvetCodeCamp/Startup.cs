@@ -18,16 +18,21 @@ using Swashbuckle;
 namespace BouvetCodeCamp
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Threading;
+    using System.Xml;
 
     using Authentication;
+
     using Filters;
 
     using Infrastruktur.DataAksess;
     using Infrastruktur.DataAksess.Interfaces;
     using Infrastruktur.DataAksess.Repositories;
+
+    using log4net;
 
     using Microsoft.Owin.Extensions;
 
@@ -94,6 +99,10 @@ namespace BouvetCodeCamp
             var hubConfig = new HubConfiguration { EnableJSONP = true };
 
             appBuilder.MapSignalR(hubConfig);
+
+            log4net.Config.XmlConfigurator.Configure();
+            var log = LogManager.GetLogger(typeof(Startup)); 
+            log.Info("Startup ok.");
         }
         
         private void SetGlobalizationCulture(string cultureLanguage)
