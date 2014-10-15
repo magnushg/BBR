@@ -78,9 +78,9 @@ namespace BouvetCodeCamp.DomeneTjenester
                                            HendelseType = HendelseType.InfisertPoengTap,
                                            Kommentar =
                                                String.Format(
-                                                   "Mistet {0} poeng for å ha vært infisert i {1} sekund",
-                                                   poengTap,
-                                                   infisertTimeSpan),
+                                                   "Mistet {0} poeng for å ha vært infisert i {1:0} sekunder",
+                                                   poeng,
+                                                   infisertTimeSpan.TotalSeconds),
                                            Tid = DateTime.Now
                                        };
 
@@ -153,8 +153,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         private void SendTildeltPoengHendelse(Lag lag, LoggHendelse loggHendelse, int nyPoengsum)
         {
-            var loggHendelseOutputModell = new LoggHendelseOutputModell()
-                                               {
+            var loggHendelseOutputModell = new LoggHendelseOutputModell {
                                                    Hendelse = HendelseTypeFormatter.HentTekst(loggHendelse.HendelseType),
                                                    Kommentar = loggHendelse.Kommentar,
                                                    LagNummer = lag.LagNummer,

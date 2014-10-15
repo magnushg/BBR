@@ -112,7 +112,13 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             await _lagService.Oppdater(lag);
 
-            return resultat.Equals(HendelseType.RegistrertKodeSuksess);
+            if (resultat.Equals(HendelseType.RegistrertKodeSuksess))
+            {
+                SendPostRegistrertHendelse(lag.LagId, inputModell.Postnummer);
+
+                return true;
+        }
+            return false;
         }
 
         public async Task SendMelding(MeldingInputModell inputModell)
@@ -263,6 +269,15 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Nummer = post.Nummer,
                 Posisjon = post.Posisjon
             };
+        }
+
+        private void SendPostRegistrertHendelse(string lagId, int postnummer)
+        {
+            _gameHub.NyPostRegistrert(new PostRegistrertOutputModell
+            {
+                LagId = lagId,
+                Nummer = postnummer
+            });
         }
     }
 }
