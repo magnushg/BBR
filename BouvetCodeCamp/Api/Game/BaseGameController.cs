@@ -123,6 +123,10 @@
             {
                 await gameApi.SendMelding(inputModell);
             }
+            catch (MeldingException msgException)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, msgException);
+            }
             catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);

@@ -93,21 +93,17 @@
       <DependentUpon>App.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <Content Include="ImportData\Oscarsborg\lagPoster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\Oscarsborg\koder.json">
+    <Content Include="ImportData\Myrens\lagPoster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ImportData\Myrens\koder.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ImportData\Myrens\lagPoster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ImportData\Myrens\poster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="ImportData\Oscarsborg\koder.json" />
+    <None Include="ImportData\Oscarsborg\lagPoster.json" />
     <None Include="packages.config" />
     <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
   </ItemGroup>
