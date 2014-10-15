@@ -1,4 +1,6 @@
-﻿namespace BouvetCodeCamp.Api.Game
+﻿using System.Linq;
+
+namespace BouvetCodeCamp.Api.Game
 {
     using System;
     using System.Net;
@@ -41,7 +43,7 @@
             {
                 var kodeModeller = gameApi.HentRegistrerteKoder(lagId);
 
-                return Request.CreateResponse(HttpStatusCode.OK, kodeModeller, Configuration.Formatters.JsonFormatter);
+                return Request.CreateResponse(HttpStatusCode.OK, kodeModeller.Select(x=>x.Kode), Configuration.Formatters.JsonFormatter);
             }
             catch (Exception e)
             {

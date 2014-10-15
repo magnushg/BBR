@@ -48,10 +48,11 @@ namespace BouvetCodeCamp.SpillSimulator
                 pifScheduler.SchedulePifMoveJobs();
                 pifScheduler.SchedulePifFinnPostJob();
                 baseScheduler.ScheduleHentGjeldendePost();
-                
+                baseScheduler.ScheduleHentRegistrerteKoderJob();
+
 
                 // Sov for å la oppgavene utføres
-                Thread.Sleep(TimeSpan.FromSeconds(400));
+                Thread.Sleep(TimeSpan.FromMinutes(7));
 
                 scheduler.Shutdown();
             }

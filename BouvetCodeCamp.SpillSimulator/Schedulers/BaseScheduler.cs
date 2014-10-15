@@ -29,5 +29,22 @@ namespace BouvetCodeCamp.SpillSimulator.Schedulers
 
             _scheduler.ScheduleJob(job, trigger);
         }
+
+        public void ScheduleHentRegistrerteKoderJob()
+        {
+            IJobDetail job = JobBuilder.Create<BaseHentRegistrerteKoder>()
+                .WithIdentity("hentRegistrerteKoder", "baseGruppe")
+                .Build();
+
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("koder", "baseGruppe")
+                .StartAt(DateBuilder.FutureDate(60, IntervalUnit.Second))
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(60)
+                    .WithRepeatCount(10))
+                .Build();
+
+            _scheduler.ScheduleJob(job, trigger);
+        }
     }
 }
