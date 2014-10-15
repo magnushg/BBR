@@ -82,6 +82,7 @@ namespace BouvetCodeCamp
             builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>().SingleInstance();
+            builder.RegisterType<GameHubProxy>().As<IGameHub>();            
 
             var container = builder.Build();
 

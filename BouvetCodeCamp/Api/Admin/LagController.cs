@@ -24,14 +24,14 @@ namespace BouvetCodeCamp.Api.Admin
 
         private readonly IGameApi gameApi;
 
-        private readonly Lazy<IHubContext<IGameHub>> gameHub;
+        private readonly IGameHub gameHub;
 
         private readonly ILagGameService lagGameService;
 
         public LagController(
             IService<Lag> lagService,
             IGameApi gameApi,
-            Lazy<IHubContext<IGameHub>> gameHub,
+            IGameHub gameHub,
             ILagGameService lagGameService)
         {
             this.lagService = lagService;
@@ -194,7 +194,7 @@ namespace BouvetCodeCamp.Api.Admin
 
             var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
 
-            gameHub.Value.Clients.All.NyLoggHendelse(
+            gameHub.NyLoggHendelse(
                 new LoggHendelseOutputModell
                 {
                     LagNummer = lag.LagNummer,

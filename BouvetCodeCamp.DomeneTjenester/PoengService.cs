@@ -13,11 +13,11 @@ namespace BouvetCodeCamp.DomeneTjenester
 
     public class PoengService : IPoengService
     {
-        private readonly Lazy<IHubContext<IGameHub>> gameHub;
+        private readonly IGameHub _gameHub;
 
-        public PoengService(Lazy<IHubContext<IGameHub>> gameHub)
+        public PoengService(IGameHub gameHub)
         {
-            this.gameHub = gameHub;
+            _gameHub = gameHub;
         }
 
         public Lag SjekkOgSettPifPingStraff(Lag lag)
@@ -161,17 +161,17 @@ namespace BouvetCodeCamp.DomeneTjenester
                                                };
 
             // TODO: Må fikse mocking slik at testene ikke trenger en try-catch for å ikke feile.
-            try
-            {
-                gameHub.Value.Clients.All.NyLoggHendelse(loggHendelseOutputModell);
+            //try
+            //{
+                _gameHub.NyLoggHendelse(loggHendelseOutputModell);
 
-                gameHub.Value.Clients.All.PoengTildelt(
+                _gameHub.PoengTildelt(
                     new PoengOutputModell { LagId = lag.LagId, NyPoengsum = nyPoengsum });
-            }
-            catch (Exception)
-            {
+            //}
+            //catch (Exception)
+            //{
                 
-            }
+            //}
         }
     }
 }
