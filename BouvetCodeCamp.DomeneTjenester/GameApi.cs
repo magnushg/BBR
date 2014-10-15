@@ -220,7 +220,8 @@ namespace BouvetCodeCamp.DomeneTjenester
         public bool ErLagPifInnenInfeksjonssone(string lagId)
         {
             var pifPosisjon = _lagGameService.HentSistePifPosisjon(lagId);
-
+            if (pifPosisjon == null)
+                return false;
             return pifPosisjon.Infisert;
 
         }

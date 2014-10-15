@@ -243,7 +243,7 @@ namespace BouvetCodeCamp.UnitTest
             _koordinatVerifier.Setup(
                 x => x.KoordinatErInnenforPolygonet(pif.Posisjon, gamestate.InfisertPolygon.Koordinater)).Returns(true);
 
-            var result = _gameApi.ErLagPifInnenInfeksjonssone(String.Empty);
+            var result = _gameApi.ErInfisiert(pif.Posisjon, gamestate);
 
             Assert.IsTrue(result);
         }
