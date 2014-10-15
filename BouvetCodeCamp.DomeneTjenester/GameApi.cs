@@ -22,7 +22,7 @@ namespace BouvetCodeCamp.DomeneTjenester
         private readonly IService<GameState> _gameStateService;
         private readonly IKoordinatVerifier _koordinatVerifier;
         private readonly IPoengService _poengService;
-        private readonly Lazy<IHubContext<IGameHub>> _gameHub;
+        private readonly IGameHub _gameHub;
 
         public GameApi(
             IPostGameService postGameService,
@@ -31,7 +31,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             IKoordinatVerifier koordinatVerifier,
             IService<GameState> gameStateService,
             IPoengService poengService,
-            Lazy<IHubContext<IGameHub>> gameHub)
+            IGameHub gameHub)
         {
             _postGameService = postGameService;
             _lagGameService = lagGameService;
@@ -72,7 +72,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             lag = _poengService.SjekkOgSettPifPingStraff(lag);
             lag = _poengService.SjekkOgSettInfisertSoneStraff(lag);
 
-            _gameHub.Value.Clients.All.NyPifPosisjon(
+            _gameHub.NyPifPosisjon(
                     new PifPosisjonOutputModell
                     {
                         LagId = inputModell.LagId,

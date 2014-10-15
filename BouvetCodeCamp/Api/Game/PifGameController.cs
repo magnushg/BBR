@@ -25,17 +25,17 @@
     {
         private readonly IGameApi _gameApi;
 
-        readonly Lazy<IHubContext<IGameHub>> _gameHub;
+    
 
         private readonly ILagGameService lagGameService;
 
         public PifGameController(
             IGameApi gameApi, 
-            Lazy<IHubContext<IGameHub>> gameHub,
+            
             ILagGameService lagGameService)
         {
             _gameApi = gameApi;
-            _gameHub = gameHub;
+           
             this.lagGameService = lagGameService;
         }
 
@@ -62,7 +62,7 @@
                 await _gameApi.RegistrerPifPosisjon(lag, inputModell);
 
 
-//                _gameHub.Value.Clients.All.NyLoggHendelse(
+//                _gameHub.NyLoggHendelse(
 //                    new LoggHendelseOutputModell
 //                    {
 //                        LagNummer = lag.LagNummer,

@@ -23,11 +23,11 @@
     {
         private readonly IService<GameState> _gameStateService;
 
-        private readonly Lazy<IHubContext<IGameHub>> _gameHub;
+        private readonly IGameHub _gameHub;
 
         public InfisertController(
             IService<GameState> gameStateService,
-            Lazy<IHubContext<IGameHub>> gameHub)
+            IGameHub gameHub)
         {
             _gameStateService = gameStateService;
             _gameHub = gameHub;
@@ -70,7 +70,7 @@
 
             try
             {
-                _gameHub.Value.Clients.All.SettInfisertSone(
+                _gameHub.SettInfisertSone(
                     new InfisertPolygonOutputModell
                     {
                         Koordinater = modell.Koordinater

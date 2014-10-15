@@ -24,7 +24,7 @@ namespace BouvetCodeCamp.UnitTest
         private readonly Mock<IService<GameState>> _gameStateService = new Mock<IService<GameState>>();
         private readonly Mock<IKoordinatVerifier> _koordinatVerifier = new Mock<IKoordinatVerifier>();
         private readonly Mock<IPoengService> _poengServiceMock = new Mock<IPoengService>();
-        private readonly Mock<Lazy<IHubContext<IGameHub>>> _gameHub = new Mock<Lazy<IHubContext<IGameHub>>>();
+        private readonly Mock<IGameHub> _gameHub = new Mock<IGameHub>();
 
         [SetUp]
         public void Setup()
