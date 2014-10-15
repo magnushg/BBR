@@ -396,6 +396,7 @@
                         lag[0].Marker = L.marker(
                             [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
                             { icon: msg.erinfisert ? infectedMarkerIcon : redMarkerIcon })
+                            .bindLabel(lag[0].lagNavn, { noHide: true })
                             .addTo(map);
                     } else {
                         lag[0].Marker.setLatLng(nyLeafletLatLon);
