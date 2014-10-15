@@ -11,5 +11,7 @@
         void NyLoggHendelse(LoggHendelseOutputModell loggHendelseOutputModell);
 
         void PoengTildelt(PoengOutputModell poengOutputModell);
+
+        void NyPostRegistrert(PostRegistrertOutputModell postRegistrertOutputModell);
     }
 }

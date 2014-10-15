@@ -12,6 +12,10 @@ namespace BouvetCodeCamp.DomeneTjenester
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.SignalR.Hubs;
+
+    using Microsoft.AspNet.SignalR;
+
     public class GameApi : IGameApi
     {
         private readonly IPostGameService _postGameService;
@@ -21,13 +25,16 @@ namespace BouvetCodeCamp.DomeneTjenester
         private readonly IKoordinatVerifier _koordinatVerifier;
         private readonly IPoengService _poengService;
 
+        private readonly Lazy<IHubContext<IGameHub>> _gameHub;
+
         public GameApi(
             IPostGameService postGameService,
             ILagGameService lagGameService,
             IService<Lag> lagService,
             IKoordinatVerifier koordinatVerifier,
             IService<GameState> gameStateService,
-            IPoengService poengService)
+            IPoengService poengService,
+            Lazy<IHubContext<IGameHub>> gameHub)
         {
             _postGameService = postGameService;
             _lagGameService = lagGameService;
@@ -35,6 +42,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             _koordinatVerifier = koordinatVerifier;
             _gameStateService = gameStateService;
             _poengService = poengService;
+            _gameHub = gameHub;
         }
 
         public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell)
@@ -96,7 +104,13 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             await _lagService.Oppdater(lag);
 
-            return resultat.Equals(HendelseType.RegistrertKodeSuksess);
+            if (resultat.Equals(HendelseType.RegistrertKodeSuksess))
+            {
+                SendPostRegistrertHendelse(lag.LagId, inputModell.Postnummer);
+
+                return true;
+            }
+            return false;
         }
 
         public async Task SendMelding(MeldingInputModell inputModell)
@@ -251,6 +265,15 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Nummer = post.Nummer,
                 Posisjon = post.Posisjon
             };
+        }
+        
+        private void SendPostRegistrertHendelse(string lagId, int postnummer)
+        {
+            _gameHub.Value.Clients.All.NyPostRegistrert(new PostRegistrertOutputModell
+            {
+                LagId = lagId,
+                Nummer = postnummer
+            });
         }
     }
 }

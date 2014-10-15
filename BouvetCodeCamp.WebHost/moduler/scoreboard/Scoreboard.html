@@ -127,7 +127,7 @@
         var infectedMarkerIcon = null;
 
         $(function () {
-            var mapElement = document.getElementById("map"), latlng = [59.9361, 10.75728];
+            var mapElement = document.getElementById("map"), latlng = [59.676403, 10.606424];
             // Myrens [59.9361, 10.75728]
             // Oscarsborg [59.676403, 10.606424];
 
@@ -416,7 +416,11 @@
                 // hent lag og sett ny poeng
                 // oppdater og resorter lagtabellen
                 // husk å bevare infected state for laget
-                
+            }
+
+            // Post registrert
+            hub.client.nyPostRegistrert = function(msg) {
+                alert('post reg av lagnr ' + msg.lagId + ' på post ' + msg.postnummer);
             }
 
             // Start the connection.
@@ -426,9 +430,9 @@
 
         function LeggTilNyLoggHendelse(elem) {
 
-            if (elem.hendelsetype == "RegistrertPifPosisjon")
+            if (elem.hendelse == "Registrert PIF-posisjon")
                 return;
-
+            
             SCOREBOARD.LoggHendelser.unshift(elem);
 
             if (SCOREBOARD.LoggHendelser.length > MaksAntallLoggHendelser)
