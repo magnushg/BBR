@@ -52,7 +52,7 @@ namespace BouvetCodeCamp.SpillSimulator
 
 
                 // Sov for å la oppgavene utføres
-                Thread.Sleep(TimeSpan.FromMinutes(2));
+                Thread.Sleep(TimeSpan.FromMinutes(7));
 
                 scheduler.Shutdown();
             }
