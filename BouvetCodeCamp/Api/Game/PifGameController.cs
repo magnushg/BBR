@@ -57,9 +57,6 @@ namespace BouvetCodeCamp.Api.Game
 
             try
             {
-
-                
-              
                 var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
                 
                 await _gameApi.RegistrerPifPosisjon(lag, inputModell);
@@ -84,8 +81,6 @@ namespace BouvetCodeCamp.Api.Game
                         Kommentar = erInfisert ? "ER I INFISERT SONE" : string.Empty,
                         Tid = DateTime.Now.ToLongTimeString()
                     });
-
-                
             }
             catch (Exception e)
             {

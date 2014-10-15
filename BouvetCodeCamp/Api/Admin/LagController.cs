@@ -76,11 +76,18 @@ namespace BouvetCodeCamp.Api.Admin
         [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> PostLag([FromBody]Lag modell)
         {
-            if (modell == null) 
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
+            try
+            {
+                if (modell == null) 
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
 
-            await lagService.Opprett(modell);
+                await lagService.Opprett(modell);
 
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
