@@ -38,7 +38,7 @@ namespace BouvetCodeCamp.SpillSimulator.Schedulers
 
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("koder", "baseGruppe")
-                .StartAt(DateBuilder.FutureDate(5, IntervalUnit.Second))
+                .StartAt(DateBuilder.FutureDate(60, IntervalUnit.Second))
                 .WithSimpleSchedule(x => x
                     .WithIntervalInSeconds(60)
                     .WithRepeatCount(10))
