@@ -5,6 +5,8 @@ using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
+using BouvetCodeCamp.SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
 using Moq;
 using NUnit.Framework;
 
@@ -22,6 +24,7 @@ namespace BouvetCodeCamp.UnitTest
         private readonly Mock<IService<GameState>> _gameStateService = new Mock<IService<GameState>>();
         private readonly Mock<IKoordinatVerifier> _koordinatVerifier = new Mock<IKoordinatVerifier>();
         private readonly Mock<IPoengService> _poengServiceMock = new Mock<IPoengService>();
+        private readonly Mock<Lazy<IHubContext<IGameHub>>> _gameHub = new Mock<Lazy<IHubContext<IGameHub>>>();
 
         [SetUp]
         public void Setup()
@@ -32,7 +35,8 @@ namespace BouvetCodeCamp.UnitTest
                 _lagService.Object,
                 _koordinatVerifier.Object,
                 _gameStateService.Object,
-                _poengServiceMock.Object
+                _poengServiceMock.Object,
+                _gameHub.Object
                 );
         }
 

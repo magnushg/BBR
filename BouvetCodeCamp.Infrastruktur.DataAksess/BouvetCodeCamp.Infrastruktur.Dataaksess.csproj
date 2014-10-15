@@ -55,6 +55,7 @@
     <Compile Include="DocumentDbContext.cs" />
     <Compile Include="DocumentDbHelpers.cs" />
     <Compile Include="DocumentDbKonstanter.cs" />
+    <Compile Include="EnhetConverter.cs" />
     <Compile Include="Interfaces\IDocumentDbContext.cs" />
     <Compile Include="Konfigurasjon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

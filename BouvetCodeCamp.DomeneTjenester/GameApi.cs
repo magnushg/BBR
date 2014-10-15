@@ -6,6 +6,8 @@ using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.Domene.InputModels;
 using BouvetCodeCamp.Domene.OutputModels;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
+using BouvetCodeCamp.SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
@@ -20,6 +22,7 @@ namespace BouvetCodeCamp.DomeneTjenester
         private readonly IService<GameState> _gameStateService;
         private readonly IKoordinatVerifier _koordinatVerifier;
         private readonly IPoengService _poengService;
+        private readonly Lazy<IHubContext<IGameHub>> _gameHub;
 
         public GameApi(
             IPostGameService postGameService,
@@ -27,7 +30,8 @@ namespace BouvetCodeCamp.DomeneTjenester
             IService<Lag> lagService,
             IKoordinatVerifier koordinatVerifier,
             IService<GameState> gameStateService,
-            IPoengService poengService)
+            IPoengService poengService,
+            Lazy<IHubContext<IGameHub>> gameHub)
         {
             _postGameService = postGameService;
             _lagGameService = lagGameService;
@@ -35,16 +39,18 @@ namespace BouvetCodeCamp.DomeneTjenester
             _koordinatVerifier = koordinatVerifier;
             _gameStateService = gameStateService;
             _poengService = poengService;
+            _gameHub = gameHub;
         }
 
         public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell)
         {
             //bemerkning: blir det tungt å hente gamestate for hver pif-ping?
             var gameState = _gameStateService.Hent(String.Empty);
+
             var koordinat = new Koordinat
-            {
-                Latitude = inputModell.Posisjon.Latitude,
-                Longitude = inputModell.Posisjon.Longitude
+                {
+                    Latitude = inputModell.Posisjon.Latitude,
+                    Longitude = inputModell.Posisjon.Longitude
             };
 
             var pifPosisjon = new PifPosisjon
@@ -65,6 +71,16 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             lag = _poengService.SjekkOgSettPifPingStraff(lag);
             lag = _poengService.SjekkOgSettInfisertSoneStraff(lag);
+
+            _gameHub.Value.Clients.All.NyPifPosisjon(
+                    new PifPosisjonOutputModell
+                    {
+                        LagId = inputModell.LagId,
+                        Latitude = inputModell.Posisjon.Latitude,
+                        Longitude = inputModell.Posisjon.Longitude,
+                        Tid = DateTime.Now,
+                        ErInfisert = pifPosisjon.Infisert
+                    });
 
             await _lagService.Oppdater(lag);
         }

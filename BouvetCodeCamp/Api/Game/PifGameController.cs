@@ -61,24 +61,15 @@
 
                 await _gameApi.RegistrerPifPosisjon(lag, inputModell);
 
-                _gameHub.Value.Clients.All.NyPifPosisjon(
-                    new PifPosisjonOutputModell
-                        {
-                            LagId = inputModell.LagId,
-                            Latitude = inputModell.Posisjon.Latitude,
-                            Longitude = inputModell.Posisjon.Longitude,
-                            Tid = DateTime.Now,
-                            ErInfisert = erInfisert
-                        });
 
-                _gameHub.Value.Clients.All.NyLoggHendelse(
-                    new LoggHendelseOutputModell
-                    {
-                        LagNummer = lag.LagNummer,
-                        Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
-                        Kommentar = erInfisert ? "ER I INFISERT SONE" : string.Empty,
-                        Tid = DateTime.Now.ToLongTimeString()
-                    });
+//                _gameHub.Value.Clients.All.NyLoggHendelse(
+//                    new LoggHendelseOutputModell
+//                    {
+//                        LagNummer = lag.LagNummer,
+//                        Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
+//                        Kommentar = erInfisert ? "ER I INFISERT SONE" : string.Empty,
+//                        Tid = DateTime.Now.ToLongTimeString()
+//                    });
             }
             catch (Exception e)
             {

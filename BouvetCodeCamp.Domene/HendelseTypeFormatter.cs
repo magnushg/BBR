@@ -39,6 +39,18 @@
                 case HendelseType.Achievement:
                     beskrivelse = "Achievement nådd";
                     break;
+
+                case HendelseType.SendtFritekstmeldingStraff:
+                    beskrivelse = "Sendt fritekstmeldingstraff";
+                    break;
+                
+                case HendelseType.InfisertPoengTap:
+                    beskrivelse = "Infisert, poengtap";
+                    break;
+
+                case HendelseType.PingPoengTap:
+                    beskrivelse = "Treg ping, poengtap";
+                    break;
             }
 
             return beskrivelse;

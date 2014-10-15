@@ -11,6 +11,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
 
     using BouvetCodeCamp.Infrastruktur.DataAksess;
     using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
@@ -185,6 +186,51 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var oppdatertLag = repository.Hent(opprettetLag.DocumentId);
 
             oppdatertLag.Poeng.ShouldEqual(20);
+        }
+
+        private int sekvenstall = 0;
+        private int HentSekvenstall()
+        {
+            return sekvenstall++;
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.DataAksess)]
+        public async Task Oppdater_VeldigStortLagObjekt_LagHarMindreData()
+        {
+            // Arrange
+            var repository = OpprettRepository();
+            
+            var loggHendelser = Builder<LoggHendelse>.CreateListOfSize(1500).All()
+                .With(o => o.Kommentar = HentSekvenstall().ToString())
+                .Build();
+            
+            sekvenstall = 0;
+
+            var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(2000).All()
+                .With(o => o.LagId = HentSekvenstall().ToString())
+                .Build();
+
+            var lag = Builder<Lag>.CreateNew()
+                .Build();
+
+            var antallLoggHendelser = loggHendelser.Count;
+            var antallPifPosisjoner = pifPosisjoner.Count;
+
+            var documentId = await repository.Opprett(lag);
+            var opprettetLag = repository.Hent(documentId);
+
+            // Act
+            opprettetLag.PifPosisjoner = (List<PifPosisjon>)pifPosisjoner;
+            opprettetLag.LoggHendelser = (List<LoggHendelse>)loggHendelser;
+
+            await repository.Oppdater(opprettetLag);
+
+            // Assert
+            var oppdatertLag = repository.Hent(opprettetLag.DocumentId);
+
+            oppdatertLag.LoggHendelser.Count.ShouldBeLessThan(antallLoggHendelser);
+            oppdatertLag.PifPosisjoner.Count.ShouldBeLessThan(antallPifPosisjoner);
         }
 
         [TestMethod]

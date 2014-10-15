@@ -128,12 +128,12 @@ namespace BouvetCodeCamp.DomeneTjenester
                                        };
 
                 lag.LoggHendelser.Add(loggHendelse);
-
+                
                 SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
             }
             return lag;
         }
-
+        
         public Lag SettPoengForLag(Lag lag, int poeng, string kommentar)
         {
             lag.Poeng += poeng;

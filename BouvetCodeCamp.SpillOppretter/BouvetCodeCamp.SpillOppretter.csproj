@@ -102,8 +102,12 @@
     <Content Include="ImportData\Myrens\poster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="ImportData\Oscarsborg\koder.json" />
-    <None Include="ImportData\Oscarsborg\lagPoster.json" />
+    <Content Include="ImportData\Oscarsborg\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Oscarsborg\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
   </ItemGroup>
