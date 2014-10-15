@@ -26,7 +26,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Task TildelPoeng(PoengInputModell inputModell);
 
         bool ErLagPifInnenInfeksjonssone(string lagId);
-        bool ErInfisiert(Koordinat koordinat);
+        bool ErInfisiert(Koordinat koordinat, GameState gameState);
         IEnumerable<Melding> HentMeldinger(string lagId);
 
         Task OpprettHendelse(string lagId, HendelseType hendelseType, string kommentar);

@@ -57,15 +57,10 @@
 
             try
             {
-
-                
-              
                 var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
-                
+
                 await _gameApi.RegistrerPifPosisjon(lag, inputModell);
 
-                var erInfisert = _gameApi.ErInfisiert(inputModell.Posisjon);
-                
                 _gameHub.Value.Clients.All.NyPifPosisjon(
                     new PifPosisjonOutputModell
                         {
@@ -84,8 +79,6 @@
                         Kommentar = erInfisert ? "ER I INFISERT SONE" : string.Empty,
                         Tid = DateTime.Now.ToLongTimeString()
                     });
-
-                
             }
             catch (Exception e)
             {

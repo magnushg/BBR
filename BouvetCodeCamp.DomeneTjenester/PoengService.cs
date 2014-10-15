@@ -36,7 +36,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 if (sekunderOverTimeOut > 0)
                 {
                     var poeng = PoengTildeling.PingTimeoutStraff;
-                    
+
                     lag.Poeng += poeng;
 
                     var loggHendelse = new LoggHendelse
@@ -70,7 +70,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 var poengTap = infisertTimeSpan.TotalSeconds * PoengTildeling.InfisertTickStraff;
 
                 var poeng = (int)Math.Round(poengTap);
-                
+
                 lag.Poeng += poeng;
 
                 var loggHendelse = new LoggHendelse

@@ -41,19 +41,19 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             //bemerkning: blir det tungt å hente gamestate for hver pif-ping?
             var gameState = _gameStateService.Hent(String.Empty);
-            var pifPosisjon = new PifPosisjon
+            var koordinat = new Koordinat
             {
-                Posisjon = new Koordinat
-                {
-                    Latitude = inputModell.Posisjon.Latitude,
-                    Longitude = inputModell.Posisjon.Longitude
-                },
-                LagId = inputModell.LagId,
-                Tid = DateTime.Now
+                Latitude = inputModell.Posisjon.Latitude,
+                Longitude = inputModell.Posisjon.Longitude
             };
 
-            pifPosisjon.Infisert = ErInfisiert(pifPosisjon.Posisjon);
-
+            var pifPosisjon = new PifPosisjon
+            {
+                Posisjon = koordinat,
+                LagId = inputModell.LagId,
+                Tid = DateTime.Now,
+                Infisert = ErInfisiert(koordinat, gameState)
+            };
             lag.PifPosisjoner.Add(pifPosisjon);
 
             lag.LoggHendelser.Add(
@@ -205,17 +205,12 @@ namespace BouvetCodeCamp.DomeneTjenester
         {
             var pifPosisjon = _lagGameService.HentSistePifPosisjon(lagId);
 
-            if (pifPosisjon == null) 
-                return false;
-
-
-            return ErInfisiert(pifPosisjon.Posisjon);
+            return pifPosisjon.Infisert;
 
         }
 
-        public bool ErInfisiert(Koordinat koordinat)
+        public bool ErInfisiert(Koordinat koordinat, GameState gameState)
         {
-            var gameState = _gameStateService.Hent(string.Empty);
             return  _koordinatVerifier.KoordinatErInnenforPolygonet(koordinat, gameState.InfisertPolygon.Koordinater);
         }
 
