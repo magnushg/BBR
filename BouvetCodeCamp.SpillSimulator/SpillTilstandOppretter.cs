@@ -58,6 +58,21 @@ namespace BouvetCodeCamp.SpillSimulator
                 {
                     Latitude = "59.67865",
                     Longitude = "10.60835",
+                },
+                 new Koordinat
+                {
+                    Latitude = "59.67865",
+                    Longitude = "10.60535",
+                },
+                 new Koordinat
+                {
+                    Latitude = "59.67465",
+                    Longitude = "10.60835",
+                },
+                 new Koordinat
+                {
+                    Latitude = "59.6735",
+                    Longitude = "10.60335",
                 }
 
             };
@@ -94,6 +109,33 @@ namespace BouvetCodeCamp.SpillSimulator
                                                     {13, "dxdf"},
                                                     {9, "bxwb"},
                                                     {4, "lxc6" }
+                                                }},
+                {"61", new Dictionary<int, string> {
+                                                    {21, "pxg1b"},
+                                                    {18, "fxd18"},
+                                                    {24, "nxd1e"},
+                                                    {15, "oxt15"},
+                                                    {5, "ngxqb"},
+                                                    {3, "ixa9"},
+                                                    {10, "sxm10" }
+                                                }},
+                {"238", new Dictionary<int, string> {
+                                                    {15, "axy12"},
+                                                    {10, "lxud"},
+                                                    {3, "nxy6"},
+                                                    {7, "nxpa"},
+                                                    {28, "dext1f"},
+                                                    {30, "mxq21"},
+                                                    {16, "uxx13" }
+                                                }},
+                {"55", new Dictionary<int, string> {
+                                                    {16, "kxt18"},
+                                                    {26, "txf22"},
+                                                    {2, "mxma"},
+                                                    {10, "mxm12"},
+                                                    {19, "zxt1b"},
+                                                    {21, "uxw1d"},
+                                                    {28, "exj24" }
                                                 }},
             };
         }}
