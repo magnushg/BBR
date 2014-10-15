@@ -108,7 +108,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             var melding = new Melding
             {
                 LagId = inputModell.LagId,
-                Tekst = inputModell.Tekst,
+                Tekst = inputModell.Innhold,
                 Tid = DateTime.Now,
                 Type = inputModell.Type
             };
@@ -133,7 +133,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             {
                 case (MeldingType.Fritekst):
 
-                    if (model.Tekst.Length > 256)
+                    if (model.Innhold.Length > 256)
                         throw new MeldingException("Fritekst er over 256 karakterer");
                     break;
 
@@ -141,17 +141,17 @@ namespace BouvetCodeCamp.DomeneTjenester
 
                     Himmelretning cast;
 
-                    if (!Enum.IsDefined(typeof (Himmelretning), model.Tekst))
+                    if (!Enum.IsDefined(typeof (Himmelretning), model.Innhold))
                     {
                         throw new MeldingException(
-                            model.Tekst + " er ikke gyldig himmelretning-verdi (husk den er case-sensitive)");
+                            model.Innhold + " er ikke gyldig himmelretning-verdi (husk den er case-sensitive)");
                     }
                     break;
 
                 case (MeldingType.Lengde):
                     try
                     {
-                        int.Parse(model.Tekst);
+                        int.Parse(model.Innhold);
                     }
                     catch (Exception)
                     {
@@ -160,7 +160,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                     break;
 
                 case (MeldingType.Stopp):
-                    var boolskVerdi = model.Tekst.ToLower();
+                    var boolskVerdi = model.Innhold.ToLower();
                     if (!(boolskVerdi.Equals("true") || boolskVerdi.Equals("false")))
                     {
                         throw new MeldingException("Meldingstype Stopp må være boolsk verdi");

@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Api.Game
+﻿namespace BouvetCodeCamp.Api.Game
 {
     using System;
     using System.Diagnostics;
@@ -154,6 +154,9 @@ namespace BouvetCodeCamp.Api.Game
 
         /// <summary>
         /// Henter meldinger som er sendt til PIF.
+        ///
+        /// MeldingsType.Himmelretning: Innhold kan være 'North', 'South', 'West' eller 'East'. Case-sensitive.
+        /// MeldingsType.Stopp: Innhold kan være 'true' eller 'false'. Case-insensitive.
         /// </summary>
         /// <param name="lagId">string lagId</param>
         /// <remarks>GET api/game/pif/hentmeldinger/a-b-c-d</remarks>
@@ -175,7 +178,7 @@ namespace BouvetCodeCamp.Api.Game
                 var modell = meldinger.Select(melding => new MeldingOutputModell
                                                              {
                                                                  LagId = melding.LagId,
-                                                                 Tekst = melding.Tekst,
+                                                                 Innhold = melding.Tekst,
                                                                  Type = melding.Type,
                                                                  Tid = melding.Tid
                                                              }).ToList();
