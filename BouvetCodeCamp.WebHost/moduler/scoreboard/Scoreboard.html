@@ -35,10 +35,10 @@
     <script src="js/vendors/owl-carousel/owl.carousel.js"></script>
 
     <script src="js/vendors/lodash-2.4.1/lodash.min.js"></script>
-    
+
     <link rel="stylesheet" href="js/vendors/leaflet-label/leaflet.label.css" />
 
-   
+
     <script src="js/vendors/leaflet-label/leaflet.label.js"></script>
     <style>
         .marquee {
@@ -60,6 +60,37 @@
             -moz-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 100px;
+            left: 200px;
+            width: 80%;
+            height: 80%;
+            background-color: #000;
+            filter: alpha(opacity=50);
+            -moz-opacity: 0.5;
+            -khtml-opacity: 0.5;
+            opacity: 0.5;
+            z-index: 10000;
+            display: flex;
+            justify-content: center; /* align horizontal */
+            align-items: center; /* align vertical */
+            vertical-align: middle;
+            text-align: center;
+            font-size: 70px;
+        }
+
+        #middleText {
+            display: flex;
+            justify-content: center; /* align horizontal */
+            align-items: center; /* align vertical */
+            z-index: 10001;
+            width: 100%;
+            height: 100%;
+            color: #FFFFFF;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -362,6 +393,14 @@
                 };
                 mar.data('interval', setInterval(mar.marquee, 1000 / 500));
             });
+
+            $('#cheer').on('play', function () {
+                $("#overlay").show();
+            });
+
+            $('#cheer').on('ended', function () {
+                $("#overlay").hide();
+            });
         });
 
         $(function () {
@@ -382,11 +421,11 @@
                 var lag = hentLagEtterLagId(msg.lagId);
 
                 if (typeof lag[0] != "undefined" && lag[0] != null) {
-                    
+
                     var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
 
                     if (msg.erinfisert) {
-                        SCOREBOARD.Marquee.push(lag[0].lagNavn + " ER INFISERT: -1000 POENG");
+                        SCOREBOARD.Marquee.push(lag[0].lagNavn + " ER INFISERT");
                     }
 
                     if (typeof lag[0].Marker == "undefined"
@@ -413,15 +452,24 @@
             // Poeng tildelt
             hub.client.poengTildelt = function (msg) {
                 //TODO:
+
                 // parse poeng + lagid
+
                 // hent lag og sett ny poeng
+                var lag = hentLagEtterLagId(msg.lagId);
+                lag.poeng = msg.poeng;
                 // oppdater og resorter lagtabellen
+                oppdaterStillingstabell();
                 // husk å bevare infected state for laget
+
             }
 
             // Post registrert
-            hub.client.nyPostRegistrert = function(msg) {
-                alert('post reg av lagnr ' + msg.lagId + ' på post ' + msg.postnummer);
+            hub.client.nyPostRegistrert = function (msg) {
+                var lag = hentLagEtterLagId(msg.lagId);
+                $("#middleText").text(lag[0].lagNavn + ' FANT POST ' + msg.postnummer);
+                //alert('post reg av lagnr ' + msg.lagId + ' på post ' + msg.postnummer);
+                $('#cheer').trigger("play");
             }
 
             // Start the connection.
@@ -433,7 +481,7 @@
 
             if (elem.hendelse == "Registrert PIF-posisjon")
                 return;
-            
+
             SCOREBOARD.LoggHendelser.unshift(elem);
 
             if (SCOREBOARD.LoggHendelser.length > MaksAntallLoggHendelser)
@@ -443,7 +491,11 @@
         }
 
     </script>
+    <audio id="cheer">
 
+        <source src="Cheering.mp3" type="audio/mpeg">
 
+    </audio>
+    <div id="overlay" style="display:none;"><div id="middleText">LAG VANT POENG</div> </div>
 </body>
 </html>
