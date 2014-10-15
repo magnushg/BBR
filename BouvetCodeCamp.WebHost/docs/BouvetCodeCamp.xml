@@ -40,14 +40,20 @@
             <response code="500">Internal Server Error</response>
         </member>
         <member name="M:BouvetCodeCamp.Api.Game.BaseGameController.SendPifMelding(BouvetCodeCamp.Domene.InputModels.MeldingInputModell)">
-            <summary>
-            Sender en melding til PIF.
-            </summary>
-            <param name="inputModell">MeldingInputModell inputModell</param>
-            <remarks>POST api/game/base/sendpifmelding</remarks>
-            <response code="200">Ok</response>
-            <response code="400">Bad request</response>
-            <response code="500">Internal Server Error</response>
+             <summary>
+             Sender en melding til PIF.
+             Det følger enkelte restriksjoner på Innhold-feltet basert på MeldingsType:
+            
+             MeldingsType.Fritekst: Innhold.Length må være mindre eller lik 256 tegn.
+             MeldingsType.Lengde: Innhold må være en Int
+             MeldingsType.Himmelretning: Innhold kan være 'North', 'South', 'West' eller 'East'. Case-sensitive.
+             MeldingsType.Stopp: Innhold kan være 'true' eller 'false'.
+             </summary>
+             <param name="inputModell">MeldingInputModell inputModell</param>
+             <remarks>POST api/game/base/sendpifmelding</remarks>
+             <response code="200">Ok</response>
+             <response code="400">Bad request</response>
+             <response code="500">Internal Server Error</response>
         </member>
         <member name="M:BouvetCodeCamp.Api.Game.PifGameController.SendPifPosisjon(BouvetCodeCamp.Domene.InputModels.PifPosisjonInputModell)">
             <summary>

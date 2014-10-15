@@ -43,7 +43,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Lengde,
-                Tekst = "juks"
+                Innhold = "juks"
             };
             await _gameApi.SendMelding(melding);
         }
@@ -55,9 +55,9 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Fritekst,
-                Tekst = "UTiBm8m3wOvmBLrwO26NRPHI2o7pwPUSuxPcjn1A6ybVZ88OBwsWO9Z0FAfLtowUjwJGJLIg4BNXS8GozxBqZjKgE3WUcfNhbBUxgJVEty4LJwpCvTjkSux1njsA6pG0TDmrE04v62kHmwE0zip2gP5XG0Ew43G3hg4KhjYWDtQ5bTmKB15qkXqU0gYTZUTR10ZGIzoeaYuvVDOoc1CHvwSApqkMUoNRycnv1QzH62pk7SPY8n5HxlfMnsF8eJSfI"
+                Innhold = "UTiBm8m3wOvmBLrwO26NRPHI2o7pwPUSuxPcjn1A6ybVZ88OBwsWO9Z0FAfLtowUjwJGJLIg4BNXS8GozxBqZjKgE3WUcfNhbBUxgJVEty4LJwpCvTjkSux1njsA6pG0TDmrE04v62kHmwE0zip2gP5XG0Ew43G3hg4KhjYWDtQ5bTmKB15qkXqU0gYTZUTR10ZGIzoeaYuvVDOoc1CHvwSApqkMUoNRycnv1QzH62pk7SPY8n5HxlfMnsF8eJSfI"
             };
-            Assert.IsTrue(melding.Tekst.Length > 256);
+            Assert.IsTrue(melding.Innhold.Length > 256);
             await _gameApi.SendMelding(melding);
         }
 
@@ -67,7 +67,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Fritekst,
-                Tekst = "UTiBm8m3wOvmBLrwO26NRPHI2o7pwPUSuxPcjn1A6ybVZ88OBwsWO9Z0FAfLtowUjwJGJLIg4BNXS8GozxBqZjKgE3WUcfNhbBUxgJVEty4LJwpCvTjkSux1njsA6pG0TDmrE04v62kHmwE0zip2gP5XG0Ew43G3hg4KhjYWDtQ5bTmKB15qkXqU0gYTZUTR10ZGIzeaYuvVDOoc1CHvwSApqkMUoNRycnv1QzH62pk7SPY8n5HxlfMnsF8eJSfI"
+                Innhold = "UTiBm8m3wOvmBLrwO26NRPHI2o7pwPUSuxPcjn1A6ybVZ88OBwsWO9Z0FAfLtowUjwJGJLIg4BNXS8GozxBqZjKgE3WUcfNhbBUxgJVEty4LJwpCvTjkSux1njsA6pG0TDmrE04v62kHmwE0zip2gP5XG0Ew43G3hg4KhjYWDtQ5bTmKB15qkXqU0gYTZUTR10ZGIzeaYuvVDOoc1CHvwSApqkMUoNRycnv1QzH62pk7SPY8n5HxlfMnsF8eJSfI"
             };
             _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
             {
@@ -76,7 +76,7 @@ namespace BouvetCodeCamp.UnitTest
 
             await _gameApi.SendMelding(melding);
 
-            Assert.IsTrue(melding.Tekst.Length <= 256);
+            Assert.IsTrue(melding.Innhold.Length <= 256);
             Assert.IsTrue(true);
         }
 
@@ -88,7 +88,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Stopp,
-                Tekst = "juks"
+                Innhold = "juks"
             };
 
             await _gameApi.SendMelding(melding);
@@ -100,7 +100,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Stopp,
-                Tekst = "false"
+                Innhold = "false"
             };
             _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
             {
@@ -118,7 +118,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Himmelretning,
-                Tekst = "ikke en himmelretning"
+                Innhold = "ikke en himmelretning"
             };
 
             await _gameApi.SendMelding(melding);
@@ -130,7 +130,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Himmelretning,
-                Tekst = "North"
+                Innhold = "North"
             };
             _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
             {
@@ -147,7 +147,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Himmelretning,
-                Tekst = "East"
+                Innhold = "East"
             };
             _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
             {
@@ -164,7 +164,7 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Himmelretning,
-                Tekst = "West"
+                Innhold = "West"
             };
             _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
             {
@@ -181,7 +181,42 @@ namespace BouvetCodeCamp.UnitTest
             var melding = new MeldingInputModell
             {
                 Type = MeldingType.Himmelretning,
-                Tekst = "South"
+                Innhold = "South"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+            Assert.IsTrue(true);
+        }
+
+        [Test]
+        [ExpectedException(typeof(MeldingException))]
+        public async void SendMelding_Himmelretning_Integer_Exception()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Himmelretning,
+                Innhold = "1"
+            };
+            _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
+            {
+                Meldinger = new List<Melding>()
+            });
+
+            await _gameApi.SendMelding(melding);
+            Assert.IsTrue(true);
+        }
+        [Test]
+        [ExpectedException]
+        public async void SendMelding_Himmelretning_Null_Exception()
+        {
+            var melding = new MeldingInputModell
+            {
+                Type = MeldingType.Himmelretning,
+                Innhold = null
             };
             _lagGameService.Setup(x => x.HentLagMedLagId(It.IsAny<string>())).Returns(new Lag
             {

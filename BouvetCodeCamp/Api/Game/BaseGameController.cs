@@ -105,6 +105,12 @@
         
         /// <summary>
         /// Sender en melding til PIF.
+        /// Det følger enkelte restriksjoner på Innhold-feltet basert på MeldingsType:
+        ///
+        /// MeldingsType.Fritekst: Innhold.Length må være mindre eller lik 256 tegn.
+        /// MeldingsType.Lengde: Innhold må være en Int
+        /// MeldingsType.Himmelretning: Innhold kan være 'North', 'South', 'West' eller 'East'. Case-sensitive.
+        /// MeldingsType.Stopp: Innhold kan være 'true' eller 'false'.
         /// </summary>
         /// <param name="inputModell">MeldingInputModell inputModell</param>
         /// <remarks>POST api/game/base/sendpifmelding</remarks>

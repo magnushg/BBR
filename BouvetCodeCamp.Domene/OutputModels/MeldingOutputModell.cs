@@ -9,9 +9,9 @@
         [JsonProperty(PropertyName = "type")]
         public MeldingType Type { get; set; }
 
-        [JsonProperty(PropertyName = "tekst")]
-        public string Tekst { get; set; }
-        
+        [JsonProperty(PropertyName = "innhold")]
+        public string Innhold { get; set; }
+
         [JsonProperty(PropertyName = "lagId")]
         public string LagId { get; set; }
 

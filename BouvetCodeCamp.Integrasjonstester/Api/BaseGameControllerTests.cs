@@ -128,7 +128,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 var modell = new MeldingInputModell
                 {
                     LagId = TestLagId,
-                    Tekst = "Heihei",
+                    Innhold = "Heihei",
                     Type = MeldingType.Fritekst
                 };
 
