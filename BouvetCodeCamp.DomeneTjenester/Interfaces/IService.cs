@@ -12,8 +12,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
         T Hent(string id);
 
-        Task SlettAlle();
-
         Task Slett(T entitet);
 
         Task Opprett(T entitet);

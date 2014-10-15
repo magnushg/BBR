@@ -26,7 +26,12 @@ namespace BouvetCodeCamp.SpillOppretter
 
         public async void SlettAlleKartdata()
         {
-            await _postRepository.SlettAlle();
+            var allePoster = _postRepository.HentAlle();
+
+            foreach (var post in allePoster)
+            {
+                await _postRepository.Slett(post);
+            }
         }
     }
 }

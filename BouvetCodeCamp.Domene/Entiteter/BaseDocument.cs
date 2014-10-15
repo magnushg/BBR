@@ -12,9 +12,13 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [DisplayName("Id")]
         public string DocumentId { get; set; }
 
+        [JsonProperty(PropertyName = "_self")]
+        public string SelfLink { get; set; }
+
         protected BaseDocument()
         {
-            this.DocumentId = string.Empty;
+            DocumentId = string.Empty;
+            SelfLink = string.Empty;
         }
     }
 }

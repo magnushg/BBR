@@ -43,27 +43,35 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             lagretPost.Beskrivelse.ShouldEqual(postSomSkalLagres.Beskrivelse);
         }
 
+
         [TestMethod]
         [TestCategory(Testkategorier.DataAksess)]
-        public async Task SlettAlle_HarEnPost_HarIngenPoster()
+        public async Task Slett_HarFlerePosterSomSlettes_GirIngenPoster()
         {
             // Arrange
             var repository = OpprettRepository();
 
-            var post = Builder<Post>.CreateNew()
-                .Build();
+            var postSomSkalOpprettes = Builder<Post>.CreateListOfSize(5).All().Build();
 
-            await repository.Opprett(post);
+            foreach (var post in postSomSkalOpprettes)
+            {
+                await repository.Opprett(post);
+            }
 
             // Act
-            await repository.SlettAlle();
+            var allePosterForSletting = repository.HentAlle();
+
+            foreach (var post in allePosterForSletting)
+            {
+                await repository.Slett(post);
+            }
 
             // Assert
-            var allePoster = repository.HentAlle();
+            var ingenPoster = repository.HentAlle();
 
-            allePoster.ShouldBeEmpty();
+            ingenPoster.ShouldBeEmpty();
         }
-
+        
         private PostRepository OpprettRepository()
         {
             return new PostRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));

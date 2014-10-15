@@ -13,6 +13,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
     using FizzWare.NBuilder;
 
+    using log4net;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Newtonsoft.Json;
@@ -34,6 +36,10 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         [TestInitialize]
         public void Setup()
         {
+            log4net.Config.XmlConfigurator.Configure();
+            var log = LogManager.GetLogger(typeof(Startup));
+            log.Info("BaseApiTest startup ok.");
+
            webServer= WebApp.Start<Startup>(ApiBaseAddress);
             //using ()
             //{

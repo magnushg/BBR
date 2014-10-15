@@ -4,6 +4,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Domene.Entiteter;
@@ -15,6 +16,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Azure.Documents.Linq;
+
+    using Newtonsoft.Json;
 
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
@@ -76,20 +79,12 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                 var oppdaterStart = DateTime.Now;
 
                 log.Info("Oppdaterer " + document.DocumentId);
-
-                var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
-                    .Where(d => d.Id == document.DocumentId)
-                    .AsEnumerable()
-                    .FirstOrDefault();
-
-                if (entitet == null)
-                    throw new Exception("Fant ikke entiteten som skulle oppdateres.");
-
-                await Context.Client.ReplaceDocumentAsync(entitet.SelfLink, document);
+                
+                await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
 
                 var oppdaterEnd = DateTime.Now;
 
-                log.Info("Oppdatering på " + document.DocumentId + " tok..." + oppdaterStart.Subtract(oppdaterEnd));
+                log.Info("Oppdatering på " + document.DocumentId + "på " + HentObjektStorrelse(document) + "kb tok..." + oppdaterStart.Subtract(oppdaterEnd));
             }
             catch (Exception e)
             {
@@ -102,34 +97,12 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
         {
             var slettStart = DateTime.Now;
             log.Info("Sletter " + document.DocumentId);
-
-            var entitet = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
-                .Where(d => d.Id == document.DocumentId)
-                .AsEnumerable()
-                .FirstOrDefault();
-
-            if (entitet == null)
-                throw new Exception("Fant ikke entiteten som skulle slettes.");
-
-            await Context.Client.DeleteDocumentAsync(entitet.SelfLink, new RequestOptions());
+            
+            await Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
 
             var slettEnd = DateTime.Now;
-            log.Info("Sletting av " + document.DocumentId + " tok..." + slettStart.Subtract(slettEnd));
+            log.Info("Sletting av " + document.DocumentId + " på " + HentObjektStorrelse(document) + "kb tok..." + slettStart.Subtract(slettEnd));
 
-        }
-
-        public async Task SlettAlle()
-        {
-            var entiteter = Context.Client.CreateDocumentQuery<Document>(Collection.DocumentsLink)
-                .AsEnumerable();
-
-            if (entiteter != null && entiteter.Any())
-            {
-                foreach (var document in entiteter)
-                {
-                    await Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
-                }
-            }
         }
 
         public IEnumerable<T> Søk(Func<T, bool> predicate)
@@ -137,6 +110,18 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                     .Where(predicate)
                     .AsEnumerable();
+        }
+
+        private double HentObjektStorrelse(T document)
+        {
+            var documentSomJson = JsonConvert.SerializeObject(document);
+
+            return ConvertBytesToKilebytes(Encoding.UTF8.GetByteCount(documentSomJson));
+        }
+
+        static double ConvertBytesToKilebytes(int bytes)
+        {
+            return Math.Round((bytes / 1024f), 2);
         }
     }
 }

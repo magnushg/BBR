@@ -104,7 +104,12 @@ namespace BouvetCodeCamp.Api.Admin
         [Obsolete] // Skjule for Swagger-apidoc
         public async Task<HttpResponseMessage> Delete()
         {
-            await lagService.SlettAlle();
+            var alleLag = lagService.HentAlle();
+
+            foreach (var lag in alleLag)
+            {
+                await lagService.Slett(lag);
+            }
             
             return Request.CreateResponse(HttpStatusCode.OK);
         }

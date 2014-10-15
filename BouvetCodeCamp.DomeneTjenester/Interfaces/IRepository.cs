@@ -18,8 +18,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 
         Task Slett(T document);
 
-        Task SlettAlle();
-
         IEnumerable<T> Søk(Func<T, bool> predicate);
     }
 }

@@ -146,7 +146,13 @@ namespace BouvetCodeCamp.SpillOppretter
 
         public async void LagreLagliste(IEnumerable<Lag> lagListe)
         {
-            await _lagRepository.SlettAlle();
+            var alleLag = _lagRepository.HentAlle();
+
+            foreach (var lag in alleLag)
+            {
+                await _lagRepository.Slett(lag);
+            }
+
             lagListe.ToList().ForEach(async x =>
             {
                 await _lagRepository.Opprett(x);

@@ -189,25 +189,32 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
         [TestMethod]
         [TestCategory(Testkategorier.DataAksess)]
-        public async Task SlettAlle_HarEttLag_HarIngenLag()
+        public async Task Slett_HarFlereLagSomSlettes_GirIngenLag()
         {
             // Arrange
             var repository = OpprettRepository();
-            
-            var lag = Builder<Lag>.CreateNew()
-                .Build();
 
-            await repository.Opprett(lag);
-            
+            var lagSomSkalOpprettes = Builder<Lag>.CreateListOfSize(5).All().Build();
+
+            foreach (var lag in lagSomSkalOpprettes)
+            {
+                await repository.Opprett(lag);
+            }
+
             // Act
-            await repository.SlettAlle();
+            var alleLagForSletting = repository.HentAlle();
+
+            foreach (var lag in alleLagForSletting)
+            {
+                await repository.Slett(lag);
+            }
 
             // Assert
-            var alleLag = repository.HentAlle();
+            var ingenLag = repository.HentAlle();
 
-            alleLag.ShouldBeEmpty();
+            ingenLag.ShouldBeEmpty();
         }
-
+        
         private LagRepository OpprettRepository()
         {
             return new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));

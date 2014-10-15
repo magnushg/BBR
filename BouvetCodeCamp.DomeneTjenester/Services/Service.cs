@@ -31,11 +31,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
             return _repository.Hent(id);
         }
 
-        public async Task SlettAlle()
-        {
-            await _repository.SlettAlle();
-        }
-
         public async Task Slett(T entitet)
         {
             await _repository.Slett(entitet);
