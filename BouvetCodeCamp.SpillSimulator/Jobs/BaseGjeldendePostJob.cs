@@ -15,17 +15,24 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
 
             PostOutputModell gjeldendePost;
 
-            using (var httpClient = new HttpClient())
+            try
             {
-                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
-                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+                using (var httpClient = new HttpClient())
+                {
+                    var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                    var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-                SpillKonfig.GjeldendePost = JsonConvert.DeserializeObject<PostOutputModell>(content);
+                    SpillKonfig.GjeldendePost = JsonConvert.DeserializeObject<PostOutputModell>(content);
 
-                if (SpillKonfig.GjeldendePost == null)
-                    Console.WriteLine("BASE Ingen flere poster å hente.");
+                    if (SpillKonfig.GjeldendePost == null)
+                        Console.WriteLine("BASE Ingen flere poster å hente.");
 
-                Console.WriteLine("{0}: BASE Hentet ny gjeldende post med nummer {1}", SkrivTidsstempel(), SpillKonfig.GjeldendePost.Nummer);
+                    Console.WriteLine("{0}: BASE Hentet ny gjeldende post med nummer {1}", SkrivTidsstempel(), SpillKonfig.GjeldendePost.Nummer);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("En feil skjedde under henting av gjeldende post: " + e.Message);
             }
         }
     }
