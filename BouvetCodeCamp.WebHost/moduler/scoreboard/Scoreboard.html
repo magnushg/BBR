@@ -344,7 +344,7 @@
 
             $.each(SCOREBOARD.LoggHendelser, function (index, value) {
                 $('.hendelsestabell').find('tbody:last').append(
-                    '<tr><td>' + hentLagEtterLagId(value.lagnummer)[0].lagNavn +
+                    '<tr><td>' + hentLagEtterLagId(value.lagId)[0].lagNavn +
                     '</td><td>' + value.hendelse +
                     '</td><td>' + value.kommentar +
                     '</td><td>' + value.tid +

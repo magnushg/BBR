@@ -200,7 +200,8 @@ namespace BouvetCodeCamp.Api.Admin
                     LagNummer = lag.LagNummer,
                     Hendelse = HendelseTypeFormatter.HentTekst(inputModell.HendelseType),
                     Kommentar = inputModell.Kommentar,
-                    Tid = DateTime.Now.ToLongTimeString()
+                    Tid = DateTime.Now.ToLongTimeString(),
+                    LagId = lag.LagId
                 });
 
             return Request.CreateResponse(HttpStatusCode.OK);

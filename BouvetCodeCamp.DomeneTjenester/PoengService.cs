@@ -161,7 +161,8 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Hendelse = HendelseTypeFormatter.HentTekst(loggHendelse.HendelseType),
                 Kommentar = loggHendelse.Kommentar,
                 LagNummer = lag.LagNummer,
-                Tid = DateTime.Now.ToLongTimeString()
+                Tid = DateTime.Now.ToLongTimeString(),
+                LagId = lag.LagId
             };
 
             _gameHub.NyLoggHendelse(loggHendelseOutputModell);

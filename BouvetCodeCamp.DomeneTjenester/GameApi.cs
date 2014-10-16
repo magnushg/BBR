@@ -42,7 +42,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             _gameHub = gameHub;
         }
 
-        public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell) 
+        public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell)
         {
             //bemerkning: blir det tungt å hente gamestate for hver pif-ping?
             var gameState = _gameStateService.Hent(String.Empty);
@@ -51,7 +51,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 {
                     Latitude = inputModell.Posisjon.Latitude,
                     Longitude = inputModell.Posisjon.Longitude
-            };
+                };
 
             var pifPosisjon = new PifPosisjon
             {
@@ -118,7 +118,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 SendPostRegistrertHendelse(lag.LagId, inputModell.Postnummer);
 
                 return true;
-        }
+            }
             return false;
         }
 
@@ -164,7 +164,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
                     Himmelretning cast;
 
-                    if (!Enum.IsDefined(typeof (Himmelretning), model.Innhold))
+                    if (!Enum.IsDefined(typeof(Himmelretning), model.Innhold))
                     {
                         throw new MeldingException(
                             model.Innhold + " er ikke gyldig himmelretning-verdi (husk den er case-sensitive)");
@@ -230,13 +230,13 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             if (pifPosisjon == null)
                 return false;
-            
+
             return pifPosisjon.Infisert;
         }
 
         public bool ErInfisiert(Koordinat koordinat, GameState gameState)
         {
-            return  _koordinatVerifier.KoordinatErInnenforPolygonet(koordinat, gameState.InfisertPolygon.Koordinater);
+            return _koordinatVerifier.KoordinatErInnenforPolygonet(koordinat, gameState.InfisertPolygon.Koordinater);
         }
 
         public IEnumerable<Melding> HentMeldinger(string lagId)
@@ -262,7 +262,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         private PostOutputModell OpprettPostOutput(LagPost post)
         {
-            if (post == null) 
+            if (post == null)
                 return null;
 
             return new PostOutputModell
