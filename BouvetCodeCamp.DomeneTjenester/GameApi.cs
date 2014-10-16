@@ -42,7 +42,7 @@ namespace BouvetCodeCamp.DomeneTjenester
             _gameHub = gameHub;
         }
 
-        public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell)
+        public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell) 
         {
             //bemerkning: blir det tungt å hente gamestate for hver pif-ping?
             var gameState = _gameStateService.Hent(String.Empty);
@@ -60,6 +60,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Tid = DateTime.Now,
                 Infisert = ErInfisiert(koordinat, gameState)
             };
+
             lag.PifPosisjoner.Add(pifPosisjon);
 
             lag.LoggHendelser.Add(
