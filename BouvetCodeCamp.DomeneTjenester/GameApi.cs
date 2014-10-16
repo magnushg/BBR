@@ -145,7 +145,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                     Tid = DateTime.Now
                 });
 
-            lag = _poengService.SettMeldingSendtStraff(lag, melding);
+            lag = _poengService.SettFritekstMeldingSendtStraff(lag, melding);
 
             await _lagService.Oppdater(lag);
         }

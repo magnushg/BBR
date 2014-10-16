@@ -92,8 +92,10 @@ namespace BouvetCodeCamp.DomeneTjenester
             return lag;
         }
 
-        public Lag SettMeldingSendtStraff(Lag lag, Melding melding)
+        public Lag SettFritekstMeldingSendtStraff(Lag lag, Melding melding)
         {
+            if (!melding.Type.Equals(MeldingType.Fritekst)) return lag;
+
             var poeng = PoengTildeling.MeldingsStraff;
 
             lag.Poeng += poeng;
