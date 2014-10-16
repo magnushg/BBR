@@ -117,12 +117,7 @@ namespace BouvetCodeCamp.Api.Game
             }
             catch (MeldingException msgException)
             {
-                throw new HttpApiException(
-                    new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.BadRequest,
-                        Content = new StringContent(msgException.Message)
-                    });
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, msgException);
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }

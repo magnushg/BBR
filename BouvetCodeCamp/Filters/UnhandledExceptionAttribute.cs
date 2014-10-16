@@ -21,13 +21,11 @@ namespace BouvetCodeCamp.Filters
         {
             log.Error("API-feil: " + context.Exception.Message, context.Exception);
             
-            if (!(context.Exception is HttpApiException))
-            {
-                throw new HttpApiException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                                               {
-                                                   Content = new StringContent(context.Exception.Message)
-                                               });
-            }
+            var response = context.Request.CreateErrorResponse(
+                HttpStatusCode.InternalServerError, 
+                context.Exception);
+
+            context.Response = response;
         }
     }
 }

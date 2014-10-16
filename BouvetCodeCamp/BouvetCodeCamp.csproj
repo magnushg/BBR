@@ -78,7 +78,6 @@
     <Compile Include="Authentication\AuthenticationMiddleware.cs" />
     <Compile Include="BaseApiController.cs" />
     <Compile Include="Filters\AddAuthorizationRequiredResponseCodes.cs" />
-    <Compile Include="Filters\HttpApiException.cs" />
     <Compile Include="Filters\UnhandledExceptionAttribute.cs" />
     <Compile Include="log4netAutofacModule.cs" />
     <Compile Include="Program.cs" />
