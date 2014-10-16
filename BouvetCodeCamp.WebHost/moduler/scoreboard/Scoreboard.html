@@ -253,7 +253,7 @@
             $.each(sortertLagListe, function (index) {
                 var lag = hentLagEtterLagId(sortertLagListe[index][0])[0];
 
-                $('.stillingstabell').find('tbody:last').append('<tr><td>' + lag.lagnummer + '</td><td>' + lag.poeng + '</td></tr>');
+                $('.stillingstabell').find('tbody:last').append('<tr><td>' + lag.lagNavn + '</td><td>' + lag.poeng + '</td></tr>');
             });
         }
 
@@ -335,7 +335,7 @@
         }
         function settPosterPaaKartet() {
             $.each(SCOREBOARD.Poster, function (key, val) {
-                SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).addTo(map);
+                SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).bindLabel(val.navn, { noHide: true }).addTo(map);
             });
         }
 
@@ -344,7 +344,7 @@
 
             $.each(SCOREBOARD.LoggHendelser, function (index, value) {
                 $('.hendelsestabell').find('tbody:last').append(
-                    '<tr><td>' + value.lagnummer +
+                    '<tr><td>' + hentLagEtterLagId(value.lagnummer)[0].lagNavn +
                     '</td><td>' + value.hendelse +
                     '</td><td>' + value.kommentar +
                     '</td><td>' + value.tid +
