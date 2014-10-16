@@ -53,7 +53,7 @@
         }
 
         /// <summary>
-        /// Registrerer en kode p￥ en post for et lag.
+        /// Registrerer en kode på en post for et lag.
         /// </summary>
         /// <param name="inputModell">PostInputModell inputModell</param>
         /// <remarks>POST api/game/pif/sendpostkode</remarks>

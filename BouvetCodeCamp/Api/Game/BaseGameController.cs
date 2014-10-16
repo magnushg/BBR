@@ -71,7 +71,8 @@ namespace BouvetCodeCamp.Api.Game
         }
 
         /// <summary>
-        /// Henter gjeldende post for et lag.
+        /// Henter gjeldende post for et lag. 
+        /// Hvis det ikke er flere uoppdagede poster igjen returneres NULL.
         /// </summary>
         /// <param name="lagId">string lagId</param>
         /// <remarks>GET api/game/base/hentgjeldendepost/a-b-c-d-</remarks>

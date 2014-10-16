@@ -257,36 +257,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             return poster.Where(o => o.Navn == TestPostNavn);
         }
 
-        protected void SørgForAtEtLagMedEnPifPosisjonFinnes()
+        protected void SørgForAtEtLagMedPifPosisjonerFinnes(List<PifPosisjon> pifPosisjoner)
         {
-            var pifPosisjoner = new List<PifPosisjon>
-                                    {
-                                                        new PifPosisjon {
-                                                            LagId = TestLagId,
-                                                            Posisjon = new Koordinat
-                                                            {
-                                                              Latitude = "12.1",
-                                                              Longitude = "12.1"
-                                                            },
-                                                            Tid = DateTime.Now
-                                                        }
-                                    };
-
-            var lag = Builder<Lag>.CreateNew()
-                .With(o => o.LagId = TestLagId)
-                .With(o => o.PifPosisjoner = pifPosisjoner)
-                .Build();
-
-            var lagOpprettet = this.OpprettLagViaApi(lag).Result;
-
-            if (!lagOpprettet)
-                Assert.Fail();
-        }
-
-        protected void SørgForAtEtLagMedUtenPifPosisjonFinnes()
-        {
-            var pifPosisjoner = new List<PifPosisjon>();
-
             var lag = Builder<Lag>.CreateNew()
                 .With(o => o.LagId = TestLagId)
                 .With(o => o.PifPosisjoner = pifPosisjoner)

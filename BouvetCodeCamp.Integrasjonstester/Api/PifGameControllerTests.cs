@@ -284,14 +284,76 @@
         [TestCategory(Testkategorier.Api)]
         public async Task ErInfisert_PifErInnenforInfisertSone_GirTrue()
         {
-            //TODO
+            // Arrange
+            var pifPosisjoner = new List<PifPosisjon>
+                                    {
+                                                        new PifPosisjon {
+                                                            LagId = TestLagId,
+                                                            Posisjon = new Koordinat
+                                                            {
+                                                              Latitude = "12.1",
+                                                              Longitude = "12.1"
+                                                            },
+                                                            Tid = DateTime.Now,
+                                                            Infisert = true
+                                                        }
+                                    };
+
+            SørgForAtEtLagMedPifPosisjonerFinnes(pifPosisjoner);
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/erinfisert/" + TestLagId;
+
+            bool erInfisert;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                erInfisert = JsonConvert.DeserializeObject<bool>(content);
+            }
+
+            // Assert
+            erInfisert.ShouldBeTrue();
         }
 
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
         public async Task ErInfisert_PifErIkkeInnenforInfisertSone_GirFalse()
         {
-            //TODO
+            // Arrange
+            var pifPosisjoner = new List<PifPosisjon>
+                                    {
+                                                        new PifPosisjon {
+                                                            LagId = TestLagId,
+                                                            Posisjon = new Koordinat
+                                                            {
+                                                              Latitude = "12.1",
+                                                              Longitude = "12.1"
+                                                            },
+                                                            Tid = DateTime.Now,
+                                                            Infisert = false
+                                                        }
+                                    };
+
+            SørgForAtEtLagMedPifPosisjonerFinnes(pifPosisjoner);
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/erinfisert/" + TestLagId;
+
+            bool erInfisert;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                erInfisert = JsonConvert.DeserializeObject<bool>(content);
+            }
+
+            // Assert
+            erInfisert.ShouldBeFalse();
         }
 
         [TestMethod]

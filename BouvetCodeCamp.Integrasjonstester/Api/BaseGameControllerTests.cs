@@ -37,7 +37,20 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         public async Task HentPifPosisjon_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
-            this.SørgForAtEtLagMedEnPifPosisjonFinnes();
+            var pifPosisjoner = new List<PifPosisjon>
+                                    {
+                                                        new PifPosisjon {
+                                                            LagId = TestLagId,
+                                                            Posisjon = new Koordinat
+                                                            {
+                                                              Latitude = "12.1",
+                                                              Longitude = "12.1"
+                                                            },
+                                                            Tid = DateTime.Now
+                                                        }
+                                    };
+
+            this.SørgForAtEtLagMedPifPosisjonerFinnes(pifPosisjoner);
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + TestLagId;
 
@@ -60,7 +73,20 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         public async Task HentPifPosisjon_LagetHarEnPifPosisjon_FårPifPosisjon()
         {
             // Arrange
-            this.SørgForAtEtLagMedEnPifPosisjonFinnes();
+            var pifPosisjoner = new List<PifPosisjon>
+                                    {
+                                                        new PifPosisjon {
+                                                            LagId = TestLagId,
+                                                            Posisjon = new Koordinat
+                                                            {
+                                                              Latitude = "12.1",
+                                                              Longitude = "12.1"
+                                                            },
+                                                            Tid = DateTime.Now
+                                                        }
+                                    };
+
+            this.SørgForAtEtLagMedPifPosisjonerFinnes(pifPosisjoner);
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + TestLagId;
 
@@ -87,7 +113,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         public async Task HentPifPosisjon_LagetHarIngenPifPosisjoner_FårTomPifPosisjon()
         {
             // Arrange
-            this.SørgForAtEtLagMedUtenPifPosisjonFinnes();
+            SørgForAtEtLagFinnes();
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentpifposisjon/" + TestLagId;
 
@@ -228,16 +254,54 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
-        public async Task HentGjeldendePost_AllePosterErRegistrert_FårNull()
+        public async Task HentGjeldendePost_AllePosterErOppdaget_FårNull()
         {
-            //TODO
+            // Arrange
+            var oppdagedePostKoder = new List<LagPost> { new LagPost { PostTilstand = PostTilstand.Oppdaget } };
+
+            SørgForAtEtLagMedLagPostKoderFinnes(oppdagedePostKoder);
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentgjeldendepost/" + TestLagId;
+            
+            PostOutputModell postOutputModell;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                postOutputModell = JsonConvert.DeserializeObject<PostOutputModell>(content);
+            }
+
+            // Assert
+            postOutputModell.ShouldBeNull();
         }
 
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
-        public async Task HentGjeldendePost_LagHarPosterSomIkkeErRegistrert_FårNull()
+        public async Task HentGjeldendePost_LagHarPosterSomIkkeErOppdaget_FårPost()
         {
-            //TODO
+            // Arrange
+            var oppdagedePostKoder = new List<LagPost> { new LagPost { PostTilstand = PostTilstand.Ukjent } };
+
+            SørgForAtEtLagMedLagPostKoderFinnes(oppdagedePostKoder);
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentgjeldendepost/" + TestLagId;
+
+            PostOutputModell postOutputModell;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                postOutputModell = JsonConvert.DeserializeObject<PostOutputModell>(content);
+            }
+
+            // Assert
+            postOutputModell.ShouldNotBeNull();
         }
     }
 }
