@@ -110,8 +110,10 @@ namespace BouvetCodeCamp
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             var log = LogManager.GetLogger(typeof(Startup));
+            var exception = unhandledExceptionEventArgs.ExceptionObject as Exception;
 
-            log.Fatal("Uhåndtert feil :(", unhandledExceptionEventArgs.ExceptionObject as Exception);
+            if (exception != null)
+                log.Fatal("Uhåndtert feil: " + exception.Message, exception);
         }
 
         private static void InitialiserLogging()
