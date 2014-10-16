@@ -8,10 +8,13 @@ using NUnit.Framework;
 
 namespace BouvetCodeCamp.UnitTest.Service
 {
+    using log4net;
+
     [TestFixture]
     public class GameStateServiceTest
     {
         private readonly Mock<IRepository<GameState>> _gameStateRepositoryMock = new Mock<IRepository<GameState>>();
+        private readonly Mock<ILog> _logMock = new Mock<ILog>();
         private GameStateService _gameStateService;
 
         [SetUp]
@@ -23,7 +26,7 @@ namespace BouvetCodeCamp.UnitTest.Service
         public void Init_IngenIDatabase_NyBlirlagret()
         {
             _gameStateRepositoryMock.Setup(x => x.HentAlle()).Returns(new List<GameState>());
-            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState());
+            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState(), _logMock.Object);
 
             _gameStateRepositoryMock.Verify(x => x.Opprett(It.IsAny<GameState>()), Times.Once);
         }
@@ -38,7 +41,7 @@ namespace BouvetCodeCamp.UnitTest.Service
                 gameState
             });
 
-            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState());
+            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState(), _logMock.Object);
 
             Assert.AreEqual(gameState, _gameStateService.Hent(String.Empty));
         }
@@ -56,7 +59,7 @@ namespace BouvetCodeCamp.UnitTest.Service
                 gameState1, gameState2
             });
 
-            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState());
+            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState(), _logMock.Object);
         }
 
         [Test]
@@ -64,7 +67,7 @@ namespace BouvetCodeCamp.UnitTest.Service
         {
             var gameState1 = new GameState {DocumentId = Guid.NewGuid().ToString()};
             _gameStateRepositoryMock.Setup(x => x.HentAlle()).Returns(new List<GameState> {gameState1});
-            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState());
+            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState(), _logMock.Object);
 
             _gameStateService.Hent(It.IsAny<String>());
 
@@ -77,7 +80,7 @@ namespace BouvetCodeCamp.UnitTest.Service
             var gameState1 = new GameState { DocumentId = Guid.NewGuid().ToString() };
             _gameStateRepositoryMock.Setup(x => x.HentAlle()).Returns(new List<GameState> { gameState1 });
 
-            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState());
+            _gameStateService = new GameStateService(_gameStateRepositoryMock.Object, new GameState(), _logMock.Object);
             _gameStateService.Oppdater(It.IsAny<GameState>());
 
             _gameStateRepositoryMock.Verify(x => x.Oppdater(It.IsAny<GameState>()), Times.Once);
