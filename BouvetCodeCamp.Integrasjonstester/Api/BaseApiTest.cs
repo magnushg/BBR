@@ -8,6 +8,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Text;
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.CrossCutting;
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
 
@@ -37,7 +38,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         public void Setup()
         {
             log4net.Config.XmlConfigurator.Configure();
-            var log = LogManager.GetLogger(typeof(Startup));
+            var log = Log4NetLogger.HentLogger(typeof(BaseApiTest));
             log.Info("BaseApiTest startup ok.");
 
            webServer= WebApp.Start<Startup>(ApiBaseAddress);

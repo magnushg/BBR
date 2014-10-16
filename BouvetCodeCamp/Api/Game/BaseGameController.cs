@@ -9,6 +9,8 @@ namespace BouvetCodeCamp.Api.Game
     using System.Web.Http;
     using System.Web.Http.Description;
 
+    using BouvetCodeCamp.Filters;
+
     using Domene;
     using Domene.InputModels;
     using DomeneTjenester.Interfaces;
@@ -22,7 +24,7 @@ namespace BouvetCodeCamp.Api.Game
         {
             this.gameApi = gameApi;
         }
-        
+
         /// <summary>
         /// Henter alle kodene som et lag har registrert ute på postene.
         /// </summary>
@@ -39,18 +41,14 @@ namespace BouvetCodeCamp.Api.Game
             if (string.IsNullOrEmpty(lagId))
                 OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
-            try
-            {
-                var kodeModeller = gameApi.HentRegistrerteKoder(lagId);
+            var kodeModeller = gameApi.HentRegistrerteKoder(lagId);
 
-                return Request.CreateResponse(HttpStatusCode.OK, kodeModeller.Select(x=>x.Kode), Configuration.Formatters.JsonFormatter);
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
+            return Request.CreateResponse(
+                HttpStatusCode.OK,
+                kodeModeller.Select(x => x.Kode),
+                Configuration.Formatters.JsonFormatter);
         }
-        
+
         /// <summary>
         /// Henter siste kjente posisjon for PIF.
         /// </summary>
@@ -64,21 +62,14 @@ namespace BouvetCodeCamp.Api.Game
         [HttpGet]
         public HttpResponseMessage HentPifPosisjon(string lagId)
         {
-            if (string.IsNullOrEmpty(lagId)) 
+            if (string.IsNullOrEmpty(lagId))
                 OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
-            try
-            {
-                var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
+            var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
 
-                return Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, pifPosisjonModel, Configuration.Formatters.JsonFormatter);
         }
-        
+
         /// <summary>
         /// Henter gjeldende post for et lag.
         /// </summary>
@@ -95,16 +86,9 @@ namespace BouvetCodeCamp.Api.Game
             if (string.IsNullOrEmpty(lagId))
                 OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
-            try
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, gameApi.HentGjeldendePost(lagId));
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, gameApi.HentGjeldendePost(lagId));
         }
-        
+
         /// <summary>
         /// Sender en melding til PIF.
         /// Det følger enkelte restriksjoner på Innhold-feltet basert på MeldingsType:
@@ -124,7 +108,7 @@ namespace BouvetCodeCamp.Api.Game
         [HttpPost]
         public async Task<HttpResponseMessage> SendPifMelding([FromBody] MeldingInputModell inputModell)
         {
-            if (inputModell == null) 
+            if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
             try
@@ -133,11 +117,12 @@ namespace BouvetCodeCamp.Api.Game
             }
             catch (MeldingException msgException)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, msgException);
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+                throw new HttpApiException(
+                    new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.BadRequest,
+                        Content = new StringContent(msgException.Message)
+                    });
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }

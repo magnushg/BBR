@@ -5,6 +5,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BouvetCodeCamp.CrossCutting;
+
     using Domene.Entiteter;
     using DomeneTjenester.Interfaces;
     using Interfaces;
@@ -46,7 +48,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             _konfigurasjon = konfigurasjon;
             Context = context;
 
-            log = LogManager.GetLogger(typeof(Repository<T>));
+            log = Log4NetLogger.HentLogger(typeof(Repository<T>));
         }
 
         public async Task<string> Opprett(T document)
@@ -77,18 +79,14 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             document = SorgForDocumentUnderRequestLimit(document);
 
             var oppdaterStart = DateTime.Now;
-            
+
             await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
 
             var oppdaterEnd = DateTime.Now;
 
-            var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
-
-            if (documentStorrelse > RequestLimitKb)
-                log.Warn(
-                    "Oppdatering på " + document.DocumentId + " på " + documentStorrelse  + "kb tok..."
-                    + oppdaterStart.Subtract(oppdaterEnd));
+            LoggOppdatering(document, oppdaterStart, oppdaterEnd);
         }
+
 
         public async Task Slett(T document)
         {
@@ -98,10 +96,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
             var slettEnd = DateTime.Now;
 
-            var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
-
-            if (documentStorrelse > RequestLimitKb)
-                log.Warn("Sletting av " + document.DocumentId + " på " + document + "kb tok..." + slettStart.Subtract(slettEnd));
+            LoggSletting(document, slettStart, slettEnd);
         }
 
         public IEnumerable<T> Søk(Func<T, bool> predicate)
@@ -130,14 +125,14 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                     {
                         lag.LoggHendelser.Remove(loggHendelse);
                     }
-                    
+
                     var loggPifPosisjonerTilSletting = lag.PifPosisjoner.OrderBy(o => o.Tid).Take(200);
 
                     foreach (var pifPosisjoner in loggPifPosisjonerTilSletting)
                     {
                         lag.PifPosisjoner.Remove(pifPosisjoner);
                     }
-                    
+
                     objektStorrelseKb = EnhetConverter.HentObjektStorrelse(lag);
                 }
 
@@ -147,6 +142,47 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             }
 
             return document;
+        }
+
+        private void LoggOppdatering(T document, DateTime oppdaterStart, DateTime oppdaterEnd)
+        {
+            var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
+
+            var deltaTid = oppdaterStart.Subtract(oppdaterEnd);
+
+            string loggMelding = "Oppdatering på " + document.DocumentId + " på " + documentStorrelse + "kb tok..."
+                                 + deltaTid;
+
+            var oppdateringTidSomSekunder = deltaTid.Duration().TotalSeconds;
+
+            if (oppdateringTidSomSekunder > 5)
+                log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
+
+            if (documentStorrelse > RequestLimitKb)
+            {
+                log.Warn(loggMelding);
+            }
+            else
+            {
+                log.Debug(loggMelding);
+            }
+        }
+
+        private void LoggSletting(T document, DateTime slettStart, DateTime slettEnd)
+        {
+            var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
+
+            var loggMelding = "Sletting av " + document.DocumentId + " på " + document + "kb tok..."
+                              + slettStart.Subtract(slettEnd);
+
+            if (documentStorrelse > RequestLimitKb)
+            {
+                log.Warn(loggMelding);
+            }
+            else
+            {
+                log.Debug(loggMelding);
+            }
         }
     }
 }

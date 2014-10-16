@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</ProjectGuid>
+    <ProjectGuid>{23369163-CDFA-48EA-875D-918214398D70}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BouvetCodeCamp.Infrastruktur.DataAksess</RootNamespace>
-    <AssemblyName>BouvetCodeCamp.Infrastruktur.DataAksess</AssemblyName>
+    <RootNamespace>BouvetCodeCamp.CrossCutting</RootNamespace>
+    <AssemblyName>BouvetCodeCamp.CrossCutting</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -35,15 +35,7 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Documents.Client">
-      <HintPath>..\packages\Microsoft.Azure.Documents.Client.0.9.0-preview\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,35 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentDbContext.cs" />
-    <Compile Include="DocumentDbHelpers.cs" />
-    <Compile Include="DocumentDbKonstanter.cs" />
-    <Compile Include="EnhetConverter.cs" />
-    <Compile Include="Interfaces\IDocumentDbContext.cs" />
-    <Compile Include="Konfigurasjon.cs" />
+    <Compile Include="Log4NetLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\GameStateRepository.cs" />
-    <Compile Include="Repositories\LagRepository.cs" />
-    <Compile Include="Repositories\PostRepository.cs" />
-    <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BouvetBattleRoyale.CrossCutting\BouvetCodeCamp.CrossCutting.csproj">
-      <Project>{23369163-CDFA-48EA-875D-918214398D70}</Project>
-      <Name>BouvetCodeCamp.CrossCutting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
-      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
-      <Name>BouvetCodeCamp.DomeneTjenester</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">
-      <Project>{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}</Project>
-      <Name>BouvetCodeCamp.Domene</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -112,58 +112,10 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             // Assert
             isSuccessStatusCode.ShouldBeTrue();
         }
-
+        
         [TestMethod]
         [TestCategory(Testkategorier.Api)]
-        public async Task PostLag_ModellErEtStortLagobjekt_FårHttpStatusKodeOk()
-        {
-            // Arrange
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/post";
-
-            bool isSuccessStatusCode = false;
-
-            // Act
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var tusenHendelser = (List<LoggHendelse>)Builder<LoggHendelse>.CreateListOfSize(500).All().Build();
-                var tusenPifPosisjoner = (List<PifPosisjon>)Builder<PifPosisjon>.CreateListOfSize(2000).All().Build();
-                var tusenMeldinger = (List<Melding>)Builder<Melding>.CreateListOfSize(50).All().Build();
-
-                var modell = Builder<Lag>.CreateNew()
-                    .With(o => o.LagId = TestLagId)
-                    .With(o => o.LoggHendelser = tusenHendelser)
-                    .With(o => o.PifPosisjoner = tusenPifPosisjoner)
-                    .With(o => o.Meldinger = tusenMeldinger)
-                    .Build();
-
-                var modellSomJson = JsonConvert.SerializeObject(modell);
-
-                var jsonStørrelseSomKb = ConvertBytesToKilebytes(Encoding.UTF8.GetByteCount((string)modellSomJson));
-
-                if (jsonStørrelseSomKb < 256)
-                {
-                    var httpResponseMessage = await httpClient.PostAsync(
-                        ApiEndPointAddress,
-                        new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
-
-                    isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-                }
-                else
-                {
-                    Assert.Fail("Jsonobjektet er {0}kb, maksgrensen er 250kb.", jsonStørrelseSomKb);
-                }
-            }
-
-            // Assert
-            isSuccessStatusCode.ShouldBeTrue();
-        }
-
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
-        public async Task PostLag_ModellErEtStortLagobjekt_TarIkkeÅrOgDagerÅOppdatereFraDb()
+        public async Task PostLag_ModellErEtForStortLagobjekt_BlirLagretMedDatatap()
         {
             // Arrange
             string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/post";

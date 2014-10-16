@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using BouvetCodeCamp.Domene;
+
 using BouvetCodeCamp.Domene.Entiteter;
 using BouvetCodeCamp.DomeneTjenester;
 using BouvetCodeCamp.DomeneTjenester.Interfaces;
@@ -18,13 +18,13 @@ using Swashbuckle;
 namespace BouvetCodeCamp
 {
     using System;
-    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Threading;
-    using System.Xml;
 
     using Authentication;
+
+    using BouvetCodeCamp.CrossCutting;
 
     using Filters;
 
@@ -109,7 +109,7 @@ namespace BouvetCodeCamp
 
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
-            var log = LogManager.GetLogger(typeof(Startup));
+            var log = Log4NetLogger.HentLogger(typeof(Startup));
             var exception = unhandledExceptionEventArgs.ExceptionObject as Exception;
 
             if (exception != null)

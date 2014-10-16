@@ -187,7 +187,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
             const string ApiEndPointAddress = ApiBaseAddress + "/api/game/base/hentregistrertekoder/" + TestLagId;
 
-            IEnumerable<KodeOutputModel> kodeModeller;
+            IEnumerable<string> koder;
 
             // Act
             using (var httpClient = new HttpClient())
@@ -195,11 +195,11 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
                 var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-                kodeModeller = JsonConvert.DeserializeObject<IEnumerable<KodeOutputModel>>(content);
+                koder = JsonConvert.DeserializeObject<IEnumerable<string>>(content);
             }
 
             // Assert
-            kodeModeller.ShouldNotBeEmpty();
+            koder.ShouldNotBeEmpty();
         }
 
         [TestMethod]

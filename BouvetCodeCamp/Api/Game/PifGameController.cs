@@ -1,8 +1,6 @@
 ﻿namespace BouvetCodeCamp.Api.Game
 {
     using System;
-    using System.Diagnostics;
-    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -10,32 +8,24 @@
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-
-    using SignalR.Hubs;
-
     using Domene;
     using Domene.InputModels;
     using Domene.OutputModels;
     using DomeneTjenester.Interfaces;
-    using Microsoft.AspNet.SignalR;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController
     {
         private readonly IGameApi _gameApi;
 
-    
-
         private readonly ILagGameService lagGameService;
 
         public PifGameController(
-            IGameApi gameApi, 
-            
+            IGameApi gameApi,
             ILagGameService lagGameService)
         {
             _gameApi = gameApi;
-           
+
             this.lagGameService = lagGameService;
         }
 
@@ -55,26 +45,10 @@
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
-            try
-            {
-                var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
+            var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
 
-                await _gameApi.RegistrerPifPosisjon(lag, inputModell);
+            await _gameApi.RegistrerPifPosisjon(lag, inputModell);
 
-
-//                _gameHub.NyLoggHendelse(
-//                    new LoggHendelseOutputModell
-//                    {
-//                        LagNummer = lag.LagNummer,
-//                        Hendelse = HendelseTypeFormatter.HentTekst(HendelseType.RegistrertPifPosisjon),
-//                        Kommentar = erInfisert ? "ER I INFISERT SONE" : string.Empty,
-//                        Tid = DateTime.Now.ToLongTimeString()
-//                    });
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
@@ -94,18 +68,11 @@
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
-            try
-            {
-                var kodeRegistrert = await _gameApi.RegistrerKode(inputModell);
+            var kodeRegistrert = await _gameApi.RegistrerKode(inputModell);
 
-                return kodeRegistrert ?
-                    Request.CreateResponse(HttpStatusCode.OK) :
-                    Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
+            return kodeRegistrert ?
+                Request.CreateResponse(HttpStatusCode.OK) :
+                Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
         /// <summary>
@@ -124,16 +91,9 @@
             if (string.IsNullOrEmpty(lagId))
                 OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
-            try
-            {
-                var result = _gameApi.ErLagPifInnenInfeksjonssone(lagId);
+            var result = _gameApi.ErLagPifInnenInfeksjonssone(lagId);
 
-                return Request.CreateResponse(HttpStatusCode.OK, result);
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         /// <summary>
@@ -155,24 +115,17 @@
             if (string.IsNullOrEmpty(lagId))
                 OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
-            try
-            {
-                var meldinger = _gameApi.HentMeldinger(lagId);
+            var meldinger = _gameApi.HentMeldinger(lagId);
 
-                var modell = meldinger.Select(melding => new MeldingOutputModell
-                                                             {
-                                                                 LagId = melding.LagId,
-                                                                 Innhold = melding.Tekst,
-                                                                 Type = melding.Type,
-                                                                 Tid = melding.Tid
-                                                             }).ToList();
+            var modell = meldinger.Select(melding => new MeldingOutputModell
+                                                         {
+                                                             LagId = melding.LagId,
+                                                             Innhold = melding.Tekst,
+                                                             Type = melding.Type,
+                                                             Tid = melding.Tid
+                                                         }).ToList();
 
-                return Request.CreateResponse(HttpStatusCode.OK, modell);
-            }
-            catch (Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
+            return Request.CreateResponse(HttpStatusCode.OK, modell);
         }
     }
 }

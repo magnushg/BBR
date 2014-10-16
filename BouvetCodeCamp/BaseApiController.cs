@@ -5,7 +5,9 @@
     using System.Web.Http;
 
     using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.Filters;
 
+    [UnhandledException]
     public class BaseApiController : ApiController
     {
         [NonAction]
@@ -14,11 +16,11 @@
             switch (errorResponseType)
             {
                 case ErrorResponseType.FantIkkeObjekt:
-                    return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Fant ikke objekt: " + feilbeskrivelse);
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Fant ikke objekt: " + feilbeskrivelse);
                 case ErrorResponseType.UgyldigInputFormat:
-                    return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request: " + feilbeskrivelse);
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request: " + feilbeskrivelse);
             }
-            return this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig forespørsel");
         }
     }
 }

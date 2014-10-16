@@ -117,9 +117,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BouvetBattleRoyale.CrossCutting\BouvetCodeCamp.CrossCutting.csproj">
+      <Project>{23369163-CDFA-48EA-875D-918214398D70}</Project>
+      <Name>BouvetCodeCamp.CrossCutting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj">
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
-      <Name>BouvetCodeCamp.Infrastruktur</Name>
+      <Name>BouvetCodeCamp.Infrastruktur.DataAksess</Name>
     </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
       <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
