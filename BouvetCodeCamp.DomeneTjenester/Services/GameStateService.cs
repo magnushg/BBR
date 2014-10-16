@@ -37,8 +37,10 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
                     _gameState = gameStates.Single();
                     break;
                 default:
-                    _gameState = gameStates.First();
-                    throw new Exception("Multiple gamestates found in db");
+                    //noe har skjedd, cleanup og start over
+                    gameStates.ForEach(x => _gameStateRepository.Slett(x));
+                    _gameStateRepository.Opprett(_gameState);
+                    break;
             }
         }
 
@@ -49,7 +51,20 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
 
         public override Task Oppdater(GameState entitet)
         {
+            //dersom det fins flere (som det ikke skal gjøre, men det hender av en eller annen grunn)
+            //så fjern de andre
+            var gameStates = _gameStateRepository.HentAlle().ToList();
+            if (gameStates.Count > 1)
+            {
+                foreach (var gameState in gameStates)
+                {
+                    if (gameState.DocumentId != entitet.DocumentId)
+                        _gameStateRepository.Slett(gameState);
+                }
+            }
+
             _gameState = entitet;
+
             return _gameStateRepository.Oppdater(entitet);
         }
     }
