@@ -15,15 +15,23 @@ namespace BouvetCodeCamp.SpillSimulator.Jobs
 
             using (var httpClient = new HttpClient())
             {
-                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
-                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+                try
+                {
+                    var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
+                    var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-                var koder = JsonConvert.DeserializeObject<string[]>(content);
+                    var koder = JsonConvert.DeserializeObject<string[]>(content);
 
-                if (string.IsNullOrEmpty(content))
-                    Console.WriteLine("BASE Ingen koder registrert");
+                    if (string.IsNullOrEmpty(content))
+                        Console.WriteLine("BASE Ingen koder registrert");
 
-                Console.WriteLine("{0}: BASE Koder som er oppdaget {1}", SkrivTidsstempel(), string.Join(", ", koder));
+                    Console.WriteLine("{0}: BASE Koder som er oppdaget {1}", SkrivTidsstempel(), string.Join(", ", koder));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception: {0}", e.StackTrace);
+                }
+                
             }
         }
     }
