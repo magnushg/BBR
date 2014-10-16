@@ -103,6 +103,15 @@ namespace BouvetCodeCamp
             appBuilder.MapSignalR(hubConfig);
 
             InitialiserLogging();
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+        }
+
+        private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            var log = LogManager.GetLogger(typeof(Startup));
+
+            log.Fatal("Uhåndtert feil :(", unhandledExceptionEventArgs.ExceptionObject as Exception);
         }
 
         private static void InitialiserLogging()
