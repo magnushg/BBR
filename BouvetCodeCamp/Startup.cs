@@ -101,11 +101,18 @@ namespace BouvetCodeCamp
 
             appBuilder.MapSignalR(hubConfig);
 
+            InitialiserLogging();
+        }
+
+        private static void InitialiserLogging()
+        {
             log4net.Config.XmlConfigurator.Configure();
-            var log = LogManager.GetLogger(typeof(Startup)); 
+
+            var log = LogManager.GetLogger(typeof(Startup));
+
             log.Info("Startup ok.");
         }
-        
+
         private void SetGlobalizationCulture(string cultureLanguage)
         {
             var culture = CultureInfo.CreateSpecificCulture(cultureLanguage);
