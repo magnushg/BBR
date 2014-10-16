@@ -9,7 +9,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
         Lag SjekkOgSettPifPingStraff(Lag lag);
         Lag SjekkOgSettInfisertSoneStraff(Lag lag);
 
-        Lag SettMeldingSendtStraff(Lag lag, Melding melding);
+        Lag SettFritekstMeldingSendtStraff(Lag lag, Melding melding);
 
         //Poengtildeling
         Lag SettPoengForKodeRegistrert(Lag lag, HendelseType hendelse, int postnummer);
