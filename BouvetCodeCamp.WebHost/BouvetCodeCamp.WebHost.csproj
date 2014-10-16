@@ -178,12 +178,14 @@
     <Content Include="moduler\bower_components\leaflet\Jakefile.js" />
     <Content Include="moduler\bower_components\underscore\.gitignore" />
     <Content Include="moduler\bower_components\underscore\underscore.js" />
+    <Content Include="moduler\scoreboard\Bubbleboard.html" />
     <Content Include="moduler\scoreboard\Cheering.mp3" />
     <Content Include="moduler\scoreboard\css\scoreboard.css" />
     <Content Include="moduler\scoreboard\Gamemaster.html" />
     <Content Include="moduler\scoreboard\images\sick.gif" />
     <Content Include="moduler\scoreboard\images\sick.png" />
     <Content Include="js\scoreboard.infrastruktur.js" />
+    <Content Include="moduler\scoreboard\js\BubbleScoreboard.js" />
     <Content Include="moduler\scoreboard\js\scoreboard.infisertsone.js" />
     <Content Include="moduler\scoreboard\js\scoreboard.kart.js" />
     <Content Include="js\scoreboard.loader.js" />

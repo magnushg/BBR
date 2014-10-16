@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="../bower_components/d3/d3.min.js"></script>
+  <script type="text/javascript" src="../bower_components/underscore/underscore.js"></script>
+  <script type="text/javascript" src="js/BubbleScoreboard.js"></script>
+</head>
+<body>
+
+<div id="scoreboard">
+</div>
+
+<script type="text/javascript">
+</script>
+
+<p>new BubbleScoreboard(nodelist);</p>
+<p>kjør sim() i console for å kjøre random poenggivning</p>
+<p>viktigste funksjon er updateScore(id, poeng)</p>
+
+<script type="text/javascript">
+  //
+  // TEST INIT
+  // + sim() funksjon
+  //
+  window.data = [
+    {
+      id: 1,
+      poeng: 0,
+      navn: "lag1"
+    },
+    {
+      id: 2,
+      poeng: 0,
+      navn: "lag2"
+    },
+    {
+      id: 3,
+      poeng: 0,
+      navn: "lag3"
+    },
+    {
+      id: 4,
+      poeng: 0,
+      navn: "lag4"
+    },
+    {
+      id: 5,
+      poeng: 0,
+      navn: "lag5"
+    },
+    {
+      id: 6,
+      poeng: 0,
+      navn: "lag6"
+    },
+    {
+      id: 7,
+      poeng: 0,
+      navn: "lag7"
+    },
+    {
+      id: 8,
+      poeng: 0,
+      navn: "lag8"
+    },
+    {
+      id: 9,
+      poeng: 0,
+      navn: "lag9"
+    }
+  ]
+
+  window.b = new BubbleScoreboard(window.data);
+  b.start();
+  b.gravitate();
+
+  function sim() {
+    setInterval(function() {
+      b.updateScore(_.random(1,9), _.random(-10,100));
+    }, 100);
+  }
+</script>
+
+</body>
+
+</html>
