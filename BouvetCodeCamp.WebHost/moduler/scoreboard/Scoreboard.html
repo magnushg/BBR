@@ -157,11 +157,12 @@
         var redMarkerIcon = null;
         var infectedMarkerIcon = null;
 
-        $(function () {
-            var mapElement = document.getElementById("map"), latlng = [59.676403, 10.606424];
-            // Myrens [59.9361, 10.75728]
-            // Oscarsborg [59.676403, 10.606424];
+        var sentrumKoordinatForMyrens = [59.9361, 10.75728];
+        var sentrumKoordinatForOscarsborg = [59.676403, 10.606424];
 
+        $(function () {
+            var mapElement = document.getElementById("map"), latlng = sentrumKoordinatForOscarsborg;
+            
             map = L.map(mapElement).setView(latlng, 16);
 
             L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
@@ -171,19 +172,22 @@
 
             infrastruktur.sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
 
-            //Extend the Default marker class
+            // Opprett PIF-marker
             var redIcon = L.Icon.Default.extend({
                 options: {
                     iconUrl: 'js/vendors/leaflet/custommarkers/marker-icon-red.png'
                 }
             });
+
             redMarkerIcon = new redIcon();
-            //Extend the Default marker class
+
+            // Opprett Infected-marker
             var infectedIcon = L.Icon.Default.extend({
                 options: {
                     iconUrl: 'images/sick.png'
                 }
             });
+
             infectedMarkerIcon = new infectedIcon();
         });
 
@@ -294,21 +298,15 @@
         // INFISERT SONE
         function lastInnInfisertSone(data) {
             try {
-
-                if ($.isEmptyObject(SCOREBOARD.InfisertSone)) {
-                    //SCOREBOARD.InfisertSone = data;
-                }
-                else {
-                    if (typeof SCOREBOARD.InfisertSone != "undefined") {
-                        map.removeLayer(SCOREBOARD.InfisertSone);
-                    }
+                if ($.isEmptyObject(SCOREBOARD.InfisertSone) == false && typeof SCOREBOARD.InfisertSone != "undefined") {
+                    map.removeLayer(SCOREBOARD.InfisertSone);
                 }
 
                 SCOREBOARD.InfisertSone = new L.Polygon(mapToLeafletModel(data.koordinater));
 
                 map.addLayer(SCOREBOARD.InfisertSone);
             } catch (e) {
-                console.log('Laste inn infisert sone feilet: ' + e.Message);
+                console.log('Last inn infisert sone feilet: ' + e.Message);
             }
         }
         function mapToLeafletModel(koordianter) {
@@ -321,7 +319,6 @@
                 };
 
                 modelArray.push(obj);
-
             });
 
             return modelArray;
@@ -373,8 +370,7 @@
                 margin: 10,
                 autoHeight: true
             });
-
-
+            
             var marquee = $('div.marquee');
             var nextText = SCOREBOARD.Marquee.pop();
             marquee.text(nextText);
@@ -413,9 +409,7 @@
             var hub = $.connection.gameHub;
 
             hub.client.settInfisertSone = function (infisertSone) {
-
                 lastInnInfisertSone(infisertSone);
-
             };
 
             // Create a function that the hub can call to broadcast messages.
@@ -453,31 +447,28 @@
 
             // Poeng tildelt
             hub.client.poengTildelt = function (msg) {
-                //TODO:
-
-                // parse poeng + lagid
-
-                // hent lag og sett ny poeng
                 var lag = hentLagEtterLagId(msg.lagId);
-                lag.poeng = msg.poeng;
-                // oppdater og resorter lagtabellen
-                oppdaterStillingstabell();
-                // husk å bevare infected state for laget
 
+                if (lag != null && lag[0] != null) {
+                    lag[0].poeng = msg.poeng;
+                    
+                    oppdaterStillingstabell();
+                } else
+                    console.log("Fant ikke lagId " + msg.lagId + " for å oppdatere poeng.");
             }
 
             // Post registrert
             hub.client.nyPostRegistrert = function (msg) {
                 var lag = hentLagEtterLagId(msg.lagId);
+
                 $("#middleText").text(lag[0].lagNavn + ' FANT POST ' + msg.postnummer);
-                //alert('post reg av lagnr ' + msg.lagId + ' på post ' + msg.postnummer);
+                
                 $('#cheer').trigger("play");
             }
 
             
         });
-
-
+        
         function LeggTilNyLoggHendelse(elem) {
 
             if (elem.hendelse == "Registrert PIF-posisjon")

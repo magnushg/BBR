@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Hubs\GameHub.cs" />
+    <Compile Include="Hubs\GameHubProxy.cs" />
     <Compile Include="Hubs\IGameHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

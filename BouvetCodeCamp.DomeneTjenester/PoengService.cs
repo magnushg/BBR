@@ -100,7 +100,7 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             var loggHendelse = new LoggHendelse
                                    {
-                                       HendelseType = HendelseType.SendtFritekstmeldingStraff, 
+                                       HendelseType = HendelseType.SendtFritekstmeldingStraff,
                                        Tid = DateTime.Now,
                                        Kommentar = string.Format("{0} poeng", poeng)
                                    };
@@ -122,24 +122,25 @@ namespace BouvetCodeCamp.DomeneTjenester
 
                 var loggHendelse = new LoggHendelse
                                        {
-                                           HendelseType = HendelseType.RegistrertKodeSuksess, 
+                                           HendelseType = HendelseType.RegistrertKodeSuksess,
                                            Tid = DateTime.Now,
                                            Kommentar = string.Format("{0} poeng for post {1}", poeng, postnummer)
                                        };
 
                 lag.LoggHendelser.Add(loggHendelse);
-                
+
                 SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
             }
             return lag;
         }
-        
+
         public Lag SettPoengForLag(Lag lag, int poeng, string kommentar)
         {
             lag.Poeng += poeng;
 
-            var loggHendelse = new LoggHendelse { 
-                HendelseType = HendelseType.TildeltPoeng, 
+            var loggHendelse = new LoggHendelse
+            {
+                HendelseType = HendelseType.TildeltPoeng,
                 Tid = DateTime.Now,
                 Kommentar = string.Format("{0} poeng. {1}", poeng, kommentar)
             };
@@ -153,25 +154,23 @@ namespace BouvetCodeCamp.DomeneTjenester
 
         private void SendTildeltPoengHendelse(Lag lag, LoggHendelse loggHendelse, int nyPoengsum)
         {
-            var loggHendelseOutputModell = new LoggHendelseOutputModell {
-                                                   Hendelse = HendelseTypeFormatter.HentTekst(loggHendelse.HendelseType),
-                                                   Kommentar = loggHendelse.Kommentar,
-                                                   LagNummer = lag.LagNummer,
-                                                   Tid = DateTime.Now.ToLongTimeString()
-                                               };
+            var loggHendelseOutputModell = new LoggHendelseOutputModell
+            {
+                Hendelse = HendelseTypeFormatter.HentTekst(loggHendelse.HendelseType),
+                Kommentar = loggHendelse.Kommentar,
+                LagNummer = lag.LagNummer,
+                Tid = DateTime.Now.ToLongTimeString()
+            };
 
-            // TODO: Må fikse mocking slik at testene ikke trenger en try-catch for å ikke feile.
-            //try
-            //{
-                _gameHub.NyLoggHendelse(loggHendelseOutputModell);
+            _gameHub.NyLoggHendelse(loggHendelseOutputModell);
 
-                _gameHub.PoengTildelt(
-                    new PoengOutputModell { LagId = lag.LagId, NyPoengsum = nyPoengsum });
-            //}
-            //catch (Exception)
-            //{
-                
-            //}
+            _gameHub.PoengTildelt(
+                new PoengOutputModell
+                    {
+                        LagId = lag.LagId,
+                        NyPoengsum = nyPoengsum
+                    });
+
         }
     }
 }

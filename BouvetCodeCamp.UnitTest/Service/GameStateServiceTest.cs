@@ -45,6 +45,7 @@ namespace BouvetCodeCamp.UnitTest.Service
 
         [Test]
         [ExpectedException]
+        [Ignore("rydder opp stille istedenfor, test ikke lenger gyldig")]
         public void Init_FlereGamestatesFins_Exception()
         {
             var gameState1 = new GameState { DocumentId = Guid.NewGuid().ToString() };
