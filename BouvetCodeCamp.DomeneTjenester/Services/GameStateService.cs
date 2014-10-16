@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using log4net;
 
 namespace BouvetCodeCamp.DomeneTjenester.Services
 {
@@ -16,6 +17,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
     {
         private readonly IRepository<GameState> _gameStateRepository;
         private static GameState _gameState;
+        private static ILog _logManager = LogManager.GetLogger(typeof(GameStateService));
 
         public GameStateService(
             IRepository<GameState> gameStateRepository,
@@ -26,7 +28,6 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
             _gameState = gameState;
 
             var gameStates = _gameStateRepository.HentAlle().ToList();
-
             switch (gameStates.Count())
             {
                 case 0:
@@ -38,6 +39,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
                     break;
                 default:
                     //noe har skjedd, cleanup og start over
+                    _logManager.Info("flere gamestates funnet i constructor");
                     gameStates.ForEach(x => _gameStateRepository.Slett(x));
                     _gameStateRepository.Opprett(_gameState);
                     break;
@@ -56,6 +58,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
             var gameStates = _gameStateRepository.HentAlle().ToList();
             if (gameStates.Count > 1)
             {
+                _logManager.Info("flere gamestates funnet i oppdater");
                 foreach (var gameState in gameStates)
                 {
                     if (gameState.DocumentId != entitet.DocumentId)
