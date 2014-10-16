@@ -17,6 +17,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
+        private const int RequestLimitKb = 256;
+
         public abstract string CollectionId { get; }
 
         protected readonly IKonfigurasjon _konfigurasjon;
@@ -75,26 +77,31 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             document = SorgForDocumentUnderRequestLimit(document);
 
             var oppdaterStart = DateTime.Now;
-
-            log.Info("Oppdaterer " + document.DocumentId);
-
+            
             await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
 
             var oppdaterEnd = DateTime.Now;
 
-            log.Info("Oppdatering på " + document.DocumentId + " på " + EnhetConverter.HentObjektStorrelse(document) + "kb tok..." + oppdaterStart.Subtract(oppdaterEnd));
+            var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
+
+            if (documentStorrelse > RequestLimitKb)
+                log.Warn(
+                    "Oppdatering på " + document.DocumentId + " på " + documentStorrelse  + "kb tok..."
+                    + oppdaterStart.Subtract(oppdaterEnd));
         }
 
         public async Task Slett(T document)
         {
             var slettStart = DateTime.Now;
-            log.Info("Sletter " + document.DocumentId);
 
             await Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
 
             var slettEnd = DateTime.Now;
-            log.Info("Sletting av " + document.DocumentId + " på " + EnhetConverter.HentObjektStorrelse(document) + "kb tok..." + slettStart.Subtract(slettEnd));
 
+            var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
+
+            if (documentStorrelse > RequestLimitKb)
+                log.Warn("Sletting av " + document.DocumentId + " på " + document + "kb tok..." + slettStart.Subtract(slettEnd));
         }
 
         public IEnumerable<T> Søk(Func<T, bool> predicate)
@@ -106,8 +113,6 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         private T SorgForDocumentUnderRequestLimit(T document)
         {
-            const int RequestLimitKb = 256;
-
             var objektStorrelseKb = EnhetConverter.HentObjektStorrelse(document);
 
             if (objektStorrelseKb <= RequestLimitKb)
