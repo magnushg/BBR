@@ -16,11 +16,11 @@
     this.circles = null;
     this.vis = null;
     this.width = 800;
-    this.height = 400;
+    this.height = 600;
     this.center = {x: this.width / 2, y: this.height / 2}
 
-    this.min_scale = 10;
-    this.max_scale = 50;
+    this.min_scale = 50;
+    this.max_scale = 100;
     
     this.max_poeng = 0;
 
@@ -77,9 +77,10 @@
         "r": 0,
         "fill": function(d) { return self.fill_color(d.navn); },
         "stroke": function(d) { 
-          return d3.rgb(self.fill_color(d.navn)).darker(); 
+            //return d3.rgb(self.fill_color('#FF6400')).darker();
+            return d3.rgb(255,100,0);
         },
-        "stroke-width": 2,
+        "stroke-width": 4,
         "id": function(d) { 
           return "bubble_" +d.id; 
         }
@@ -88,10 +89,11 @@
     this.labels = this.groups.append("text")
       .attr({
         "alignment-baseline": "middle",
-        "text-anchor": "middle"
+        "text-anchor": "middle",
+        "font-size":"15px"
       })
       .text(function(d) { 
-        return d.navn + "(" + d.poeng + ")";
+        return d.navn + " (" + d.poeng + ")";
       });
 
     // radius will be set to 0 initially.
@@ -129,7 +131,8 @@
           .attr("dy", function(d) { return d.y; })
           .text(function(d) { 
             return d.navn + "(" + d.poeng + ")";
-          });
+          })
+          ;
 
         self.circles.each(self.move_towards_center(e.alpha))
           .attr("cx", function(d) { return d.x; })

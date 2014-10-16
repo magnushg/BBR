@@ -182,6 +182,7 @@
     <Content Include="moduler\scoreboard\Cheering.mp3" />
     <Content Include="moduler\scoreboard\css\scoreboard.css" />
     <Content Include="moduler\scoreboard\Gamemaster.html" />
+    <Content Include="moduler\scoreboard\images\logo_200px.png" />
     <Content Include="moduler\scoreboard\images\sick.gif" />
     <Content Include="moduler\scoreboard\images\sick.png" />
     <Content Include="js\scoreboard.infrastruktur.js" />
