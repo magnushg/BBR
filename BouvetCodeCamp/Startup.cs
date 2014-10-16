@@ -56,6 +56,7 @@ namespace BouvetCodeCamp
             KonfigurerApiDokumentasjon(appBuilder, config);
 
             var builder = new ContainerBuilder();
+            builder.RegisterModule<log4netAutofacModule>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
