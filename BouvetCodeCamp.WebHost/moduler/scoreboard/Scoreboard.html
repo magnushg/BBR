@@ -221,6 +221,8 @@
             settLagPaaKartet();
 
             oppdaterStillingstabell();
+            // Start the connection.
+            $.connection.hub.start({ jsonp: true });
         }
         function hentLagEtterLagId(lagId) {
             return $.grep(SCOREBOARD.Lag, function (n, i) {
@@ -472,8 +474,7 @@
                 $('#cheer').trigger("play");
             }
 
-            // Start the connection.
-            $.connection.hub.start({ jsonp: true });
+            
         });
 
 
