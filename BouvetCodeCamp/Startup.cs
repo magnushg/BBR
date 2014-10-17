@@ -48,7 +48,7 @@ namespace BouvetCodeCamp
             config.MapHttpAttributeRoutes();
             config.EnableSystemDiagnosticsTracing();
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
-
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;            
             SetGlobalizationCulture("nb-NO");
 
             appBuilder.Use(typeof(AuthenticationMiddleware));

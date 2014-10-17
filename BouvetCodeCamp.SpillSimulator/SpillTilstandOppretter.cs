@@ -82,7 +82,7 @@ namespace BouvetCodeCamp.SpillSimulator
         {
             SpillKonfig.LagMedPostkoder = new Dictionary<string, Dictionary<int, string>>
             {
-                {"175", new Dictionary<int, string> {
+                {"c0af3db", new Dictionary<int, string> {
                                                     {24, "dxg19"},
                                                     {21, "exr16"},
                                                     {23, "rxp18"},
