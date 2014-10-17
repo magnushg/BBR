@@ -220,7 +220,7 @@
                 window.data.push({
                     id: val.lagnummer,
                     poeng: val.poeng,
-                    navn: val.lagNavn
+                    navn: val.lagnummer
                 });
             });
             window.b = new BubbleScoreboard(window.data);
@@ -257,7 +257,7 @@
             $.each(sortertLagListe, function (index) {
                 var lag = hentLagEtterLagId(sortertLagListe[index][0])[0];
 
-                $('.stillingstabell').find('tbody:last').append('<tr><td>' + lag.lagNavn + '</td><td>' + lag.poeng + '</td></tr>');
+                $('.stillingstabell').find('tbody:last').append('<tr><td>' + lag.lagnummer + '</td><td>' + lag.poeng + '</td></tr>');
             });
         }
 
@@ -293,7 +293,7 @@
                 if (sistePifPosisjonForLag != null) {
                     SCOREBOARD.Lag[key].Marker = L.marker(
                         [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
-                        { icon: redMarkerIcon }).bindLabel(val.lagNavn, { noHide: true })
+                        { icon: redMarkerIcon }).bindLabel(val.lagnummer, { noHide: true })
                         .addTo(map);
                 }
             });
@@ -435,7 +435,7 @@
                         lag[0].Marker = L.marker(
                             [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
                             { icon: msg.erinfisert ? infectedMarkerIcon : redMarkerIcon })
-                            .bindLabel(lag[0].lagNavn, { noHide: true })
+                            .bindLabel(lag[0].lagId, { noHide: true })
                             .addTo(map);
                     } else {
                         lag[0].Marker.setLatLng(nyLeafletLatLon);
@@ -451,8 +451,8 @@
 
             // Poeng tildelt
             hub.client.poengTildelt = function (msg) {
-                //var lag = hentLagEtterLagId(msg.lagId);
-                b.updateScore(msg.lagId, msg.poeng);
+                var lag = hentLagEtterLagId(msg.lagId);
+                b.updateScore(lag.lagnummer, msg.poeng);
                 //if (lag != null && lag[0] != null) {
                 //    lag[0].poeng = msg.poeng;
                    
