@@ -205,6 +205,16 @@
     <Content Include="moduler\scoreboard\js\vendors\owl-carousel\owl.carousel.min.js" />
     <Content Include="moduler\scoreboard\js\vendors\owl-carousel\owl.theme.css" />
     <Content Include="moduler\scoreboard\js\vendors\owl-carousel\owl.transitions.css" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\images\markers-matte%402x.png" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\images\markers-matte.png" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\images\markers-plain.png" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\images\markers-shadow%402x.png" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\images\markers-shadow.png" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\images\markers-soft%402x.png" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\images\markers-soft.png" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\leaflet.awesome-markers.css" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\leaflet.awesome-markers.js" />
+    <Content Include="moduler\scoreboard\leaflet-awesomelabels\leaflet.awesome-markers.min.js" />
     <Content Include="moduler\scoreboard\Log.html" />
     <Content Include="packages.config" />
     <Content Include="moduler\bower_components\angular\.bower.json" />
