@@ -36,8 +36,21 @@
     this.updateNodeRadius();
 
     this.createSvg();
-  }
 
+
+    var scoreTable = $("#score_table");
+
+    _.each(nodes, function (node) {
+        var tr = $("<tr><td>" + self.hentTdText(node) + "</td></tr>");
+        tr.attr("id", "tr_" + node.id);
+        tr.css("background-color", self.fill_color(node.id));
+
+        scoreTable.append(tr);
+    });
+  }
+  BubbleScoreboard.prototype.hentTdText = function(node) {
+      return "Lag " + node.id + " (" + node.poeng + ")";
+  }
   BubbleScoreboard.prototype.setRadiusScale = function() {
     this.max_poeng = d3.max(this.nodes, function (n) {
       return n.poeng;
@@ -160,6 +173,8 @@
 
     this.circles.transition().duration(100).attr("r", function(d) { return d.radius; });
     this.gravitate();
+
+    $("#tr_" + id).children().first().text(this.hentTdText(node));
   };
 
   
