@@ -7,7 +7,7 @@
     public class MeldingOutputModell
     {
         [JsonProperty(PropertyName = "type")]
-        public MeldingType Type { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty(PropertyName = "innhold")]
         public string Innhold { get; set; }
