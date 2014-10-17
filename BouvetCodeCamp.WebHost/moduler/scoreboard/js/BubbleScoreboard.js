@@ -46,7 +46,7 @@
     };
 
       var scoreTable = $("#score_table");
-
+      nodes.sortBy(function (o) { return o.id; });
     _.each(nodes, function (node) {
         var tr = $("<tr><td>" + self.hentTdText(node) + "</td></tr>");
         tr.attr("id", "tr_" + node.id);
