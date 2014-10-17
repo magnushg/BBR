@@ -119,13 +119,6 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
                 while (objektStorrelseKb >= RequestLimitKb)
                 {
-                    var loggHendelserTilSletting = lag.LoggHendelser.OrderBy(o => o.Tid).Take(200);
-
-                    foreach (var loggHendelse in loggHendelserTilSletting)
-                    {
-                        lag.LoggHendelser.Remove(loggHendelse);
-                    }
-
                     var loggPifPosisjonerTilSletting = lag.PifPosisjoner.OrderBy(o => o.Tid).Take(200);
 
                     foreach (var pifPosisjoner in loggPifPosisjonerTilSletting)
