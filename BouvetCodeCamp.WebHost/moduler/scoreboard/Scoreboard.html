@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="css/scoreboard.css" />
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+ 
+    <script type="text/javascript" src="../bower_components/underscore/underscore.js"></script>
+    <script type="text/javascript" src="js/BubbleScoreboard.js"></script>
     <script src="../bower_components/d3/d3.min.js"></script>
     <script src="../bower_components/hammerjs/hammer.min.js"></script>
     <script src="../bower_components/evispa-timo-jsclipper/clipper.js"></script>
@@ -50,7 +52,9 @@
             font-size: 70px;
             text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
         }
-
+        .stillingsvisning {
+         background-color:    rgba(171,225,250,0.7)
+        }
         .marquee-text {
             white-space: nowrap;
             display: inline;
@@ -96,53 +100,44 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <!--<div class="container-fluid">
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-11"><img src="http://www.bouvet.no/Global/img/header_logo.png"></div>
         </div>
-    </div>
+    </div>-->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5"><div id="map"></div></div>
-            <div class="col-md-5">
+            
+            <div class="col-md-4"><div id="map"></div></div>
+            <div class="col-md-6">
                 <div class="karusellwrapper">
-                    <div class="owl-carousel">
-                        <div class="stillingsvisning">
-                            <section>
-                                <table class="stillingstabell">
-                                    <caption>Stilling</caption>
-                                    <thead>
-                                        <tr>
-                                            <th>Lag</th>
-                                            <th>Poeng</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </section>
-                        </div>
-                        <div class="hendelservisning">
-                            <section>
-                                <table class="hendelsestabell">
-                                    <caption>Hendelser</caption>
-                                    <thead>
-                                        <tr>
-                                            <th>Lag</th>
-                                            <th>Hendelse</th>
-                                            <th>Kommentar</th>
-                                            <th>Tid</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </section>
-                        </div>
+                    
+                    <div class="stillingsvisning" id="scoreboard">
+
+                           
                     </div>
+                    <div class="hendelservisning">
+                        <section>
+                            <table class="hendelsestabell">
+                                <caption>Hendelser</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Lag</th>
+                                        <th>Hendelse</th>
+                                        <th>Kommentar</th>
+                                        <th>Tid</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </section>
+                    </div>
+                   
                 </div>
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-md-2"><img src="images/logo_200px.png"></img></div>
+          
         </div>
     </div>
     <div class='marquee'>
@@ -192,8 +187,10 @@
         });
 
         var map;
-        var MaksAntallLoggHendelser = 30;
+        var MaksAntallLoggHendelser = 15;
+      
 
+       
         var SCOREBOARD = SCOREBOARD || {};
         SCOREBOARD.Lag = [];
         SCOREBOARD.Poster = [];
@@ -216,12 +213,19 @@
 
         function lastInnLagene(data) {
             initLag();
-
+            window.data = [];
             $.each(data, function (key, val) {
                 SCOREBOARD.Lag.push(val);
                 SCOREBOARD.Lag[key].Marker = {};
+                window.data.push({
+                    id: val.lagnummer,
+                    poeng: val.poeng,
+                    navn: val.lagNavn
+                });
             });
-
+            window.b = new BubbleScoreboard(window.data);
+            b.start();
+            b.gravitate();
             settLagPaaKartet();
 
             oppdaterStillingstabell();
@@ -447,14 +451,14 @@
 
             // Poeng tildelt
             hub.client.poengTildelt = function (msg) {
-                var lag = hentLagEtterLagId(msg.lagId);
-
-                if (lag != null && lag[0] != null) {
-                    lag[0].poeng = msg.poeng;
-                    
-                    oppdaterStillingstabell();
-                } else
-                    console.log("Fant ikke lagId " + msg.lagId + " for å oppdatere poeng.");
+                //var lag = hentLagEtterLagId(msg.lagId);
+                b.updateScore(msg.lagId, msg.poeng);
+                //if (lag != null && lag[0] != null) {
+                //    lag[0].poeng = msg.poeng;
+                   
+                //    oppdaterStillingstabell();
+                //} else
+                //    console.log("Fant ikke lagId " + msg.lagId + " for å oppdatere poeng.");
             }
 
             // Post registrert
