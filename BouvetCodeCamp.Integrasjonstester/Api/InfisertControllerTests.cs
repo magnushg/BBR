@@ -47,6 +47,6 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
             // Assert
             infisertPolygonOutputModell.Koordinater.ShouldNotBeEmpty();
-        }
+         }
     }
 }

@@ -81,6 +81,7 @@ namespace BouvetCodeCamp.UnitTest.Service
         }
 
         [Test]
+        [Ignore("Vi tester ikke lengre dette")]
         public void SettKodeTilstandTilOppdaget_UgyldigKoordinat_ReturnsFalse()
         {
             // Arrage

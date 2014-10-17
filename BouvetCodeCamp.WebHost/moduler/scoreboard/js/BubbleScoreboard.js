@@ -97,7 +97,7 @@
         "r": 0,
         "fill": function(d) { return self.fill_color(d.id); },
         "stroke": function(d) { 
-            return d3.rgb(255,100,0);
+            return d3.rgb(self.fill_color(d.id)).brighter();
         },
         "stroke-width": 4,
         "id": function(d) { 

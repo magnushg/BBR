@@ -201,20 +201,15 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             // Arrange
             var repository = OpprettRepository();
             
-            var loggHendelser = Builder<LoggHendelse>.CreateListOfSize(1500).All()
-                .With(o => o.Kommentar = HentSekvenstall().ToString())
-                .Build();
-            
             sekvenstall = 0;
 
-            var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(2000).All()
+            var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(5000).All()
                 .With(o => o.LagId = HentSekvenstall().ToString())
                 .Build();
 
             var lag = Builder<Lag>.CreateNew()
                 .Build();
 
-            var antallLoggHendelser = loggHendelser.Count;
             var antallPifPosisjoner = pifPosisjoner.Count;
 
             var documentId = await repository.Opprett(lag);
@@ -222,14 +217,12 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             // Act
             opprettetLag.PifPosisjoner = (List<PifPosisjon>)pifPosisjoner;
-            opprettetLag.LoggHendelser = (List<LoggHendelse>)loggHendelser;
 
             await repository.Oppdater(opprettetLag);
 
             // Assert
             var oppdatertLag = repository.Hent(opprettetLag.DocumentId);
 
-            oppdatertLag.LoggHendelser.Count.ShouldBeLessThan(antallLoggHendelser);
             oppdatertLag.PifPosisjoner.Count.ShouldBeLessThan(antallPifPosisjoner);
         }
 

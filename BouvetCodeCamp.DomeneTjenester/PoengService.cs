@@ -45,9 +45,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                         Kommentar = String.Format("Ping timeout, {0} i straffepoeng", PoengTildeling.PingTimeoutStraff),
                         Tid = DateTime.Now
                     };
-
-                    lag.LoggHendelser.Add(loggHendelse);
-
+                    
                     SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
                 }
             }
@@ -83,9 +81,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                                                    infisertTimeSpan.TotalSeconds),
                                            Tid = DateTime.Now
                                        };
-
-                lag.LoggHendelser.Add(loggHendelse);
-
+                
                 SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
             }
 
@@ -108,9 +104,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                                        Tid = DateTime.Now,
                                        Kommentar = string.Format("{0} poeng tapt for fritekst", poeng)
                                    };
-
-            lag.LoggHendelser.Add(loggHendelse);
-
+            
             SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
 
             return lag;
@@ -130,9 +124,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                                            Tid = DateTime.Now,
                                            Kommentar = string.Format("{0} poeng for post {1}", poeng, postnummer)
                                        };
-
-                lag.LoggHendelser.Add(loggHendelse);
-
+                
                 SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
             }
             return lag;
@@ -148,9 +140,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                 Tid = DateTime.Now,
                 Kommentar = string.Format("{0} poeng. {1}", poeng, kommentar)
             };
-
-            lag.LoggHendelser.Add(loggHendelse);
-
+            
             SendTildeltPoengHendelse(lag, loggHendelse, lag.Poeng);
 
             return lag;
