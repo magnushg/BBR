@@ -46,7 +46,7 @@ namespace BouvetCodeCamp
 
             Configure(config.Formatters, config);
             config.MapHttpAttributeRoutes();
-            config.EnableSystemDiagnosticsTracing();
+           /// config.EnableSystemDiagnosticsTracing();
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;            
             SetGlobalizationCulture("nb-NO");
@@ -55,35 +55,7 @@ namespace BouvetCodeCamp
 
             KonfigurerApiDokumentasjon(appBuilder, config);
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule<log4netAutofacModule>();
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
-            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
-            builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>();
-
-            //singleton memory instance
-            builder.RegisterType<GameState>().SingleInstance();
-
-            // Services
-            builder.RegisterType<LagService>().As<IService<Lag>>();
-            builder.RegisterType<LagGameService>().As<ILagGameService>();
-            builder.RegisterType<PostService>().As<IService<Post>>();
-            builder.RegisterType<PostGameService>().As<IPostGameService>();
-            builder.RegisterType<GameStateService>().As<IService<GameState>>();
-            builder.RegisterType<GameApi>().As<IGameApi>();
-            builder.RegisterType<GameStateService>().As<IService<GameState>>();
-            builder.RegisterType<PoengService>().As<IPoengService>();
-
-            // Repositories
-            builder.RegisterType<LagRepository>().As<IRepository<Lag>>();
-            builder.RegisterType<PostRepository>().As<IRepository<Post>>();
-            builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>();
-
-            builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
-
-            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub")).As<IHubContext<IGameHub>>().SingleInstance();
-            builder.RegisterType<GameHubProxy>().As<IGameHub>();            
+            var builder = BuildContainer();
 
             var container = builder.Build();
 
@@ -105,6 +77,42 @@ namespace BouvetCodeCamp
             InitialiserLogging();
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+        }
+
+        public static ContainerBuilder BuildContainer()
+        {
+            var builder = new ContainerBuilder();
+        ///    builder.RegisterModule<log4netAutofacModule>();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
+            builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().SingleInstance();
+
+            //singleton memory instance
+            builder.RegisterType<GameState>().SingleInstance();
+
+            // Services
+            builder.RegisterType<LagService>().As<IService<Lag>>();
+            builder.RegisterType<LagGameService>().As<ILagGameService>();
+            builder.RegisterType<PostService>().As<IService<Post>>();
+            builder.RegisterType<PostGameService>().As<IPostGameService>();
+            builder.RegisterType<GameStateService>().As<IService<GameState>>();
+            builder.RegisterType<GameApi>().As<IGameApi>();
+            builder.RegisterType<GameStateService>().As<IService<GameState>>();
+            builder.RegisterType<PoengService>().As<IPoengService>();
+
+            // Repositories
+            builder.RegisterType<LagRepository>().As<IRepository<Lag>>().SingleInstance();
+            builder.RegisterType<PostRepository>().As<IRepository<Post>>().SingleInstance();
+            builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>().SingleInstance();
+
+            builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
+
+            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"))
+                .As<IHubContext<IGameHub>>()
+                .SingleInstance();
+            builder.RegisterType<GameHubProxy>().As<IGameHub>();
+            return builder;
         }
 
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)

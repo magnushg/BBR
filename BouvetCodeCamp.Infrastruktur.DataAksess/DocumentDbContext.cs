@@ -13,9 +13,9 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess
     public class DocumentDbContext : IDocumentDbContext
     {
         private readonly IKonfigurasjon _konfigurasjon;
-
+        private Database[] databases;
         private Database _database;
-
+        private object padLock = new object();
         public Database Database
         {
             get
@@ -71,9 +71,11 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess
 
         public async Task ReadOrCreateDatabase()
         {
-            var databases = this.Client.CreateDatabaseQuery()
+            lock(padLock)
+            { 
+            databases = this.Client.CreateDatabaseQuery()
                             .Where(db => db.Id == this.DatabaseId).ToArray();
-
+            }
             if (databases.Any())
             {
                 this._database = databases.First();

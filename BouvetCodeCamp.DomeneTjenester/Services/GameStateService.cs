@@ -18,17 +18,16 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
         private readonly IRepository<GameState> _gameStateRepository;
         private static GameState _gameState;
 
-        private readonly ILog logManager;
-
+    
         public GameStateService(
             IRepository<GameState> gameStateRepository,
-            GameState gameState,
-            ILog _logManager)
+            GameState gameState
+            )
             : base(gameStateRepository)
         {
             _gameStateRepository = gameStateRepository;
             _gameState = gameState;
-            logManager = _logManager;
+            
 
             var gameStates = _gameStateRepository.HentAlle().ToList();
             switch (gameStates.Count())
@@ -42,7 +41,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
                     break;
                 default:
                     //noe har skjedd, cleanup og start over
-                    _logManager.Info("flere gamestates funnet i constructor");
+                
                     gameStates.ForEach(x => _gameStateRepository.Slett(x));
                     _gameStateRepository.Opprett(_gameState);
                     break;
@@ -61,7 +60,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
             var gameStates = _gameStateRepository.HentAlle().ToList();
             if (gameStates.Count > 1)
             {
-                logManager.Info("flere gamestates funnet i oppdater");
+         
                 foreach (var gameState in gameStates)
                 {
                     if (gameState.DocumentId != entitet.DocumentId)

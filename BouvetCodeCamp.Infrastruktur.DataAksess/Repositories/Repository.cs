@@ -28,7 +28,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         private DocumentCollection _collection;
 
-        private readonly ILog log;
+  
 
         public DocumentCollection Collection
         {
@@ -48,7 +48,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             _konfigurasjon = konfigurasjon;
             Context = context;
 
-            log = Log4NetLogger.HentLogger(typeof(Repository<T>));
+            
         }
 
         public async Task<string> Opprett(T document)
@@ -129,7 +129,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                     objektStorrelseKb = EnhetConverter.HentObjektStorrelse(lag);
                 }
 
-                log.Warn(string.Format("Krympet {0} ned til {1}kb", lag.DocumentId, objektStorrelseKb));
+               // log.Warn(string.Format("Krympet {0} ned til {1}kb", lag.DocumentId, objektStorrelseKb));
 
                 document = (T)Convert.ChangeType(lag, typeof(T));
             }
@@ -148,17 +148,17 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
             var oppdateringTidSomSekunder = deltaTid.Duration().TotalSeconds;
 
-            if (oppdateringTidSomSekunder > 5)
-                log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
+            //if (oppdateringTidSomSekunder > 5)
+            //    log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
 
-            if (documentStorrelse > RequestLimitKb)
-            {
-                log.Warn(loggMelding);
-            }
-            else
-            {
-                log.Debug(loggMelding);
-            }
+            //if (documentStorrelse > RequestLimitKb)
+            //{
+            //    log.Warn(loggMelding);
+            //}
+            //else
+            //{
+            //    log.Debug(loggMelding);
+            //}
         }
 
         private void LoggSletting(T document, DateTime slettStart, DateTime slettEnd)
@@ -168,14 +168,14 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             var loggMelding = "Sletting av " + document.DocumentId + " på " + document + "kb tok..."
                               + slettStart.Subtract(slettEnd);
 
-            if (documentStorrelse > RequestLimitKb)
-            {
-                log.Warn(loggMelding);
-            }
-            else
-            {
-                log.Debug(loggMelding);
-            }
+            //if (documentStorrelse > RequestLimitKb)
+            //{
+            //    log.Warn(loggMelding);
+            //}
+            //else
+            //{
+            //    log.Debug(loggMelding);
+            //}
         }
     }
 }

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-
+using Autofac;
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
-
+using BouvetCodeCamp.DomeneTjenester.Interfaces;
 using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -253,10 +253,13 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             ingenLag.ShouldBeEmpty();
         }
-        
-        private LagRepository OpprettRepository()
+
+        private IRepository<Lag> OpprettRepository()
         {
-            return new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            var builder = Startup.BuildContainer();
+            var container = builder.Build();
+            return container.Resolve<IRepository<Lag>>();
+            //return new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
         }
     }
 }
