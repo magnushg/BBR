@@ -57,7 +57,7 @@ namespace BouvetCodeCamp.SpillOppretter
         {
             return Enumerable.Range(1, _antallLag).Select(index => new Lag
             {
-                LagId = ShaChecksum("Lag " + index + 1, index),
+                LagId = Sha256("Lag " + index + 1),
                 LagNavn = "BouvetBBR L" + index,
                 LagNummer = index,
                 LoggHendelser = new List<LoggHendelse>(),
@@ -88,6 +88,31 @@ namespace BouvetCodeCamp.SpillOppretter
             hashes.Add(generertHash);
             
             return hashes.Last();
+        }
+
+        public string CreateGuid()
+        {
+            Guid guid = Guid.Empty;
+            while (Guid.Empty == guid)
+            {
+                guid = Guid.NewGuid();
+            }
+
+            // Uses base64 encoding the guid.(Or  ASCII85 encoded)
+            // But not recommend using Hex, as it is less efficient.
+            return Convert.ToBase64String(guid.ToByteArray());
+        }
+
+        public string Sha256(string word)
+        {
+            SHA256Managed crypt = new SHA256Managed();
+            string hash = String.Empty;
+            byte[] crypto = crypt.ComputeHash(Encoding.ASCII.GetBytes(word), 0, Encoding.ASCII.GetByteCount(word));
+            foreach (byte bit in crypto)
+            {
+                hash += bit.ToString("x2");
+            }
+            return hash.Substring(0,7);
         }
 
         private static string GenererHash(int index, byte[] hash)
