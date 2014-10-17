@@ -29,6 +29,8 @@
 
             // Act
             var result = lagOppretter.ShaChecksum("Lag 1", 0);
+            var anotherId = lagOppretter.CreateGuid();
+            var yetAnotherId = lagOppretter.Sha256("Lag 1" + "0");
 
             // Assert
             result.ShouldNotBeEmpty();

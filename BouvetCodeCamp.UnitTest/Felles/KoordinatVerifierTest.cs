@@ -5,8 +5,10 @@ using NUnit.Framework;
 
 namespace BouvetCodeCamp.UnitTest.Felles
 {
+    using Should;
+
     [TestFixture]
-    public class KoordinatVerifierTest
+    public class KoordinatTests
     {
         private IKoordinatVerifier koordinatVerifier;
 
@@ -416,6 +418,15 @@ namespace BouvetCodeCamp.UnitTest.Felles
 
             Assert.IsFalse(Koordinat.ErStringEtGyldigKoordinat(under));
             Assert.IsFalse(Koordinat.ErStringEtGyldigKoordinat(over));
+        }
+
+        [Test]
+        public void Koordinat_TomtKoordinat_XErTom()
+        {
+            var koordinat = new Koordinat("", "");
+
+            koordinat.X.ShouldEqual(0);
+            koordinat.Y.ShouldEqual(0);
         }
 
         private static Koordinat[] GetSquarePolygon()
