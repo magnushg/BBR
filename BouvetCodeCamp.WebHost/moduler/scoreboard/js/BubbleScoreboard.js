@@ -29,7 +29,7 @@
     this.damper = 0.02; //gravitasjon-avstand
     this.force = null;
     this.fill_color = d3.scale.category20()
-      .domain(_.map(self.nodes, function(n) { return n.navn; }));
+      .domain(_.map(self.nodes, function(n) { return n.id; }));
 
     this.setRadiusScale();
 
@@ -75,9 +75,8 @@
     this.circles = this.groups.append("circle")
       .attr({
         "r": 0,
-        "fill": function(d) { return self.fill_color(d.navn); },
+        "fill": function(d) { return self.fill_color(d.id); },
         "stroke": function(d) { 
-            //return d3.rgb(self.fill_color('#FF6400')).darker();
             return d3.rgb(255,100,0);
         },
         "stroke-width": 4,
@@ -93,18 +92,16 @@
         "font-size":"15px"
       })
       .text(function(d) { 
-        return d.navn + " (" + d.poeng + ")";
+        return d.poeng;
       });
 
     // radius will be set to 0 initially.
     // see transition below
-    this.circles
-      
 
     //Fancy transition to make bubbles appear, ending with the
     //correct radius
     this.circles.transition().duration(2000).attr("r", function(d) { return d.radius; })
-    
+
   };
 
   BubbleScoreboard.prototype.charge = function(d) {
@@ -130,7 +127,7 @@
           .attr("dx", function(d) { return d.x; })
           .attr("dy", function(d) { return d.y; })
           .text(function(d) { 
-            return d.navn + "(" + d.poeng + ")";
+            return d.poeng;
           })
           ;
 
