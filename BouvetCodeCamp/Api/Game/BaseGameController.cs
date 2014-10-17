@@ -88,9 +88,10 @@ namespace BouvetCodeCamp.Api.Game
         }
 
         /// <summary>
-        /// Sender en melding til PIF.
-        /// Det følger enkelte restriksjoner på Innhold-feltet basert på MeldingsType:
-        ///
+        /// Sender en melding til PIF. 
+        /// Det følger enkelte restriksjoner på Innhold-feltet basert på 'MeldingsType' (husk stor forbokstav!):
+        /// 
+        /// MeldingsType.Ingen 
         /// MeldingsType.Fritekst: Innhold.Length må være mindre eller lik 256 tegn.
         /// MeldingsType.Lengde: Innhold må være en Int
         /// MeldingsType.Himmelretning: Innhold kan være 'North', 'South', 'West' eller 'East'. Case-sensitive.
