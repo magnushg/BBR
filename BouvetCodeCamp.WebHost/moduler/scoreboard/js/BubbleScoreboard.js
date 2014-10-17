@@ -166,15 +166,19 @@
 
   BubbleScoreboard.prototype.updateScore = function(id, score) {
     var node = _.where(this.nodes, {id: id})[0];
-    node.poeng += score;
+    node.poeng = score;
 
     this.setRadiusScale();
     this.updateNodeRadius();
 
     this.circles.transition().duration(100).attr("r", function(d) { return d.radius; });
+
     this.gravitate();
 
-    $("#tr_" + id).children().first().text(this.hentTdText(node));
+    $("#tr_" + id).children().first()
+      .text(this.hentTdText(node))
+      .fadeOut(500)
+      .fadeIn(1000);
   };
 
   
