@@ -36,15 +36,22 @@
     this.updateNodeRadius();
 
     this.createSvg();
+    
+    this.readableColor = function (otherColor) {
+        var fg = d3.rgb(0, 0, 0);
+        fg.r = otherColor.r < 128 ? 255 : 255;
+        fg.g = otherColor.g < 128 ? 255: 255;
+        fg.b = otherColor.b < 128 ? 255 : 255;
+        return fg;
+    };
 
-
-    var scoreTable = $("#score_table");
+      var scoreTable = $("#score_table");
 
     _.each(nodes, function (node) {
         var tr = $("<tr><td>" + self.hentTdText(node) + "</td></tr>");
         tr.attr("id", "tr_" + node.id);
         tr.css("background-color", self.fill_color(node.id));
-
+        tr.css("color", self.readableColor(self.fill_color(node.id)));
         scoreTable.append(tr);
     });
   }
@@ -102,7 +109,8 @@
       .attr({
         "alignment-baseline": "middle",
         "text-anchor": "middle",
-        "font-size":"15px"
+        "font-size": "30px",
+        "font-weight":"bold"
       })
       .text(function(d) { 
         return d.poeng;
