@@ -33,7 +33,9 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
         protected const string TestLagId = "testlag1";
 
         protected const string TestPostNavn = "testpost1";
+
         IDisposable webServer;
+
         [TestInitialize]
         public void Setup()
         {

@@ -37,6 +37,41 @@ namespace BouvetCodeCamp.UnitTest.Service
         }
 
         [Test]
+        public void SettFritekstMeldingSendtStraff_ikkeFritekst_IngenStraff()
+        {
+            PoengTildeling.MeldingsStraff = -2;
+            const int startPoeng = 10;
+            var melding = new Melding
+            {
+                Type = MeldingType.Himmelretning
+            };
+
+            var lag = new Lag {Poeng = startPoeng};
+            lag = _poengService.SettFritekstMeldingSendtStraff(lag, melding);
+
+            Assert.AreEqual(startPoeng, lag.Poeng);
+        }
+
+        [Test]
+        public void SettFritekstMeldingSendtStraff_fritekst_FarStraff()
+        {
+            PoengTildeling.MeldingsStraff = -2;
+            const int startPoeng = 10;
+            var melding = new Melding
+            {
+                Type = MeldingType.Fritekst,
+                Tekst = "123 5"
+            };
+            var length = melding.Tekst.Length;
+
+            var lag = new Lag {Poeng = startPoeng};
+            lag = _poengService.SettFritekstMeldingSendtStraff(lag, melding);
+
+            var forventetResultat = 0;
+            Assert.AreEqual(0, lag.Poeng);
+        }
+
+        [Test]
         public void SjekkOgSettPifPingStraff_Timeout1Sekund_1PingStraff()
         {
             PoengTildeling.PingTimeout = 1;

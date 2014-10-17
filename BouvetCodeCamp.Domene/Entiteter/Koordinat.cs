@@ -17,14 +17,36 @@ namespace BouvetCodeCamp.Domene.Entiteter
         [JsonProperty(PropertyName = "latitude")]
         public string Latitude { get; set; }
 
-        public double X { get { return double.Parse(Longitude, CultureInfo.InvariantCulture); } }
-        public double Y { get { return double.Parse(Latitude, CultureInfo.InvariantCulture); } }
+        public double X
+        {
+            get
+            {
+                double verdi = 0;
+
+                double.TryParse(Longitude, NumberStyles.Float, new NumberFormatInfo(), out verdi);
+
+                return verdi;
+            }
+        }
+
+        public double Y
+        {
+            get
+            {
+                double verdi = 0;
+
+                double.TryParse(Latitude, NumberStyles.Float, new NumberFormatInfo(), out verdi);
+
+                return verdi;
+            }
+        }
 
         public Koordinat()
         {
         }
 
-        public Koordinat(string enStreng) : this(enStreng.Split(',')[0], enStreng.Split(',')[1])
+        public Koordinat(string enStreng)
+            : this(enStreng.Split(',')[0], enStreng.Split(',')[1])
         {
         }
 

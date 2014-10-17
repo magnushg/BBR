@@ -2,14 +2,11 @@
 
 namespace BouvetCodeCamp.Api.Game
 {
-    using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Description;
-
-    using BouvetCodeCamp.Filters;
 
     using Domene;
     using Domene.InputModels;
@@ -39,7 +36,7 @@ namespace BouvetCodeCamp.Api.Game
         public HttpResponseMessage HentRegistrerteKoder(string lagId)
         {
             if (string.IsNullOrEmpty(lagId))
-                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
             var kodeModeller = gameApi.HentRegistrerteKoder(lagId);
 
@@ -63,7 +60,7 @@ namespace BouvetCodeCamp.Api.Game
         public HttpResponseMessage HentPifPosisjon(string lagId)
         {
             if (string.IsNullOrEmpty(lagId))
-                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
             var pifPosisjonModel = gameApi.HentSistePifPositionForLag(lagId);
 
@@ -85,15 +82,16 @@ namespace BouvetCodeCamp.Api.Game
         public HttpResponseMessage HentGjeldendePost(string lagId)
         {
             if (string.IsNullOrEmpty(lagId))
-                OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
 
             return Request.CreateResponse(HttpStatusCode.OK, gameApi.HentGjeldendePost(lagId));
         }
 
         /// <summary>
-        /// Sender en melding til PIF.
-        /// Det følger enkelte restriksjoner på Innhold-feltet basert på MeldingsType:
-        ///
+        /// Sender en melding til PIF. 
+        /// Det følger enkelte restriksjoner på Innhold-feltet basert på 'MeldingsType' (husk stor forbokstav!):
+        /// 
+        /// MeldingsType.Ingen 
         /// MeldingsType.Fritekst: Innhold.Length må være mindre eller lik 256 tegn.
         /// MeldingsType.Lengde: Innhold må være en Int
         /// MeldingsType.Himmelretning: Innhold kan være 'North', 'South', 'West' eller 'East'. Case-sensitive.
@@ -112,6 +110,9 @@ namespace BouvetCodeCamp.Api.Game
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
 
+            if (string.IsNullOrEmpty(inputModell.LagId))
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
+            
             try
             {
                 await gameApi.SendMelding(inputModell);

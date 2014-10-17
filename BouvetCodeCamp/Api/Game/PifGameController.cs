@@ -44,7 +44,10 @@
         {
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
-
+            
+            if (string.IsNullOrEmpty(inputModell.LagId))
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
+            
             var lag = lagGameService.HentLagMedLagId(inputModell.LagId);
 
             await _gameApi.RegistrerPifPosisjon(lag, inputModell);
@@ -67,7 +70,10 @@
         {
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
-
+            
+            if (string.IsNullOrEmpty(inputModell.LagId))
+                return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Mangler lagId");
+            
             var kodeRegistrert = await _gameApi.RegistrerKode(inputModell);
 
             return kodeRegistrert ?
