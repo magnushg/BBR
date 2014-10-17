@@ -70,6 +70,7 @@
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,9 +101,37 @@
     <Compile Include="GameApiTest.cs" />
     <Compile Include="Service\LagServiceTest.cs" />
     <Compile Include="Service\PoengServiceTest.cs" />
+    <Compile Include="SpillOppretter\LagOppretterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="ImportData\Myrens\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Myrens\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Myrens\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Oscarsborg\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Oscarsborg\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\Oscarsborg\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\OscarsborgFredag\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\OscarsborgFredag\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportData\OscarsborgFredag\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +146,10 @@
     <ProjectReference Include="..\BouvetCodeCamp.SignalR\BouvetCodeCamp.SignalR.csproj">
       <Project>{8892A91B-F11B-4B33-B5AC-7D4A363EB631}</Project>
       <Name>BouvetCodeCamp.SignalR</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BouvetCodeCamp.SpillOppretter\BouvetCodeCamp.SpillOppretter.csproj">
+      <Project>{17A89190-399A-48E5-BF75-7BF816E066ED}</Project>
+      <Name>BouvetCodeCamp.SpillOppretter</Name>
     </ProjectReference>
     <ProjectReference Include="..\BouvetCodeCamp\BouvetCodeCamp.csproj">
       <Project>{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}</Project>

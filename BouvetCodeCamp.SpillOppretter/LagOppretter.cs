@@ -27,6 +27,8 @@ namespace BouvetCodeCamp.SpillOppretter
         private IEnumerable<Post> _poster;
         private IEnumerable<Lag> _lagListeMedPoster;
 
+        private List<string> hashes; 
+
         public LagOppretter(int antallLag, string lagPosterPath, string posterPath)
         {
             _antallLag = antallLag;
@@ -34,6 +36,8 @@ namespace BouvetCodeCamp.SpillOppretter
             _posterPath = posterPath;
             _lagRepository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
             _lagListe = new List<Lag>();
+
+            hashes = new List<string>();
         }
 
         public IEnumerable<Lag> OpprettLag(IEnumerable<Post> poster)
@@ -64,16 +68,34 @@ namespace BouvetCodeCamp.SpillOppretter
             }).ToList();
         }
 
-        private string ShaChecksum(string input, int index)
+        public string ShaChecksum(string input, int index)
         {
             var sha = SHA256.Create();
             var inputBytes = Encoding.ASCII.GetBytes(input);
             var hash = sha.ComputeHash(inputBytes);
-            return index <= hash.Length - 1?
-                hash[index].ToString(CultureInfo.InvariantCulture) 
-                : hash.Last().ToString(CultureInfo.InvariantCulture);
+
+            var generertHash = GenererHash(index, hash);
+
+            // TODO: Forbedres, .Contains virker ikke. sørg for unike verdier i liste
+            // Regenerer til alle hashes er unike
+            if (hashes.Contains(generertHash))
+            {
+                index += 42;
+                
+                generertHash = GenererHash(index, hash);
+            }
+            
+            hashes.Add(generertHash);
+            
+            return hashes.Last();
         }
 
+        private static string GenererHash(int index, byte[] hash)
+        {
+            return index <= hash.Length - 1?
+                       hash[index].ToString(CultureInfo.InvariantCulture) 
+                       : hash.Last().ToString(CultureInfo.InvariantCulture);
+        }
 
         private IEnumerable<Lag> TilordnePosterTilLagListe()
         {
@@ -82,8 +104,7 @@ namespace BouvetCodeCamp.SpillOppretter
 
             var posterMedKoderJson = File.ReadAllText(_posterPath, Encoding.UTF8);
             var posterMedKoder = JsonConvert.DeserializeObject<IEnumerable<PosterMedKoder>>(posterMedKoderJson);
-
-
+            
            return  _lagListe.Select(lag => new Lag
             {
                 LagId = lag.LagId,
@@ -139,7 +160,6 @@ namespace BouvetCodeCamp.SpillOppretter
                     Posisjon = post.Posisjon,
                     PostTilstand = post.PostTilstand,
                     Sekvensnummer = index
-
                 }).ToList()
             });
         }
