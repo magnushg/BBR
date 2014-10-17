@@ -98,13 +98,15 @@ namespace BouvetCodeCamp.DomeneTjenester
 
             var poeng = PoengTildeling.MeldingsStraff;
 
-            lag.Poeng += poeng;
+            var antallBokstaver = melding.Tekst.Length;
+
+            lag.Poeng += (poeng * antallBokstaver);
 
             var loggHendelse = new LoggHendelse
                                    {
                                        HendelseType = HendelseType.SendtFritekstmeldingStraff,
                                        Tid = DateTime.Now,
-                                       Kommentar = string.Format("{0} poeng", poeng)
+                                       Kommentar = string.Format("{0} poeng tapt for fritekst", poeng)
                                    };
 
             lag.LoggHendelser.Add(loggHendelse);

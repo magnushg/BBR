@@ -70,7 +70,7 @@ namespace BouvetCodeCamp.DomeneTjenester
                     Tid = DateTime.Now
                 });
 
-            lag = _poengService.SjekkOgSettPifPingStraff(lag);
+            //lag = _poengService.SjekkOgSettPifPingStraff(lag);
             lag = _poengService.SjekkOgSettInfisertSoneStraff(lag);
 
             _gameHub.NyPifPosisjon(
