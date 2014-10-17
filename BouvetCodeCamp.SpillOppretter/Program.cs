@@ -11,36 +11,50 @@ namespace BouvetCodeCamp.SpillOppretter
     {
         static void Main(string[] args)
         {
-            var filePath = string.Format("importData/{0}", ConfigurationManager.AppSettings["location"]);
+            Console.WriteLine("Bouvet Battle Royale Game Creator");
+            Console.WriteLine("----------------------------------\r\n");
+            Console.Write("Create new game for {0} in {1} (y/n): ", ConfigurationManager.AppSettings["location"], ConfigurationManager.AppSettings["DocumentDbDatabaseNavn"]);
+            var answer = Console.ReadLine();
 
-            var mapdataConverter = new JSONKartdataConverter(filePath + "/poster.json");
+            if (answer == "y" || answer == "yes")
+            {
+                var filePath = string.Format("importData/{0}", ConfigurationManager.AppSettings["location"]);
 
-            Console.WriteLine("Initializing Document Db");
-            
-            var kartdataLagring = new KartdataLagring();
-            var lagoppretter = new LagOppretter(Convert.ToInt32(ConfigurationManager.AppSettings["numberOfTeams"]), filePath + "/lagPoster.json", filePath + "/koder.json");
+                var mapdataConverter = new JSONKartdataConverter(filePath + "/poster.json");
 
-            Console.WriteLine("Converting data and saving to database");
+                Console.WriteLine("Initializing Document Db");
 
-            var mapdata = mapdataConverter.KonverterKartdata().ToList();
+                var kartdataLagring = new KartdataLagring();
+                var lagoppretter = new LagOppretter(Convert.ToInt32(ConfigurationManager.AppSettings["numberOfTeams"]), filePath + "/lagPoster.json", filePath + "/koder.json");
 
-            kartdataLagring.SlettAlleKartdata();
-            var poster = kartdataLagring.LagreKartdata(mapdata);
+                Console.WriteLine("Converting data and saving to database");
 
-            Console.WriteLine("Done processing {0} map data points", mapdata.Count);
+                var mapdata = mapdataConverter.KonverterKartdata().ToList();
 
-            Console.WriteLine("Oppretter lag...");
-            lagoppretter.OpprettLag(poster);
+                kartdataLagring.SlettAlleKartdata();
+                var poster = kartdataLagring.LagreKartdata(mapdata);
 
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+                Console.WriteLine("Done processing {0} map data points", mapdata.Count);
 
-            var antallLagOpprettet = lagoppretter.HentAlleLag();
-            var ønsketAntallLag = ConfigurationManager.AppSettings["numberOfTeams"];
+                Console.WriteLine("Oppretter lag...");
+                lagoppretter.OpprettLag(poster);
 
-            Console.WriteLine("{0} av {1} lag opprettet", antallLagOpprettet.Count(), ønsketAntallLag);
-            
-            Console.WriteLine("\r\nPress any key to exit...");
-            Console.ReadLine();
+                Thread.Sleep(TimeSpan.FromSeconds(5));
+
+                var antallLagOpprettet = lagoppretter.HentAlleLag();
+                var ønsketAntallLag = ConfigurationManager.AppSettings["numberOfTeams"];
+
+                Console.WriteLine("{0} av {1} lag opprettet", antallLagOpprettet.Count(), ønsketAntallLag);
+
+                Console.WriteLine("\r\nPress any key to exit...");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Exiting game creator...");
+                Environment.Exit(0);
+            }
         }
+            
     }
 }

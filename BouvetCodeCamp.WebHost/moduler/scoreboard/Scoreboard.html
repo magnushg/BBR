@@ -414,6 +414,8 @@
 
             hub.client.settInfisertSone = function (infisertSone) {
                 lastInnInfisertSone(infisertSone);
+
+                $('#infected').trigger("play");
             };
 
             // Create a function that the hub can call to broadcast messages.
@@ -469,8 +471,6 @@
                 
                 $('#cheer').trigger("play");
             }
-
-            
         });
         
         function LeggTilNyLoggHendelse(elem) {
@@ -487,11 +487,15 @@
         }
 
     </script>
+
     <audio id="cheer">
-
         <source src="Cheering.mp3" type="audio/mpeg">
-
     </audio>
+
+    <audio id="infected">
+        <source src="DX1Beep.wav" type="audio/mpeg">
+    </audio>
+
     <div id="overlay" style="display:none;"><div id="middleText">LAG VANT POENG</div> </div>
 </body>
 </html>

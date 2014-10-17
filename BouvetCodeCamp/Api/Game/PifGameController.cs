@@ -121,7 +121,7 @@
                                                          {
                                                              LagId = melding.LagId,
                                                              Innhold = melding.Tekst,
-                                                             Type = melding.Type,
+                                                             Type = melding.Type.ToString(),
                                                              Tid = melding.Tid
                                                          }).ToList();
 
