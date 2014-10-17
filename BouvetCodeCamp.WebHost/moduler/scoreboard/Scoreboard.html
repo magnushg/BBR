@@ -42,6 +42,7 @@
 
     <link rel="stylesheet" href="leaflet-awesomelabels/leaflet.awesome-markers.css">
     <script src="leaflet-awesomelabels/leaflet.awesome-markers.js"></script>
+    <script src="MakiMarkers.js"></script>
     <script src="js/vendors/leaflet-label/leaflet.label.js"></script>
     <style>
         .marquee {
@@ -160,7 +161,7 @@
         'use strict';
 
         var map = null;
-        var redMarkerIcon = null;
+      //  var redMarkerIcon = null;
         var infectedMarkerIcon = null;
 
         var sentrumKoordinatForMyrens = [59.9361, 10.75728];
@@ -179,18 +180,18 @@
             infrastruktur.sendAutentisertRequest("/api/admin/infisert/get", "GET", lastInnInfisertSone);
 
             // Opprett PIF-marker
-            var redIcon = L.Icon.Default.extend({
-                options: {
-                    iconUrl: 'js/vendors/leaflet/custommarkers/marker-icon-red.png'
-                }
-            });
+            //var redIcon = L.Icon.Default.extend({
+            //    options: {
+            //        iconUrl: 'js/vendors/leaflet/custommarkers/marker-icon-red.png'
+            //    }
+            //});
 
-            //redIcon = L.AwesomeMarkers.icon({
+            //redMarkerIcon = L.AwesomeMarkers.icon({
             //    icon: 'coffee',
             //    markerColor: 'red'
             //});
 
-            redMarkerIcon = new redIcon();
+            //redMarkerIcon = new redIcon();
 
             // Opprett Infected-marker
             var infectedIcon = L.Icon.Default.extend({
@@ -309,7 +310,8 @@
                 if (sistePifPosisjonForLag != null) {
                     SCOREBOARD.Lag[key].Marker = L.marker(
                         [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
-                        { icon: redMarkerIcon }).bindLabel(val.lagnummer + "", { noHide: true })
+                        { icon: getLagMarker(val.lagnummer) })
+                        //.bindLabel(val.lagnummer + "", { noHide: true })
                         .addTo(map);
                 }
             });
@@ -344,7 +346,15 @@
             return modelArray;
         };
 
-        // POSTER
+        function getLagMarker(lagnummer) {
+            return L.MakiMarkers.icon({ icon: "rocket", color: b.fill_color(lagnummer), size: "m" });
+            return L.AwesomeMarkers.icon({
+                icon: 'glass',
+                markerColor: b.fill_color(lagnummer) + ''
+        });
+}        
+
+// POSTER
         function lastInnPoster(data) {
             $.each(data, function (key, val) {
                 SCOREBOARD.Poster.push(val);
@@ -443,7 +453,7 @@
                     var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
 
                     if (msg.erinfisert) {
-                        SCOREBOARD.Marquee.push(lag[0].lagnummer + " ER INFISERT");
+                        SCOREBOARD.Marquee.push("LAG " + lag[0].lagnummer + " ER INFISERT");
                     }
 
                     if (typeof lag[0].Marker == "undefined"
@@ -452,12 +462,12 @@
 
                         lag[0].Marker = L.marker(
                             [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
-                            { icon: msg.erinfisert ? infectedMarkerIcon : redMarkerIcon })
-                            .bindLabel(lag[0].lagnummer + "", { noHide: true })
+                            { icon: msg.erinfisert ? infectedMarkerIcon : getLagMarker(lag[0].lagnummer) })
+                            //.bindLabel(lag[0].lagnummer + "", { noHide: true })
                             .addTo(map);
                     } else {
                         lag[0].Marker.setLatLng(nyLeafletLatLon);
-                        lag[0].Marker.setIcon(msg.erinfisert ? infectedMarkerIcon : redMarkerIcon);
+                        lag[0].Marker.setIcon(msg.erinfisert ? infectedMarkerIcon : getLagMarker(lag[0].lagnummer));
                     }
                 }
             };
