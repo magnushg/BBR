@@ -62,7 +62,9 @@ namespace BouvetCodeCamp.DomeneTjenester
             };
 
             lag.PifPosisjoner.Add(pifPosisjon);
-            
+
+            SørgForIkkeForMangePifPosisjoner(lag);
+
             lag = _poengService.SjekkOgSettInfisertSoneStraff(lag);
 
             _gameHub.NyPifPosisjon(
@@ -76,6 +78,14 @@ namespace BouvetCodeCamp.DomeneTjenester
                     });
 
             await _lagService.Oppdater(lag);
+        }
+
+        private static void SørgForIkkeForMangePifPosisjoner(Lag lag)
+        {
+            if (lag.PifPosisjoner.Count > 5)
+            {
+                lag.PifPosisjoner.Remove(lag.PifPosisjoner.First());
+            }
         }
 
         public PifPosisjonOutputModell HentSistePifPositionForLag(string lagId)

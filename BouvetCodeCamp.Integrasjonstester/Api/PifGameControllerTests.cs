@@ -15,6 +15,8 @@
     using Domene.Entiteter;
     using Domene.InputModels;
 
+    using FizzWare.NBuilder;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Newtonsoft.Json;
@@ -59,6 +61,57 @@
 
                 var httpResponseMessage = await httpClient.PostAsync(
                     ApiEndPointAddress, 
+                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
+
+                isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+            }
+
+            // Assert
+            isSuccessStatusCode.ShouldBeTrue();
+        }
+        
+        private int sekvenstall = 0;
+
+        private int HentSekvenstall()
+        {
+            return sekvenstall++;
+        }
+
+        [TestMethod]
+        [TestCategory(Testkategorier.Api)]
+        public async Task SendPifPosition_HarAltforMangePifPosisjoner_GirOk()
+        {
+            // Arrange
+            var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(100)
+                .All()
+                .With(o => o.LagId = HentSekvenstall().ToString())
+                .Build();
+
+            SørgForAtEtLagMedPifPosisjonerFinnes((List<PifPosisjon>)pifPosisjoner);
+
+            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpifposisjon";
+
+            bool isSuccessStatusCode;
+
+            // Act
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var modell = new PifPosisjonInputModell
+                {
+                    LagId = TestLagId,
+                    Posisjon = new Koordinat
+                    {
+                        Latitude = "14.02",
+                        Longitude = "11"
+                    }
+                };
+
+                var modellSomJson = JsonConvert.SerializeObject(modell);
+
+                var httpResponseMessage = await httpClient.PostAsync(
+                    ApiEndPointAddress,
                     new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
 
                 isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
