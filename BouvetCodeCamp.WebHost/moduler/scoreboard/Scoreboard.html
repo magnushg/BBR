@@ -40,7 +40,8 @@
 
     <link rel="stylesheet" href="js/vendors/leaflet-label/leaflet.label.css" />
 
-
+    <link rel="stylesheet" href="leaflet-awesomelabels/leaflet.awesome-markers.css">
+    <script src="leaflet-awesomelabels/leaflet.awesome-markers.js"></script>
     <script src="js/vendors/leaflet-label/leaflet.label.js"></script>
     <style>
         .marquee {
@@ -174,6 +175,11 @@
                 }
             });
 
+            //redIcon = L.AwesomeMarkers.icon({
+            //    icon: 'coffee',
+            //    markerColor: 'red'
+            //});
+
             redMarkerIcon = new redIcon();
 
             // Opprett Infected-marker
@@ -289,11 +295,11 @@
         function settLagPaaKartet() {
             $.each(SCOREBOARD.Lag, function (key, val) {
                 var sistePifPosisjonForLag = hentSistePifPosisjonForLag(val);
-
+                
                 if (sistePifPosisjonForLag != null) {
                     SCOREBOARD.Lag[key].Marker = L.marker(
                         [sistePifPosisjonForLag.gps.latitude, sistePifPosisjonForLag.gps.longitude],
-                        { icon: redMarkerIcon }).bindLabel(val.lagnummer, { noHide: true })
+                        { icon: redMarkerIcon }).bindLabel(val.lagnummer + "", { noHide: true })
                         .addTo(map);
                 }
             });
@@ -339,7 +345,7 @@
         }
         function settPosterPaaKartet() {
             $.each(SCOREBOARD.Poster, function (key, val) {
-                SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).bindLabel(val.navn, { noHide: true }).addTo(map);
+                SCOREBOARD.Poster[key].Marker = L.marker([val.gps.latitude, val.gps.longitude]).addTo(map);
             });
         }
 
@@ -348,7 +354,7 @@
 
             $.each(SCOREBOARD.LoggHendelser, function (index, value) {
                 $('.hendelsestabell').find('tbody:last').append(
-                    '<tr><td>' + hentLagEtterLagId(value.lagId)[0].lagNavn +
+                    '<tr><td>' + hentLagEtterLagId(value.lagId)[0].lagnummer +
                     '</td><td>' + value.hendelse +
                     '</td><td>' + value.kommentar +
                     '</td><td>' + value.tid +
@@ -427,7 +433,7 @@
                     var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
 
                     if (msg.erinfisert) {
-                        SCOREBOARD.Marquee.push(lag[0].lagNavn + " ER INFISERT");
+                        SCOREBOARD.Marquee.push(lag[0].lagnummer + " ER INFISERT");
                     }
 
                     if (typeof lag[0].Marker == "undefined"
@@ -437,7 +443,7 @@
                         lag[0].Marker = L.marker(
                             [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
                             { icon: msg.erinfisert ? infectedMarkerIcon : redMarkerIcon })
-                            .bindLabel(lag[0].lagId, { noHide: true })
+                            .bindLabel(lag[0].lagnummer + "", { noHide: true })
                             .addTo(map);
                     } else {
                         lag[0].Marker.setLatLng(nyLeafletLatLon);
@@ -454,7 +460,7 @@
             // Poeng tildelt
             hub.client.poengTildelt = function (msg) {
                 var lag = hentLagEtterLagId(msg.lagId);
-                b.updateScore(lag.lagnummer, msg.poeng);
+                b.updateScore(lag[0].lagnummer, msg.poeng);
                 //if (lag != null && lag[0] != null) {
                 //    lag[0].poeng = msg.poeng;
                    
@@ -467,7 +473,7 @@
             hub.client.nyPostRegistrert = function (msg) {
                 var lag = hentLagEtterLagId(msg.lagId);
 
-                $("#middleText").text(lag[0].lagNavn + ' FANT POST ' + msg.postnummer);
+                $("#middleText").text("Lag " + lag[0].lagnummer + ' FANT POST ' + msg.postnummer);
                 
                 $('#cheer').trigger("play");
             }
