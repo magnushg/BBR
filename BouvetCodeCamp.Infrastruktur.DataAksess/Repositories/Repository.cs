@@ -3,6 +3,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using BouvetCodeCamp.CrossCutting;
@@ -26,9 +27,9 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
         protected readonly IKonfigurasjon _konfigurasjon;
         protected readonly IDocumentDbContext Context;
 
-        private DocumentCollection _collection;
+        private static SemaphoreSlim semaphoreSlim;
 
-  
+        private DocumentCollection _collection;
 
         public DocumentCollection Collection
         {
@@ -48,7 +49,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             _konfigurasjon = konfigurasjon;
             Context = context;
 
-            
+            semaphoreSlim = new SemaphoreSlim(3);
         }
 
         public async Task<string> Opprett(T document)
@@ -76,17 +77,25 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public async Task Oppdater(T document)
         {
-            document = SorgForDocumentUnderRequestLimit(document);
+            semaphoreSlim.Wait();
 
-            var oppdaterStart = DateTime.Now;
+            try
+            {
+                document = SorgForDocumentUnderRequestLimit(document);
 
-            await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
+                var oppdaterStart = DateTime.Now;
 
-            var oppdaterEnd = DateTime.Now;
+                await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
 
-            LoggOppdatering(document, oppdaterStart, oppdaterEnd);
+                var oppdaterEnd = DateTime.Now;
+
+                LoggOppdatering(document, oppdaterStart, oppdaterEnd);
+            }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
         }
-
 
         public async Task Slett(T document)
         {
@@ -129,7 +138,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                     objektStorrelseKb = EnhetConverter.HentObjektStorrelse(lag);
                 }
 
-               // log.Warn(string.Format("Krympet {0} ned til {1}kb", lag.DocumentId, objektStorrelseKb));
+                // log.Warn(string.Format("Krympet {0} ned til {1}kb", lag.DocumentId, objektStorrelseKb));
 
                 document = (T)Convert.ChangeType(lag, typeof(T));
             }
