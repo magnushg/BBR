@@ -161,11 +161,7 @@
           
         </div>
     </div>
-    <div class='marquee'>
-        <div class='marquee-text'>
-
-        </div>
-    </div>
+  
     <script type="text/javascript">
         'use strict';
 
@@ -410,26 +406,26 @@
                 autoHeight: true
             });
             
-            var marquee = $('div.marquee');
-            var nextText = SCOREBOARD.Marquee.pop();
-            marquee.text(nextText);
-            marquee.each(function () {
-                var mar = $(this), indent = mar.width();
-                mar.marquee = function () {
-                    indent--;
-                    mar.css('text-indent', indent);
+            //var marquee = $('div.marquee');
+            //var nextText = SCOREBOARD.Marquee.pop();
+            //marquee.text(nextText);
+            //marquee.each(function () {
+            //    var mar = $(this), indent = mar.width();
+            //    mar.marquee = function () {
+            //        indent--;
+            //        mar.css('text-indent', indent);
 
-                    if (indent < -mar.width() || marquee.text() == "") {
-                        var nextText = SCOREBOARD.Marquee.pop();
-                        if (typeof nextText == "undefined")
-                            marquee.text("");
-                        else
-                            marquee.text(nextText);
-                        indent = mar.width();
-                    }
-                };
-                mar.data('interval', setInterval(mar.marquee, 1000 / 500));
-            });
+            //        if (indent < -mar.width() || marquee.text() == "") {
+            //            var nextText = SCOREBOARD.Marquee.pop();
+            //            if (typeof nextText == "undefined")
+            //                marquee.text("");
+            //            else
+            //                marquee.text(nextText);
+            //            indent = mar.width();
+            //        }
+            //    };
+            //    mar.data('interval', setInterval(mar.marquee, 1000 / 500));
+            //});
 
             $('#cheer').on('play', function () {
                 $("#overlay").show();
@@ -461,22 +457,22 @@
 
                     var nyLeafletLatLon = new L.LatLng(msg.latitude, msg.longitude);
 
-                    if (msg.erinfisert) {
-                        SCOREBOARD.Marquee.push("LAG " + lag[0].lagnummer + " ER INFISERT");
-                    }
+                    //if (msg.erinfisert) {
+                    //    SCOREBOARD.Marquee.push("LAG " + lag[0].lagnummer + " ER INFISERT");
+                    //}
 
                     if (typeof lag[0].Marker == "undefined"
                         || lag[0].Marker == null
                         || $.isEmptyObject(lag[0].Marker)) {
 
                         lag[0].Marker = L.marker(
-                            [nyLeafletLatLon.lat, nyLeafletLatLon.lng],
-                            { icon: msg.erinfisert ? infectedMarkerIcon : getLagMarker(lag[0].lagnummer) })
-                            //.bindLabel(lag[0].lagnummer + "", { noHide: true })
+                            [nyLeafletLatLon.lat, nyLeafletLatLon.lng]
+                            //, { icon: msg.erinfisert ? infectedMarkerIcon : getLagMarker(lag[0].lagnummer) }
+                            )//.bindLabel(lag[0].lagnummer + "", { noHide: true })
                             .addTo(map);
                     } else {
                         lag[0].Marker.setLatLng(nyLeafletLatLon);
-                        lag[0].Marker.setIcon(msg.erinfisert ? infectedMarkerIcon : getLagMarker(lag[0].lagnummer));
+                        //lag[0].Marker.setIcon(msg.erinfisert ? infectedMarkerIcon : getLagMarker(lag[0].lagnummer));
                     }
                 }
             };
