@@ -17,19 +17,12 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
 
         public Lag HentLagMedLagId(string lagId)
         {
-            try
-            {
-                var lag = _lagRepository.Søk(o => o.LagId == lagId);
+            var lag = _lagRepository.Søk(o => o.LagId == lagId);
 
-                if (lag.Count() > 1)
-                    throw new Exception("Fant flere lag med lagId: " + lagId);
+            if (lag.Count() > 1)
+                throw new Exception("Fant flere lag med lagId: " + lagId);
 
-                return lag.First();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Fant ikke lag med lagId: " + lagId, e);
-            }
+            return lag.First();
         }
 
         public PifPosisjon HentSistePifPosisjon(string lagId)
