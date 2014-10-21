@@ -27,7 +27,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
         protected readonly IKonfigurasjon _konfigurasjon;
         protected readonly IDocumentDbContext Context;
 
-        private static SemaphoreSlim semaphoreSlim;
+        private readonly ILog _log;
 
         private DocumentCollection _collection;
 
@@ -44,12 +44,11 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             }
         }
 
-        protected Repository(IKonfigurasjon konfigurasjon, IDocumentDbContext context)
+        protected Repository(IKonfigurasjon konfigurasjon, IDocumentDbContext context, ILog log)
         {
             _konfigurasjon = konfigurasjon;
             Context = context;
-
-            semaphoreSlim = new SemaphoreSlim(3);
+            _log = log;
         }
 
         public async Task<string> Opprett(T document)
@@ -69,6 +68,8 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public T Hent(string id)
         {
+            _log.Debug("Henter " + id);
+
             return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                 .Where(d => d.DocumentId == id)
                 .AsEnumerable()
@@ -77,24 +78,15 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
         public async Task Oppdater(T document)
         {
-            semaphoreSlim.Wait();
+            document = SorgForDocumentUnderRequestLimit(document);
 
-            try
-            {
-                document = SorgForDocumentUnderRequestLimit(document);
+            var oppdaterStart = DateTime.Now;
 
-                var oppdaterStart = DateTime.Now;
+            await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
 
-                await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
+            var oppdaterEnd = DateTime.Now;
 
-                var oppdaterEnd = DateTime.Now;
-
-                LoggOppdatering(document, oppdaterStart, oppdaterEnd);
-            }
-            finally
-            {
-                semaphoreSlim.Release();
-            }
+            LoggOppdatering(document, oppdaterStart, oppdaterEnd);
         }
 
         public async Task Slett(T document)
@@ -138,7 +130,7 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
                     objektStorrelseKb = EnhetConverter.HentObjektStorrelse(lag);
                 }
 
-                // log.Warn(string.Format("Krympet {0} ned til {1}kb", lag.DocumentId, objektStorrelseKb));
+                _log.Warn(string.Format("Krympet {0} ned til {1}kb", lag.DocumentId, objektStorrelseKb));
 
                 document = (T)Convert.ChangeType(lag, typeof(T));
             }
@@ -157,17 +149,17 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
 
             var oppdateringTidSomSekunder = deltaTid.Duration().TotalSeconds;
 
-            //if (oppdateringTidSomSekunder > 5)
-            //    log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
+            if (oppdateringTidSomSekunder > 5)
+                _log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
 
-            //if (documentStorrelse > RequestLimitKb)
-            //{
-            //    log.Warn(loggMelding);
-            //}
-            //else
-            //{
-            //    log.Debug(loggMelding);
-            //}
+            if (documentStorrelse > RequestLimitKb)
+            {
+                _log.Warn(loggMelding);
+            }
+            else
+            {
+                _log.Debug(loggMelding);
+            }
         }
 
         private void LoggSletting(T document, DateTime slettStart, DateTime slettEnd)
@@ -177,14 +169,14 @@ namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
             var loggMelding = "Sletting av " + document.DocumentId + " på " + document + "kb tok..."
                               + slettStart.Subtract(slettEnd);
 
-            //if (documentStorrelse > RequestLimitKb)
-            //{
-            //    log.Warn(loggMelding);
-            //}
-            //else
-            //{
-            //    log.Debug(loggMelding);
-            //}
+            if (documentStorrelse > RequestLimitKb)
+            {
+                _log.Warn(loggMelding);
+            }
+            else
+            {
+                _log.Debug(loggMelding);
+            }
         }
     }
 }

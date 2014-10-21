@@ -17,6 +17,8 @@ namespace BouvetCodeCamp.SpillOppretter
 {
     using System.Threading;
 
+    using BouvetCodeCamp.CrossCutting;
+
     public class LagOppretter
     {
         private readonly int _antallLag;
@@ -27,14 +29,16 @@ namespace BouvetCodeCamp.SpillOppretter
         private IEnumerable<Post> _poster;
         private IEnumerable<Lag> _lagListeMedPoster;
 
-        private List<string> hashes; 
+        private readonly List<string> hashes; 
 
         public LagOppretter(int antallLag, string lagPosterPath, string posterPath)
         {
+            var log = Log4NetLogger.HentLogger(typeof(LagOppretter));
+
             _antallLag = antallLag;
             _lagPosterPath = lagPosterPath;
             _posterPath = posterPath;
-            _lagRepository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            _lagRepository = new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()), log);
             _lagListe = new List<Lag>();
 
             hashes = new List<string>();

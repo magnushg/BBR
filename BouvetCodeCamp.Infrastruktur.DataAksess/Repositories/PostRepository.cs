@@ -3,6 +3,8 @@
     using Domene.Entiteter;
     using Interfaces;
 
+    using log4net;
+
     using Microsoft.Azure.Documents;
 
     public class PostRepository : Repository<Post>
@@ -10,7 +12,10 @@
         private string _collectionId;
         private DocumentCollection _collection;
 
-        public PostRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context) : base(konfigurasjon, context)
+        public PostRepository(
+            IKonfigurasjon konfigurasjon, 
+            IDocumentDbContext context, 
+            ILog log) : base(konfigurasjon, context, log)
         {
         }
 

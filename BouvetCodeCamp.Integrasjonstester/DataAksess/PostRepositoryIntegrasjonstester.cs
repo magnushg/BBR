@@ -5,6 +5,10 @@ using Should;
 
 namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
+    using Autofac;
+
+    using BouvetCodeCamp.CrossCutting;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.Infrastruktur.DataAksess;
     using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
@@ -72,9 +76,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             ingenPoster.ShouldBeEmpty();
         }
         
-        private PostRepository OpprettRepository()
+        private IRepository<Post> OpprettRepository()
         {
-            return new PostRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            var builder = Startup.BuildContainer();
+            var container = builder.Build();
+            return container.Resolve<IRepository<Post>>();
         }
     }
 }

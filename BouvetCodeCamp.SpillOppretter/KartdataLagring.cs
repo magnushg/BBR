@@ -6,12 +6,15 @@ using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
 namespace BouvetCodeCamp.SpillOppretter
 {
+    using BouvetCodeCamp.CrossCutting;
+
     public class KartdataLagring
     {
         private readonly PostRepository _postRepository;
         public KartdataLagring()
         {
-            _postRepository = new PostRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
+            var log = Log4NetLogger.HentLogger(typeof(KartdataLagring));
+            _postRepository = new PostRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()), log);
         }
 
         public IEnumerable<Post> LagreKartdata(IEnumerable<Post> poster)
