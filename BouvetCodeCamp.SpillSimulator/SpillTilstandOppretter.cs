@@ -91,7 +91,7 @@ namespace BouvetCodeCamp.SpillSimulator
                                                     {13, "axne"},
                                                     {2, "fxo3" }
                                                 }},
-                {"126", new Dictionary<int, string>
+                {"1baa7a7", new Dictionary<int, string>
                                                 {
                                                     {13, "nxn11" },
                                                     {2, "gxn6" },
@@ -101,7 +101,7 @@ namespace BouvetCodeCamp.SpillSimulator
                                                     {5, "fxf1a" },
                                                     {6, "uxff" }
                                                 }},
-               {"35", new Dictionary<int, string> {
+               {"990b23e", new Dictionary<int, string> {
                                                     {30, "kxv20"},
                                                     {19, "axx15"},
                                                     {20, "exw16"},
@@ -110,7 +110,7 @@ namespace BouvetCodeCamp.SpillSimulator
                                                     {9, "bxwb"},
                                                     {4, "lxc6" }
                                                 }},
-                {"61", new Dictionary<int, string> {
+                {"a2f0457", new Dictionary<int, string> {
                                                     {21, "pxg1b"},
                                                     {18, "fxd18"},
                                                     {24, "nxd1e"},
@@ -119,7 +119,7 @@ namespace BouvetCodeCamp.SpillSimulator
                                                     {3, "ixa9"},
                                                     {10, "sxm10" }
                                                 }},
-                {"238", new Dictionary<int, string> {
+                {"34b4a0e", new Dictionary<int, string> {
                                                     {15, "axy12"},
                                                     {10, "lxud"},
                                                     {3, "nxy6"},
@@ -128,7 +128,7 @@ namespace BouvetCodeCamp.SpillSimulator
                                                     {30, "mxq21"},
                                                     {16, "uxx13" }
                                                 }},
-                {"55", new Dictionary<int, string> {
+                {"4c97faa", new Dictionary<int, string> {
                                                     {16, "kxt18"},
                                                     {26, "txf22"},
                                                     {2, "mxma"},
