@@ -43,17 +43,7 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             var log = Log4NetLogger.HentLogger(typeof(BaseApiTest));
             log.Info("BaseApiTest startup ok.");
 
-           webServer= WebApp.Start<Startup>(ApiBaseAddress);
-            //using ()
-            //{
-            //    //http://localhost:2014/api/game/pif/getAll
-            //    ///http://localhost:2014/api/game/pif/put?Latitude=59.674976&Longitude=10.606908&LagId=3
-            //    //http://localhost:2014/api/game/setRedZone?Latitude=59.674976&Longitude=10.606908
-            //    //http://localhost:2014/api/game/setRedZone?Latitude=0&Longitude=0
-            //    Console.WriteLine("Server running at {0}", ApiBaseAddress);
-            //    Console.WriteLine("\r\nPress any key to stop server...");
-            //    Console.ReadLine();
-            //}
+            webServer = WebApp.Start<Startup>(ApiBaseAddress);
         }
         [TestCleanup]
         public void Cleanup()

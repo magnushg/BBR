@@ -46,7 +46,7 @@ namespace BouvetCodeCamp
 
             Configure(config.Formatters, config);
             config.MapHttpAttributeRoutes();
-           /// config.EnableSystemDiagnosticsTracing();
+            config.EnableSystemDiagnosticsTracing();
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;            
             SetGlobalizationCulture("nb-NO");
@@ -82,7 +82,7 @@ namespace BouvetCodeCamp
         public static ContainerBuilder BuildContainer()
         {
             var builder = new ContainerBuilder();
-        ///    builder.RegisterModule<log4netAutofacModule>();
+            builder.RegisterModule<log4netAutofacModule>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
@@ -111,6 +111,7 @@ namespace BouvetCodeCamp
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"))
                 .As<IHubContext<IGameHub>>()
                 .SingleInstance();
+
             builder.RegisterType<GameHubProxy>().As<IGameHub>();
             return builder;
         }

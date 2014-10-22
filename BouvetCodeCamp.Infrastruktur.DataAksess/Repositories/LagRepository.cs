@@ -5,11 +5,16 @@
     using Domene.Entiteter;
     using Interfaces;
 
+    using log4net;
+
     public class LagRepository : Repository<Lag>
     {
         private string _collectionId;
 
-        public LagRepository(IKonfigurasjon konfigurasjon, IDocumentDbContext context) : base(konfigurasjon, context)
+        public LagRepository(
+            IKonfigurasjon konfigurasjon, 
+            IDocumentDbContext context, 
+            ILog log) : base(konfigurasjon, context, log)
         {
         }
 
