@@ -8,11 +8,11 @@ using System.Runtime.InteropServices;
 using BouvetCodeCamp;
 using Microsoft.Owin;
 
-[assembly: AssemblyTitle("BouvetCodeCamp.WebHost")]
+[assembly: AssemblyTitle("Bouvet.BouvetBattleRoyale.Applikasjon.WebHost")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BouvetCodeCamp.WebHost")]
+[assembly: AssemblyProduct("Bouvet.BouvetBattleRoyale.Applikasjon.WebHost")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

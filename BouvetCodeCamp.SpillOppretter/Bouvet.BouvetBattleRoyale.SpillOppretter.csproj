@@ -7,8 +7,8 @@
     <ProjectGuid>{17A89190-399A-48E5-BF75-7BF816E066ED}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BouvetCodeCamp.SpillOppretter</RootNamespace>
-    <AssemblyName>BouvetCodeCamp.SpillOppretter</AssemblyName>
+    <RootNamespace>Bouvet.BouvetBattleRoyale.SpillOppretter</RootNamespace>
+    <AssemblyName>Bouvet.BouvetBattleRoyale.SpillOppretter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -125,21 +125,21 @@
     <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetBattleRoyale.CrossCutting\BouvetCodeCamp.CrossCutting.csproj">
+    <ProjectReference Include="..\BouvetBattleRoyale.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj">
       <Project>{23369163-cdfa-48ea-875d-918214398d70}</Project>
-      <Name>BouvetCodeCamp.CrossCutting</Name>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj">
+    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
       <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
-      <Name>BouvetCodeCamp.DomeneTjenester</Name>
+      <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj">
+    <ProjectReference Include="..\BouvetCodeCamp.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
-      <Name>BouvetCodeCamp.Domene</Name>
+      <Name>Bouvet.BouvetBattleRoyale.Domene</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj">
+    <ProjectReference Include="..\BouvetCodeCamp.Infrastruktur.DataAksess\Bouvet.BouvetBattleRoyale.Infrastruktur.DataAksess.csproj">
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
-      <Name>BouvetCodeCamp.Infrastruktur.DataAksess</Name>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.DataAksess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

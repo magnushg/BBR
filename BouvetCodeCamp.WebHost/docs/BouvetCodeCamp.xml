@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>BouvetCodeCamp</name>
+        <name>Bouvet.BouvetBattleRoyale.Applikasjon.Owin</name>
     </assembly>
     <members>
         <member name="T:BouvetCodeCamp.Api.Admin.InfisertController">

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BouvetCodeCamp.SpillOppretter")]
+[assembly: AssemblyTitle("Bouvet.BouvetBattleRoyale.SpillOppretter")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BouvetCodeCamp.SpillOppretter")]
+[assembly: AssemblyProduct("Bouvet.BouvetBattleRoyale.SpillOppretter")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

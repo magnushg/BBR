@@ -10,42 +10,42 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8FCD8F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.WebHost", "BouvetCodeCamp.WebHost\BouvetCodeCamp.WebHost.csproj", "{48B3CD05-B311-421A-B199-2FAB785487E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Applikasjon.WebHost", "BouvetCodeCamp.WebHost\Bouvet.BouvetBattleRoyale.Applikasjon.WebHost.csproj", "{48B3CD05-B311-421A-B199-2FAB785487E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp", "BouvetCodeCamp\BouvetCodeCamp.csproj", "{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Applikasjon.Owin", "BouvetCodeCamp\Bouvet.BouvetBattleRoyale.Applikasjon.Owin.csproj", "{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BEA4BB17-4E4B-4E53-9488-5397E50B76A7} = {BEA4BB17-4E4B-4E53-9488-5397E50B76A7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Infrastruktur.DataAksess", "BouvetCodeCamp.Infrastruktur.DataAksess\BouvetCodeCamp.Infrastruktur.DataAksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Infrastruktur.DataAksess", "BouvetCodeCamp.Infrastruktur.DataAksess\Bouvet.BouvetBattleRoyale.Infrastruktur.DataAksess.csproj", "{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Integrasjonstester", "BouvetCodeCamp.Integrasjonstester\BouvetCodeCamp.Integrasjonstester.csproj", "{7DE8731C-5369-461E-AF95-602969ACAC4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Integrasjonstester", "BouvetCodeCamp.Integrasjonstester\Bouvet.BouvetBattleRoyale.Integrasjonstester.csproj", "{7DE8731C-5369-461E-AF95-602969ACAC4E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Tester", "01 - Tester", "{48C547AC-6E5D-4D7D-BD0E-A946210418CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.UnitTest", "BouvetCodeCamp.UnitTest\BouvetCodeCamp.UnitTest.csproj", "{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Unittests", "BouvetCodeCamp.UnitTest\Bouvet.BouvetBattleRoyale.Unittests.csproj", "{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Verktøy", "02 - Verktøy", "{578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.Domene", "BouvetCodeCamp.Domene\BouvetCodeCamp.Domene.csproj", "{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Domene", "BouvetCodeCamp.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj", "{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.DomeneTjenester", "BouvetCodeCamp.DomeneTjenester\BouvetCodeCamp.DomeneTjenester.csproj", "{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Tjenester", "BouvetCodeCamp.DomeneTjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj", "{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.SpillOppretter", "BouvetCodeCamp.SpillOppretter\BouvetCodeCamp.SpillOppretter.csproj", "{17A89190-399A-48E5-BF75-7BF816E066ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.SpillOppretter", "BouvetCodeCamp.SpillOppretter\Bouvet.BouvetBattleRoyale.SpillOppretter.csproj", "{17A89190-399A-48E5-BF75-7BF816E066ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.SpillSimulator", "BouvetCodeCamp.SpillSimulator\BouvetCodeCamp.SpillSimulator.csproj", "{E1D85B38-DAD2-4C9C-B4D8-B9264D191907}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.SpillSimulator", "BouvetCodeCamp.SpillSimulator\Bouvet.BouvetBattleRoyale.SpillSimulator.csproj", "{E1D85B38-DAD2-4C9C-B4D8-B9264D191907}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.SignalR", "BouvetCodeCamp.SignalR\BouvetCodeCamp.SignalR.csproj", "{8892A91B-F11B-4B33-B5AC-7D4A363EB631}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Tjenester.SignalR", "BouvetCodeCamp.SignalR\Bouvet.BouvetBattleRoyale.Tjenester.SignalR.csproj", "{8892A91B-F11B-4B33-B5AC-7D4A363EB631}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouvetCodeCamp.CrossCutting", "BouvetBattleRoyale.CrossCutting\BouvetCodeCamp.CrossCutting.csproj", "{23369163-CDFA-48EA-875D-918214398D70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Infrastruktur.Logging", "BouvetBattleRoyale.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj", "{23369163-CDFA-48EA-875D-918214398D70}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Application", "10 - Application", "{88D4F601-3A37-4545-B2F0-FCDF78D5FA6C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Applikasjon", "10 - Applikasjon", "{88D4F601-3A37-4545-B2F0-FCDF78D5FA6C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 - Infrastructure", "30 - Infrastructure", "{58D00C2C-6C0C-4947-8297-BD91BF2EF031}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 - Infrastruktur", "30 - Infrastruktur", "{58D00C2C-6C0C-4947-8297-BD91BF2EF031}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 - Domain", "40 - Domain", "{ADA91F12-FEA2-4A13-85B8-7F62DB953E23}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 - Domene", "40 - Domene", "{ADA91F12-FEA2-4A13-85B8-7F62DB953E23}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - Services", "20 - Services", "{9839CF96-C48C-4E49-9033-2D790CE4FE2C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - Tjenester", "20 - Tjenester", "{9839CF96-C48C-4E49-9033-2D790CE4FE2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
