@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.Domene.Entiteter
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.Entiteter
 {
+    using Newtonsoft.Json;
+
     public class Post : BaseDocument
     {
         [JsonProperty(PropertyName = "navn")]

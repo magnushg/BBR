@@ -1,16 +1,18 @@
-﻿using System.Linq;
-
-namespace BouvetCodeCamp.Api.Game
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game
 {
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using Domene;
-    using Domene.InputModels;
-    using DomeneTjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+
+    using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/game/base")]
     public class BaseGameController : BaseApiController

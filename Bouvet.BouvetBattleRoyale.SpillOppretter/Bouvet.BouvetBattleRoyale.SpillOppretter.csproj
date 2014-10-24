@@ -125,21 +125,21 @@
     <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetBattleRoyale.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj">
       <Project>{23369163-cdfa-48ea-875d-918214398d70}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
       <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Domene</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Infrastruktur.DataAksess\Bouvet.BouvetBattleRoyale.Infrastruktur.DataAksess.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Data\Bouvet.BouvetBattleRoyale.Infrastruktur.Data.csproj">
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
-      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.DataAksess</Name>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

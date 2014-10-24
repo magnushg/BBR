@@ -1,6 +1,6 @@
-﻿namespace BouvetCodeCamp.Domene.OutputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.OutputModels
 {
-    using BouvetCodeCamp.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
     using Newtonsoft.Json;
 

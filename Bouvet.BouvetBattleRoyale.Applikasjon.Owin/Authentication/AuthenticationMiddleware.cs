@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Authentication
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Authentication
 {
     using System;
     using System.Security.Claims;

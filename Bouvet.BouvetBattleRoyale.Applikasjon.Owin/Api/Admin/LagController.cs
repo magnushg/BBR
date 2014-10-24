@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Api.Admin
+namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
 {
     using System;
     using System.Net;
@@ -6,15 +6,15 @@ namespace BouvetCodeCamp.Api.Admin
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using BouvetCodeCamp.SignalR.Hubs;
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
-    using Domene;
-    using Domene.Entiteter;
-    using Domene.InputModels;
-    using Domene.OutputModels;
-    using DomeneTjenester.Interfaces;
-
-    using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/admin/lag")]
     [System.Web.Http.Authorize]

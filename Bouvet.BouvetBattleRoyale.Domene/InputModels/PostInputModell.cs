@@ -1,7 +1,7 @@
-﻿using BouvetCodeCamp.Domene.Entiteter;
-
-namespace BouvetCodeCamp.Domene.InputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.InputModels
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     public class PostInputModell
     {
         public string Kode { get; set; }

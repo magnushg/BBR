@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace BouvetCodeCamp.Domene.OutputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.OutputModels
 {
+    using System;
+
     using Newtonsoft.Json;
 
     public class PifPosisjonOutputModell

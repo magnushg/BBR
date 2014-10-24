@@ -67,7 +67,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Domene</Name>
     </ProjectReference>

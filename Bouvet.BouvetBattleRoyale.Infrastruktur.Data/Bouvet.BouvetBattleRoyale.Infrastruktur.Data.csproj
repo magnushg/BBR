@@ -69,15 +69,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetBattleRoyale.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj">
       <Project>{23369163-CDFA-48EA-875D-918214398D70}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
       <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Domene</Name>
     </ProjectReference>

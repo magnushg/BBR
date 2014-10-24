@@ -1,5 +1,7 @@
 ﻿namespace BouvetCodeCamp.DomeneTjenester.Services
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
 

@@ -9,11 +9,13 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
     using Domene;
     using Domene.Entiteter;
-    using Domene.InputModels;
 
     using FizzWare.NBuilder;
 

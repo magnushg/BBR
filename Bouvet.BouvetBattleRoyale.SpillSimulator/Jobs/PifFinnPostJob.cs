@@ -6,12 +6,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.Domene.InputModels;
+
 using Newtonsoft.Json;
 using Quartz;
 
 namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+
     public class PifFinnPostJob : Job, IJob
     {
         public async void Execute(IJobExecutionContext context)

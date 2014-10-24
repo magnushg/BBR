@@ -1,8 +1,9 @@
-﻿using BouvetCodeCamp.Domene.Entiteter;
-using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.Domene.OutputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.OutputModels
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
+    using Newtonsoft.Json;
+
     public class PostOutputModell
     {
         [JsonProperty(PropertyName = "navn")]

@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.SignalR.Hubs
+namespace Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs
 {
     using Microsoft.AspNet.SignalR;
 

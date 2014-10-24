@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Domene.InputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.InputModels
 {
     public class PoengInputModell
     {

@@ -1,6 +1,5 @@
-﻿namespace BouvetCodeCamp.Api.Game
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game
 {
-    using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -8,10 +7,13 @@
     using System.Web.Http;
     using System.Web.Http.Description;
 
-    using Domene;
-    using Domene.InputModels;
-    using Domene.OutputModels;
-    using DomeneTjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+
+    using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController

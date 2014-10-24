@@ -13,8 +13,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System.Linq;
     using System.Runtime.InteropServices;
 
-    using BouvetCodeCamp.Infrastruktur.DataAksess;
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
     using Should;
 

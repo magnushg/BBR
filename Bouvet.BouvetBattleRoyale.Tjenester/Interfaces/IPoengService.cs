@@ -3,6 +3,9 @@ using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     public interface IPoengService
     {
         //Straffemetoder

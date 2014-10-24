@@ -1,11 +1,13 @@
-﻿namespace BouvetCodeCamp
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin
 {
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
 
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Filters;
+    using Bouvet.BouvetBattleRoyale.Domene;
+
     using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Filters;
 
     [UnhandledException]
     public class BaseApiController : ApiController

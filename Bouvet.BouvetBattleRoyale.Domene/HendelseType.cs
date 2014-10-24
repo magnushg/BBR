@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Domene
+﻿namespace Bouvet.BouvetBattleRoyale.Domene
 {
     public enum HendelseType
     {

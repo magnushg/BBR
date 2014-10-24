@@ -7,6 +7,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Text;
     using System.Threading.Tasks;
 
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     using BouvetCodeCamp.Domene.Entiteter;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;

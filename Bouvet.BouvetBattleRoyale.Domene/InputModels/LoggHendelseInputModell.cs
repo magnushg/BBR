@@ -1,5 +1,7 @@
-﻿namespace BouvetCodeCamp.Domene.InputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.InputModels
 {
+    using BouvetCodeCamp.Domene;
+
     using Newtonsoft.Json;
 
     public class LoggHendelseInputModell

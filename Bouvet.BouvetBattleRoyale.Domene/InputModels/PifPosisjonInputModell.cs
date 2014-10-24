@@ -1,6 +1,6 @@
-﻿namespace BouvetCodeCamp.Domene.InputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.InputModels
 {
-    using Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
     public class PifPosisjonInputModell
     {

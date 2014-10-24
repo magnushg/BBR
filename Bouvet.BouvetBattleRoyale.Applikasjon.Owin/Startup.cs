@@ -1,41 +1,42 @@
-﻿using System.Net.Http.Formatting;
-using System.Web.Http;
-using System.Web.Http.Cors;
-
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-using BouvetCodeCamp.DomeneTjenester.Services;
-using BouvetCodeCamp.SignalR.Hubs;
-using Newtonsoft.Json.Serialization;
-using Owin;
-using Autofac;
-using System.Reflection;
-using Autofac.Integration.WebApi;
-using Microsoft.AspNet.SignalR;
-using Swashbuckle;
-
-namespace BouvetCodeCamp
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin
 {
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Net.Http.Formatting;
+    using System.Reflection;
     using System.Threading;
+    using System.Web.Http;
+    using System.Web.Http.Cors;
 
-    using Authentication;
+    using Autofac;
+    using Autofac.Integration.WebApi;
 
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Authentication;
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Filters;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
+    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
+
+    using BouvetCodeCamp;
     using BouvetCodeCamp.CrossCutting;
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.DomeneTjenester.Services;
 
-    using Filters;
-
-    using Infrastruktur.DataAksess;
-    using Infrastruktur.DataAksess.Interfaces;
-    using Infrastruktur.DataAksess.Repositories;
+    using global::Owin;
 
     using log4net;
 
+    using Microsoft.AspNet.SignalR;
     using Microsoft.Owin.Extensions;
 
+    using Newtonsoft.Json.Serialization;
+
+    using Swashbuckle;
     using Swashbuckle.Application;
 
     public class Startup

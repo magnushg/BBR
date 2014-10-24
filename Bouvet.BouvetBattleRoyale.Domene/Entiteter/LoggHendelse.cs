@@ -1,8 +1,11 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.Domene.Entiteter
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.Entiteter
 {
+    using System;
+
+    using BouvetCodeCamp.Domene;
+
+    using Newtonsoft.Json;
+
     public class LoggHendelse
     {
         [JsonProperty(PropertyName = "hendelsesType")]

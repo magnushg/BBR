@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.InputModels;
-using BouvetCodeCamp.Domene.OutputModels;
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
     using System.Threading.Tasks;
+
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
     using Domene.Entiteter;
 

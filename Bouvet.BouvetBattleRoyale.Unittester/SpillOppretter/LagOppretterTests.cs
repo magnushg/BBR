@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.UnitTest.SpillOppretter
+﻿namespace Bouvet.BouvetBattleRoyale.Unittests.SpillOppretter
 {
     using System;
     using System.Configuration;

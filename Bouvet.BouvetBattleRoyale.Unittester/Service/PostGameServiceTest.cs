@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-using Moq;
-using NUnit.Framework;
-using Should;
-
-namespace BouvetCodeCamp.UnitTest.Service
+﻿namespace Bouvet.BouvetBattleRoyale.Unittests.Service
 {
-    using DomeneTjenester.Services;
+    using System.Collections.Generic;
+
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.DomeneTjenester.Services;
+
+    using Moq;
+
+    using NUnit.Framework;
+
+    using Should;
 
     [TestFixture]
     class PostGameServiceTest

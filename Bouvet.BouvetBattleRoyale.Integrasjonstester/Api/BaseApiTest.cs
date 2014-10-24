@@ -8,6 +8,10 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Text;
     using System.Threading.Tasks;
 
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     using BouvetCodeCamp.CrossCutting;
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;

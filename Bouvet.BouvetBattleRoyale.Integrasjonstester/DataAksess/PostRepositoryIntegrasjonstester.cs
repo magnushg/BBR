@@ -7,10 +7,11 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 {
     using Autofac;
 
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     using BouvetCodeCamp.CrossCutting;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
-    using BouvetCodeCamp.Infrastruktur.DataAksess;
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
 
     using FizzWare.NBuilder;
 

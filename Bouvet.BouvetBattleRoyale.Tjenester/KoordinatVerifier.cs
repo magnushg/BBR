@@ -6,6 +6,8 @@ using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     public class KoordinatVerifier : IKoordinatVerifier
     {
         public static double LongProximityThreshold = 10;

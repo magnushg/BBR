@@ -465,7 +465,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp\Bouvet.BouvetBattleRoyale.Applikasjon.Owin.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Applikasjon.Owin\Bouvet.BouvetBattleRoyale.Applikasjon.Owin.csproj">
       <Project>{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Applikasjon.Owin</Name>
     </ProjectReference>

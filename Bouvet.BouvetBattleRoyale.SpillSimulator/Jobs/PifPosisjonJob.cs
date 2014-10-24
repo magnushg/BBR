@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using BouvetCodeCamp.Domene.InputModels;
+
 using Newtonsoft.Json;
 using Quartz;
 
 namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+
     public class PifPosisjonJob : Job, IJob
     {
         public async void Execute(IJobExecutionContext context)

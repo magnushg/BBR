@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.Domene.OutputModels;
 
 namespace BouvetCodeCamp.SpillSimulator
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+
     public static class SpillKonfig
     {
         public const string Passord = "mysecret";

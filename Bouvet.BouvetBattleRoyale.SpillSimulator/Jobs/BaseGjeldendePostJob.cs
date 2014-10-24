@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net.Http;
 
-using BouvetCodeCamp.Domene.OutputModels;
 using Newtonsoft.Json;
 using Quartz;
 
 namespace BouvetCodeCamp.SpillSimulator.Jobs
 {
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+
     public class BaseGjeldendePostJob : Job, IJob
     {
         public async void Execute(IJobExecutionContext context)

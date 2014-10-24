@@ -2,6 +2,8 @@
 
 namespace BouvetCodeCamp.DomeneTjenester.Interfaces
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     public interface IKoordinatVerifier
     {
         bool KoordinaterErNærHverandre(Koordinat first, Koordinat second);

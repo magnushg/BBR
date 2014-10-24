@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 
-using BouvetCodeCamp.Domene.OutputModels;
 using Newtonsoft.Json;
 using Quartz;
 

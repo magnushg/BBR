@@ -4,8 +4,9 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Net.Http;
     using System.Threading.Tasks;
 
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+
     using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.Domene.OutputModels;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

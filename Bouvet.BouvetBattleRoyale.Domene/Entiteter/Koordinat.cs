@@ -1,10 +1,10 @@
-﻿using System.Globalization;
-using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.Domene.Entiteter
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.Entiteter
 {
     using System;
+    using System.Globalization;
     using System.Text.RegularExpressions;
+
+    using Newtonsoft.Json;
 
     public class Koordinat
     {

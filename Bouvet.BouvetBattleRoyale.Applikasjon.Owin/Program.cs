@@ -1,9 +1,9 @@
-﻿using System;
-
-using Microsoft.Owin.Hosting;
-
-namespace BouvetCodeCamp
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin
 {
+    using System;
+
+    using Microsoft.Owin.Hosting;
+
     class Program
     {
         static void Main(string[] args)

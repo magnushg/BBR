@@ -3,7 +3,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
     using System.Configuration;
 
-    using BouvetCodeCamp.Infrastruktur.DataAksess;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
 
     using Microsoft.Azure.Documents.Client;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

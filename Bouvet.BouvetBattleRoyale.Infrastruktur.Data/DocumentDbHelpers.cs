@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Infrastruktur.DataAksess
+﻿namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data
 {
     using System.Linq;
     using System.Threading.Tasks;

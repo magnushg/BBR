@@ -80,11 +80,11 @@
     <Compile Include="Services\Service.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Domene</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.SignalR\Bouvet.BouvetBattleRoyale.Tjenester.SignalR.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.SignalR\Bouvet.BouvetBattleRoyale.Tjenester.SignalR.csproj">
       <Project>{8892A91B-F11B-4B33-B5AC-7D4A363EB631}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester.SignalR</Name>
     </ProjectReference>

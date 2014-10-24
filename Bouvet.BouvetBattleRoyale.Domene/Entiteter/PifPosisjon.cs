@@ -1,8 +1,9 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.Domene.Entiteter
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.Entiteter
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     public class PifPosisjon
     {
         [JsonProperty(PropertyName = "lagId")]

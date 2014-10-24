@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Infrastruktur.DataAksess
+namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data
 {
     using System;
     using System.Text;

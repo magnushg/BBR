@@ -3,6 +3,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
     using System;
     using System.Linq;
 
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     using Domene.Entiteter;
     using Interfaces;
 

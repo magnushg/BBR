@@ -7,6 +7,8 @@ using BouvetCodeCamp.Domene.Entiteter;
 
 namespace BouvetCodeCamp.SpillSimulator
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     public class SpillTilstandOppretter
     {
         public SpillTilstandOppretter()

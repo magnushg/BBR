@@ -135,23 +135,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BouvetCodeCamp.DomeneTjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
       <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Domene</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.SignalR\Bouvet.BouvetBattleRoyale.Tjenester.SignalR.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.SignalR\Bouvet.BouvetBattleRoyale.Tjenester.SignalR.csproj">
       <Project>{8892A91B-F11B-4B33-B5AC-7D4A363EB631}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester.SignalR</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp.SpillOppretter\Bouvet.BouvetBattleRoyale.SpillOppretter.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.SpillOppretter\Bouvet.BouvetBattleRoyale.SpillOppretter.csproj">
       <Project>{17A89190-399A-48E5-BF75-7BF816E066ED}</Project>
       <Name>Bouvet.BouvetBattleRoyale.SpillOppretter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BouvetCodeCamp\Bouvet.BouvetBattleRoyale.Applikasjon.Owin.csproj">
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Applikasjon.Owin\Bouvet.BouvetBattleRoyale.Applikasjon.Owin.csproj">
       <Project>{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Applikasjon.Owin</Name>
     </ProjectReference>

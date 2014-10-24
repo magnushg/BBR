@@ -4,12 +4,12 @@
         <name>Bouvet.BouvetBattleRoyale.Applikasjon.Owin</name>
     </assembly>
     <members>
-        <member name="T:BouvetCodeCamp.Api.Admin.InfisertController">
+        <member name="T:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin.InfisertController">
             <summary>
             Sett og Hent infiserte soner
             </summary>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.BaseGameController.HentRegistrerteKoder(System.String)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.BaseGameController.HentRegistrerteKoder(System.String)">
             <summary>
             Henter alle kodene som et lag har registrert ute på postene.
             </summary>
@@ -19,7 +19,7 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.BaseGameController.HentPifPosisjon(System.String)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.BaseGameController.HentPifPosisjon(System.String)">
             <summary>
             Henter siste kjente posisjon for PIF.
             </summary>
@@ -29,7 +29,7 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.BaseGameController.HentGjeldendePost(System.String)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.BaseGameController.HentGjeldendePost(System.String)">
             <summary>
             Henter gjeldende post for et lag. 
             Hvis det ikke er flere uoppdagede poster igjen returneres NULL.
@@ -40,7 +40,7 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.BaseGameController.SendPifMelding(BouvetCodeCamp.Domene.InputModels.MeldingInputModell)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.BaseGameController.SendPifMelding(Bouvet.BouvetBattleRoyale.Domene.InputModels.MeldingInputModell)">
             <summary>
             Sender en melding til PIF. 
             Det følger enkelte restriksjoner på Innhold-feltet basert på 'MeldingsType' (husk stor forbokstav!):
@@ -57,7 +57,7 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.PifGameController.SendPifPosisjon(BouvetCodeCamp.Domene.InputModels.PifPosisjonInputModell)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.PifGameController.SendPifPosisjon(Bouvet.BouvetBattleRoyale.Domene.InputModels.PifPosisjonInputModell)">
             <summary>
             Tar imot en PIF-posisjon og lagrer posisjonen som siste kjente PIF-posisjon for et lag.
             </summary>
@@ -67,7 +67,7 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.PifGameController.SendPostKode(BouvetCodeCamp.Domene.InputModels.PostInputModell)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.PifGameController.SendPostKode(Bouvet.BouvetBattleRoyale.Domene.InputModels.PostInputModell)">
             <summary>
             Registrerer en kode på en post for et lag.
             </summary>
@@ -77,7 +77,7 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.PifGameController.ErInfisert(System.String)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.PifGameController.ErInfisert(System.String)">
             <summary>
             Henter infisert status for et lag. Er infisert hvis PIF har kommet innenfor en infisert sone.
             </summary>
@@ -87,7 +87,7 @@
             <response code="400">Bad request</response>
             <response code="500">Internal Server Error</response>
         </member>
-        <member name="M:BouvetCodeCamp.Api.Game.PifGameController.HentMeldinger(System.String)">
+        <member name="M:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Game.PifGameController.HentMeldinger(System.String)">
              <summary>
              Henter meldinger som er sendt til PIF.
             

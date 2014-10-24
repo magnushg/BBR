@@ -1,8 +1,11 @@
-﻿using System.ComponentModel;
-using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.Domene.Entiteter
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.Entiteter
 {
+    using System.ComponentModel;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Denne klassen er for generelle globale states som ikke behøver
     /// sin egen kolleksjon

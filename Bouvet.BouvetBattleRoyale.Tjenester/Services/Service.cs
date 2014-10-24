@@ -4,6 +4,8 @@ namespace BouvetCodeCamp.DomeneTjenester.Services
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     using Domene.Entiteter;
     using Interfaces;
 

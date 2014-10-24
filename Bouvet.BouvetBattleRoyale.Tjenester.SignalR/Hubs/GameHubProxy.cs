@@ -1,6 +1,6 @@
-namespace BouvetCodeCamp.SignalR.Hubs
+namespace Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs
 {
-    using BouvetCodeCamp.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
     using Microsoft.AspNet.SignalR;
 

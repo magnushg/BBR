@@ -1,10 +1,11 @@
-﻿using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
-using Microsoft.Azure.Documents;
-
-namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
+﻿namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
+
     using log4net;
+
+    using Microsoft.Azure.Documents;
 
     public class GameStateRepository : Repository<GameState>
     {

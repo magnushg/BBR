@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-using Moq;
-using NUnit.Framework;
-
-namespace BouvetCodeCamp.UnitTest.Service
+﻿namespace Bouvet.BouvetBattleRoyale.Unittests.Service
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.DomeneTjenester.Services;
+
+    using Moq;
+
+    using NUnit.Framework;
 
     [TestFixture]
     class LagGameServiceTest

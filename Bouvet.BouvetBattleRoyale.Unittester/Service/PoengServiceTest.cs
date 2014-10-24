@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-using NUnit.Framework;
-using Should;
-
-namespace BouvetCodeCamp.UnitTest.Service
+﻿namespace Bouvet.BouvetBattleRoyale.Unittests.Service
 {
-    using BouvetCodeCamp.Domene.OutputModels;
-    using BouvetCodeCamp.SignalR.Hubs;
+    using System;
+    using System.Collections.Generic;
 
-    using Microsoft.AspNet.SignalR;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     using Moq;
+
+    using NUnit.Framework;
+
+    using Should;
 
     [TestFixture]
     class PoengServiceTest

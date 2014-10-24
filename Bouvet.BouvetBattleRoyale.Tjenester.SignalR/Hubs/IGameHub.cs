@@ -1,6 +1,6 @@
-﻿namespace BouvetCodeCamp.SignalR.Hubs
+﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs
 {
-    using Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
     public interface IGameHub
     {

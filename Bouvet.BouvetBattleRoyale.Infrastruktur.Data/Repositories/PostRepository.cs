@@ -1,7 +1,9 @@
-﻿namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
+﻿namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 {
-    using Domene.Entiteter;
-    using Interfaces;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
+
+    using BouvetCodeCamp.Domene.Entiteter;
 
     using log4net;
 

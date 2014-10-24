@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Bouvet.BouvetBattleRoyale.Domene;
+using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
 using Domene;
 using Domene.Entiteter;
 using Interfaces;

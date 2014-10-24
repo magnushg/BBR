@@ -1,10 +1,12 @@
-﻿using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-using NUnit.Framework;
-
-namespace BouvetCodeCamp.UnitTest.Felles
+﻿namespace Bouvet.BouvetBattleRoyale.Unittests.Felles
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
+    using BouvetCodeCamp.DomeneTjenester;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
+    using NUnit.Framework;
+
     using Should;
 
     [TestFixture]

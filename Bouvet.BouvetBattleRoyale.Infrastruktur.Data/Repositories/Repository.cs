@@ -1,16 +1,15 @@
-namespace BouvetCodeCamp.Infrastruktur.DataAksess.Repositories
+namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.CrossCutting;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
 
-    using Domene.Entiteter;
-    using DomeneTjenester.Interfaces;
-    using Interfaces;
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     using log4net;
 

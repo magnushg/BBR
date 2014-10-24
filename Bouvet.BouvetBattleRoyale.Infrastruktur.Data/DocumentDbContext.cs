@@ -1,10 +1,10 @@
-namespace BouvetCodeCamp.Infrastruktur.DataAksess
+namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using BouvetCodeCamp.Infrastruktur.DataAksess.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
 
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;

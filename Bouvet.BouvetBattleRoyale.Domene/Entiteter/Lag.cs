@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.Domene.Entiteter
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     public class Lag : BaseDocument
     {
         [JsonProperty(PropertyName = "lagId")]

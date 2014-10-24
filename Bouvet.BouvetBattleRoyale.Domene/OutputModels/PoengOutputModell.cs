@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Domene.OutputModels
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.OutputModels
 {
     using Newtonsoft.Json;
 

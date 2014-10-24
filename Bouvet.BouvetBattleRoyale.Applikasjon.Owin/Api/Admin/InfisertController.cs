@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Api.Admin
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
 {
     using System;
     using System.Net;
@@ -6,13 +6,15 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
-    using Domene;
-    using Domene.Entiteter;
-    using Domene.OutputModels;
-    using DomeneTjenester.Interfaces;
-    using SignalR.Hubs;
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
-    using Microsoft.AspNet.SignalR;
+    using BouvetCodeCamp.Domene;
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     /// <summary>
     /// Sett og Hent infiserte soner

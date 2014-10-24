@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.SpillOppretter
 {
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
     public class JSONKartdataConverter
     {
         private readonly string _path;

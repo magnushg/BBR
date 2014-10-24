@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.Domene.InputModels;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
-using BouvetCodeCamp.SignalR.Hubs;
-using Microsoft.AspNet.SignalR;
-using Moq;
-using NUnit.Framework;
-
-namespace BouvetCodeCamp.UnitTest
+﻿namespace Bouvet.BouvetBattleRoyale.Unittests
 {
-    using GameApi = DomeneTjenester.GameApi;
+    using System.Collections.Generic;
+
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
+
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
+    using Moq;
+
+    using NUnit.Framework;
 
     [TestFixture]
     public class GameApiTest

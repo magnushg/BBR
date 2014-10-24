@@ -9,13 +9,17 @@ using System.Text;
 using System.Threading.Tasks;
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.Infrastruktur.DataAksess;
-using BouvetCodeCamp.Infrastruktur.DataAksess.Repositories;
+
 using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.SpillOppretter
 {
     using System.Threading;
+
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
 
     using BouvetCodeCamp.CrossCutting;
 

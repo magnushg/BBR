@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Reflection;
-
-using Autofac.Core;
-using log4net;
-
-namespace BouvetCodeCamp
+﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin
 {
+    using System.Linq;
+    using System.Reflection;
+
+    using Autofac.Core;
+
+    using log4net;
+
     public class log4netAutofacModule : Autofac.Module
     {
         private static void InjectLoggerProperties(object instance)

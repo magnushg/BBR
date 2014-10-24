@@ -1,10 +1,13 @@
-namespace BouvetCodeCamp.Api.Admin
+namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
 {
     using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
+
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
     using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
