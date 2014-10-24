@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using BouvetCodeCamp.SpillSimulator.Schedulers;
-using Quartz;
-using Quartz.Impl;
-
-namespace BouvetCodeCamp.SpillSimulator
+﻿namespace Bouvet.BouvetBattleRoyale.SpillSimulator
 {
+    using System;
     using System.Configuration;
+    using System.Linq;
+    using System.Threading;
+
+    using BouvetCodeCamp.SpillSimulator;
+    using BouvetCodeCamp.SpillSimulator.Schedulers;
+
+    using Quartz;
+    using Quartz.Impl;
 
     public class Program
     {
