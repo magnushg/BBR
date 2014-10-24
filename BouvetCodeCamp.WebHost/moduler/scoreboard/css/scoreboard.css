@@ -1,0 +1,33 @@
+﻿ body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#map {
+    width: 100%;
+    height: 70em;
+}
+
+.stillingstabell,
+.hendelsestabell {
+    width: 100%;
+}
+
+.stillingstabell th,
+.hendelsestabell th {
+    background-color: lightgrey;
+}
+
+.stillingstabell th,
+.stillingstabell td,
+.hendelsestabell th,
+.hendelsestabell td {
+    text-align: left;
+    padding: 5px;
+}
+
+/* Carousel */
+.carousel-play:hover, .carousel-stop:hover {
+    cursor: pointer;
+}
