@@ -1,8 +1,8 @@
-using BouvetCodeCamp.Domene.Entiteter;
-
-namespace BouvetCodeCamp.DomeneTjenester.Interfaces
+namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
+    using BouvetCodeCamp.Domene.Entiteter;
 
     public interface ILagGameService
     {

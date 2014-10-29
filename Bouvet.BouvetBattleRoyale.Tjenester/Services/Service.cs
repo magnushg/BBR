@@ -1,13 +1,11 @@
-namespace BouvetCodeCamp.DomeneTjenester.Services
+namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-
-    using Domene.Entiteter;
-    using Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     public abstract class Service<T> : IService<T> where T : BaseDocument
     {

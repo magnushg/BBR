@@ -3,8 +3,8 @@
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
     using BouvetCodeCamp.Integrasjonstester;
     using BouvetCodeCamp.Integrasjonstester.DataAksess;
 

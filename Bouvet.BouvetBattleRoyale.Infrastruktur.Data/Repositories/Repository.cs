@@ -5,17 +5,76 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
-
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     using log4net;
 
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Azure.Documents.Linq;
+
+    public class ConcurrencyHandler<T> where T : BaseDocument
+    {
+        private readonly List<KeyValuePair<string, string>> documentEtags;
+
+        public ConcurrencyHandler()
+        {
+            documentEtags = new List<KeyValuePair<string, string>>();
+        }
+
+        public void SettEtagForDocument(string documentId, string etag)
+        {
+            lock (documentId)
+            {
+                var eksisterendeKeyValuePairsForDocument = documentEtags.FindAll(o => o.Key == documentId).ToList();
+
+                SlettEksisterendeVerdierForDocument(eksisterendeKeyValuePairsForDocument);
+
+                documentEtags.Add(new KeyValuePair<string, string>(documentId, etag));
+            }
+        }
+
+        public void SettEtagForDocuments(IEnumerable<T> alleDocuments)
+        {
+            foreach (var document in alleDocuments)
+            {
+                if (document != null)
+                    SettEtagForDocument(document.DocumentId, document.Etag);
+            }
+        }
+
+        private void SlettEksisterendeVerdierForDocument(List<KeyValuePair<string, string>> eksisterendeKeyValuePairsForDocument)
+        {
+            if (eksisterendeKeyValuePairsForDocument.Any())
+            {
+                foreach (var eksisterendeKeyValuePair in eksisterendeKeyValuePairsForDocument)
+                {
+                    SlettEksisterendeVerdierForDocument(eksisterendeKeyValuePair.Key);
+                }
+            }
+        }
+
+        public void SlettEksisterendeVerdierForDocument(string documentId)
+        {
+            lock (documentId)
+            {
+                var keyValuePair = documentEtags.Find(o => o.Key == documentId);
+
+                documentEtags.Remove(keyValuePair);
+            }
+        }
+
+        public void VerifiserOppdatertEtagForDocument(string documentId, string etag)
+        {
+            var keyValuePair = documentEtags.Find(o => o.Key == documentId);
+
+            if (keyValuePair.Value != etag)
+                throw new ConcurrencyException(string.Format("Concurrency-feil: Dokumentet {0} har mismatch på ETag. Hent ny versjon av dokumentet og prøv igjen.", documentId));
+        }
+    }
 
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
@@ -24,9 +83,12 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
         public abstract string CollectionId { get; }
 
         protected readonly IKonfigurasjon _konfigurasjon;
+
         protected readonly IDocumentDbContext Context;
 
         private readonly ILog _log;
+
+        private static ConcurrencyHandler<T> concurrencyHandler;
 
         private DocumentCollection _collection;
 
@@ -48,36 +110,46 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
             _konfigurasjon = konfigurasjon;
             Context = context;
             _log = log;
+
+            concurrencyHandler = new ConcurrencyHandler<T>();
         }
 
         public async Task<string> Opprett(T document)
         {
-            document = SorgForDocumentUnderRequestLimit(document);
-
             var opprettetDocument = await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
+
+            concurrencyHandler.SettEtagForDocument(opprettetDocument.Resource.Id, opprettetDocument.Resource.ETag);
 
             return opprettetDocument.Resource.Id;
         }
 
         public IEnumerable<T> HentAlle()
         {
-            return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
-                .AsEnumerable();
+            var documents = Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink).AsEnumerable();
+
+            concurrencyHandler.SettEtagForDocuments(documents);
+
+            return documents;
         }
 
         public T Hent(string id)
         {
             _log.Debug("Henter " + id);
 
-            return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
+            var document = Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                 .Where(d => d.DocumentId == id)
                 .AsEnumerable()
                 .FirstOrDefault();
+
+            if (document != null)
+                concurrencyHandler.SettEtagForDocument(document.DocumentId, document.Etag);
+
+            return document;
         }
 
         public async Task Oppdater(T document)
         {
-            document = SorgForDocumentUnderRequestLimit(document);
+            concurrencyHandler.VerifiserOppdatertEtagForDocument(document.DocumentId, document.Etag);
 
             var oppdaterStart = DateTime.Now;
 
@@ -90,9 +162,13 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
         public async Task Slett(T document)
         {
+            concurrencyHandler.VerifiserOppdatertEtagForDocument(document.DocumentId, document.Etag);
+
             var slettStart = DateTime.Now;
 
             await Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
+
+            concurrencyHandler.SlettEksisterendeVerdierForDocument(document.DocumentId);
 
             var slettEnd = DateTime.Now;
 
@@ -101,40 +177,13 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
         public IEnumerable<T> Søk(Func<T, bool> predicate)
         {
-            return Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
+            var documents = Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                     .Where(predicate)
                     .AsEnumerable();
-        }
 
-        private T SorgForDocumentUnderRequestLimit(T document)
-        {
-            var objektStorrelseKb = EnhetConverter.HentObjektStorrelse(document);
+            concurrencyHandler.SettEtagForDocuments(documents);
 
-            if (objektStorrelseKb <= RequestLimitKb)
-                return document;
-
-            if (document is Lag)
-            {
-                var lag = (Lag)Convert.ChangeType(document, typeof(Lag));
-
-                while (objektStorrelseKb >= RequestLimitKb)
-                {
-                    var loggPifPosisjonerTilSletting = lag.PifPosisjoner.OrderBy(o => o.Tid).Take(200);
-
-                    foreach (var pifPosisjoner in loggPifPosisjonerTilSletting)
-                    {
-                        lag.PifPosisjoner.Remove(pifPosisjoner);
-                    }
-
-                    objektStorrelseKb = EnhetConverter.HentObjektStorrelse(lag);
-                }
-
-                _log.Warn(string.Format("Krympet {0} ned til {1}kb", lag.DocumentId, objektStorrelseKb));
-
-                document = (T)Convert.ChangeType(lag, typeof(T));
-            }
-
-            return document;
+            return documents;
         }
 
         private void LoggOppdatering(T document, DateTime oppdaterStart, DateTime oppdaterEnd)
@@ -143,8 +192,8 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
             var deltaTid = oppdaterStart.Subtract(oppdaterEnd);
 
-            string loggMelding = "Oppdatering på " + document.DocumentId + " på " + documentStorrelse + "kb tok..."
-                                 + deltaTid;
+            string loggMelding = "Oppdatering av " + document.DocumentId + " på " + documentStorrelse + "kb tok..."
+                                 + deltaTid.TotalSeconds + " sekunder";
 
             var oppdateringTidSomSekunder = deltaTid.Duration().TotalSeconds;
 
@@ -166,7 +215,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
             var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
 
             var loggMelding = "Sletting av " + document.DocumentId + " på " + document + "kb tok..."
-                              + slettStart.Subtract(slettEnd);
+                              + slettStart.Subtract(slettEnd).TotalSeconds + " sekunder";
 
             if (documentStorrelse > RequestLimitKb)
             {

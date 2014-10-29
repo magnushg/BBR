@@ -8,9 +8,9 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
 
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/admin/gamestate")]
     [Authorize]

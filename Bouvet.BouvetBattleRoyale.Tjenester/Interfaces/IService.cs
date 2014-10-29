@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BouvetCodeCamp.DomeneTjenester.Interfaces
+namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IService<T>
     {
         IEnumerable<T> HentAlle();

@@ -1,15 +1,10 @@
-using System.Threading.Tasks;
-
-namespace BouvetCodeCamp.DomeneTjenester.Services
+namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
 {
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-
-    using Domene.Entiteter;
-    using Interfaces;
-
-    using log4net;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     /// <summary>
     /// Tanken med denne servicen er for å abstrahere bort gamestaterepository

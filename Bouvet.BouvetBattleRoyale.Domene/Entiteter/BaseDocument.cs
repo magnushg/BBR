@@ -15,10 +15,14 @@ namespace Bouvet.BouvetBattleRoyale.Domene.Entiteter
         [JsonProperty(PropertyName = "_self")]
         public string SelfLink { get; set; }
 
+        [JsonProperty(PropertyName = "_etag")]
+        public string Etag { get; set; }
+
         protected BaseDocument()
         {
             DocumentId = string.Empty;
             SelfLink = string.Empty;
+            Etag = string.Empty;
         }
     }
 }

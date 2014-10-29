@@ -1,9 +1,7 @@
-﻿namespace BouvetCodeCamp.DomeneTjenester.Services
+﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-
-    using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     public class PostService : Service<Post>
     {

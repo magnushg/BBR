@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using BouvetCodeCamp.Domene;
-
-namespace BouvetCodeCamp.DomeneTjenester.Interfaces
+﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene;
@@ -10,7 +8,7 @@ namespace BouvetCodeCamp.DomeneTjenester.Interfaces
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
-    using Domene.Entiteter;
+    using BouvetCodeCamp.Domene.Entiteter;
 
     public interface IGameApi
     {

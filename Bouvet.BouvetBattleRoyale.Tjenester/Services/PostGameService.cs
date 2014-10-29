@@ -1,16 +1,15 @@
-namespace BouvetCodeCamp.DomeneTjenester.Services
+namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
 {
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
 
-using Bouvet.BouvetBattleRoyale.Domene;
-using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Domene;
+    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
-using Domene;
-using Domene.Entiteter;
-using Interfaces;
+    using BouvetCodeCamp.Domene.Entiteter;
 
     public class PostGameService : IPostGameService
 {

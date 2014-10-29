@@ -2,11 +2,11 @@
 using System.Linq;
 
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 namespace BouvetCodeCamp.DomeneTjenester
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     public class KoordinatVerifier : IKoordinatVerifier
     {

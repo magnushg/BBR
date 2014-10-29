@@ -1,9 +1,9 @@
 ﻿namespace Bouvet.BouvetBattleRoyale.Unittests.Felles
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     using BouvetCodeCamp.DomeneTjenester;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     using NUnit.Framework;
 

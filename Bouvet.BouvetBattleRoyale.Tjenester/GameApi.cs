@@ -3,7 +3,6 @@ using System.Linq;
 
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
 using Microsoft.AspNet.SignalR;
 
@@ -16,6 +15,7 @@ namespace BouvetCodeCamp.DomeneTjenester
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
     public class GameApi : IGameApi

@@ -10,9 +10,9 @@
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/game/base")]
     public class BaseGameController : BaseApiController

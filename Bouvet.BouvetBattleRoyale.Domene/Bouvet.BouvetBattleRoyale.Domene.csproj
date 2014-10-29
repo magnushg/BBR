@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConcurrencyException.cs" />
     <Compile Include="Entiteter\LagPost.cs" />
     <Compile Include="HendelseTypeFormatter.cs" />
     <Compile Include="Himmelretning.cs" />

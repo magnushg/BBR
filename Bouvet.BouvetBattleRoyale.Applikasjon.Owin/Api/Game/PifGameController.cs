@@ -11,9 +11,9 @@
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     [RoutePrefix("api/game/pif")]
     public class PifGameController : BaseApiController

@@ -10,11 +10,11 @@
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
-    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     /// <summary>
     /// Sett og Hent infiserte soner

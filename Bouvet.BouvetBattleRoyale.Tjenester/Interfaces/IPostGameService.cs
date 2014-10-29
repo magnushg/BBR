@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-
-namespace BouvetCodeCamp.DomeneTjenester.Interfaces
+﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces
 {
+    using System.Collections.Generic;
+
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+
+    using BouvetCodeCamp.Domene.Entiteter;
 
     public interface IPostGameService
     {

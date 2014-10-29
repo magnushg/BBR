@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Autofac;
 using BouvetCodeCamp.Domene;
 using BouvetCodeCamp.Domene.Entiteter;
-using BouvetCodeCamp.DomeneTjenester.Interfaces;
+
 using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,6 +16,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     using Should;
 
