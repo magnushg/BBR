@@ -1,7 +1,11 @@
 Bouvet Battle Royale
 ====================
 
-# Tester #
+Bouvet Battle Royale er en spillplattform som tilbyr et API til et slags orienteringsløp hvor man samler poster og koder underveis.
+
+
+
+# Teknisk oppsett #
 
 ## Integrasjonstester ##
 

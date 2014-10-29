@@ -1,19 +1,18 @@
-﻿using System.Threading.Tasks;
-using BouvetCodeCamp.Domene.Entiteter;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Should;
-
-namespace BouvetCodeCamp.Integrasjonstester.DataAksess
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
 {
-    using Autofac;
+    using System.Threading.Tasks;
 
-    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
-    using BouvetCodeCamp.CrossCutting;
     using BouvetCodeCamp.DomeneTjenester.Interfaces;
+    using BouvetCodeCamp.Integrasjonstester;
+    using BouvetCodeCamp.Integrasjonstester.DataAksess;
 
     using FizzWare.NBuilder;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Should;
 
     [TestClass]
     public class PostRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest
@@ -22,7 +21,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         [TestCategory(Testkategorier.DataAksess)]
         public async Task Kan_opprette_repository_og_legge_til_en_post()
         {
-            var repo = OpprettRepository();
+            var repo = Resolve<IRepository<Post>>();
 
             var postSomSkalLagres = new Post
             {
@@ -54,7 +53,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Slett_HarFlerePosterSomSlettes_GirIngenPoster()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Post>>();
 
             var postSomSkalOpprettes = Builder<Post>.CreateListOfSize(5).All().Build();
 
@@ -75,13 +74,6 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var ingenPoster = repository.HentAlle();
 
             ingenPoster.ShouldBeEmpty();
-        }
-        
-        private IRepository<Post> OpprettRepository()
-        {
-            var builder = Startup.BuildContainer();
-            var container = builder.Build();
-            return container.Resolve<IRepository<Post>>();
         }
     }
 }

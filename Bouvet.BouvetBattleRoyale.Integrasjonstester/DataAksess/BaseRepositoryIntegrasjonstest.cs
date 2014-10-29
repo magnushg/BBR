@@ -3,6 +3,9 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System;
     using System.Configuration;
 
+    using Autofac;
+
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
 
     using Microsoft.Azure.Documents.Client;
@@ -31,6 +34,13 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
                 DocumentDbHelpers.HentEllerOpprettDatabaseAsync(client, databaseId);
             }
+        }
+        
+        protected T Resolve<T>() where T : class
+        {
+            var builder = Startup.BuildContainer();
+            var container = builder.Build();
+            return container.Resolve<T>();
         }
     }
 }

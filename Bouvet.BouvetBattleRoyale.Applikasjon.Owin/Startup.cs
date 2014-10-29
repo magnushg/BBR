@@ -18,6 +18,7 @@
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Services;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
     using BouvetCodeCamp;

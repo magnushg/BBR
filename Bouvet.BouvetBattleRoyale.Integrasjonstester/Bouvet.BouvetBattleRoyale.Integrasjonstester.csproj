@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="Api\BaseApiTest.cs" />
     <Compile Include="Api\BaseGameControllerTests.cs" />
+    <Compile Include="Api\ConcurrencyTests.cs" />
     <Compile Include="Api\InfisertControllerTests.cs" />
     <Compile Include="Api\LagControllerTests.cs" />
     <Compile Include="Api\PifGameControllerTests.cs" />

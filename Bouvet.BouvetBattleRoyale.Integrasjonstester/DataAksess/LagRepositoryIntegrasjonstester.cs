@@ -27,7 +27,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Hent_LagMed10Poeng_LagHar10Poeng()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
 
             const int Poeng = 10;
 
@@ -49,7 +49,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Hent_LagMedKode_LagHarKode()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
 
             var post = new LagPost { PostTilstand = PostTilstand.Oppdaget, Kode = "a", Posisjon = new Koordinat("10", "90") };
             var poster = new List<LagPost>
@@ -78,7 +78,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Hent_LagMedLagId_LagHarLagId()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
 
             const string LagId = "abc";
 
@@ -100,7 +100,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Hent_LagMedMelding_LagHarMelding()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
 
             var melding = new Melding {
                                   LagId = "abc",
@@ -132,7 +132,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Hent_LagMedPifPosisjoner_LagHarPifPosisjon()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
             
             var pifPosisjon = new PifPosisjon {
                                       LagId = "abc",
@@ -167,7 +167,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Oppdater_LagMedFlerePoeng_LagHarFlerePoeng()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
 
             const int poeng = 10;
             const int poengÿkning = 10;
@@ -200,7 +200,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Oppdater_VeldigStortLagObjekt_LagHarMindreData()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
             
             sekvenstall = 0;
 
@@ -232,7 +232,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
         public async Task Slett_HarFlereLagSomSlettes_GirIngenLag()
         {
             // Arrange
-            var repository = OpprettRepository();
+            var repository = Resolve<IRepository<Lag>>();
 
             var lagSomSkalOpprettes = Builder<Lag>.CreateListOfSize(5).All().Build();
 
@@ -253,14 +253,6 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var ingenLag = repository.HentAlle();
 
             ingenLag.ShouldBeEmpty();
-        }
-
-        private IRepository<Lag> OpprettRepository()
-        {
-            var builder = Startup.BuildContainer();
-            var container = builder.Build();
-            return container.Resolve<IRepository<Lag>>();
-            //return new LagRepository(new Konfigurasjon(), new DocumentDbContext(new Konfigurasjon()));
         }
     }
 }

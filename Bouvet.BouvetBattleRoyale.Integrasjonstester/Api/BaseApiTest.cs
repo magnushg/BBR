@@ -8,6 +8,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Text;
     using System.Threading.Tasks;
 
+    using Autofac;
+
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
@@ -287,6 +289,13 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
 
             if (!lagOpprettet)
                 Assert.Fail();
+        }
+        
+        protected T Resolve<T>() where T : class
+        {
+            var builder = Startup.BuildContainer();
+            var container = builder.Build();
+            return container.Resolve<T>();
         }
     }
 }

@@ -1,12 +1,12 @@
-namespace BouvetCodeCamp.DomeneTjenester.Services
+namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
 {
     using System;
     using System.Linq;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
-    using Domene.Entiteter;
-    using Interfaces;
+    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.DomeneTjenester.Interfaces;
 
     public class LagGameService : ILagGameService
     {
