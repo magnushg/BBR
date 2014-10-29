@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.CrossCutting
+﻿namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Logging
 {
     using System;
 

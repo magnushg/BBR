@@ -1,14 +1,12 @@
-using System.Collections.Generic;
-using System.Linq;
-using BouvetCodeCamp.Domene.Entiteter;
-
-namespace BouvetCodeCamp.SpillOppretter
+namespace Bouvet.BouvetBattleRoyale.SpillOppretter
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
-
-    using BouvetCodeCamp.CrossCutting;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
 
     public class KartdataLagring
     {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-
-namespace BouvetCodeCamp.SpillOppretter
+﻿namespace Bouvet.BouvetBattleRoyale.SpillOppretter
 {
+    using System;
+    using System.Configuration;
+    using System.Linq;
     using System.Threading;
+
+    using BouvetCodeCamp.SpillOppretter;
 
     class Program
     {

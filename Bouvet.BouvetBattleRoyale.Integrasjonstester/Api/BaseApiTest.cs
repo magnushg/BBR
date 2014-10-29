@@ -13,8 +13,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
 
-    using BouvetCodeCamp.CrossCutting;
     using BouvetCodeCamp.Domene;
     using BouvetCodeCamp.Domene.Entiteter;
 
