@@ -12,11 +12,14 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Threading;
 
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+
+    using Microsoft.Azure.Documents;
 
     using Should;
 
@@ -189,45 +192,7 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
             oppdatertLag.Poeng.ShouldEqual(20);
         }
-
-        private int sekvenstall = 0;
-        private int HentSekvenstall()
-        {
-            return sekvenstall++;
-        }
-
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
-        public async Task Oppdater_VeldigStortLagObjekt_LagHarMindreData()
-        {
-            // Arrange
-            var repository = Resolve<IRepository<Lag>>();
-            
-            sekvenstall = 0;
-
-            var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(5000).All()
-                .With(o => o.LagId = HentSekvenstall().ToString())
-                .Build();
-
-            var lag = Builder<Lag>.CreateNew()
-                .Build();
-
-            var antallPifPosisjoner = pifPosisjoner.Count;
-
-            var documentId = await repository.Opprett(lag);
-            var opprettetLag = repository.Hent(documentId);
-
-            // Act
-            opprettetLag.PifPosisjoner = (List<PifPosisjon>)pifPosisjoner;
-
-            await repository.Oppdater(opprettetLag);
-
-            // Assert
-            var oppdatertLag = repository.Hent(opprettetLag.DocumentId);
-
-            oppdatertLag.PifPosisjoner.Count.ShouldBeLessThan(antallPifPosisjoner);
-        }
-
+        
         [TestMethod]
         [TestCategory(Testkategorier.DataAksess)]
         public async Task Slett_HarFlereLagSomSlettes_GirIngenLag()
@@ -254,6 +219,132 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
             var ingenLag = repository.HentAlle();
 
             ingenLag.ShouldBeEmpty();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+        public async Task VerifiserOptimisticConcurrency_OppdatererLagetUtenÅHenteNyFørst_KasterConcurrencyException()
+        {
+            // Arrange
+            var repository = Resolve<IRepository<Lag>>();
+
+            var lag = Builder<Lag>.CreateNew()
+                .Build();
+
+            var documentId = await repository.Opprett(lag);
+
+            // Hent ut to instanser av lag
+            var lagMedMelding = repository.Hent(documentId);
+            var lagMedPosisjon = repository.Hent(documentId);
+
+            var pifPosisjon = new PifPosisjon
+            {
+                Posisjon = new Koordinat { Latitude = "59.10", Longitude = "10.6" },
+                LagId = "TestlagID",
+                Tid = DateTime.Now,
+                Infisert = false
+            };
+
+            lagMedPosisjon.PifPosisjoner.Add(pifPosisjon);
+
+            var melding = new Melding
+            {
+                LagId = "TestlagID",
+                Tekst = "1",
+                Tid = DateTime.Now,
+                Type = MeldingType.Lengde
+            };
+
+            lagMedMelding.Meldinger.Add(melding);
+
+            // Act
+
+            // Lagre melding
+            await repository.Oppdater(lagMedMelding);
+            
+            // Vent godt for å sikre seg at alt er på plass
+            Thread.Sleep(5000);
+
+            var lagEtterMeldingsLagring = repository.Hent(documentId);
+
+            // Assert
+            Assert.AreEqual(1, lagEtterMeldingsLagring.Meldinger.Count, "Meldingen skulle blitt lagret.");
+
+            // Lagrer så posisjonen
+            await repository.Oppdater(lagMedPosisjon);
+
+            Thread.Sleep(5000);
+
+            var lagEtterPosisjonsLagring = repository.Hent(documentId);
+
+            Assert.AreEqual(1, lagEtterPosisjonsLagring.PifPosisjoner.Count, "Posisjonen skulle blitt lagret.");
+
+            //MEN:
+            Assert.AreEqual(1, lagEtterPosisjonsLagring.Meldinger.Count, "WHAAAT? Meldingen ble slettet :(");
+        }
+
+        [TestMethod]
+        public async Task VerifiserOptimisticConcurrency_OppdatererLagetVedÅHenteNyFørstOgDeretterOppdatere_GirLagMedMeldingOgPifPosisjon()
+        {
+            // Arrange
+            var repository = Resolve<IRepository<Lag>>();
+
+            var lag = Builder<Lag>.CreateNew()
+                .Build();
+
+            var documentId = await repository.Opprett(lag);
+
+            // Hent ut to instanser av lag
+            var lagMedMelding = repository.Hent(documentId);
+            var lagMedPosisjon = repository.Hent(documentId);
+
+            var pifPosisjon = new PifPosisjon
+            {
+                Posisjon = new Koordinat { Latitude = "59.10", Longitude = "10.6" },
+                LagId = "TestlagID",
+                Tid = DateTime.Now,
+                Infisert = false
+            };
+
+            lagMedPosisjon.PifPosisjoner.Add(pifPosisjon);
+
+            var melding = new Melding
+            {
+                LagId = "TestlagID",
+                Tekst = "1",
+                Tid = DateTime.Now,
+                Type = MeldingType.Lengde
+            };
+
+            lagMedMelding.Meldinger.Add(melding);
+
+            // Act
+
+            // Lagre melding
+            await repository.Oppdater(lagMedMelding);
+
+            // Vent godt for å sikre seg at alt er på plass
+            Thread.Sleep(5000);
+
+            var lagEtterMeldingsLagring = repository.Hent(documentId);
+
+            // Assert
+            Assert.AreEqual(1, lagEtterMeldingsLagring.Meldinger.Count, "Meldingen skulle blitt lagret.");
+
+            // Hent ny versjon av laget før oppdatering. Lagrer så posisjonen
+            var lagSomErNyligHentet = repository.Hent(documentId);
+            lagSomErNyligHentet.PifPosisjoner = lagMedPosisjon.PifPosisjoner;
+
+            await repository.Oppdater(lagSomErNyligHentet);
+
+            Thread.Sleep(5000);
+
+            var lagEtterPosisjonsLagring = repository.Hent(documentId);
+
+            Assert.AreEqual(1, lagEtterPosisjonsLagring.PifPosisjoner.Count, "Posisjonen skulle blitt lagret.");
+
+            //MEN:
+            Assert.AreEqual(1, lagEtterPosisjonsLagring.Meldinger.Count, "WHAAAT? Meldingen ble slettet :(");
         }
     }
 }

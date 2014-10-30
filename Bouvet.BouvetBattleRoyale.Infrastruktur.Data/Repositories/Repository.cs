@@ -5,7 +5,6 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
@@ -15,67 +14,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Azure.Documents.Linq;
-
-    public class ConcurrencyHandler<T> where T : BaseDocument
-    {
-        private readonly List<KeyValuePair<string, string>> documentEtags;
-
-        public ConcurrencyHandler()
-        {
-            documentEtags = new List<KeyValuePair<string, string>>();
-        }
-
-        public void SettEtagForDocument(string documentId, string etag)
-        {
-            lock (documentId)
-            {
-                var eksisterendeKeyValuePairsForDocument = documentEtags.FindAll(o => o.Key == documentId).ToList();
-
-                SlettEksisterendeVerdierForDocument(eksisterendeKeyValuePairsForDocument);
-
-                documentEtags.Add(new KeyValuePair<string, string>(documentId, etag));
-            }
-        }
-
-        public void SettEtagForDocuments(IEnumerable<T> alleDocuments)
-        {
-            foreach (var document in alleDocuments)
-            {
-                if (document != null)
-                    SettEtagForDocument(document.DocumentId, document.Etag);
-            }
-        }
-
-        private void SlettEksisterendeVerdierForDocument(List<KeyValuePair<string, string>> eksisterendeKeyValuePairsForDocument)
-        {
-            if (eksisterendeKeyValuePairsForDocument.Any())
-            {
-                foreach (var eksisterendeKeyValuePair in eksisterendeKeyValuePairsForDocument)
-                {
-                    SlettEksisterendeVerdierForDocument(eksisterendeKeyValuePair.Key);
-                }
-            }
-        }
-
-        public void SlettEksisterendeVerdierForDocument(string documentId)
-        {
-            lock (documentId)
-            {
-                var keyValuePair = documentEtags.Find(o => o.Key == documentId);
-
-                documentEtags.Remove(keyValuePair);
-            }
-        }
-
-        public void VerifiserOppdatertEtagForDocument(string documentId, string etag)
-        {
-            var keyValuePair = documentEtags.Find(o => o.Key == documentId);
-
-            if (keyValuePair.Value != etag)
-                throw new ConcurrencyException(string.Format("Concurrency-feil: Dokumentet {0} har mismatch på ETag. Hent ny versjon av dokumentet og prøv igjen.", documentId));
-        }
-    }
-
+    
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
         private const int RequestLimitKb = 256;
@@ -87,9 +26,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
         protected readonly IDocumentDbContext Context;
 
         private readonly ILog _log;
-
-        private static ConcurrencyHandler<T> concurrencyHandler;
-
+        
         private DocumentCollection _collection;
 
         public DocumentCollection Collection
@@ -110,25 +47,19 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
             _konfigurasjon = konfigurasjon;
             Context = context;
             _log = log;
-
-            concurrencyHandler = new ConcurrencyHandler<T>();
         }
 
         public async Task<string> Opprett(T document)
         {
             var opprettetDocument = await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
-
-            concurrencyHandler.SettEtagForDocument(opprettetDocument.Resource.Id, opprettetDocument.Resource.ETag);
-
+            
             return opprettetDocument.Resource.Id;
         }
 
         public IEnumerable<T> HentAlle()
         {
             var documents = Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink).AsEnumerable();
-
-            concurrencyHandler.SettEtagForDocuments(documents);
-
+            
             return documents;
         }
 
@@ -141,19 +72,32 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
                 .AsEnumerable()
                 .FirstOrDefault();
 
-            if (document != null)
-                concurrencyHandler.SettEtagForDocument(document.DocumentId, document.Etag);
-
             return document;
         }
 
         public async Task Oppdater(T document)
         {
-            concurrencyHandler.VerifiserOppdatertEtagForDocument(document.DocumentId, document.Etag);
-
             var oppdaterStart = DateTime.Now;
 
-            await Context.Client.ReplaceDocumentAsync(document.SelfLink, document);
+            var options = new RequestOptions
+                              {
+                                  AccessCondition = new AccessCondition
+                                                        {
+                                                            Type = AccessConditionType.IfMatch, 
+                                                            Condition = document.Etag
+                                                        }
+                              };
+
+            try
+            {
+                await Context.Client.ReplaceDocumentAsync(document.SelfLink, document, options);
+            }
+            catch (DocumentClientException documentClientException)
+            {
+                _log.Warn("DocumentClientException ble fanget i Oppdater() på document " + document.DocumentId);
+
+                throw new Exception("Oppdatering ble forsøkt på utdatert objekt, prøv igjen.", documentClientException);
+            }
 
             var oppdaterEnd = DateTime.Now;
 
@@ -162,13 +106,9 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
         public async Task Slett(T document)
         {
-            concurrencyHandler.VerifiserOppdatertEtagForDocument(document.DocumentId, document.Etag);
-
             var slettStart = DateTime.Now;
 
             await Context.Client.DeleteDocumentAsync(document.SelfLink, new RequestOptions());
-
-            concurrencyHandler.SlettEksisterendeVerdierForDocument(document.DocumentId);
 
             var slettEnd = DateTime.Now;
 
@@ -180,8 +120,6 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
             var documents = Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink)
                     .Where(predicate)
                     .AsEnumerable();
-
-            concurrencyHandler.SettEtagForDocuments(documents);
 
             return documents;
         }
