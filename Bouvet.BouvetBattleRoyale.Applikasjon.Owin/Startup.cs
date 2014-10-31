@@ -49,12 +49,14 @@
             config.EnableSystemDiagnosticsTracing();
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;            
+            
             SetGlobalizationCulture("nb-NO");
 
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
+#if RELEASE
             KonfigurerApiDokumentasjon(appBuilder, config);
-
+#endif
             var builder = BuildContainer();
 
             var container = builder.Build();

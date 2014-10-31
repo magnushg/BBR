@@ -15,6 +15,10 @@ Bouvet Battle Royale er en spillplattform som tilbyr et API til et slags oriente
 
 # Teknisk oppsett #
 
+## Hosting i LINQPad ##
+
+Åpne skriptet HostingILINQPad.linq og kjør skriptet. For å fjerne log4net-advarsel om at LINQPad ikke finner log4net-konfig så gå til C:\Program Files (x86)\LINQPad4 og opprett en LINQPad.config-fil med log4net-konfigen fra Owin-prosjektets App.config.
+
 ## Integrasjonstester ##
 
 ### API-tester ###
