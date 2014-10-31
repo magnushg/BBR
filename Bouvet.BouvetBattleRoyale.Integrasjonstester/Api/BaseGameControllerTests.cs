@@ -1,8 +1,7 @@
-namespace BouvetCodeCamp.Integrasjonstester.Api
+namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -14,10 +13,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-
-    using FizzWare.NBuilder;
+    using BouvetCodeCamp.Integrasjonstester;
+    using BouvetCodeCamp.Integrasjonstester.Api;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -19,12 +19,11 @@
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
+    using Bouvet.BouvetBattleRoyale.Tjenester;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Services;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
-    using BouvetCodeCamp;
-    using BouvetCodeCamp.Domene.Entiteter;
     using BouvetCodeCamp.DomeneTjenester;
 
     using global::Owin;

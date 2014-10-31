@@ -3,8 +3,6 @@
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-
     using log4net;
 
     using Microsoft.Azure.Documents;

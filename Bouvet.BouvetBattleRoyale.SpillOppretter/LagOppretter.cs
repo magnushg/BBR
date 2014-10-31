@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.IO.Pipes;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-
-using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.SpillOppretter
+﻿namespace Bouvet.BouvetBattleRoyale.SpillOppretter
 {
-    using System.Threading;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
 
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
+
+    using Newtonsoft.Json;
 
     public class LagOppretter
     {

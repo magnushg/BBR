@@ -8,8 +8,6 @@
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-
     public interface IGameApi
     {
         Task RegistrerPifPosisjon(Lag modell, PifPosisjonInputModell inputModell);

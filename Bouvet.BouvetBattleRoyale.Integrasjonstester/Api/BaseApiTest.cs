@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Integrasjonstester.Api
+namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 {
     using System;
     using System.Collections.Generic;
@@ -15,17 +15,14 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
+    using BouvetCodeCamp.Integrasjonstester;
 
     using FizzWare.NBuilder;
 
-    using log4net;
-
+    using Microsoft.Owin.Hosting;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Newtonsoft.Json;
-    using Microsoft.Owin.Hosting;
 
     [TestClass]
     public class BaseApiTest

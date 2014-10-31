@@ -7,8 +7,6 @@
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Services;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-
     using Moq;
 
     using NUnit.Framework;

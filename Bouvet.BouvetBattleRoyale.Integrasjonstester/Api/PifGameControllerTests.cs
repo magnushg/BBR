@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Integrasjonstester.Api
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 {
     using System;
     using System.Collections.Generic;
@@ -14,8 +14,8 @@
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
-    using Domene;
-    using Domene.Entiteter;
+    using BouvetCodeCamp.Integrasjonstester;
+    using BouvetCodeCamp.Integrasjonstester.Api;
 
     using FizzWare.NBuilder;
 

@@ -12,8 +12,6 @@
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
-    using BouvetCodeCamp.Domene;
-
     [RoutePrefix("api/game/base")]
     public class BaseGameController : BaseApiController
     {

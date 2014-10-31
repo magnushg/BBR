@@ -1,14 +1,8 @@
-﻿using System;
-using System.Linq;
-
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-
-using Microsoft.AspNet.SignalR;
-
-namespace BouvetCodeCamp.DomeneTjenester
+﻿namespace Bouvet.BouvetBattleRoyale.Tjenester
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene;

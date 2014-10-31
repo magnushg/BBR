@@ -3,6 +3,8 @@
     using System;
     using System.Configuration;
 
+    using Bouvet.BouvetBattleRoyale.SpillOppretter;
+
     using BouvetCodeCamp.SpillOppretter;
 
     using NUnit.Framework;

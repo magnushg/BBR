@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BouvetCodeCamp.Domene.Entiteter;
+
 using BouvetCodeCamp.SpillSimulator.Jobs;
 using Quartz;
 

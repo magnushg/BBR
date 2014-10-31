@@ -13,9 +13,6 @@
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-
     /// <summary>
     /// Sett og Hent infiserte soner
     /// </summary>

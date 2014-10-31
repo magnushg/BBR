@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using Newtonsoft.Json;
-
-namespace BouvetCodeCamp.Domene.Entiteter
+﻿namespace Bouvet.BouvetBattleRoyale.Domene.Entiteter
 {
-    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+
+    using Newtonsoft.Json;
 
     public class Lag : BaseDocument
     {

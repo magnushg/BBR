@@ -3,7 +3,15 @@ Bouvet Battle Royale
 
 Bouvet Battle Royale er en spillplattform som tilbyr et API til et slags orienteringsløp hvor man samler poster og koder underveis.
 
+# Arkitektur #
 
+## Domenemodell ##
+
+- TODO: link til gliffy
+
+## Arkiveringsstrategi med skalering ##
+
+- TODO: link til gliffy
 
 # Teknisk oppsett #
 

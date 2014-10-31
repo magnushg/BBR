@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using BouvetCodeCamp.Domene.Entiteter;
-
 namespace BouvetCodeCamp.SpillSimulator
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;

@@ -2,8 +2,6 @@
 {
     using System.ComponentModel;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-
     using Newtonsoft.Json;
 
     /// <summary>

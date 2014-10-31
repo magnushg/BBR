@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using BouvetCodeCamp.Domene.Entiteter;
-
 namespace BouvetCodeCamp.DomeneTjenester
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;

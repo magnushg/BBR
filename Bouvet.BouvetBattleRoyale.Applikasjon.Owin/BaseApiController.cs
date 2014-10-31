@@ -7,8 +7,6 @@
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Filters;
     using Bouvet.BouvetBattleRoyale.Domene;
 
-    using BouvetCodeCamp.Domene;
-
     [UnhandledException]
     public class BaseApiController : ApiController
     {

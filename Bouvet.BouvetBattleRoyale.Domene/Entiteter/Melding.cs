@@ -2,8 +2,6 @@
 {
     using System;
 
-    using BouvetCodeCamp.Domene;
-
     using Newtonsoft.Json;
 
     public class Melding

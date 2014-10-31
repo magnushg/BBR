@@ -1,25 +1,21 @@
-using System.Threading.Tasks;
-using Autofac;
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-
-using FizzWare.NBuilder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace BouvetCodeCamp.Integrasjonstester.DataAksess
+namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Threading;
+    using System.Threading.Tasks;
 
-    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
-    using Microsoft.Azure.Documents;
+    using BouvetCodeCamp.Integrasjonstester;
+    using BouvetCodeCamp.Integrasjonstester.DataAksess;
+
+    using FizzWare.NBuilder;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Should;
 

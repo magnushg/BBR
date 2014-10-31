@@ -3,7 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
-using BouvetCodeCamp.Domene.Entiteter;
+
 using Newtonsoft.Json;
 
 namespace BouvetCodeCamp.SpillOppretter

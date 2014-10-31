@@ -1,17 +1,13 @@
-﻿using System;
-using System.Linq;
-using BouvetCodeCamp.Domene;
-using BouvetCodeCamp.Domene.Entiteter;
-
-namespace BouvetCodeCamp.DomeneTjenester
+﻿namespace Bouvet.BouvetBattleRoyale.Tjenester
 {
+    using System;
+    using System.Linq;
+
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
-
-    using Microsoft.AspNet.SignalR;
 
     public class PoengService : IPoengService
     {

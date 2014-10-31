@@ -5,8 +5,6 @@
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
-    using BouvetCodeCamp.Domene.Entiteter;
-
     public interface IPostGameService
     {
         IEnumerable<LagPost> HentOppdagedePoster(Lag lag);

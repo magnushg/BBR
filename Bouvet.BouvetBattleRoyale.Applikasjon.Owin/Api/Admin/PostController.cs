@@ -11,9 +11,6 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
-    using BouvetCodeCamp.Domene;
-    using BouvetCodeCamp.Domene.Entiteter;
-
     [RoutePrefix("api/admin/post")]
     [Authorize]
     public class PostController : BaseApiController

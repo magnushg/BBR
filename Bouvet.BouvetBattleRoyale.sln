@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Tester", "01 - Tester", "{48C547AC-6E5D-4D7D-BD0E-A946210418CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Unittester", "Bouvet.BouvetBattleRoyale.Unittester\Bouvet.BouvetBattleRoyale.Unittests.csproj", "{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Unittests", "Bouvet.BouvetBattleRoyale.Unittester\Bouvet.BouvetBattleRoyale.Unittests.csproj", "{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Verktøy", "02 - Verktøy", "{578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}"
 EndProject
@@ -46,6 +46,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 - Domene", "40 - Domene", "{ADA91F12-FEA2-4A13-85B8-7F62DB953E23}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - Tjenester", "20 - Tjenester", "{9839CF96-C48C-4E49-9033-2D790CE4FE2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Solution Items", "00 - Solution Items", "{5E638575-0FE6-4848-A936-07D45FD0A29C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
