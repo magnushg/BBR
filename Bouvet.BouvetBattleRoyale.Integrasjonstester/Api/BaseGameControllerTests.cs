@@ -14,7 +14,6 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
     using BouvetCodeCamp.Integrasjonstester;
-    using BouvetCodeCamp.Integrasjonstester.Api;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
