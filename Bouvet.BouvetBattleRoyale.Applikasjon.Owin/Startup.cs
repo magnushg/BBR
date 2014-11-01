@@ -36,8 +36,11 @@
 
     using Newtonsoft.Json.Serialization;
 
+    using AutofacContrib.DynamicProxy;
+
     using Swashbuckle;
     using Swashbuckle.Application;
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception;
 
     public class Startup
     {
@@ -84,8 +87,10 @@
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<log4netAutofacModule>();
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
+            builder.RegisterInstance(new RetryInterceptor { ShouldTry = 3 }).AsSelf().SingleInstance();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).EnableClassInterceptors().InterceptedBy(typeof(RetryInterceptor));
+           
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().SingleInstance();
 
