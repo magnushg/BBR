@@ -12,7 +12,9 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception
 {
     public class RetryInterceptor : IInterceptor
     {
-        public int ShouldTry { get; set; }
+        public int MaxAttempts { get; set; }
+
+        private bool isIntercepting = false;
 
         private void ProceedAndRetry(IInvocation invocation, int retryCount) 
         {
@@ -23,14 +25,9 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception
                 var task = invocation.ReturnValue as Task;
                 if (task != null)
                 {
-                    if (retryCount < ShouldTry)
-                    {
-                        invocation.ReturnValue = task.ContinueWith(t =>
-                        {                            
-                            if (t.IsFaulted)
-                                OnException(invocation, t.Exception, retryCount);
-                        });
-                    }
+                    Func<Task> taskProvider = () => GetTaskFromInvocation(invocation);
+
+                    TaskHelper2.Retry(task, taskProvider, MaxAttempts, (Exception ex) => ShouldRetry(ex));
                 }               
             }
             catch (Exception ex)
@@ -39,8 +36,35 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception
             }
         }
 
+        private Task GetTaskFromInvocation(IInvocation invocation)
+        {
+            invocation.Proceed();
+            return invocation.ReturnValue as Task;
+        }
+
+        private bool ShouldRetry(Exception exception)
+        {
+            var strategy = new ConcurrencyProblemRetryStrategy(exception);
+            return strategy.ShouldRetry;
+        }
+
+        private void RetryContinuation(Task task, Func<Task> taskProvider, int attemptsRemaining, Func<Exception, bool> shouldRetry)
+        {
+           
+            if (task.IsFaulted)
+            {
+                if (attemptsRemaining > 0 && shouldRetry(task.Exception.InnerException))
+                {
+                    taskProvider()
+                        .ContinueWith(retryTask => RetryContinuation(retryTask, taskProvider, --attemptsRemaining, shouldRetry))
+                        ;
+                }
+            }
+        }
+
         private void OnException(IInvocation invocation, Exception ex, int retryCount) 
         {
+
             if (ex is AggregateException && ex.InnerException != null)
                 ex = ex.InnerException;
 
@@ -55,7 +79,7 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception
 
                     retryCount++;
 
-                    if(retryCount > ShouldTry)
+                    if(retryCount > MaxAttempts)
                         throw ex;
 
                     ProceedAndRetry(invocation, retryCount);
@@ -78,6 +102,11 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception
                 invocation.Proceed();
                 return;
             }
+
+            if (isIntercepting)
+                return;
+
+            isIntercepting = true;
 
             ProceedAndRetry(invocation, 0);
 

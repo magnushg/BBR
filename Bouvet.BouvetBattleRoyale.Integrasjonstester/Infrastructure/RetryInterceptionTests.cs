@@ -25,13 +25,14 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
     public class RetryInterceptionTests
     {
         private IContainer _container;
-        private int _retryTimes = 3;
+        private int _maxAttempts = 3;
 
         [TestInitialize]
         public void FørHverTest()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterInstance(new RetryInterceptor { ShouldTry = _retryTimes }).AsSelf().SingleInstance();
+            builder.RegisterInstance(new RetryInterceptor { MaxAttempts = _maxAttempts }).AsSelf().SingleInstance();
+            builder.RegisterInstance(new SynchronousRetryInterceptor { MaxAttempts = _maxAttempts }).AsSelf().SingleInstance();
             builder.RegisterType<TestController>().EnableClassInterceptors().InterceptedBy(typeof(RetryInterceptor));
             _container = builder.Build();
         }
@@ -70,7 +71,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             }
             catch (Exception ex) { }
 
-            Assert.AreEqual(_retryTimes, controller.AntallKall-1, "Skulle prøvd på nytt");
+            Assert.AreEqual(_maxAttempts, controller.AntallKall-1, "Skulle prøvd på nytt");
         }
 
         [TestMethod]
@@ -86,7 +87,39 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             }
             catch (Exception ex) { }
 
-            Assert.AreEqual(_retryTimes, controller.AntallKall - 1, "Skulle prøvd på nytt");
+            Assert.AreEqual(_maxAttempts, controller.AntallKall - 1, "Skulle prøvd på nytt");
+        }
+
+        [TestMethod]
+        public async Task AsynkronVoidMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_Skal_gi_retry()
+        {
+            var controller = HentTestController();
+            controller.ThrowThis = LagConcurrencyException();
+
+            try
+            {
+                await controller.SendInputVoidAsync("input");
+                Assert.Fail("Skulle kastet Exception");
+            }
+            catch (Exception ex) { }
+
+            Assert.AreEqual(_maxAttempts, controller.AntallKall - 1, "Skulle prøvd på nytt");
+        }
+
+        [TestMethod]
+        public async Task AsynkronVoidMetode_med_HttpPost_Når_den_kaster_Annen_Exception_Skal_ikke_gi_retry()
+        {
+            var controller = HentTestController();
+            controller.ThrowThis = new ApplicationException("Ikke retry application exception");
+
+            try
+            {
+                await controller.SendInputVoidAsync("input");
+                Assert.Fail("Skulle kastet Exception");
+            }
+            catch (Exception ex) { }
+
+            Assert.AreEqual(1, controller.AntallKall, "Skulle ikke prøvd på nytt");
         }
 
         [TestMethod]
@@ -106,8 +139,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             }
             catch (Exception ex) { }            
 
-            Assert.AreEqual(_retryTimes, controller.AntallKall - 1, "Skulle prøvd på nytt");
-            Assert.IsTrue(stopwatch.ElapsedMilliseconds > _retryTimes * retryAfterMs, "Skulle ventet mellom hver retry");
+            Assert.AreEqual(_maxAttempts, controller.AntallKall - 1, "Skulle prøvd på nytt");
+            Assert.IsTrue(stopwatch.ElapsedMilliseconds > _maxAttempts * retryAfterMs, "Skulle ventet mellom hver retry");
         }
 
         [TestMethod]
@@ -160,10 +193,14 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             public Exception ThrowThis { get; set; }
             public int AntallKall { get; set; }
 
+            private object _lock = new object();
+
             private void KastExceptionHvisSatt() 
             {
-                AntallKall++;
-
+                lock (_lock)
+                {
+                    AntallKall++;
+                }
                 if (ThrowThis != null)
                     throw ThrowThis;
             }
@@ -180,6 +217,12 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             {
                 KastExceptionHvisSatt();
                 return Request.CreateResponse(HttpStatusCode.OK, input, Configuration.Formatters.JsonFormatter);
+            }
+
+            [HttpPost]
+            public virtual async Task SendInputVoidAsync(string input)
+            {
+                KastExceptionHvisSatt();                
             }
 
             [HttpPost]

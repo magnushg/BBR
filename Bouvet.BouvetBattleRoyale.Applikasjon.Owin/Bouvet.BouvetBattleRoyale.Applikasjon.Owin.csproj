@@ -79,7 +79,12 @@
     <Compile Include="BaseApiController.cs" />
     <Compile Include="Filters\AddAuthorizationRequiredResponseCodes.cs" />
     <Compile Include="Filters\UnhandledExceptionAttribute.cs" />
+    <Compile Include="Interception\ConcurrencyProblemRetryStrategy.cs" />
     <Compile Include="Interception\RetryInterceptor.cs" />
+    <Compile Include="Interception\SynchronousRetryInterceptor.cs" />
+    <Compile Include="Interception\TaskHelper2.cs" />
+    <Compile Include="Interception\TaskHelper.cs" />
+    <Compile Include="Interception\TaskHelper3.cs" />
     <Compile Include="log4netAutofacModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
