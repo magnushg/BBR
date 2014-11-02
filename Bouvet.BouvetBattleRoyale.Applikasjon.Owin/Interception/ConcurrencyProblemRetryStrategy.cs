@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception
 {
-    public class ConcurrencyProblemRetryStrategy
+    public interface IRetryStrategy
+    {
+        bool ShouldRetry { get; }
+        TimeSpan RetryAfter { get; }
+    }
+
+    public class ConcurrencyProblemRetryStrategy : IRetryStrategy
     {
         public bool ShouldRetry { get; set; }
         public TimeSpan RetryAfter { get; set;}

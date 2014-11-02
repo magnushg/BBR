@@ -144,6 +144,27 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
         }
 
         [TestMethod]
+        public async Task AsynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_med_TimeSpan_Skal_gi_retry_og_vente()
+        {
+            var controller = HentTestController();
+
+            var retryAfterMs = 50;
+
+            controller.ThrowThis = LagConcurrencyException("PreconditionFailed", retryAfterMs);
+
+            var stopwatch = Stopwatch.StartNew();
+            try
+            {
+                await controller.SendInputAsync("input");
+                Assert.Fail("Skulle kastet Exception");
+            }
+            catch (Exception ex) { }
+
+            Assert.AreEqual(_maxAttempts, controller.AntallKall - 1, "Skulle prøvd på nytt");
+            Assert.IsTrue(stopwatch.ElapsedMilliseconds > _maxAttempts * retryAfterMs, "Skulle ventet mellom hver retry");
+        }
+
+        [TestMethod]
         public void SynkronMetode_med_HttpPost_Når_den_kaster_AnnenException_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();

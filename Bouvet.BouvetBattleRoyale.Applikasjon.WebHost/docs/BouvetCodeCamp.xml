@@ -100,15 +100,5 @@
              <response code="400">Bad request</response>
              <response code="500">Internal Server Error</response>
         </member>
-        <member name="T:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception.TaskHelper2">
-            <summary>
-            Utility methods for <see cref="T:System.Threading.Tasks.Task"/>.
-            </summary>
-        </member>
-        <member name="T:Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception.TaskHelper">
-            <summary>
-            Utility methods for <see cref="T:System.Threading.Tasks.Task"/>.
-            </summary>
-        </member>
     </members>
 </doc>
