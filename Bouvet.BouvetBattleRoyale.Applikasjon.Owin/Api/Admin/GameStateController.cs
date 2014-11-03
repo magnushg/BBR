@@ -27,7 +27,7 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
         [Route("post")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
-        public async Task<HttpResponseMessage> PostGameState([FromBody]GameState modell)
+        public virtual async Task<HttpResponseMessage> PostGameState([FromBody]GameState modell)
         {
             if (modell == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");

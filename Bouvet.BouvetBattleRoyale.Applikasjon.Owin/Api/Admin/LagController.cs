@@ -74,7 +74,7 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
         [Route("post")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
-        public async Task<HttpResponseMessage> PostLag([FromBody]Lag modell)
+        public virtual async Task<HttpResponseMessage> PostLag([FromBody]Lag modell)
         {
             try
             {
@@ -165,7 +165,7 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
         [Route("tildelpoeng")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
-        public async Task<HttpResponseMessage> TildelPoeng([FromBody]PoengInputModell inputModell)
+        public virtual async Task<HttpResponseMessage> TildelPoeng([FromBody]PoengInputModell inputModell)
         {
             if (inputModell == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");
@@ -182,7 +182,7 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
         [Route("oppretthendelse")]
         [HttpPost]
         [Obsolete] // Skjule for Swagger-apidoc
-        public async Task<HttpResponseMessage> OpprettHendelse([FromBody]LoggHendelseInputModell inputModell)
+        public virtual async Task<HttpResponseMessage> OpprettHendelse([FromBody]LoggHendelseInputModell inputModell)
         {
             if (inputModell == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Ugyldig request");

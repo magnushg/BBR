@@ -3,8 +3,10 @@ using Autofac.Core;
 using AutofacContrib.DynamicProxy;
 using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
 using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception;
+using log4net;
 using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -31,22 +33,30 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
         public void FørHverTest()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterInstance(new RetryInterceptor { MaxAttempts = _maxAttempts }).AsSelf().SingleInstance();
+
+            var log = new Mock<ILog>();
+
+            builder.RegisterInstance(new RetryInterceptor (log.Object){ MaxAttempts = _maxAttempts }).AsSelf().SingleInstance();
             builder.RegisterInstance(new SynchronousRetryInterceptor { MaxAttempts = _maxAttempts }).AsSelf().SingleInstance();
             builder.RegisterType<TestController>().EnableClassInterceptors().InterceptedBy(typeof(RetryInterceptor));
+
             _container = builder.Build();
         }
 
         private TestController HentTestController()
         {
-            return _container.Resolve<TestController>();
+            var controller = _container.Resolve<TestController>();
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
+
+            return controller;
         }
 
         [TestMethod]
         public void SynkronMetode_med_HttpPost_Når_den_kaster_annen_DocumentClientException_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();
-            controller.ThrowThis = LagConcurrencyException("Not PreconditionFailed");
+            controller.ThrowThis = LagDocumentClientException("Not PreconditionFailed");
 
             try
             {
@@ -62,7 +72,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
         public void SynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_Skal_gi_retry()
         {
             var controller = HentTestController();
-            controller.ThrowThis = LagConcurrencyException();
+            controller.ThrowThis = LagDocumentClientException();
 
             try
             {
@@ -78,7 +88,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
         public async Task AsynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_Skal_gi_retry()
         {
             var controller = HentTestController();
-            controller.ThrowThis = LagConcurrencyException();
+            controller.ThrowThis = LagDocumentClientException();
 
             try
             {
@@ -91,10 +101,60 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
         }
 
         [TestMethod]
+        public async Task AsynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_og_deretter_fungerer_Skal_gi_retry_og_returverdi()
+        {
+            var controller = HentTestController();
+            controller.ThrowThis = LagDocumentClientException();
+            controller.ThrowTimes = 1;
+
+            HttpResponseMessage response = null;
+
+            try
+            {
+                response = await controller.SendInputAsync("input"); 
+            }
+            catch (Exception ex) 
+            {
+                Assert.Fail("Skulle ikke kastet Exception");
+            }
+
+            string value;
+            response.TryGetContentValue<string>(out value);
+
+            Assert.IsNotNull(response, "Response ble ikke satt");
+            Assert.AreEqual("input", value, "Feil innhold");
+            Assert.AreEqual(2, controller.AntallKall, "Skulle prøvd på nytt en gang");            
+        }
+
+        [TestMethod]
+        public async Task AsynkronMetode_med_HttpPost_Når_ingen_exceptions_Skal_gi_returverdi()
+        {
+            var controller = HentTestController();
+
+            HttpResponseMessage response = null;
+
+            try
+            {
+                response = await controller.SendInputAsync("input");                
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Skulle ikke kastet Exception");
+            }
+
+            string value;
+            response.TryGetContentValue<string>(out value);
+
+            Assert.IsNotNull(response, "Response ble ikke satt");
+            Assert.AreEqual("input", value, "Feil innhold");
+            Assert.AreEqual(1, controller.AntallKall, "Skulle bare kjørt en gang");
+        }
+
+        [TestMethod]
         public async Task AsynkronVoidMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_Skal_gi_retry()
         {
             var controller = HentTestController();
-            controller.ThrowThis = LagConcurrencyException();
+            controller.ThrowThis = LagDocumentClientException();
 
             try
             {
@@ -104,6 +164,26 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             catch (Exception ex) { }
 
             Assert.AreEqual(_maxAttempts, controller.AntallKall - 1, "Skulle prøvd på nytt");
+        }
+
+        [TestMethod]
+        public async Task AsynkronVoidMetode_med_HttpPost_Når_den_kaster_en_ConcurrencyException_før_den_funker_Skal_gi_en_retry_og_returverdi()
+        {
+            var controller = HentTestController();
+            controller.ThrowThis = LagDocumentClientException();
+            controller.ThrowTimes = 1;
+            
+            try
+            {
+                await controller.SendInputVoidAsync("input");
+               
+            }
+            catch (Exception ex) 
+            {
+                Assert.Fail("Skulle ikke kastet Exception");
+            }
+
+            Assert.AreEqual(2, controller.AntallKall, "Skulle prøvd på nytt");
         }
 
         [TestMethod]
@@ -129,7 +209,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
 
             var retryAfterMs = 50;
 
-            controller.ThrowThis = LagConcurrencyException("PreconditionFailed", retryAfterMs);
+            controller.ThrowThis = LagDocumentClientException("PreconditionFailed", retryAfterMs);
 
             var stopwatch = Stopwatch.StartNew();
             try
@@ -150,7 +230,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
 
             var retryAfterMs = 50;
 
-            controller.ThrowThis = LagConcurrencyException("PreconditionFailed", retryAfterMs);
+            controller.ThrowThis = LagDocumentClientException("PreconditionFailed", retryAfterMs);
 
             var stopwatch = Stopwatch.StartNew();
             try
@@ -181,6 +261,30 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
         }
 
         [TestMethod]
+        public void SynkronMetode_med_HttpPost_Når_den_ikke_kaster_Exception_Skal_ikke_gi_retry()
+        {
+            var controller = HentTestController();
+
+            HttpResponseMessage response = null;
+
+            try
+            {
+                response = controller.SendInputSynkron("input");
+            }
+            catch (Exception ex) 
+            {
+                Assert.Fail("Skulle ikke kastet Exception");
+            }
+
+            string value;
+            response.TryGetContentValue<string>(out value);
+
+            Assert.IsNotNull(response, "Response ble ikke satt");
+            Assert.AreEqual("input", value, "Feil innhold");
+            Assert.AreEqual(1, controller.AntallKall, "Skulle ikke prøvd på nytt");
+        }
+
+        [TestMethod]
         public void SynkronMetode_uten_HttpPost_Når_den_kaster_AnnenException_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();
@@ -196,7 +300,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(1, controller.AntallKall, "Skulle ikke prøvd på nytt");
         }
 
-        private Exception LagConcurrencyException(string code = "PreconditionFailed", int retryAfterMs = 0) 
+        private Exception LagDocumentClientException(string code = "PreconditionFailed", int retryAfterMs = 0) 
         {
             var error = new Error { Code = code, Message = "Etag didn't match" };
             HttpResponseHeaders headers = null;
@@ -213,17 +317,18 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
         {
             public Exception ThrowThis { get; set; }
             public int AntallKall { get; set; }
-
-            private object _lock = new object();
+            public int ThrowTimes { get; set; }
+            private int _thrownCount;
 
             private void KastExceptionHvisSatt() 
-            {
-                lock (_lock)
+            {                
+                AntallKall++;
+
+                if (ThrowThis != null && (ThrowTimes == 0 || _thrownCount < ThrowTimes))
                 {
-                    AntallKall++;
+                    _thrownCount++;
+                    throw ThrowThis; 
                 }
-                if (ThrowThis != null)
-                    throw ThrowThis;
             }
 
             [HttpGet]

@@ -88,7 +88,8 @@
             var builder = new ContainerBuilder();
             builder.RegisterModule<log4netAutofacModule>();
 
-            builder.RegisterInstance(new RetryInterceptor { MaxAttempts = 3 }).AsSelf().SingleInstance();
+            builder.RegisterType<RetryInterceptor>().AsSelf();
+            // Note controller methods must be virtual to be intercepted
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).EnableClassInterceptors().InterceptedBy(typeof(RetryInterceptor));
            
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();

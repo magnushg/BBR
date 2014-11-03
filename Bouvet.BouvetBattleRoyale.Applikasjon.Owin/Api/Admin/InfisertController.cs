@@ -62,7 +62,7 @@
         [HttpPost]
         [Route("post")]
         [Obsolete] // Skjule for Swagger-apidoc
-        public async Task<HttpResponseMessage> Post([FromBody] InfisertPolygon modell)
+        public virtual async Task<HttpResponseMessage> Post([FromBody] InfisertPolygon modell)
         {
             if (modell == null || modell.Koordinater == null) 
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modell er ugyldig.");
