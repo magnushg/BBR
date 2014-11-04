@@ -13,26 +13,24 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
-    using BouvetCodeCamp.Integrasjonstester;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Newtonsoft.Json;
+
+    using NUnit.Framework;
 
     using Should;
 
-    [TestClass]
+    [TestFixture]
     public class BaseGameControllerTests : BaseApiTest
     {
-        [TestInitialize]
-        [TestCleanup]
-        public void RyddOppEtterTest()
+        [SetUp]
+        [TearDown]
+        public void SetUp()
         {
             this.SlettLag(TestLagId);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentPifPosisjon_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -67,8 +65,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentPifPosisjon_LagetHarEnPifPosisjon_FårPifPosisjon()
         {
             // Arrange
@@ -107,8 +105,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             pifPosisjonOutput.Tid.ShouldNotEqual(null);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentPifPosisjon_LagetHarIngenPifPosisjoner_FårTomPifPosisjon()
         {
             // Arrange
@@ -134,8 +132,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             pifPosisjonOutput.Tid.ShouldEqual(null);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPifMelding_GyldigModell_FårHttpStatusCodeCreated()
         {
             // Arrange
@@ -172,8 +170,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             responseCode.ShouldEqual(HttpStatusCode.OK);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPifMelding_UgyldigModell_FårHttpStatusCodeBadRequest()
         {
             // Arrange
@@ -203,8 +201,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             responseCode.ShouldEqual(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentRegistrerteKoder_LagHarRegistrerteKoder_FårKoder()
         {
             // Arrange
@@ -227,8 +225,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             koder.ShouldNotBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentRegistrerteKoder_LagHarIngenRegistrerteKoder_FårTomt()
         {
             // Arrange
@@ -251,8 +249,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             kodeModeller.ShouldBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentGjeldendePost_AllePosterErOppdaget_FårNull()
         {
             // Arrange
@@ -277,8 +275,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             postOutputModell.ShouldBeNull();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentGjeldendePost_LagHarPosterSomIkkeErOppdaget_FårPost()
         {
             // Arrange

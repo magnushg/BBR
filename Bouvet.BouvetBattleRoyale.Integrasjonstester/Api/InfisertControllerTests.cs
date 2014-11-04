@@ -1,30 +1,30 @@
-namespace BouvetCodeCamp.Integrasjonstester.Api
+namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 {
-    using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
-    using Bouvet.BouvetBattleRoyale.Integrasjonstester.Api;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using BouvetCodeCamp.Integrasjonstester;
 
     using Newtonsoft.Json;
 
+    using NUnit.Framework;
+
     using Should;
 
-    [TestClass]
+    [TestFixture]
     public class InfisertControllerTests : BaseApiTest
     {
-        [TestInitialize]
-        [TestCleanup]
+        [SetUp]
+        [TearDown]
         public void RyddOppEtterTest()
         {
             SlettPost(TestPostNavn);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentSone_HarEnInfisertPolygon_FårEnInfisertPolygon()
         {
             // Arrange

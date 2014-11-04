@@ -73,6 +73,10 @@
       <Project>{23369163-CDFA-48EA-875D-918214398D70}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.csproj">
+      <Project>{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Tjenester.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
       <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>

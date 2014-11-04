@@ -12,28 +12,27 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
 
     using BouvetCodeCamp.Integrasjonstester;
-    using BouvetCodeCamp.Integrasjonstester.Api;
 
     using FizzWare.NBuilder;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Newtonsoft.Json;
+
+    using NUnit.Framework;
 
     using Should;
 
-    [TestClass]
+    [TestFixture]
     public class LagControllerTests : BaseApiTest
     {
-        [TestInitialize]
-        [TestCleanup]
+        [SetUp]
+        [TearDown]
         public void RyddOppEtterTest()
         {
             SlettLag(TestLagId);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task Get_QueryStringInneholderIngenId_FårListeOverLag()
         {
             // Arrange
@@ -58,8 +57,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             lag.ShouldNotBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task GetLag_QueryStringInneholderId_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -86,8 +85,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             lag.ShouldNotBeNull();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task PostLag_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -116,86 +115,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             isSuccessStatusCode.ShouldBeTrue();
         }
         
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
-        public async Task PostLag_ModellErEtForStortLagobjekt_BlirLagretMedDatatap()
-        {
-            // Arrange
-            string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/post";
-
-            bool isSuccessStatusCode = false;
-
-            // Act
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var tusenHendelser = (List<LoggHendelse>)Builder<LoggHendelse>.CreateListOfSize(2000).All().Build();
-                var tusenPifPosisjoner = (List<PifPosisjon>)Builder<PifPosisjon>.CreateListOfSize(2000).All().Build();
-                var tusenMeldinger = (List<Melding>)Builder<Melding>.CreateListOfSize(50).All().Build();
-
-                var modell = Builder<Lag>.CreateNew()
-                    .With(o => o.LagId = TestLagId)
-                    .With(o => o.LoggHendelser = tusenHendelser)
-                    .With(o => o.PifPosisjoner = tusenPifPosisjoner)
-                    .With(o => o.Meldinger = tusenMeldinger)
-                    .Build();
-
-                var modellSomJson = JsonConvert.SerializeObject(modell);
-
-                var httpResponseMessage = await httpClient.PostAsync(
-                    ApiEndPointAddress,
-                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
-
-                isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            }
-
-            ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/get";
-
-            IEnumerable<Lag> lag;
-
-            // Act
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
-
-                var httpResponseMessage = await httpClient.GetAsync(ApiEndPointAddress);
-                var content = await httpResponseMessage.Content.ReadAsStringAsync();
-
-                lag = JsonConvert.DeserializeObject<IEnumerable<Lag>>(content);
-            }
-
-            var testlagTilOppdatering = lag.First();
-
-            ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/put";
-
-            // Act
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Authorization = TestManager.OpprettBasicHeader(Brukernavn, Passord);
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var modellSomJson = JsonConvert.SerializeObject(testlagTilOppdatering);
-
-                var httpResponseMessage = await httpClient.PutAsync(
-                    ApiEndPointAddress,
-                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
-
-                isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            }
-
-            // Assert
-            isSuccessStatusCode.ShouldBeTrue();
-        }
-
-        static double ConvertBytesToKilebytes(long bytes)
-        {
-            return (bytes / 1024f);
-        }
-
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task PutLag_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -227,8 +148,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task Delete_GyldigModell_AlleLagErSlettet()
         {
             // Arrange
@@ -249,8 +170,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             alleTestLag.ShouldBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task DeleteLag_QueryStringInneholderId_LagetErSlettet()
         {
             // Arrange
@@ -274,8 +195,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             alleTestLag.ShouldBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task DeleteByLagId_GyldigModell_LagetErSlettet()
         {
             // Arrange
@@ -299,8 +220,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             alleTestLag.ShouldBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task TildelPoeng_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -335,8 +256,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task OpprettHendelse_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange

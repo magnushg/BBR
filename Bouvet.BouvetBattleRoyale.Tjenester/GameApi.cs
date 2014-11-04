@@ -22,6 +22,8 @@
         private readonly IPoengService _poengService;
         private readonly IGameHub _gameHub;
 
+        private readonly IArkivHandler _arkivHandler;
+
         public GameApi(
             IPostGameService postGameService,
             ILagGameService lagGameService,
@@ -29,7 +31,8 @@
             IKoordinatVerifier koordinatVerifier,
             IService<GameState> gameStateService,
             IPoengService poengService,
-            IGameHub gameHub)
+            IGameHub gameHub,
+            IArkivHandler arkivHandler)
         {
             _postGameService = postGameService;
             _lagGameService = lagGameService;
@@ -38,6 +41,7 @@
             _gameStateService = gameStateService;
             _poengService = poengService;
             _gameHub = gameHub;
+            _arkivHandler = arkivHandler;
         }
 
         public async Task RegistrerPifPosisjon(Lag lag, PifPosisjonInputModell inputModell)
@@ -137,6 +141,8 @@
             };
 
             lag.Meldinger.Add(melding);
+
+            await _arkivHandler.SendTilArkivet(melding);
 
             lag = _poengService.SettFritekstMeldingSendtStraff(lag, melding);
 

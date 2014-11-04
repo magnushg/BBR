@@ -5,20 +5,17 @@
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
-    using BouvetCodeCamp.Integrasjonstester;
-    using BouvetCodeCamp.Integrasjonstester.DataAksess;
-
     using FizzWare.NBuilder;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     using Should;
 
-    [TestClass]
+    [TestFixture]
     public class PostRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest
     {
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Kan_opprette_repository_og_legge_til_en_post()
         {
             var repo = Resolve<IRepository<Post>>();
@@ -48,8 +45,8 @@
         }
 
 
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Slett_HarFlerePosterSomSlettes_GirIngenPoster()
         {
             // Arrange

@@ -25,7 +25,8 @@
         private readonly Mock<IService<GameState>> _gameStateService = new Mock<IService<GameState>>();
         private readonly Mock<IKoordinatVerifier> _koordinatVerifier = new Mock<IKoordinatVerifier>();
         private readonly Mock<IPoengService> _poengServiceMock = new Mock<IPoengService>();
-        private readonly Mock<IGameHub> _gameHub = new Mock<IGameHub>();
+        private readonly Mock<IGameHub> _gameHubMock = new Mock<IGameHub>();
+        private readonly Mock<IArkivHandler> _arkivHandlerMock = new Mock<IArkivHandler>();
 
         [SetUp]
         public void Setup()
@@ -37,7 +38,8 @@
                 _koordinatVerifier.Object,
                 _gameStateService.Object,
                 _poengServiceMock.Object,
-                _gameHub.Object
+                _gameHubMock.Object,
+                _arkivHandlerMock.Object
                 );
         }
 

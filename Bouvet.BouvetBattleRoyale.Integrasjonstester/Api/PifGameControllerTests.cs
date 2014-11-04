@@ -15,28 +15,27 @@
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
     using BouvetCodeCamp.Integrasjonstester;
-    using BouvetCodeCamp.Integrasjonstester.Api;
 
     using FizzWare.NBuilder;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Newtonsoft.Json;
+
+    using NUnit.Framework;
 
     using Should;
 
-    [TestClass]
+    [TestFixture]
     public class PifGameControllerTests : BaseApiTest
     {
-        [TestInitialize]
-        [TestCleanup]
+        [SetUp]
+        [TearDown]
         public void RyddOppEtterTest()
         {
             SlettLag(TestLagId);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPifPosition_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -79,8 +78,8 @@
             return sekvenstall++;
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPifPosition_HarAltforMangePifPosisjoner_GirOk()
         {
             // Arrange
@@ -123,8 +122,8 @@
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPifPosisjon_UgyldigModell_FårHttpStatusCodeBadRequest()
         {
             // Arrange
@@ -154,8 +153,8 @@
             responseCode.ShouldEqual(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPostKode_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -203,8 +202,8 @@
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPostKode_GodkjentKodeOgDetteVarSistePost_GirNullSomNestePost()
         {
             // Arrange
@@ -280,8 +279,8 @@
             return postOutputModell.Nummer;
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task SendPostKode_UgyldigModell_FårHttpStatusKodeBadRequest()
         {
             // Arrange
@@ -311,8 +310,8 @@
             responseCode.ShouldEqual(HttpStatusCode.BadRequest);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task ErInfisert_FinnesIngenPifPosisjonerForLag_GirFalse()
         {
             // Arrange
@@ -335,8 +334,8 @@
             erInfisert.ShouldBeFalse();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task ErInfisert_PifErInnenforInfisertSone_GirTrue()
         {
             // Arrange
@@ -373,8 +372,8 @@
             erInfisert.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task ErInfisert_PifErIkkeInnenforInfisertSone_GirFalse()
         {
             // Arrange
@@ -411,8 +410,8 @@
             erInfisert.ShouldBeFalse();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task HentMeldinger_LagetHarMeldinger_GirMeldinger()
         {
             // Arrange

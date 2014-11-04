@@ -79,6 +79,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -107,11 +110,7 @@
         <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
       </ItemGroup>
     </When>
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-      </ItemGroup>
-    </Otherwise>
+    <Otherwise />
   </Choose>
   <ItemGroup>
     <Compile Include="Api\BaseApiTest.cs" />
@@ -137,10 +136,6 @@
       <Project>{BEA4BB17-4E4B-4E53-9488-5397E50B76A7}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
-      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
-      <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6D6E80F6-BA84-4195-8BDF-91BCF8EE207E}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Domene</Name>
@@ -152,6 +147,10 @@
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Applikasjon.Owin\Bouvet.BouvetBattleRoyale.Applikasjon.Owin.csproj">
       <Project>{f3ac7ca0-bd38-4195-bb96-fbff0631ad02}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Applikasjon.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.csproj">
+      <Project>{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Tjenester.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

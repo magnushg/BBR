@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Integrasjonstester.Api
+namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -8,26 +8,27 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Integrasjonstester.Api;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using BouvetCodeCamp.Integrasjonstester;
 
     using Newtonsoft.Json;
 
+    using NUnit.Framework;
+
     using Should;
 
-    [TestClass]
+    [TestFixture]
     public class PostControllerTests : BaseApiTest
     {
-        [TestInitialize]
-        [TestCleanup]
+        [SetUp]
+        [TearDown]
         public void RyddOppEtterTest()
         {
             SlettPost(TestPostNavn);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task Get_QueryStringInneholderIngenId_FårListeOverPoster()
         {
             // Arrange
@@ -52,8 +53,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             poster.ShouldNotBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task GetPost_QueryStringInneholderId_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -80,8 +81,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             post.ShouldNotBeNull();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task PostPost_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -110,8 +111,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public async Task PutPost_GyldigModell_FårHttpStatusKodeOk()
         {
             // Arrange
@@ -143,8 +144,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             isSuccessStatusCode.ShouldBeTrue();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public void Delete_GyldigModell_AllePosterErSlettet()
         {
             // Arrange
@@ -165,8 +166,8 @@ namespace BouvetCodeCamp.Integrasjonstester.Api
             alleTestPoster.ShouldBeEmpty();
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.Api)]
+        [Test]
+        [Category(Testkategorier.Api)]
         public void DeletePost_QueryStringInneholderId_PostenErSlettet()
         {
             // Arrange

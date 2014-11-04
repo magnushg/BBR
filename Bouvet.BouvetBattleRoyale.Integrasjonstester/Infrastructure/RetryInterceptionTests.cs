@@ -1,35 +1,34 @@
 ﻿using Autofac;
-using Autofac.Core;
+
 using AutofacContrib.DynamicProxy;
-using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+
 using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception;
 using log4net;
 using Microsoft.Azure.Documents;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
 {
-    [TestClass]
+    using NUnit.Framework;
+
+    [TestFixture]
     public class RetryInterceptionTests
     {
         private IContainer _container;
-        private int _maxAttempts = 3;
 
-        [TestInitialize]
+        private const int _maxAttempts = 3;
+
+        [SetUp]
         public void FørHverTest()
         {
             var builder = new ContainerBuilder();
@@ -52,7 +51,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             return controller;
         }
 
-        [TestMethod]
+        [Test]
         public void SynkronMetode_med_HttpPost_Når_den_kaster_annen_DocumentClientException_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();
@@ -68,7 +67,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(1, controller.AntallKall, "Skulle ikke prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public void SynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_Skal_gi_retry()
         {
             var controller = HentTestController();
@@ -84,7 +83,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(_maxAttempts, controller.AntallKall-1, "Skulle prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_Skal_gi_retry()
         {
             var controller = HentTestController();
@@ -100,7 +99,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(_maxAttempts, controller.AntallKall - 1, "Skulle prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_og_deretter_fungerer_Skal_gi_retry_og_returverdi()
         {
             var controller = HentTestController();
@@ -126,7 +125,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(2, controller.AntallKall, "Skulle prøvd på nytt en gang");            
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsynkronMetode_med_HttpPost_Når_ingen_exceptions_Skal_gi_returverdi()
         {
             var controller = HentTestController();
@@ -150,7 +149,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(1, controller.AntallKall, "Skulle bare kjørt en gang");
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsynkronVoidMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_Skal_gi_retry()
         {
             var controller = HentTestController();
@@ -166,7 +165,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(_maxAttempts, controller.AntallKall - 1, "Skulle prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsynkronVoidMetode_med_HttpPost_Når_den_kaster_en_ConcurrencyException_før_den_funker_Skal_gi_en_retry_og_returverdi()
         {
             var controller = HentTestController();
@@ -186,7 +185,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(2, controller.AntallKall, "Skulle prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsynkronVoidMetode_med_HttpPost_Når_den_kaster_Annen_Exception_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();
@@ -202,7 +201,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(1, controller.AntallKall, "Skulle ikke prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public void SynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_med_TimeSpan_Skal_gi_retry_og_vente()
         {
             var controller = HentTestController();
@@ -223,7 +222,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.IsTrue(stopwatch.ElapsedMilliseconds > _maxAttempts * retryAfterMs, "Skulle ventet mellom hver retry");
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsynkronMetode_med_HttpPost_Når_den_kaster_ConcurrencyException_med_TimeSpan_Skal_gi_retry_og_vente()
         {
             var controller = HentTestController();
@@ -244,7 +243,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.IsTrue(stopwatch.ElapsedMilliseconds > _maxAttempts * retryAfterMs, "Skulle ventet mellom hver retry");
         }
 
-        [TestMethod]
+        [Test]
         public void SynkronMetode_med_HttpPost_Når_den_kaster_AnnenException_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();
@@ -260,7 +259,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(1, controller.AntallKall, "Skulle ikke prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public void SynkronMetode_med_HttpPost_Når_den_ikke_kaster_Exception_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();
@@ -284,7 +283,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
             Assert.AreEqual(1, controller.AntallKall, "Skulle ikke prøvd på nytt");
         }
 
-        [TestMethod]
+        [Test]
         public void SynkronMetode_uten_HttpPost_Når_den_kaster_AnnenException_Skal_ikke_gi_retry()
         {
             var controller = HentTestController();

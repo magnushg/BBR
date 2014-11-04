@@ -1,4 +1,4 @@
-namespace BouvetCodeCamp.Integrasjonstester.DataAksess
+namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
 {
     using System;
     using System.Configuration;
@@ -9,9 +9,10 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
 
     using Microsoft.Azure.Documents.Client;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    using NUnit.Framework;
+
+    [TestFixture]
     public abstract class BaseRepositoryIntegrasjonstest
     {
         private readonly string databaseId;
@@ -20,12 +21,12 @@ namespace BouvetCodeCamp.Integrasjonstester.DataAksess
 
         protected BaseRepositoryIntegrasjonstest()
         {
-            this.databaseId = ConfigurationManager.AppSettings[DocumentDbKonstanter.DatabaseId];
+            databaseId = ConfigurationManager.AppSettings[DocumentDbKonstanter.DatabaseId];
             endpoint = ConfigurationManager.AppSettings[DocumentDbKonstanter.Endpoint];
             authKey = ConfigurationManager.AppSettings[DocumentDbKonstanter.AuthKey];
         }
-        
-        [TestInitialize]
+
+        [SetUp]
         public void FørHverTest()
         {
             using (var client = new DocumentClient(new Uri(endpoint), authKey))

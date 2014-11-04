@@ -1,4 +1,4 @@
-﻿namespace BouvetCodeCamp.Integrasjonstester
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester
 {
     public static class Testkategorier
     {

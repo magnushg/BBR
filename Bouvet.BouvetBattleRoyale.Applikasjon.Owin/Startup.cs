@@ -20,6 +20,7 @@
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
     using Bouvet.BouvetBattleRoyale.Tjenester;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Fakes;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Services;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
@@ -108,6 +109,8 @@
             builder.RegisterType<GameApi>().As<IGameApi>();
             builder.RegisterType<GameStateService>().As<IService<GameState>>();
             builder.RegisterType<PoengService>().As<IPoengService>();
+
+            builder.RegisterType<IArkivHandler>().As<ArkivHandlerFake>();
 
             // Repositories
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>().SingleInstance();

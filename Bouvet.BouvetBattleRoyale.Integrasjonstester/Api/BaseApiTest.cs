@@ -20,12 +20,15 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
     using FizzWare.NBuilder;
 
     using Microsoft.Owin.Hosting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Newtonsoft.Json;
 
-    [TestClass]
-    public class BaseApiTest
+    using NUnit.Framework;
+
+    using Assert = NUnit.Framework.Assert;
+
+    [TestFixture]
+    public abstract class BaseApiTest
     {
         protected const string Passord = "mysecret";
 
@@ -39,8 +42,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 
         IDisposable webServer;
 
-        [TestInitialize]
-        public void Setup()
+        [SetUp]
+        public void SetUp()
         {
             log4net.Config.XmlConfigurator.Configure();
             var log = Log4NetLogger.HentLogger(typeof(BaseApiTest));
@@ -48,11 +51,13 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 
             webServer = WebApp.Start<Startup>(ApiBaseAddress);
         }
-        [TestCleanup]
+
+        [TearDown]
         public void Cleanup()
         {
             webServer.Dispose();
         }
+
         protected async Task<bool> OpprettLagViaApi(Lag lag)
         {
             const string ApiEndPointAddress = ApiBaseAddress + "/api/admin/lag/post";

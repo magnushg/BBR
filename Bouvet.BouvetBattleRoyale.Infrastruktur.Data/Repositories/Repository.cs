@@ -92,11 +92,11 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
             {
                 await Context.Client.ReplaceDocumentAsync(document.SelfLink, document, options);
             }
-            catch (DocumentClientException documentClientException)
+            catch (DocumentClientException)
             {
                 _log.Warn("DocumentClientException ble fanget i Oppdater() på document " + document.DocumentId);
 
-                throw new Exception("Oppdatering ble forsøkt på utdatert objekt, prøv igjen.", documentClientException);
+                throw;
             }
 
             var oppdaterEnd = DateTime.Now;

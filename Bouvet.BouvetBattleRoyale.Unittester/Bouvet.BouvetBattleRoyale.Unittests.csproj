@@ -135,9 +135,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
-      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
-      <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.csproj">
+      <Project>{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Tjenester.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Domene\Bouvet.BouvetBattleRoyale.Domene.csproj">
       <Project>{6d6e80f6-ba84-4195-8bdf-91bcf8ee207e}</Project>
@@ -154,6 +154,10 @@
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Applikasjon.Owin\Bouvet.BouvetBattleRoyale.Applikasjon.Owin.csproj">
       <Project>{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Applikasjon.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester\Bouvet.BouvetBattleRoyale.Tjenester.csproj">
+      <Project>{26DDAC6D-752D-47D2-8061-8FDCAC281FFA}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Tjenester</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

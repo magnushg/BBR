@@ -52,6 +52,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Solution Items", "00 -
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Tjenester.Tester", "Bouvet.BouvetBattleRoyale.Tjenester.Tester\Bouvet.BouvetBattleRoyale.Tjenester.Tester.csproj", "{9A168F3B-B7F8-4BC0-9381-42BD71ECD87D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Tjenester.Fakes", "Bouvet.BouvetBattleRoyale.Tjenester.Fakes\Bouvet.BouvetBattleRoyale.Tjenester.Fakes.csproj", "{EE34A204-07CF-402D-9566-24C5F5F765A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Tjenester.Interfaces", "Bouvet.BouvetBattleRoyale.Tjenester.Interfaces\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.csproj", "{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +108,18 @@ Global
 		{23369163-CDFA-48EA-875D-918214398D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23369163-CDFA-48EA-875D-918214398D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23369163-CDFA-48EA-875D-918214398D70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A168F3B-B7F8-4BC0-9381-42BD71ECD87D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A168F3B-B7F8-4BC0-9381-42BD71ECD87D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A168F3B-B7F8-4BC0-9381-42BD71ECD87D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A168F3B-B7F8-4BC0-9381-42BD71ECD87D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE34A204-07CF-402D-9566-24C5F5F765A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE34A204-07CF-402D-9566-24C5F5F765A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE34A204-07CF-402D-9566-24C5F5F765A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE34A204-07CF-402D-9566-24C5F5F765A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,5 +136,8 @@ Global
 		{E1D85B38-DAD2-4C9C-B4D8-B9264D191907} = {578BC25E-AC3E-442B-8E6A-4EDA57DF80AD}
 		{8892A91B-F11B-4B33-B5AC-7D4A363EB631} = {9839CF96-C48C-4E49-9033-2D790CE4FE2C}
 		{23369163-CDFA-48EA-875D-918214398D70} = {58D00C2C-6C0C-4947-8297-BD91BF2EF031}
+		{9A168F3B-B7F8-4BC0-9381-42BD71ECD87D} = {9839CF96-C48C-4E49-9033-2D790CE4FE2C}
+		{EE34A204-07CF-402D-9566-24C5F5F765A8} = {9839CF96-C48C-4E49-9033-2D790CE4FE2C}
+		{55D2D170-D6B2-42C3-B2EE-A455F5E0E661} = {9839CF96-C48C-4E49-9033-2D790CE4FE2C}
 	EndGlobalSection
 EndGlobal

@@ -10,20 +10,21 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
-    using BouvetCodeCamp.Integrasjonstester;
-    using BouvetCodeCamp.Integrasjonstester.DataAksess;
-
     using FizzWare.NBuilder;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.Azure.Documents;
+
+    using NUnit.Framework;
 
     using Should;
 
-    [TestClass]
+    using Assert = NUnit.Framework.Assert;
+
+    [TestFixture]
     public class LagRepositoryIntegrasjonstester : BaseRepositoryIntegrasjonstest
     {
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Hent_LagMed10Poeng_LagHar10Poeng()
         {
             // Arrange
@@ -44,8 +45,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             lagretLag.Poeng.ShouldEqual(Poeng);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Hent_LagMedKode_LagHarKode()
         {
             // Arrange
@@ -73,8 +74,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             lagretLag.Poster.FirstOrDefault().Posisjon.Longitude.ShouldEqual(post.Posisjon.Longitude);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Hent_LagMedLagId_LagHarLagId()
         {
             // Arrange
@@ -95,8 +96,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             lagretLag.LagId.ShouldEqual(LagId);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Hent_LagMedMelding_LagHarMelding()
         {
             // Arrange
@@ -127,8 +128,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             lagretLag.Meldinger.FirstOrDefault().Type.ShouldEqual(melding.Type);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Hent_LagMedPifPosisjoner_LagHarPifPosisjon()
         {
             // Arrange
@@ -162,8 +163,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             lagretLag.PifPosisjoner.FirstOrDefault().Tid.ShouldEqual(pifPosisjon.Tid);
         }
 
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Oppdater_LagMedFlerePoeng_LagHarFlerePoeng()
         {
             // Arrange
@@ -189,8 +190,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             oppdatertLag.Poeng.ShouldEqual(20);
         }
         
-        [TestMethod]
-        [TestCategory(Testkategorier.DataAksess)]
+        [Test]
+        [Category(Testkategorier.DataAksess)]
         public async Task Slett_HarFlereLagSomSlettes_GirIngenLag()
         {
             // Arrange
@@ -217,8 +218,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             ingenLag.ShouldBeEmpty();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+        [Test]
+        [ExpectedException(typeof(DocumentClientException))]
         public async Task VerifiserOptimisticConcurrency_OppdatererLagetUtenÅHenteNyFørst_KasterConcurrencyException()
         {
             // Arrange
@@ -279,7 +280,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
             Assert.AreEqual(1, lagEtterPosisjonsLagring.Meldinger.Count, "WHAAAT? Meldingen ble slettet :(");
         }
 
-        [TestMethod]
+        [Test]
         public async Task VerifiserOptimisticConcurrency_OppdatererLagetVedÅHenteNyFørstOgDeretterOppdatere_GirLagMedMeldingOgPifPosisjon()
         {
             // Arrange
