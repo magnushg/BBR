@@ -40,7 +40,7 @@
         [Route("sendpifposisjon")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPifPosisjon([FromBody] PifPosisjonInputModell inputModell)
+        public virtual async Task<HttpResponseMessage> SendPifPosisjon([FromBody] PifPosisjonInputModell inputModell)
         {
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
@@ -66,7 +66,7 @@
         [Route("sendpostkode")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPostKode([FromBody] PostInputModell inputModell)
+        public virtual async Task<HttpResponseMessage> SendPostKode([FromBody] PostInputModell inputModell)
         {
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");

@@ -105,7 +105,7 @@
         [Route("sendpifmelding")]
         [ResponseType(typeof(HttpResponseMessage))]
         [HttpPost]
-        public async Task<HttpResponseMessage> SendPifMelding([FromBody] MeldingInputModell inputModell)
+        public virtual async Task<HttpResponseMessage> SendPifMelding([FromBody] MeldingInputModell inputModell)
         {
             if (inputModell == null)
                 return OpprettErrorResponse(ErrorResponseType.UgyldigInputFormat, "Modellen er ugyldig");
