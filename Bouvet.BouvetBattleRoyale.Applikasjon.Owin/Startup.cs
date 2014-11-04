@@ -93,7 +93,7 @@
             // Note controller methods must be virtual to be intercepted
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).EnableClassInterceptors().InterceptedBy(typeof(RetryInterceptor));
            
-            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
+            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().SingleInstance(); // Cacher i instans
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().SingleInstance();
 
             //singleton memory instance
