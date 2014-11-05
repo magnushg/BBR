@@ -4,7 +4,7 @@ namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
 
     /// <summary>
     /// Tanken med denne servicen er for å abstrahere bort gamestaterepository

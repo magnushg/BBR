@@ -58,6 +58,18 @@
     <Reference Include="Microsoft.Azure.Documents.Client">
       <HintPath>..\packages\Microsoft.Azure.Documents.Client.0.9.0-preview\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -71,6 +83,14 @@
     </Reference>
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
@@ -90,10 +110,17 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Data">
+      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.6.2\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -119,15 +146,24 @@
     <Compile Include="Api\LagControllerTests.cs" />
     <Compile Include="Api\PifGameControllerTests.cs" />
     <Compile Include="Api\PostControllerTests.cs" />
+    <Compile Include="BaseTest.cs" />
     <Compile Include="DataAksess\LagRepositoryIntegrasjonstester.cs" />
+    <Compile Include="DataAksess\LoggHendelseIntegrasjonstester.cs" />
     <Compile Include="DataAksess\PostRepositoryIntegrasjonstester.cs" />
+    <Compile Include="Infrastructure\CloudQueueMessageExtensionsTests.cs" />
     <Compile Include="Infrastructure\RetryInterceptionTests.cs" />
+    <Compile Include="Infrastructure\Worker\ArkivHandlerTests.cs" />
+    <Compile Include="Infrastructure\Worker\WorkerTests.cs" />
     <Compile Include="TestManager.cs" />
     <Compile Include="Testkategorier.cs" />
     <Compile Include="DataAksess\BaseRepositoryIntegrasjonstest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces.csproj">
+      <Project>{624769BD-05D0-4649-9AAF-E0687B7BAABE}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj">
       <Project>{23369163-CDFA-48EA-875D-918214398D70}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Logging</Name>
@@ -148,13 +184,19 @@
       <Project>{f3ac7ca0-bd38-4195-bb96-fbff0631ad02}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Applikasjon.Owin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Worker\Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.csproj">
+      <Project>{3A58CC09-8DD2-4A27-A34D-F6EDB5CB9AEF}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Worker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.csproj">
       <Project>{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

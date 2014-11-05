@@ -125,6 +125,10 @@
     <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces.csproj">
+      <Project>{624769BD-05D0-4649-9AAF-E0687B7BAABE}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging\Bouvet.BouvetBattleRoyale.Infrastruktur.Logging.csproj">
       <Project>{23369163-cdfa-48ea-875d-918214398d70}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Logging</Name>

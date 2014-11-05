@@ -10,8 +10,8 @@
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
-    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.SignalR.Hubs;
 
     /// <summary>
     /// Sett og Hent infiserte soner

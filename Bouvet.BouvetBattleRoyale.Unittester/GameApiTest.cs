@@ -5,11 +5,11 @@
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
-    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
-
-    using BouvetCodeCamp.DomeneTjenester;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.SignalR.Hubs;
 
     using Moq;
 

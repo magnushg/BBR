@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Services;
 
     using log4net;

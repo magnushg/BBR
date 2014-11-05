@@ -30,6 +30,5 @@
                 return _collectionId;
             }
         }
-
     }
 }

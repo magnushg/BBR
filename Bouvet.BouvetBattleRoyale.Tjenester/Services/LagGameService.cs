@@ -4,7 +4,8 @@ namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
     using System.Linq;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
 
     public class LagGameService : ILagGameService
     {

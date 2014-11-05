@@ -1,4 +1,4 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces
+﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.SignalR.Hubs
 {
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 

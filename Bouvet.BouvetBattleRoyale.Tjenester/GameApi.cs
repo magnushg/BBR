@@ -9,8 +9,10 @@
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
-    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.SignalR.Hubs;
 
     public class GameApi : IGameApi
     {
@@ -142,8 +144,6 @@
 
             lag.Meldinger.Add(melding);
 
-            await _arkivHandler.SendTilArkivet(melding);
-
             lag = _poengService.SettFritekstMeldingSendtStraff(lag, melding);
 
             await _lagService.Oppdater(lag);
@@ -247,9 +247,15 @@
 
         public async Task OpprettHendelse(string lagId, HendelseType hendelseType, string kommentar)
         {
-            var lag = _lagGameService.HentLagMedLagId(lagId);
-            
-            await _lagService.Oppdater(lag);
+            var loggHendelse = new LoggHendelse
+            {
+                LagId = lagId,
+                HendelseType = hendelseType,
+                Kommentar = kommentar,
+                Tid = DateTime.Now
+            };
+
+            await _arkivHandler.SendTilArkivet(loggHendelse);
         }
 
         private PostOutputModell OpprettPostOutput(LagPost post)

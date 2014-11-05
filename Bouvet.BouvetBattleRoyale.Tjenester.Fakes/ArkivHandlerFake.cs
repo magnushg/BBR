@@ -2,9 +2,8 @@
 
 namespace Bouvet.BouvetBattleRoyale.Tjenester.Fakes
 {
-    using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
-
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
+    
     public class ArkivHandlerFake : IArkivHandler
     {
         private static Task _successTask;
@@ -14,7 +13,7 @@ namespace Bouvet.BouvetBattleRoyale.Tjenester.Fakes
             _successTask = Task.FromResult<object>(null);
         }
 
-        public Task SendTilArkivet(Melding melding)
+        public Task SendTilArkivet<T>(T entitet)
         {
             return _successTask;
         }

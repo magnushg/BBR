@@ -14,8 +14,6 @@
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
-    using BouvetCodeCamp.Integrasjonstester;
-
     using FizzWare.NBuilder;
 
     using Newtonsoft.Json;
@@ -76,50 +74,6 @@
         private int HentSekvenstall()
         {
             return sekvenstall++;
-        }
-
-        [Test]
-        [Category(Testkategorier.Api)]
-        public async Task SendPifPosition_HarAltforMangePifPosisjoner_GirOk()
-        {
-            // Arrange
-            var pifPosisjoner = Builder<PifPosisjon>.CreateListOfSize(100)
-                .All()
-                .With(o => o.LagId = HentSekvenstall().ToString())
-                .Build();
-
-            SørgForAtEtLagMedPifPosisjonerFinnes((List<PifPosisjon>)pifPosisjoner);
-
-            const string ApiEndPointAddress = ApiBaseAddress + "/api/game/pif/sendpifposisjon";
-
-            bool isSuccessStatusCode;
-
-            // Act
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var modell = new PifPosisjonInputModell
-                {
-                    LagId = TestLagId,
-                    Posisjon = new Koordinat
-                    {
-                        Latitude = "14.02",
-                        Longitude = "11"
-                    }
-                };
-
-                var modellSomJson = JsonConvert.SerializeObject(modell);
-
-                var httpResponseMessage = await httpClient.PostAsync(
-                    ApiEndPointAddress,
-                    new StringContent(modellSomJson, Encoding.UTF8, "application/json"));
-
-                isSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
-            }
-
-            // Assert
-            isSuccessStatusCode.ShouldBeTrue();
         }
 
         [Test]

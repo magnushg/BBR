@@ -8,6 +8,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
 
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
 
     using FizzWare.NBuilder;

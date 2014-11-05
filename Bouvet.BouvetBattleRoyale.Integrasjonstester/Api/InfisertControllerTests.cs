@@ -5,8 +5,6 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
 
-    using BouvetCodeCamp.Integrasjonstester;
-
     using Newtonsoft.Json;
 
     using NUnit.Framework;

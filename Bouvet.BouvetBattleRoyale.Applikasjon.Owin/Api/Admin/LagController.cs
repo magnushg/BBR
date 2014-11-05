@@ -12,7 +12,8 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Api.Admin
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
     using Bouvet.BouvetBattleRoyale.Domene.OutputModels;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
-    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.SignalR.Hubs;
 
     [RoutePrefix("api/admin/lag")]
     [System.Web.Http.Authorize]

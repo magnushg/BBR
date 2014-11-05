@@ -35,10 +35,6 @@
         [DisplayName("Meldinger")]
         public List<Melding> Meldinger { get; set; }
 
-        [JsonProperty(PropertyName = "loggHendelser")]
-        [DisplayName("loggHendelser")]
-        public List<LoggHendelse> LoggHendelser { get; set; }
-
         public Lag()
         {
             LagId = string.Empty;
@@ -46,7 +42,6 @@
             PifPosisjoner = new List<PifPosisjon>();
             Poster = new List<LagPost>();
             Meldinger = new List<Melding>();
-            LoggHendelser = new List<LoggHendelse>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
 
     using log4net;
 

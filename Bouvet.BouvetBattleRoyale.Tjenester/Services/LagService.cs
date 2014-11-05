@@ -1,7 +1,7 @@
 ﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
 
     public class LagService : Service<Lag>
     {

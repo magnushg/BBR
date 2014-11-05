@@ -5,7 +5,8 @@ namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
 
     public abstract class Service<T> : IService<T> where T : BaseDocument
     {

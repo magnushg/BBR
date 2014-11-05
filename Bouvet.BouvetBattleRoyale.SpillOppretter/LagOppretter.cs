@@ -61,7 +61,6 @@
                 LagId = Sha256("Lag " + index + 1),
                 LagNavn = "BouvetBBR L" + index,
                 LagNummer = index,
-                LoggHendelser = new List<LoggHendelse>(),
                 Meldinger = new List<Melding>(),
                 Poster = new List<LagPost>(),
                 PifPosisjoner = new List<PifPosisjon>(),
@@ -138,7 +137,6 @@
                 LagNummer = lag.LagNummer,
                 Poeng = lag.Poeng,
                 PifPosisjoner = lag.PifPosisjoner,
-                LoggHendelser = lag.LoggHendelser,
                 Meldinger = lag.Meldinger,
                 Poster = lagPoster
                      .FirstOrDefault(lagPost => lagPost.Lagnummer == lag.LagNummer)
@@ -170,7 +168,6 @@
                 LagId = lag.LagId,
                 LagNavn = lag.LagNavn,
                 LagNummer = lag.LagNummer,
-                LoggHendelser = lag.LoggHendelser,
                 Meldinger = lag.Meldinger,
                 PifPosisjoner = lag.PifPosisjoner,
                 Poeng = lag.Poeng,

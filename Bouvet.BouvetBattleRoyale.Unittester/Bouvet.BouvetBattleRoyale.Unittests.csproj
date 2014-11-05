@@ -135,6 +135,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces.csproj">
+      <Project>{624769BD-05D0-4649-9AAF-E0687B7BAABE}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.csproj">
       <Project>{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester.Interfaces</Name>

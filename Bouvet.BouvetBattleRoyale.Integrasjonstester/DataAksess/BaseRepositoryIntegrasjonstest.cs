@@ -18,6 +18,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
         private readonly string databaseId;
         private readonly string endpoint;
         private readonly string authKey;
+        
+        protected const string TestLagId = "testlag1";
 
         protected BaseRepositoryIntegrasjonstest()
         {

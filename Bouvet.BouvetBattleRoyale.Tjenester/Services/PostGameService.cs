@@ -8,19 +8,15 @@ namespace Bouvet.BouvetBattleRoyale.Tjenester.Services
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
 
     public class PostGameService : IPostGameService
 {
         private readonly IKoordinatVerifier _koordinatVerifier;
 
-        private readonly IService<Lag> lagService;
-
-        public PostGameService(
-            IKoordinatVerifier koordinatVerifier,
-            IService<Lag> lagService)
+        public PostGameService(IKoordinatVerifier koordinatVerifier)
         {
             _koordinatVerifier = koordinatVerifier;
-            this.lagService = lagService;
         }
 
         public IEnumerable<LagPost> HentOppdagedePoster(Lag lag)

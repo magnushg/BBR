@@ -15,8 +15,6 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
 
-    using BouvetCodeCamp.Integrasjonstester;
-
     using FizzWare.NBuilder;
 
     using Microsoft.Owin.Hosting;

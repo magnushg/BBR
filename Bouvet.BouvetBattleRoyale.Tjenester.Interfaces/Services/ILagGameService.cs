@@ -1,4 +1,4 @@
-namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces
+namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 

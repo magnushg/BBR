@@ -9,8 +9,6 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
 
-    using BouvetCodeCamp.Integrasjonstester;
-
     using Newtonsoft.Json;
 
     using NUnit.Framework;

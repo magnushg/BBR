@@ -5,11 +5,11 @@
 
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
-    using Bouvet.BouvetBattleRoyale.Tjenester;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
-    using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
-
-    using BouvetCodeCamp.DomeneTjenester;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.SignalR.Hubs;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Services;
 
     using Moq;
 
@@ -23,11 +23,12 @@
         private IPoengService _poengService;
         private readonly Mock<IKoordinatVerifier> _coordinatMock = new Mock<IKoordinatVerifier>();
         private readonly Mock<IGameHub> _gameHubMock = new Mock<IGameHub>();
+        private readonly Mock<IArkivHandler> _arkivHandlerMock = new Mock<IArkivHandler>();
         
         [SetUp]
         public void Startup()
         {
-            _poengService = new PoengService(_gameHubMock.Object);
+            _poengService = new PoengService(_gameHubMock.Object, _arkivHandlerMock.Object);
 
             PoengTildeling.InfisertTickStraff = 1;
             PoengTildeling.InfisertTidssfrist = 1;

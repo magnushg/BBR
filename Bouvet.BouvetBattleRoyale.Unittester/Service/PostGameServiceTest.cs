@@ -5,6 +5,7 @@
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
     using Bouvet.BouvetBattleRoyale.Tjenester.Services;
 
     using Moq;
@@ -23,9 +24,7 @@
         [SetUp]
         public void Setup()
         {
-            _postGameService = new PostGameService(
-                _coordinatMock.Object,
-                _lagServiceMock.Object);
+            _postGameService = new PostGameService(_coordinatMock.Object);
         }
 
         [Test]

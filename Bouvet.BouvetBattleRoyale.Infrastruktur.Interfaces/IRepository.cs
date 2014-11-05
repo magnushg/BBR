@@ -1,4 +1,4 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Tjenester.Interfaces
+namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -18,6 +18,6 @@
 
         Task Slett(T document);
 
-        IEnumerable<T> Søk(Func<T, bool> predicate);
+        IEnumerable<T> S�k(Func<T, bool> predicate);
     }
 }

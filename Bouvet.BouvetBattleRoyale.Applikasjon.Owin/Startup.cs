@@ -18,10 +18,13 @@
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues;
     using Bouvet.BouvetBattleRoyale.Tjenester;
-    using Bouvet.BouvetBattleRoyale.Tjenester.Fakes;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.Services;
+    using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.SignalR.Hubs;
     using Bouvet.BouvetBattleRoyale.Tjenester.Services;
     using Bouvet.BouvetBattleRoyale.Tjenester.SignalR.Hubs;
 
@@ -52,8 +55,8 @@
             config.MapHttpAttributeRoutes();
             config.EnableSystemDiagnosticsTracing();
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
-            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;            
-            
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+
             SetGlobalizationCulture("nb-NO");
 
             appBuilder.Use(typeof(AuthenticationMiddleware));
@@ -65,7 +68,7 @@
 
             var container = builder.Build();
 
-             // Create an assign a dependency resolver for Web API to use.
+            // Create an assign a dependency resolver for Web API to use.
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             // This should be the first middleware added to the IAppBuilder.
@@ -75,12 +78,14 @@
             appBuilder.UseAutofacWebApi(config);
 
             appBuilder.UseWebApi(config);
-            
+
             var hubConfig = new HubConfiguration { EnableJSONP = true };
 
             appBuilder.MapSignalR(hubConfig);
 
             InitialiserLogging();
+
+            StartWorker(container.Resolve<IQueueMessageConsumer>(), Log4NetLogger.HentLogger(typeof(Startup)));
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
         }
@@ -93,7 +98,7 @@
             builder.RegisterType<RetryInterceptor>().AsSelf();
             // Note controller methods must be virtual to be intercepted
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).EnableClassInterceptors().InterceptedBy(typeof(RetryInterceptor));
-           
+
             builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>();
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().SingleInstance();
 
@@ -110,14 +115,17 @@
             builder.RegisterType<GameStateService>().As<IService<GameState>>();
             builder.RegisterType<PoengService>().As<IPoengService>();
 
-            builder.RegisterType<IArkivHandler>().As<ArkivHandlerFake>();
+            builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
 
-            // Repositories
+            // Infrastruktur
             builder.RegisterType<LagRepository>().As<IRepository<Lag>>().SingleInstance();
             builder.RegisterType<PostRepository>().As<IRepository<Post>>().SingleInstance();
             builder.RegisterType<GameStateRepository>().As<IRepository<GameState>>().SingleInstance();
+            builder.RegisterType<LoggHendelseRepository>().As<IRepository<LoggHendelse>>().SingleInstance();
 
-            builder.RegisterType<KoordinatVerifier>().As<IKoordinatVerifier>();
+            builder.RegisterType<QueueArkivHandler>().As<IArkivHandler>();
+            builder.RegisterType<QueueMessageConsumer>().As<IQueueMessageConsumer>();
+            builder.RegisterType<QueueMessageProducer>().As<IQueueMessageProducer>();
 
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"))
                 .As<IHubContext<IGameHub>>()
@@ -143,6 +151,16 @@
             var log = LogManager.GetLogger(typeof(Startup));
 
             log.Info("Startup ok.");
+        }
+
+        //TODO hwm 05.11.2014: Flytte worker til en worker role
+        public static void StartWorker(IQueueMessageConsumer queueMessageConsumer, ILog log)
+        {
+            var messageQueueWorker = new MessageQueueWorker(queueMessageConsumer, log);
+
+            messageQueueWorker.Start();
+
+            log.Info("Startet worker");
         }
 
         private void SetGlobalizationCulture(string cultureLanguage)
