@@ -1,4 +1,4 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Unittests.Felles
+﻿namespace Bouvet.BouvetBattleRoyale.Unittests.Tjenester
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Tjenester.Interfaces;

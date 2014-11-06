@@ -70,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.csproj">
+      <Project>{F4D586AB-D07A-41ED-91C1-44558228631D}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces.csproj">
       <Project>{624769BD-05D0-4649-9AAF-E0687B7BAABE}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces</Name>

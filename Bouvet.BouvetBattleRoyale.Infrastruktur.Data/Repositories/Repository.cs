@@ -6,6 +6,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.Extensions;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
 
@@ -51,7 +52,13 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
         public async Task<string> Opprett(T document)
         {
+            var opprettStart = DateTime.Now;
+            
             var opprettetDocument = await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
+
+            var opprettEnd = DateTime.Now;
+
+            LoggDbHandling("Oppretting", document, opprettStart, opprettEnd);
 
             return opprettetDocument.Resource.Id;
         }
@@ -92,7 +99,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
             
             var oppdaterEnd = DateTime.Now;
 
-            LoggOppdatering(document, oppdaterStart, oppdaterEnd);
+            LoggDbHandling("Oppdatering", document, oppdaterStart, oppdaterEnd);
         }
 
         public async Task Slett(T document)
@@ -103,7 +110,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
             var slettEnd = DateTime.Now;
 
-            LoggSletting(document, slettStart, slettEnd);
+            LoggDbHandling("Sletting", document, slettStart, slettEnd);
         }
 
         public IEnumerable<T> Søk(Func<T, bool> predicate)
@@ -114,39 +121,23 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
             return documents;
         }
-
-        private void LoggOppdatering(T document, DateTime oppdaterStart, DateTime oppdaterEnd)
+        
+        private void LoggDbHandling(string type, T document, DateTime start, DateTime end)
         {
             var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
 
-            var deltaTid = oppdaterStart.Subtract(oppdaterEnd);
+            var varighet = start.Subtract(end).Duration();
+            var varighetSomString = varighet.ToReadableString();
 
-            var oppdateringTidSomSekunder = deltaTid.Duration().TotalSeconds;
+            string loggMelding = string.Format(
+                "{0} av {1} på {2} kb tok... {3}",
+                type,
+                document.DocumentId,
+                documentStorrelse,
+                varighetSomString);
 
-            string loggMelding = "Oppdatering av " + document.DocumentId + " på " + documentStorrelse + "kb tok..."
-                                 + oppdateringTidSomSekunder + " sekunder";
-
-            if (oppdateringTidSomSekunder > 5)
-                _log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
-
-            if (documentStorrelse > RequestLimitKb)
-            {
-                _log.Warn(loggMelding);
-            }
-            else
-            {
-                _log.Debug(loggMelding);
-            }
-        }
-
-        private void LoggSletting(T document, DateTime slettStart, DateTime slettEnd)
-        {
-            var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
-
-            var oppdateringTidSomSekunder = slettStart.Subtract(slettEnd).Duration().TotalSeconds;
-
-            var loggMelding = "Sletting av " + document.DocumentId + " på " + document + "kb tok..."
-                              + oppdateringTidSomSekunder + " sekunder";
+            if (varighet.TotalSeconds > 3)
+                _log.Warn("Treg " + type.ToLower() + ", tok " + varighetSomString);
 
             if (documentStorrelse > RequestLimitKb)
             {

@@ -9,11 +9,26 @@ Bouvet Battle Royale er en spillplattform som tilbyr et API til et slags oriente
 
 - TODO: link til gliffy
 
-## Arkiveringsstrategi med skalering ##
+## Arkiveringsstrategi ##
+
+Underveis i spillet opprettes det mange meldinger, posisjoner og logghendelser for hvert av lagene. Disse tilhører et Lag men samtidig ønskes det å holde Lag-dokumentet så lean som mulig. Derfor har ikke Lag lister med disse objekttypene men istedet opprettes det enkeltdokumenter som har en *soft-reference* på **LagId**. 
+
+### Worker ###
+Disse objektypene blir sendt til et "arkiv" så fort de er opprettet. Arkivet er en kø hvor det står en Worker og lytter på og plukker ned meldinger. Konseptet er tatt fra *Producer/Consumer*-patternet hvor man har en eller flere ivrige **Producers** av meldinger som legges i en kø, og en eller flere sultne **Consumers** som plukker meldinger ned fra køen. 
+
+Meldingene i køen er egentlig bare objektene som er serialisert i `QueueMessageProducer` til json på formatet **type:json-objekt**. Det finnes en `QueueMessageConsumer` som deserialiserer og sender objektet videre til respektivt `Repository<T>` for lagring.
 
 - TODO: link til gliffy
 
 # Teknisk oppsett #
+
+## Simulere spillflyt ##
+
+todo: tekst om spillsimulator
+
+## Opprette spilltilstand ##
+
+todo: tekst om spilloppretter
 
 ## Hosting i LINQPad ##
 

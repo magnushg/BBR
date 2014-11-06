@@ -8,6 +8,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.Extensions;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Brisebois.WindowsAzure;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Properties;
@@ -97,7 +98,7 @@
             var seconds = GetTimeoutAsTimeSpan();
 
             if (seconds.TotalSeconds > 0)
-                Report(string.Format("{0}{1}s", Resources.Sleep_for, seconds.TotalSeconds));
+                Report(string.Format("{0}{1}", Resources.Sleep_for, seconds.ToReadableString()));
 
             Thread.Sleep(seconds);
         }

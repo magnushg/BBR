@@ -1,5 +1,6 @@
 ﻿namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
 {
+    using System;
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
@@ -18,6 +19,10 @@
         {
             if (entitet is LoggHendelse)
                 await queueMessageProducer.CreateMessage(entitet as LoggHendelse);
+            else
+            {
+                throw new Exception("Typen " + entitet.GetType() + " kan ikke sendes til arkivet.");
+            }
         }
     }
 }

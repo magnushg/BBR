@@ -36,7 +36,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
             }
             else
             {
-                log.Warn("Ukjent objekttype i melding");
+                throw new Exception("Type " + typeName + " støttes ikke i QueueMessageConsumer");
             }
         }
 
