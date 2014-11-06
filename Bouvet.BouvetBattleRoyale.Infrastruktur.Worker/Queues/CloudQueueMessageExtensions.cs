@@ -19,7 +19,7 @@
             return new CloudQueueMessage(stringBuilder.ToString());
         }
 
-        public static Type GetMessageType(this CloudQueueMessage m)
+        public static string GetMessageTypeName(this CloudQueueMessage m)
         {
             EnsureTypeInMessage(m);
 
@@ -27,12 +27,9 @@
 
             string fullName = m.AsString.Substring(0, indexOf);
 
-            // Assembly hvor domeneobjekter/dtos ligger
-            var assembly = Assembly.LoadFrom("Bouvet.BouvetBattleRoyale.Domene.dll");
+            string className = fullName.Substring(fullName.LastIndexOf(".") + 1, fullName.Length - fullName.LastIndexOf(".") - 1);
 
-            var messageObject = assembly.CreateInstance(fullName);
-
-            return messageObject.GetType();
+            return className;
         }
 
         private static void EnsureTypeInMessage<T>(this CloudQueueMessage m)

@@ -32,14 +32,15 @@
         {
             // Arrange
             var loggHendelse = Builder<LoggHendelse>.CreateNew().Build();
+            const string loggHendelseKlasseNavn = "LoggHendelse";
 
             // Act
             var serialisertLoggHendelse = CloudQueueMessageExtensions.Serialize(loggHendelse);
 
-            var meldingsType = serialisertLoggHendelse.GetMessageType();
+            var meldingsTypeNavn = serialisertLoggHendelse.GetMessageTypeName();
 
             // Assert
-            meldingsType.ShouldEqual(loggHendelse.GetType());
+            meldingsTypeNavn.ShouldEqual(loggHendelseKlasseNavn);
         } 
     }
 }

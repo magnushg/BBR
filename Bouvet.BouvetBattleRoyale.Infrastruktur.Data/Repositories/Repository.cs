@@ -130,11 +130,11 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
             var deltaTid = oppdaterStart.Subtract(oppdaterEnd);
 
-            string loggMelding = "Oppdatering av " + document.DocumentId + " på " + documentStorrelse + "kb tok..."
-                                 + deltaTid.TotalSeconds + " sekunder";
-
             var oppdateringTidSomSekunder = deltaTid.Duration().TotalSeconds;
 
+            string loggMelding = "Oppdatering av " + document.DocumentId + " på " + documentStorrelse + "kb tok..."
+                                 + oppdateringTidSomSekunder + " sekunder";
+            
             if (oppdateringTidSomSekunder > 5)
                 _log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
 
@@ -152,8 +152,10 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
         {
             var documentStorrelse = EnhetConverter.HentObjektStorrelse(document);
 
+            var oppdateringTidSomSekunder = slettStart.Subtract(slettEnd).Duration().TotalSeconds;
+
             var loggMelding = "Sletting av " + document.DocumentId + " på " + document + "kb tok..."
-                              + slettStart.Subtract(slettEnd).TotalSeconds + " sekunder";
+                              + oppdateringTidSomSekunder + " sekunder";
 
             if (documentStorrelse > RequestLimitKb)
             {

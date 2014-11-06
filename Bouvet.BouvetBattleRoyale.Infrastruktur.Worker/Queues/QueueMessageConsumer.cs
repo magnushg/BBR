@@ -28,24 +28,29 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
         {
             log.Info("Konsumer melding: " + melding.AsString);
 
-            var type = melding.GetMessageType();
+            var typeName = melding.GetMessageTypeName();
 
-            if (type == typeof(LoggHendelse))
+            if (typeName == "LoggHendelse")
             {
-                try
-                {
-                    var loggHendelse = melding.Deserialize<LoggHendelse>();
-
-                    await loggHendelseRepository.Opprett(loggHendelse);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                await OpprettLoggHendelse(melding);
             }
             else
             {
                 log.Warn("Ukjent objekttype i melding");
+            }
+        }
+
+        private async Task OpprettLoggHendelse(CloudQueueMessage melding)
+        {
+            try
+            {
+                var loggHendelse = melding.Deserialize<LoggHendelse>();
+
+                await loggHendelseRepository.Opprett(loggHendelse);
+            }
+            catch (Exception e)
+            {
+                log.Error("Feil skjedde under lagring av LoggHendelse i worker", e);
             }
         }
     }
