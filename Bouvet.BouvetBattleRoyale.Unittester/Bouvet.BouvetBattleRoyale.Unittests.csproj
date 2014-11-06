@@ -94,13 +94,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Felles\KoordinatVerifierTest.cs" />
-    <Compile Include="Service\GameStateServiceTest.cs" />
-    <Compile Include="Service\PostGameServiceTest.cs" />
+    <Compile Include="Tjenester\KoordinatVerifierTest.cs" />
+    <Compile Include="Tjenester\Services\GameStateServiceTest.cs" />
+    <Compile Include="Tjenester\Services\PostGameServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameApiTest.cs" />
-    <Compile Include="Service\LagServiceTest.cs" />
-    <Compile Include="Service\PoengServiceTest.cs" />
+    <Compile Include="Tjenester\GameApiTest.cs" />
+    <Compile Include="Tjenester\Services\LagServiceTest.cs" />
+    <Compile Include="Tjenester\Services\PoengServiceTest.cs" />
     <Compile Include="SpillOppretter\LagOppretterTests.cs" />
   </ItemGroup>
   <ItemGroup>
