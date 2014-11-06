@@ -17,7 +17,7 @@ namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception
 
         public int MaxAttempts { get; set; }
 
-        private ILog _logger;
+        private readonly ILog _logger;
 
         public RetryInterceptor(ILog logger)
         {

@@ -14,7 +14,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Azure.Documents.Linq;
-    
+
     public abstract class Repository<T> : IRepository<T> where T : BaseDocument
     {
         private const int RequestLimitKb = 256;
@@ -26,7 +26,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
         protected readonly IDocumentDbContext Context;
 
         private readonly ILog _log;
-        
+
         private DocumentCollection _collection;
 
         public DocumentCollection Collection
@@ -52,14 +52,14 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
         public async Task<string> Opprett(T document)
         {
             var opprettetDocument = await Context.Client.CreateDocumentAsync(Collection.SelfLink, document);
-            
+
             return opprettetDocument.Resource.Id;
         }
 
         public IEnumerable<T> HentAlle()
         {
             var documents = Context.Client.CreateDocumentQuery<T>(Collection.DocumentsLink).AsEnumerable();
-            
+
             return documents;
         }
 
@@ -83,22 +83,13 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
                               {
                                   AccessCondition = new AccessCondition
                                                         {
-                                                            Type = AccessConditionType.IfMatch, 
+                                                            Type = AccessConditionType.IfMatch,
                                                             Condition = document.Etag
                                                         }
                               };
 
-            try
-            {
-                await Context.Client.ReplaceDocumentAsync(document.SelfLink, document, options);
-            }
-            catch (DocumentClientException)
-            {
-                _log.Warn("DocumentClientException ble fanget i Oppdater() på document " + document.DocumentId);
-
-                throw;
-            }
-
+            await Context.Client.ReplaceDocumentAsync(document.SelfLink, document, options);
+            
             var oppdaterEnd = DateTime.Now;
 
             LoggOppdatering(document, oppdaterStart, oppdaterEnd);
@@ -134,7 +125,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 
             string loggMelding = "Oppdatering av " + document.DocumentId + " på " + documentStorrelse + "kb tok..."
                                  + oppdateringTidSomSekunder + " sekunder";
-            
+
             if (oppdateringTidSomSekunder > 5)
                 _log.Warn("Treg oppdatering, tok " + oppdateringTidSomSekunder);
 
