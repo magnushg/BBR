@@ -134,37 +134,9 @@
     <Compile Include="Tjenester\GameApiTest.cs" />
     <Compile Include="Tjenester\Services\LagServiceTest.cs" />
     <Compile Include="Tjenester\Services\PoengServiceTest.cs" />
-    <Compile Include="SpillOppretter\LagOppretterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="ImportData\Myrens\koder.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\Myrens\lagPoster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\Myrens\poster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\Oscarsborg\koder.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\Oscarsborg\lagPoster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\Oscarsborg\poster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\OscarsborgFredag\koder.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\OscarsborgFredag\lagPoster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ImportData\OscarsborgFredag\poster.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

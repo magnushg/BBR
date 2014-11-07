@@ -1,6 +1,7 @@
 ﻿namespace Bouvet.BouvetBattleRoyale.Applikasjon.Owin
 {
     using System;
+    using System.Configuration;
     using System.Globalization;
     using System.IO;
     using System.Net.Http.Formatting;
@@ -47,6 +48,8 @@
 
     public class Startup
     {
+        private static ILog _log;
+
         public void Configuration(IAppBuilder appBuilder)
         {
             var config = new HttpConfiguration();
@@ -58,6 +61,9 @@
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
             SetGlobalizationCulture("nb-NO");
+
+            Log4NetLogger.InitialiserLogging<Startup>();
+            _log = Log4NetLogger.HentLogger(typeof(Startup));
 
             appBuilder.Use(typeof(AuthenticationMiddleware));
 
@@ -82,16 +88,15 @@
             var hubConfig = new HubConfiguration { EnableJSONP = true };
 
             appBuilder.MapSignalR(hubConfig);
-
-            Log4NetLogger.InitialiserLogging<Startup>();
-
-            StartWorker(container.Resolve<IQueueMessageConsumer>(), Log4NetLogger.HentLogger(typeof(Startup)));
-
+            
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
         }
 
         public static ContainerBuilder BuildContainer()
         {
+            if (_log == null)
+                _log = Log4NetLogger.HentLogger(typeof(Startup));
+
             var builder = new ContainerBuilder();
             builder.RegisterModule<log4netAutofacModule>();
 
@@ -125,8 +130,25 @@
 
             builder.RegisterType<QueueArkivHandler>().As<IArkivHandler>();
             builder.RegisterType<QueueMessageConsumer>().As<IQueueMessageConsumer>();
-            builder.RegisterType<QueueMessageProducer>().As<IQueueMessageProducer>();
 
+            var aktivMessageProducer = ConfigurationManager.AppSettings["AktivMessageProducer"];
+
+            switch (aktivMessageProducer)
+            {
+                case "QueueMessageProducer":
+                    builder.RegisterType<QueueMessageProducer>().As<IQueueMessageProducer>();
+                    _log.Info("Autofac->Aktiv MessageProducer er: QueueMessageProducer");
+                    break;
+
+                case "MemoryMessageProducer":
+                    builder.RegisterType<MemoryMessageProducer>().As<IQueueMessageProducer>();
+                    _log.Info("Autofac->Aktiv MessageProducer er: MemoryMessageProducer");
+                    break;
+
+                default: 
+                    throw new Exception("Ugyldig konfigurasjonsverdi for AktivMessageProducer: ukjent type");
+            }
+            
             builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"))
                 .As<IHubContext<IGameHub>>()
                 .SingleInstance();
@@ -137,23 +159,12 @@
 
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
-            var log = Log4NetLogger.HentLogger(typeof(Startup));
             var exception = unhandledExceptionEventArgs.ExceptionObject as Exception;
 
             if (exception != null)
-                log.Fatal("Uhåndtert feil: " + exception.Message, exception);
+                _log.Fatal("Uhåndtert feil: " + exception.Message, exception);
         }
         
-        //TODO hwm 05.11.2014: Flytte worker til en worker role
-        public static void StartWorker(IQueueMessageConsumer queueMessageConsumer, ILog log)
-        {
-            var messageQueueWorker = new MessageQueueWorker(queueMessageConsumer, log);
-
-            messageQueueWorker.Start();
-
-            log.Info("Startet worker");
-        }
-
         private void SetGlobalizationCulture(string cultureLanguage)
         {
             var culture = CultureInfo.CreateSpecificCulture(cultureLanguage);

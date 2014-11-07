@@ -22,7 +22,7 @@
     using Should;
 
     [TestFixture]
-    public class QueueWorkerTests : BaseTest
+    public class QueueMessageProducerTests : BaseTest
     {
         private string databaseId;
         private string endpoint;
@@ -33,13 +33,17 @@
         [SetUp]
         public void FørHverTest()
         {
+            Log4NetLogger.InitialiserLogging<BaseTest>();
+
             TømDatabasen();
 
             var queueMessageConsumer = Resolve<IQueueMessageConsumer>();
 
-            var log = Log4NetLogger.HentLogger(typeof(QueueWorkerTests));
+            var log = Log4NetLogger.HentLogger(typeof(QueueMessageProducerTests));
 
-            Startup.StartWorker(queueMessageConsumer, log);
+            var worker = new MessageQueueWorker(queueMessageConsumer, log);
+
+            worker.Start();
         }
 
         private void TømDatabasen()
@@ -57,7 +61,7 @@
         }
 
         [Test]
-        public async Task Worker_SendEnLoggHendelse_LoggHendelsenErLagret()
+        public async Task CreateMessage_MeldingInneholderEnLoggHendelse_LoggHendelsenErLagret()
         {
             // Arrange
             var loggHendelse = Builder<LoggHendelse>.CreateNew()

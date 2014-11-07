@@ -8,7 +8,6 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
-    using Bouvet.BouvetBattleRoyale.Integrasjonstester.Api;
 
     using Microsoft.Azure.Documents.Client;
 

@@ -31,7 +31,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
 
             queue.CreateIfNotExists();
         }
-        
+
         public async Task CreateMessage(LoggHendelse loggHendelse)
         {
             await queue.AddMessageAsync(new CloudQueueMessage(string.Empty).Serialize(loggHendelse));

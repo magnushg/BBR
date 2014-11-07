@@ -1,11 +1,9 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Unittests.SpillOppretter
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Verktøy.SpillOppretter
 {
     using System;
     using System.Configuration;
 
     using Bouvet.BouvetBattleRoyale.SpillOppretter;
-
-    using BouvetCodeCamp.SpillOppretter;
 
     using NUnit.Framework;
 
@@ -19,7 +17,7 @@
         [SetUp]
         public void Setup()
         {
-            var filePath = string.Format("importData/{0}", ConfigurationManager.AppSettings["location"]);
+            var filePath = string.Format("Verktøy/SpillOppretter/importData/{0}", ConfigurationManager.AppSettings["location"]);
 
             lagOppretter = new LagOppretter(Convert.ToInt32(ConfigurationManager.AppSettings["numberOfTeams"]), filePath + "/lagPoster.json", filePath + "/koder.json");  
         }

@@ -10,10 +10,10 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole
     {
         public static void InitializeWorker()
         {
-            var container = AutofacContainerBuilder.BuildAutofacContainer();
-
             InitializeLogging();
 
+            var container = AutofacContainerBuilder.BuildAutofacContainer();
+            
             var log = Log4NetLogger.HentLogger(typeof(WorkerRole));
 
             var queueMessageConsumer = container.Resolve<IQueueMessageConsumer>();

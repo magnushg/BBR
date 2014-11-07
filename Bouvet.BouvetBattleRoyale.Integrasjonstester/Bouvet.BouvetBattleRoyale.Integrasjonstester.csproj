@@ -153,11 +153,12 @@
     <Compile Include="Infrastructure\CloudQueueMessageExtensionsTests.cs" />
     <Compile Include="Infrastructure\RetryInterceptionTests.cs" />
     <Compile Include="Infrastructure\Worker\ArkivHandlerTests.cs" />
-    <Compile Include="Infrastructure\Worker\WorkerTests.cs" />
+    <Compile Include="Infrastructure\Worker\QueueMessageProducerTests.cs" />
     <Compile Include="TestManager.cs" />
     <Compile Include="Testkategorier.cs" />
     <Compile Include="DataAksess\BaseRepositoryIntegrasjonstest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Verktøy\SpillOppretter\LagOppretterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces.csproj">
@@ -188,6 +189,10 @@
       <Project>{3A58CC09-8DD2-4A27-A34D-F6EDB5CB9AEF}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Worker</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.SpillOppretter\Bouvet.BouvetBattleRoyale.SpillOppretter.csproj">
+      <Project>{17A89190-399A-48E5-BF75-7BF816E066ED}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.SpillOppretter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces\Bouvet.BouvetBattleRoyale.Tjenester.Interfaces.csproj">
       <Project>{55D2D170-D6B2-42C3-B2EE-A455F5E0E661}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Tjenester.Interfaces</Name>
@@ -198,6 +203,33 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <Content Include="Verktøy\SpillOppretter\ImportData\Myrens\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\Myrens\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\Myrens\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\Oscarsborg\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\Oscarsborg\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\Oscarsborg\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\OscarsborgFredag\koder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\OscarsborgFredag\lagPoster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Verktøy\SpillOppretter\ImportData\OscarsborgFredag\poster.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
