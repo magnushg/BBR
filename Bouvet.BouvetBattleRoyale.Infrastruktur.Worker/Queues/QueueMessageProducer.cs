@@ -34,7 +34,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
         
         public async Task CreateMessage(LoggHendelse loggHendelse)
         {
-            await queue.AddMessageAsync(CloudQueueMessageExtensions.Serialize(loggHendelse));
+            await queue.AddMessageAsync(new CloudQueueMessage(string.Empty).Serialize(loggHendelse));
         }
     }
 }

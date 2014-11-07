@@ -1,7 +1,6 @@
 ﻿namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
 {
     using System;
-    using System.Reflection;
     using System.Text;
 
     using Microsoft.WindowsAzure.Storage.Queue;
@@ -10,7 +9,7 @@
 
     public static class CloudQueueMessageExtensions
     {
-        public static CloudQueueMessage Serialize(Object o)
+        public static CloudQueueMessage Serialize(this CloudQueueMessage m, Object o)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(o.GetType().FullName);
@@ -48,6 +47,7 @@
             if (indexOf <= 0)
                 throw new Exception(string.Format("Cannot deserialize object. Missing type"));
         }
+
         public static T Deserialize<T>(this CloudQueueMessage m)
         {
             EnsureTypeInMessage<T>(m);

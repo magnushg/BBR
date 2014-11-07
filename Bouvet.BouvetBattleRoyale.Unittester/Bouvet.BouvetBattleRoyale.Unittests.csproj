@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Infrastruktur\CrossCutting\TimeSpanExtensionsTest.cs" />
     <Compile Include="Infrastruktur\Worker\DelayCalculatorTests.cs" />
+    <Compile Include="Infrastruktur\Worker\Queues\CloudQueueMessageExtensionsTests.cs" />
     <Compile Include="Infrastruktur\Worker\Queues\QueueArkivHandlerTests.cs" />
     <Compile Include="Infrastruktur\Worker\Queues\QueueMessageConsumerTests.cs" />
     <Compile Include="Tjenester\KoordinatVerifierTest.cs" />

@@ -6,7 +6,7 @@
 
     public class Konfigurasjon : IKonfigurasjon
     {
-        private Dictionary<string, string> _settings = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _settings = new Dictionary<string, string>();
 
         public string HentAppSetting(string key)
         {
