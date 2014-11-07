@@ -3,12 +3,13 @@
     using Autofac;
 
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
 
     public abstract class BaseTest
     {
         protected BaseTest()
         {
-            log4net.Config.XmlConfigurator.Configure();
+            Log4NetLogger.InitialiserLogging<BaseTest>();
         }
 
         protected T Resolve<T>() where T : class

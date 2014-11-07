@@ -7,6 +7,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
 
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
+    using Bouvet.BouvetBattleRoyale.Integrasjonstester.Api;
 
     using Microsoft.Azure.Documents.Client;
 
@@ -31,6 +33,8 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
         [SetUp]
         public void FørHverTest()
         {
+            Log4NetLogger.InitialiserLogging<BaseRepositoryIntegrasjonstest>();
+
             using (var client = new DocumentClient(new Uri(endpoint), authKey))
             {
                 DocumentDbHelpers.SlettDatabaseAsync(client, this.databaseId);

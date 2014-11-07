@@ -60,6 +60,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting", "Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.csproj", "{F4D586AB-D07A-41ED-91C1-44558228631D}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Bouvet.BouvetBattleRoyale.Applikasjon.Azure", "Bouvet.BouvetBattleRoyale.Applikasjon.Azure\Bouvet.BouvetBattleRoyale.Applikasjon.Azure.ccproj", "{556D591D-6A0E-4E99-B7D8-41C6BE689C4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole", "Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole\Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole.csproj", "{41845BAF-A887-4964-AB11-E3D3B183B76D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "31 - Azure", "31 - Azure", "{BE63C601-A43E-40C6-ADD1-7617E5931C27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "11 - Nettside og api", "11 - Nettside og api", "{0718C3A8-0720-4DCA-94D9-5EB17EBE2240}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "12 - Worker role", "12 - Worker role", "{250B7066-63BA-4105-AC5F-D2B3A00AEC1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,13 +136,21 @@ Global
 		{F4D586AB-D07A-41ED-91C1-44558228631D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4D586AB-D07A-41ED-91C1-44558228631D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4D586AB-D07A-41ED-91C1-44558228631D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{556D591D-6A0E-4E99-B7D8-41C6BE689C4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{556D591D-6A0E-4E99-B7D8-41C6BE689C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{556D591D-6A0E-4E99-B7D8-41C6BE689C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{556D591D-6A0E-4E99-B7D8-41C6BE689C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41845BAF-A887-4964-AB11-E3D3B183B76D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41845BAF-A887-4964-AB11-E3D3B183B76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41845BAF-A887-4964-AB11-E3D3B183B76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41845BAF-A887-4964-AB11-E3D3B183B76D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{48B3CD05-B311-421A-B199-2FAB785487E7} = {88D4F601-3A37-4545-B2F0-FCDF78D5FA6C}
-		{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02} = {88D4F601-3A37-4545-B2F0-FCDF78D5FA6C}
+		{48B3CD05-B311-421A-B199-2FAB785487E7} = {0718C3A8-0720-4DCA-94D9-5EB17EBE2240}
+		{F3AC7CA0-BD38-4195-BB96-FBFF0631AD02} = {0718C3A8-0720-4DCA-94D9-5EB17EBE2240}
 		{BEA4BB17-4E4B-4E53-9488-5397E50B76A7} = {58D00C2C-6C0C-4947-8297-BD91BF2EF031}
 		{7DE8731C-5369-461E-AF95-602969ACAC4E} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
 		{FD9EC9CC-9D3E-4A76-8C51-58F579B07FB3} = {48C547AC-6E5D-4D7D-BD0E-A946210418CE}
@@ -146,6 +164,11 @@ Global
 		{3A58CC09-8DD2-4A27-A34D-F6EDB5CB9AEF} = {58D00C2C-6C0C-4947-8297-BD91BF2EF031}
 		{624769BD-05D0-4649-9AAF-E0687B7BAABE} = {58D00C2C-6C0C-4947-8297-BD91BF2EF031}
 		{F4D586AB-D07A-41ED-91C1-44558228631D} = {58D00C2C-6C0C-4947-8297-BD91BF2EF031}
+		{556D591D-6A0E-4E99-B7D8-41C6BE689C4D} = {250B7066-63BA-4105-AC5F-D2B3A00AEC1C}
+		{41845BAF-A887-4964-AB11-E3D3B183B76D} = {BE63C601-A43E-40C6-ADD1-7617E5931C27}
+		{BE63C601-A43E-40C6-ADD1-7617E5931C27} = {58D00C2C-6C0C-4947-8297-BD91BF2EF031}
+		{0718C3A8-0720-4DCA-94D9-5EB17EBE2240} = {88D4F601-3A37-4545-B2F0-FCDF78D5FA6C}
+		{250B7066-63BA-4105-AC5F-D2B3A00AEC1C} = {88D4F601-3A37-4545-B2F0-FCDF78D5FA6C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\TransientFaultHandling.Core.5.1.1209.0\lib\NET4;packages\EnterpriseLibrary.WindowsAzure.TransientFaultHandling.5.1.1212.0\lib\NET4;packages\EnterpriseLibrary.WindowsAzure.TransientFaultHandling.5.1.1212.0\DesignTime

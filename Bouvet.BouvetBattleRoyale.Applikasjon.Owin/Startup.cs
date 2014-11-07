@@ -83,7 +83,7 @@
 
             appBuilder.MapSignalR(hubConfig);
 
-            InitialiserLogging();
+            Log4NetLogger.InitialiserLogging<Startup>();
 
             StartWorker(container.Resolve<IQueueMessageConsumer>(), Log4NetLogger.HentLogger(typeof(Startup)));
 
@@ -143,16 +143,7 @@
             if (exception != null)
                 log.Fatal("Uhåndtert feil: " + exception.Message, exception);
         }
-
-        private static void InitialiserLogging()
-        {
-            log4net.Config.XmlConfigurator.Configure();
-
-            var log = LogManager.GetLogger(typeof(Startup));
-
-            log.Info("Startup ok.");
-        }
-
+        
         //TODO hwm 05.11.2014: Flytte worker til en worker role
         public static void StartWorker(IQueueMessageConsumer queueMessageConsumer, ILog log)
         {

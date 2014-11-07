@@ -10,5 +10,14 @@
         {
             return LogManager.GetLogger(T);
         }
+        
+        public static void InitialiserLogging<T>()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+
+            var log = LogManager.GetLogger(typeof(T));
+
+            log.Info("Log4Net initialized.");
+        }
     }
 }

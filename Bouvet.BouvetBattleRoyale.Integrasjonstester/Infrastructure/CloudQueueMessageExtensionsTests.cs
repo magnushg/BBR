@@ -5,6 +5,8 @@
 
     using FizzWare.NBuilder;
 
+    using Microsoft.WindowsAzure.Storage.Queue;
+
     using NUnit.Framework;
 
     using Should;
@@ -19,7 +21,7 @@
             var loggHendelse = Builder<LoggHendelse>.CreateNew().Build();
 
             // Act
-            var serialisertLoggHendelse = CloudQueueMessageExtensions.Serialize(loggHendelse);
+            var serialisertLoggHendelse = new CloudQueueMessage(string.Empty).Serialize(loggHendelse);
 
             var deserialisertLoggHendelse = serialisertLoggHendelse.Deserialize<LoggHendelse>();
 
@@ -35,7 +37,7 @@
             const string loggHendelseKlasseNavn = "LoggHendelse";
 
             // Act
-            var serialisertLoggHendelse = CloudQueueMessageExtensions.Serialize(loggHendelse);
+            var serialisertLoggHendelse = new CloudQueueMessage(string.Empty).Serialize(loggHendelse);
 
             var meldingsTypeNavn = serialisertLoggHendelse.GetMessageTypeName();
 

@@ -43,9 +43,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
         [SetUp]
         public void SetUp()
         {
-            log4net.Config.XmlConfigurator.Configure();
-            var log = Log4NetLogger.HentLogger(typeof(BaseApiTest));
-            log.Info("BaseApiTest startup ok.");
+            Log4NetLogger.InitialiserLogging<BaseApiTest>();
 
             webServer = WebApp.Start<Startup>(ApiBaseAddress);
         }
