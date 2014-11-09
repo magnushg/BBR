@@ -11,8 +11,6 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Api
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Domene.InputModels;
 
-    using FizzWare.NBuilder;
-
     using Newtonsoft.Json;
 
     using NUnit.Framework;

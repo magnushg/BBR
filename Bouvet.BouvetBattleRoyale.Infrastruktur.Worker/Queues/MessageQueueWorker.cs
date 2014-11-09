@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
 
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
 
     using log4net;
@@ -17,7 +18,8 @@
 
         public MessageQueueWorker(
             IQueueMessageConsumer queueMessageConsumer,
-            ILog log) : base(log)
+            ILog log,
+            IKonfigurasjon konfigurasjon) : base(log, konfigurasjon)
         {
             this.queueMessageConsumer = queueMessageConsumer;
             this.log = log;

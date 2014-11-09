@@ -1,24 +1,27 @@
-﻿using Autofac;
-
-using AutofacContrib.DynamicProxy;
-
-using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception;
-using log4net;
-using Microsoft.Azure.Documents;
-
-using Moq;
-using System;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-
-namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur
 {
+    using System;
+    using System.Diagnostics;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+
+    using Autofac;
+
+    using AutofacContrib.DynamicProxy;
+
+    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Interception;
+
+    using log4net;
+
+    using Microsoft.Azure.Documents;
+
+    using Moq;
+
     using NUnit.Framework;
 
     [TestFixture]

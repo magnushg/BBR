@@ -2,6 +2,7 @@
 {
     using System;
     using System.Configuration;
+    using System.Diagnostics.Eventing.Reader;
     using System.Globalization;
     using System.IO;
     using System.Net.Http.Formatting;
@@ -16,6 +17,7 @@
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Authentication;
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin.Filters;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
@@ -37,6 +39,7 @@
 
     using Microsoft.AspNet.SignalR;
     using Microsoft.Owin.Extensions;
+    using Microsoft.WindowsAzure.ServiceRuntime;
 
     using Newtonsoft.Json.Serialization;
 
@@ -104,7 +107,8 @@
             // Note controller methods must be virtual to be intercepted
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).EnableClassInterceptors().InterceptedBy(typeof(RetryInterceptor));
 
-            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().SingleInstance(); // Cacher i instans
+            SettKonfigurasjon(builder);
+
             builder.RegisterType<DocumentDbContext>().As<IDocumentDbContext>().SingleInstance();
 
             //singleton memory instance
@@ -131,7 +135,35 @@
             builder.RegisterType<QueueArkivHandler>().As<IArkivHandler>();
             builder.RegisterType<QueueMessageConsumer>().As<IQueueMessageConsumer>();
 
-            var aktivMessageProducer = ConfigurationManager.AppSettings["AktivMessageProducer"];
+            SettAktivMessageProducer(builder);
+
+            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"))
+                .As<IHubContext<IGameHub>>()
+                .SingleInstance();
+
+            builder.RegisterType<GameHubProxy>().As<IGameHub>();
+            return builder;
+        }
+
+        private static void SettKonfigurasjon(ContainerBuilder builder)
+        {
+            if (RoleEnvironment.IsAvailable)
+            {
+                builder.RegisterType<RoleKonfigurasjon>().As<IKonfigurasjon>().SingleInstance(); // Cacher i instans
+            }
+            else
+            {
+                builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().SingleInstance(); // Cacher i instans
+            }
+        }
+
+        private static void SettAktivMessageProducer(ContainerBuilder builder)
+        {
+            const string AktivMessageProducerSettingKey = "AktivMessageProducer";
+
+            var aktivMessageProducer = RoleEnvironment.IsAvailable
+                                           ? RoleEnvironment.GetConfigurationSettingValue(AktivMessageProducerSettingKey)
+                                           : ConfigurationManager.AppSettings[AktivMessageProducerSettingKey];
 
             switch (aktivMessageProducer)
             {
@@ -145,16 +177,9 @@
                     _log.Info("Autofac->Aktiv MessageProducer er: MemoryMessageProducer");
                     break;
 
-                default: 
-                    throw new Exception("Ugyldig konfigurasjonsverdi for AktivMessageProducer: ukjent type");
+                default:
+                    throw new ConfigurationErrorsException("Ugyldig konfigurasjonsverdi for AktivMessageProducer: ukjent type");
             }
-            
-            builder.Register(x => GlobalHost.ConnectionManager.GetHubContext<IGameHub>("GameHub"))
-                .As<IHubContext<IGameHub>>()
-                .SingleInstance();
-
-            builder.RegisterType<GameHubProxy>().As<IGameHub>();
-            return builder;
         }
 
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)

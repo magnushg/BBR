@@ -6,6 +6,7 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
     using Autofac;
 
     using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
 
@@ -24,9 +25,11 @@ namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.DataAksess
 
         protected BaseRepositoryIntegrasjonstest()
         {
-            databaseId = ConfigurationManager.AppSettings[DocumentDbKonstanter.DatabaseId];
-            endpoint = ConfigurationManager.AppSettings[DocumentDbKonstanter.Endpoint];
-            authKey = ConfigurationManager.AppSettings[DocumentDbKonstanter.AuthKey];
+            var konfigurasjon = Resolve<IKonfigurasjon>();
+
+            databaseId = konfigurasjon.HentAppSetting(DocumentDbKonstanter.DatabaseId);
+            endpoint = konfigurasjon.HentAppSetting(DocumentDbKonstanter.Endpoint);
+            authKey = konfigurasjon.HentAppSetting(DocumentDbKonstanter.AuthKey);
         }
 
         [SetUp]

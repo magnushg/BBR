@@ -10,6 +10,7 @@
 
     using Bouvet.BouvetBattleRoyale.Domene;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;

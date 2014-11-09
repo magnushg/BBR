@@ -3,6 +3,7 @@
     using System;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
 
     using log4net;

@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Net;
 
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
+
     using log4net;
 
     using Microsoft.WindowsAzure.Storage;
@@ -21,17 +23,17 @@
         private readonly TimeSpan visibilityTimeout;
         private readonly int maxAttempts;
 
-        protected QueueWorker(ILog log)
+        protected QueueWorker(ILog log, IKonfigurasjon konfigurasjon)
             : base(log)
         {
-            var queueName = ConfigurationManager.AppSettings["QueueName"];
-            var poisonQueueName = ConfigurationManager.AppSettings["PoisonQueueName"];
+            var queueName = konfigurasjon.HentAppSetting("QueueName");
+            var poisonQueueName = konfigurasjon.HentAppSetting("PoisonQueueName");
 
-            maxAttempts = int.Parse(ConfigurationManager.AppSettings["DequeueMaxAttempts"]);
-            var visibilityTimeoutInMinutes = int.Parse(ConfigurationManager.AppSettings["DequeuedMessageVisibilityTimeoutInMinutes"]);
+            maxAttempts = int.Parse(konfigurasjon.HentAppSetting("DequeueMaxAttempts"));
+            var visibilityTimeoutInMinutes = int.Parse(konfigurasjon.HentAppSetting("DequeuedMessageVisibilityTimeoutInMinutes"));
 
             var connectionStringFromConfig =
-               ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString;
+               konfigurasjon.HentAppSetting("StorageConnectionString");
 
             var account = CloudStorageAccount.Parse(connectionStringFromConfig);
 

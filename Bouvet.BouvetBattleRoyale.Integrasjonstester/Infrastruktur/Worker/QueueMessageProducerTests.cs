@@ -1,4 +1,4 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure.Worker
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.Worker
 {
     using System;
     using System.Configuration;
@@ -6,8 +6,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Bouvet.BouvetBattleRoyale.Applikasjon.Owin;
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
@@ -41,16 +41,20 @@
 
             var log = Log4NetLogger.HentLogger(typeof(QueueMessageProducerTests));
 
-            var worker = new MessageQueueWorker(queueMessageConsumer, log);
+            var konfigurasjon = Resolve<IKonfigurasjon>();
+
+            var worker = new MessageQueueWorker(queueMessageConsumer, log, konfigurasjon);
 
             worker.Start();
         }
 
         private void TømDatabasen()
         {
-            databaseId = ConfigurationManager.AppSettings[DocumentDbKonstanter.DatabaseId];
-            endpoint = ConfigurationManager.AppSettings[DocumentDbKonstanter.Endpoint];
-            authKey = ConfigurationManager.AppSettings[DocumentDbKonstanter.AuthKey];
+            var konfigurasjon = Resolve<IKonfigurasjon>();
+
+            databaseId = konfigurasjon.HentAppSetting(DocumentDbKonstanter.DatabaseId);
+            endpoint = konfigurasjon.HentAppSetting(DocumentDbKonstanter.Endpoint);
+            authKey = konfigurasjon.HentAppSetting(DocumentDbKonstanter.AuthKey);
 
             using (var client = new DocumentClient(new Uri(endpoint), authKey))
             {

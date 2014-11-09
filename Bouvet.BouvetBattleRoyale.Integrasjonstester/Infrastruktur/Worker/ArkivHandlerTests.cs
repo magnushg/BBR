@@ -1,4 +1,4 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastructure.Worker
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.Worker
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;

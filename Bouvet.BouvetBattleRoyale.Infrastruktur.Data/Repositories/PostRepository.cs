@@ -1,6 +1,7 @@
 ﻿namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
 
     using log4net;

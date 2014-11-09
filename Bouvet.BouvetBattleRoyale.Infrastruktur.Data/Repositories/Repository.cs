@@ -6,6 +6,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Repositories
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.Extensions;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;

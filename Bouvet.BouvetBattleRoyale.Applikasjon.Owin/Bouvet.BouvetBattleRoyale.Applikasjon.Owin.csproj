@@ -95,6 +95,7 @@
     <None Include="App.Debug.config">
       <DependentUpon>App.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
+      <SubType>Designer</SubType>
     </None>
     <None Include="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
@@ -178,6 +179,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAzure.Storage">
       <HintPath>..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
@@ -223,6 +225,10 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.csproj">
+      <Project>{F4D586AB-D07A-41ED-91C1-44558228631D}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces.csproj">
       <Project>{624769BD-05D0-4649-9AAF-E0687B7BAABE}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces</Name>

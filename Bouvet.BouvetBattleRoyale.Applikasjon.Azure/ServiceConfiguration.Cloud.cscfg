@@ -9,6 +9,12 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEEo8AuwTIaelSpQwrvO6NpYwDQYJKoZIhvcNAQEBBQAEggEAhgZJ9fCGDE9YBLDWRtHhL9f3fp/KAugPtmedfT6IsMTNd8jSjuICcRX4sADyyNffd6mLXSdEtzbN3VaCJpVF+iAcsBOU+8aKcXFSuE4e0/vgGaEEpZGg0q0kh16g4ORITE/Szb9TI21Uk0eWqW8ZHL4yR0t0PShl2x4u/GLWsRvDQ+GFVW/dwPkxMZpKqiNEMMgNVPt3nVoA7wrZUfoKPRKnMxvwVmiApzyraTK+yCejDGRYRpDNw8VSJHm6txFd2j5oLmFAtU1jl0S34AyQzI76LdY5F7yWpH9r3l9vakBR5YXAnIJL9Y/B4H9r6vcWTAeWidxyKOhl8apBiF/FAzAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECK6639y2R2DdgBAYd+WQIYL3+j2HRaK07JXP" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2015-11-07T23:59:59.0000000+01:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="QueueName" value="archivequeuedev" />
+      <Setting name="PoisonQueueName" value="poison-archivequeuedev" />
+      <Setting name="DequeueMaxAttempts" value="10" />
+      <Setting name="DequeuedMessageVisibilityTimeoutInMinutes" value="1" />
+      <Setting name="AktivMessageProducer" value="QueueMessageProducer" />
+      <Setting name="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bbr2014hwm;AccountKey=KBDYMBft4QMF8oGjL2QJoR9/iReGSMaW+qcGI4F87LkGnNXL83RHAuH9rZ+q2dBOVCPM6OpvmVvreZyg7rWKcA==" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="18B4917A1F544EE36665B4CA0F77B66590372CFC" thumbprintAlgorithm="sha1" />

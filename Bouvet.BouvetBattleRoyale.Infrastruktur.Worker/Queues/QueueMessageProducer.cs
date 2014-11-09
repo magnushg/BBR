@@ -5,6 +5,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
     using System.Threading.Tasks;
 
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
 
     using Microsoft.WindowsAzure.Storage;
@@ -14,12 +15,12 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
     {
         private readonly CloudQueue queue;
 
-        public QueueMessageProducer()
+        public QueueMessageProducer(IKonfigurasjon konfigurasjon)
         {
-            var queueName = ConfigurationManager.AppSettings["QueueName"];
+            var queueName = konfigurasjon.HentAppSetting("QueueName");
 
             var connectionStringFromConfig =
-                    ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString;
+                    konfigurasjon.HentAppSetting("StorageConnectionString");
 
             var account = CloudStorageAccount.Parse(connectionStringFromConfig);
 

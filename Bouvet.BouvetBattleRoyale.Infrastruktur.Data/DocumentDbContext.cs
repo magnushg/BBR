@@ -4,6 +4,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Data
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Data.Interfaces;
 
     using Microsoft.Azure.Documents;

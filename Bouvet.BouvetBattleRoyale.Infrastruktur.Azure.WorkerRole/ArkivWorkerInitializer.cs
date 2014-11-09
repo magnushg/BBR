@@ -2,6 +2,7 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole
 {
     using Autofac;
 
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Logging;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues;
@@ -18,7 +19,9 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole
 
             var queueMessageConsumer = container.Resolve<IQueueMessageConsumer>();
 
-            var messageQueueWorker = new MessageQueueWorker(queueMessageConsumer, log);
+            var konfigurasjon = container.Resolve<IKonfigurasjon>();
+
+            var messageQueueWorker = new MessageQueueWorker(queueMessageConsumer, log, konfigurasjon);
             
             messageQueueWorker.Start();
 

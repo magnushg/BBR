@@ -57,7 +57,6 @@
     <Compile Include="DocumentDbKonstanter.cs" />
     <Compile Include="EnhetConverter.cs" />
     <Compile Include="Interfaces\IDocumentDbContext.cs" />
-    <Compile Include="Konfigurasjon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GameStateRepository.cs" />
     <Compile Include="Repositories\LagRepository.cs" />

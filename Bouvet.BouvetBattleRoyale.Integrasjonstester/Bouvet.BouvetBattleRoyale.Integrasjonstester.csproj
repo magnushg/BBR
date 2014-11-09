@@ -150,10 +150,12 @@
     <Compile Include="DataAksess\LagRepositoryIntegrasjonstester.cs" />
     <Compile Include="DataAksess\LoggHendelseIntegrasjonstester.cs" />
     <Compile Include="DataAksess\PostRepositoryIntegrasjonstester.cs" />
-    <Compile Include="Infrastructure\CloudQueueMessageExtensionsTests.cs" />
-    <Compile Include="Infrastructure\RetryInterceptionTests.cs" />
-    <Compile Include="Infrastructure\Worker\ArkivHandlerTests.cs" />
-    <Compile Include="Infrastructure\Worker\QueueMessageProducerTests.cs" />
+    <Compile Include="Infrastruktur\CloudQueueMessageExtensionsTests.cs" />
+    <Compile Include="Infrastruktur\CrossCutting\RoleKonfigurasjonTests.cs" />
+    <Compile Include="Infrastruktur\RetryInterceptionTests.cs" />
+    <Compile Include="Infrastruktur\Worker\ArkivHandlerTests.cs" />
+    <Compile Include="Infrastruktur\Worker\QueueMessageProducerTests.cs" />
+    <Compile Include="Infrastruktur\CrossCutting\KonfigurasjonTests.cs" />
     <Compile Include="TestManager.cs" />
     <Compile Include="Testkategorier.cs" />
     <Compile Include="DataAksess\BaseRepositoryIntegrasjonstest.cs" />
@@ -161,6 +163,10 @@
     <Compile Include="Verktøy\SpillOppretter\LagOppretterTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.csproj">
+      <Project>{F4D586AB-D07A-41ED-91C1-44558228631D}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces\Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces.csproj">
       <Project>{624769BD-05D0-4649-9AAF-E0687B7BAABE}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces</Name>
