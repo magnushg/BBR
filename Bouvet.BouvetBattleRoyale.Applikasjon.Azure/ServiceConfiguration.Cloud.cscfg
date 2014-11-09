@@ -13,7 +13,6 @@
       <Setting name="PoisonQueueName" value="poison-archivequeuerelease" />
       <Setting name="DequeueMaxAttempts" value="10" />
       <Setting name="DequeuedMessageVisibilityTimeoutInMinutes" value="1" />
-      <Setting name="AktivMessageProducer" value="QueueMessageProducer" />
       <Setting name="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bbr2014hwm;AccountKey=KBDYMBft4QMF8oGjL2QJoR9/iReGSMaW+qcGI4F87LkGnNXL83RHAuH9rZ+q2dBOVCPM6OpvmVvreZyg7rWKcA==" />
     </ConfigurationSettings>
     <Certificates>

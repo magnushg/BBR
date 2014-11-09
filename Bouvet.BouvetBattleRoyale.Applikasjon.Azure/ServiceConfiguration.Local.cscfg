@@ -13,7 +13,6 @@
       <Setting name="PoisonQueueName" value="poison-archivequeuedev" />
       <Setting name="DequeueMaxAttempts" value="10" />
       <Setting name="DequeuedMessageVisibilityTimeoutInMinutes" value="1" />
-      <Setting name="AktivMessageProducer" value="QueueMessageProducer" />
       <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
     <Certificates>
