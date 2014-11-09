@@ -1,9 +1,8 @@
-namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.CrossCutting
+namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.Azure.WorkerRole
 {
     using System;
-    using System.Configuration;
 
-    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole;
 
     using NUnit.Framework;
 

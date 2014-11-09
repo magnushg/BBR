@@ -1,8 +1,10 @@
-namespace Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting
+namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole
 {
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+
+    using Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting;
 
     using Microsoft.WindowsAzure.ServiceRuntime;
 

@@ -150,8 +150,8 @@
     <Compile Include="DataAksess\LagRepositoryIntegrasjonstester.cs" />
     <Compile Include="DataAksess\LoggHendelseIntegrasjonstester.cs" />
     <Compile Include="DataAksess\PostRepositoryIntegrasjonstester.cs" />
+    <Compile Include="Infrastruktur\Azure\WorkerRole\RoleKonfigurasjonTests.cs" />
     <Compile Include="Infrastruktur\CloudQueueMessageExtensionsTests.cs" />
-    <Compile Include="Infrastruktur\CrossCutting\RoleKonfigurasjonTests.cs" />
     <Compile Include="Infrastruktur\RetryInterceptionTests.cs" />
     <Compile Include="Infrastruktur\Worker\ArkivHandlerTests.cs" />
     <Compile Include="Infrastruktur\Worker\QueueMessageProducerTests.cs" />
@@ -163,6 +163,10 @@
     <Compile Include="Verktøy\SpillOppretter\LagOppretterTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole\Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole.csproj">
+      <Project>{41845BAF-A887-4964-AB11-E3D3B183B76D}</Project>
+      <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.Azure.WorkerRole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting\Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting.csproj">
       <Project>{F4D586AB-D07A-41ED-91C1-44558228631D}</Project>
       <Name>Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting</Name>
