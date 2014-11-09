@@ -39,7 +39,6 @@
 
     using Microsoft.AspNet.SignalR;
     using Microsoft.Owin.Extensions;
-    using Microsoft.WindowsAzure.ServiceRuntime;
 
     using Newtonsoft.Json.Serialization;
 
@@ -147,23 +146,14 @@
 
         private static void SettKonfigurasjon(ContainerBuilder builder)
         {
-            if (RoleEnvironment.IsAvailable)
-            {
-                builder.RegisterType<RoleKonfigurasjon>().As<IKonfigurasjon>().SingleInstance(); // Cacher i instans
-            }
-            else
-            {
-                builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().SingleInstance(); // Cacher i instans
-            }
+            builder.RegisterType<Konfigurasjon>().As<IKonfigurasjon>().SingleInstance(); // Cacher i instans            
         }
 
         private static void SettAktivMessageProducer(ContainerBuilder builder)
         {
             const string AktivMessageProducerSettingKey = "AktivMessageProducer";
 
-            var aktivMessageProducer = RoleEnvironment.IsAvailable
-                                           ? RoleEnvironment.GetConfigurationSettingValue(AktivMessageProducerSettingKey)
-                                           : ConfigurationManager.AppSettings[AktivMessageProducerSettingKey];
+            var aktivMessageProducer = ConfigurationManager.AppSettings[AktivMessageProducerSettingKey];
 
             switch (aktivMessageProducer)
             {

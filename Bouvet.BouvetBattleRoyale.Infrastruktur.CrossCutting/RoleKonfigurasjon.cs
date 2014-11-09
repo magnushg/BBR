@@ -15,21 +15,24 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.CrossCutting
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentException("key var null eller tom");
 
-            if (!_settings.ContainsKey(key))
+            lock (key)
             {
-                var setting = HentSetting(key);
-
-                if (setting == null)
+                if (!_settings.ContainsKey(key))
                 {
-                    throw new ConfigurationErrorsException(string.Format("{0} rolesetting mangler", key));
-                }
+                    var setting = HentSetting(key);
 
-                if (setting.Length == 0)
-                {
-                    throw new ConfigurationErrorsException(string.Format("{0} rolesetting er tom", key));
-                }
+                    if (setting == null)
+                    {
+                        throw new ConfigurationErrorsException(string.Format("{0} rolesetting mangler", key));
+                    }
 
-                _settings.Add(key, setting);
+                    if (setting.Length == 0)
+                    {
+                        throw new ConfigurationErrorsException(string.Format("{0} rolesetting er tom", key));
+                    }
+
+                    _settings.Add(key, setting);
+                }
             }
             return _settings[key];
         }
