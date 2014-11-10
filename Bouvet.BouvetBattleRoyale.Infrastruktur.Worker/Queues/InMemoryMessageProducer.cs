@@ -7,11 +7,11 @@ namespace Bouvet.BouvetBattleRoyale.Infrastruktur.Worker.Queues
 
     using Microsoft.WindowsAzure.Storage.Queue;
 
-    public class MemoryMessageProducer : IQueueMessageProducer
+    public class InMemoryMessageProducer : IQueueMessageProducer
     {
         private readonly IQueueMessageConsumer queueMessageConsumer;
 
-        public MemoryMessageProducer(IQueueMessageConsumer queueMessageConsumer)
+        public InMemoryMessageProducer(IQueueMessageConsumer queueMessageConsumer)
         {
             this.queueMessageConsumer = queueMessageConsumer;
         }

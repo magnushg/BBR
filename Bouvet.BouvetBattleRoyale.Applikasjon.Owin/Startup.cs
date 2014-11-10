@@ -162,9 +162,9 @@
                     _log.Info("Autofac->Aktiv MessageProducer er: QueueMessageProducer");
                     break;
 
-                case "MemoryMessageProducer":
-                    builder.RegisterType<MemoryMessageProducer>().As<IQueueMessageProducer>();
-                    _log.Info("Autofac->Aktiv MessageProducer er: MemoryMessageProducer");
+                case "InMemoryMessageProducer":
+                    builder.RegisterType<InMemoryMessageProducer>().As<IQueueMessageProducer>();
+                    _log.Info("Autofac->Aktiv MessageProducer er: InMemoryMessageProducer");
                     break;
 
                 default:

@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Queues\CloudQueueMessageExtensions.cs" />
-    <Compile Include="Queues\MemoryMessageProducer.cs" />
+    <Compile Include="Queues\InMemoryMessageProducer.cs" />
     <Compile Include="Queues\QueueWorker.cs" />
     <Compile Include="Queues\MessageQueueWorker.cs" />
     <Compile Include="Queues\QueueArkivHandler.cs" />
