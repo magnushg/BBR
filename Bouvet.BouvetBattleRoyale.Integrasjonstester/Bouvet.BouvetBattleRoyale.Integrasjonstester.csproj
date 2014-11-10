@@ -151,11 +151,11 @@
     <Compile Include="DataAksess\LoggHendelseIntegrasjonstester.cs" />
     <Compile Include="DataAksess\PostRepositoryIntegrasjonstester.cs" />
     <Compile Include="Infrastruktur\Azure\WorkerRole\RoleKonfigurasjonTests.cs" />
-    <Compile Include="Infrastruktur\CloudQueueMessageExtensionsTests.cs" />
+    <Compile Include="Infrastruktur\Worker\Queues\CloudQueueMessageExtensionsTests.cs" />
     <Compile Include="Infrastruktur\RetryInterceptionTests.cs" />
-    <Compile Include="Infrastruktur\Worker\ArkivHandlerTests.cs" />
-    <Compile Include="Infrastruktur\Worker\QueueMessageProducerTests.cs" />
+    <Compile Include="Infrastruktur\Worker\Queues\QueueMessageProducerTests.cs" />
     <Compile Include="Infrastruktur\CrossCutting\KonfigurasjonTests.cs" />
+    <Compile Include="Infrastruktur\Worker\Queues\QueueArkivHandlerTests.cs" />
     <Compile Include="TestManager.cs" />
     <Compile Include="Testkategorier.cs" />
     <Compile Include="DataAksess\BaseRepositoryIntegrasjonstest.cs" />

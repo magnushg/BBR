@@ -1,7 +1,6 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.Worker
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.Worker.Queues
 {
     using System;
-    using System.Configuration;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.Worker
+﻿namespace Bouvet.BouvetBattleRoyale.Integrasjonstester.Infrastruktur.Worker.Queues
 {
     using Bouvet.BouvetBattleRoyale.Domene.Entiteter;
     using Bouvet.BouvetBattleRoyale.Infrastruktur.Interfaces;
@@ -11,7 +11,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ArkivHandlerTests : BaseTest
+    public class QueueArkivHandlerTests : BaseTest
     {
         private readonly Mock<IQueueMessageProducer> _queueMessageProducerMock = new Mock<IQueueMessageProducer>();
 

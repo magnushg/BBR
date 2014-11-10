@@ -27,7 +27,7 @@
 
 void Main()
 {
-	const int AntallKall = 1;
+	const int AntallKall = 100;
 	
 	const string LagId = "c0af3db";
 	
